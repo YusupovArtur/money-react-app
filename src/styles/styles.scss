@@ -1,0 +1,25 @@
+@import "./colors.scss";
+@import "./buttons.scss";
+@import "./backgrounds.scss";
+@import "./animations.scss";
+
+.text-body-quaternary {
+	color: var(--text-color-quaternary);
+}
+
+.loading-spinner {
+	width: 4rem;
+	height: 4rem;
+	border-width: 0.4rem;
+}
+
+.hidden {
+	opacity: 0;
+	height: 0;
+	width: 0;
+	line-height: 0;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
