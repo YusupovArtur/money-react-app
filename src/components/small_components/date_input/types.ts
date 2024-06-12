@@ -3,7 +3,6 @@ export type datePickerDayCellPropsType = {
   date: number;
   isInCurrentMonth: boolean;
   isSelected: boolean;
-  isInPeriod: { isInStart: boolean; isInInterim: boolean; isInEnd: boolean };
   isCurrent: boolean;
 };
 
@@ -18,4 +17,10 @@ export type datePickerYearCellPropsType = {
   year: number;
   isSelected: boolean;
   isCurrent: boolean;
+};
+
+export type dateStateType = {
+  day: number;
+  month: number;
+  year: number;
 };

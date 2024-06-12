@@ -1,33 +1,33 @@
 import React from 'react';
 import { incrementCalendar, decrementCalendar } from 'components/small_components/date_input/date_picker_components/functions';
-import { getMobileDatePickersLabel } from 'components/small_components/date_input/functions';
 import { ChevrontRightIconSVG, ChevronLeftIconSVG } from 'components/small_components/icons_svg/IconsSVG';
-import { DATE_PICKER_CELL_SIZE, MONTH_ABBREVIATED_NAMES } from 'components/small_components/date_input/constants';
+import {
+  DATE_PICKER_CELL_SIZE,
+  MONTH_ABBREVIATED_NAMES,
+  MONTH_FULL_NAMES,
+} from 'components/small_components/date_input/constants';
+import { dateStateType } from 'components/small_components/date_input/types';
 
-export const DatePickerLabel: React.FC<{ dateInputValue: string }> = ({ dateInputValue }) => {
+export const DatePickerLabel: React.FC<{ dateState: dateStateType }> = ({ dateState: dateState }) => {
+  const label =
+    dateState.day && dateState.month && dateState.year
+      ? `${dateState.day.toString()} ${MONTH_FULL_NAMES[dateState.month - 1]} ${dateState.year}`
+      : '-- -- -- г';
   return (
     <div className="py-3 px-2 text-body-emphasis" style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>
-      {getMobileDatePickersLabel(dateInputValue)}
+      {label}
     </div>
   );
 };
 
-interface DatePickerCalendarButtonsProps {
+export const DatePickerCalendarButtons: React.FC<{
   currentMonth: number;
   setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
   currentYear: number;
   setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
   displayedField: 'month' | 'day' | 'year';
   setDisplayedField: React.Dispatch<React.SetStateAction<'month' | 'day' | 'year'>>;
-}
-export const DatePickerCalendarButtons: React.FC<DatePickerCalendarButtonsProps> = ({
-  currentMonth,
-  setCurrentMonth,
-  currentYear,
-  setCurrentYear,
-  displayedField,
-  setDisplayedField,
-}) => {
+}> = ({ currentMonth, setCurrentMonth, currentYear, setCurrentYear, displayedField, setDisplayedField }) => {
   return (
     <div className="d-flex flex-row justify-content-between">
       <div className="d-flex flex-row justify-content-center align-items-stretch text-body-emphasis">
@@ -65,14 +65,14 @@ export const DatePickerCalendarButtons: React.FC<DatePickerCalendarButtonsProps>
 };
 
 export const DatePickerModalButtons: React.FC<{
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
   setIsShowDatepicker: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setDateInputValue, setIsShowDatepicker }) => {
+}> = ({ setDateState, setIsShowDatepicker }) => {
   return (
     <div className="d-flex justify-content-end">
       <button
         onClick={() => {
-          setDateInputValue((value) => (value.length < 11 ? 'дд.мм.гггг' : 'дд.мм.гггг - дд.мм.гггг'));
+          setDateState({ day: 0, month: 0, year: 0 });
         }}
         className="btn btn-secondary mt-2 me-3 rounded-2"
       >

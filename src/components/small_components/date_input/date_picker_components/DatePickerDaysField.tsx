@@ -1,42 +1,36 @@
 import React from 'react';
-import { datePickerDayCellPropsType } from 'components/small_components/date_input/types';
-import { getDatePickerNewValue } from 'components/small_components/date_input/functions';
+import { datePickerDayCellPropsType, dateStateType } from 'components/small_components/date_input/types';
 import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from 'components/small_components/date_input/constants';
 
 const DatePickerDayCell: React.FC<{
   datePickerDayCellProps: datePickerDayCellPropsType;
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ datePickerDayCellProps: cellsProps, setDateInputValue }) => {
+  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+}> = ({ datePickerDayCellProps: cellsProps, setDateState }) => {
   const handleDatepickerSetDate = () => {
     const cellsDate = new Date(cellsProps.timestamp);
-    setDateInputValue((value) => {
-      const stringDay = cellsDate.getDate().toString().padStart(2, '0');
-      const stringMonth = (cellsDate.getMonth() + 1).toString().padStart(2, '0');
-      const stringYear = cellsDate.getFullYear().toString().padStart(4, '0');
-      const newValue = getDatePickerNewValue(value, `${stringDay}.${stringMonth}.${stringYear}`);
-      return newValue;
-    });
+    setDateState({ day: cellsDate.getDate(), month: cellsDate.getMonth() + 1, year: cellsDate.getFullYear() });
   };
 
   const buttonsClassName = cellsProps.isSelected
     ? 'btn-body-primary' // selected
-    : cellsProps.isInPeriod.isInInterim
-    ? 'btn-body-primary-soft' // in period interim
-    : 'btn-body'; // no selected no in period
+    : // : cellsProps.isInPeriod.isInInterim
+      // ? 'btn-body-primary-soft' // in period interim
+      'btn-body'; // no selected no in period
 
-  const divsClassName = cellsProps.isInPeriod.isInStart
-    ? 'bg-primary-soft rounded-start' // in period start
-    : cellsProps.isInPeriod.isInInterim
-    ? 'bg-primary-soft rounded-0' // in period interim
-    : cellsProps.isInPeriod.isInEnd
-    ? 'bg-primary-soft rounded-end' // in period end
-    : '';
+  // const divsClassName = cellsProps.isInPeriod.isInStart
+  //   ? 'bg-primary-soft rounded-start' // in period start
+  //   : cellsProps.isInPeriod.isInInterim
+  //   ? 'bg-primary-soft rounded-0' // in period interim
+  //   : cellsProps.isInPeriod.isInEnd
+  //   ? 'bg-primary-soft rounded-end' // in period end
+  //   : '';
 
   const spanClassName = cellsProps.isSelected ? '' : cellsProps.isInCurrentMonth ? 'text-body-emphasis' : 'text-body-quaternary';
 
   return (
     <div
-      className={`col p-0 m-0 d-flex flex-row align-items-stretch justify-content-center ${divsClassName}`}
+      className={`col p-0 m-0 d-flex flex-row align-items-stretch justify-content-center`}
+      // ${divsClassName}
       style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
     >
       <button
@@ -56,8 +50,8 @@ const DatePickerDayCell: React.FC<{
 
 const DatePickerDaysField: React.FC<{
   datePickerDaysField: datePickerDayCellPropsType[][];
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ datePickerDaysField, setDateInputValue }) => {
+  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+}> = ({ datePickerDaysField, setDateState }) => {
   return (
     <div className="container text-center">
       <div className="row">
@@ -76,11 +70,7 @@ const DatePickerDaysField: React.FC<{
       {datePickerDaysField.map((week) => (
         <div className="row" key={week[0].timestamp + week[2].timestamp}>
           {week.map((day) => (
-            <DatePickerDayCell
-              key={day.timestamp}
-              datePickerDayCellProps={day}
-              setDateInputValue={setDateInputValue}
-            ></DatePickerDayCell>
+            <DatePickerDayCell key={day.timestamp} datePickerDayCellProps={day} setDateState={setDateState}></DatePickerDayCell>
           ))}
         </div>
       ))}

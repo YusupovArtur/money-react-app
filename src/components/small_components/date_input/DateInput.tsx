@@ -3,33 +3,40 @@ import DateTextInput from 'components/small_components/date_input/DateTextInput'
 import DateInputDatePicker from 'components/small_components/date_input/DateInputDatePicker';
 import { CalendarIconSvg } from 'components/small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE } from 'components/small_components/date_input/constants';
-import { getDeviceType } from 'components/small_components/date_input/functions';
+import {
+  getDateStateFromTimestamp,
+  getDeviceType,
+  getTimestampFromDateState,
+} from 'components/small_components/date_input/functions';
 import ModalContainer from 'components/small_components/ModalContainer';
 
+import { dateStateType } from 'components/small_components/date_input/types';
+
 const DateInput: React.FC<{
-  dateInputValue: string;
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
-  isPeriod?: boolean;
+  timestamp: number;
+  setTimestamp: React.Dispatch<React.SetStateAction<number>>;
   deviseType?: 'desktop' | 'mobile';
-  zIndex?: number;
-}> = ({ dateInputValue, setDateInputValue, isPeriod = false, deviseType, zIndex }) => {
+}> = ({ timestamp, setTimestamp, deviseType }) => {
+  // Main variable
+  const [dateState, setDateState] = useState<dateStateType>(getDateStateFromTimestamp(timestamp));
+  useEffect(() => {
+    if (dateState.day && dateState.month && dateState.year && getTimestampFromDateState(dateState) !== timestamp) {
+      setTimestamp(new Date(dateState.year, dateState.month - 1, dateState.day).getTime());
+    }
+  }, [dateState]);
+  useEffect(() => {
+    if ((timestamp || timestamp === 0) && timestamp !== getTimestampFromDateState(dateState)) {
+      setDateState(getDateStateFromTimestamp(timestamp));
+    }
+  }, [timestamp]);
+
   // For text field
   const [isShowDatePicker, setIsShowDatePicker] = useState<boolean>(false);
   const isDeviceMobile = deviseType === 'mobile' ? true : deviseType === undefined ? getDeviceType() === 'mobile' : false;
 
-  useEffect(() => {
-    if (isPeriod) setDateInputValue('дд.мм.гггг - дд.мм.гггг');
-    else setDateInputValue('дд.мм.гггг');
-  }, []);
-
   return (
     <div onDoubleClick={(event) => event.preventDefault()} className="input-group dropdown">
-      <DateTextInput
-        dateInputValue={dateInputValue}
-        setDateInputValue={setDateInputValue}
-        isPeriod={isPeriod}
-        deviseType={deviseType}
-      ></DateTextInput>
+      <DateTextInput dateState={dateState} setDateState={setDateState} deviseType={deviseType}></DateTextInput>
       <span
         onClick={() => {
           setIsShowDatePicker((isShowDatePicker) => !isShowDatePicker);
@@ -45,8 +52,8 @@ const DateInput: React.FC<{
         <ul className="p-2 bg-body-tertiary dropdown-menu dropdown-menu-end">
           {isShowDatePicker ? (
             <DateInputDatePicker
-              dateInputValue={dateInputValue}
-              setDateInputValue={setDateInputValue}
+              dateState={dateState}
+              setDateState={setDateState}
               setIsShowDatepicker={setIsShowDatePicker}
               deviseType={deviseType}
             ></DateInputDatePicker>
@@ -64,11 +71,10 @@ const DateInput: React.FC<{
         isOpened={isShowDatePicker && isDeviceMobile}
         setIsOpened={setIsShowDatePicker}
         className="p-2 border rounded bg-body-tertiary"
-        zIndex={zIndex}
       >
         <DateInputDatePicker
-          dateInputValue={dateInputValue}
-          setDateInputValue={setDateInputValue}
+          dateState={dateState}
+          setDateState={setDateState}
           setIsShowDatepicker={setIsShowDatePicker}
           deviseType={deviseType}
         ></DateInputDatePicker>

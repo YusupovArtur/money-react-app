@@ -1,71 +1,70 @@
 import React, { useEffect, useRef } from 'react';
-import { getDeviceType } from 'components/small_components/date_input/functions';
 import {
-  setDateInputSelection,
-  getDateInputNewValue,
-  getZonesValuePadStart,
-  getValidatedDateInputValue,
-  getZonesNewNumberValue,
+  getDeviceType,
+  getStringDateFromDateState,
+  getUpdatedByKeyDateStatePart,
 } from 'components/small_components/date_input/functions';
+import { setDateInputSelection, getValidatedDateTypeValue } from 'components/small_components/date_input/functions';
+import { dateStateType } from 'components/small_components/date_input/types';
 
 const DateTextInput: React.FC<{
-  dateInputValue: string;
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
-  isPeriod?: boolean;
+  dateState: dateStateType;
+  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
   deviseType?: 'desktop' | 'mobile';
-}> = ({ dateInputValue, setDateInputValue, isPeriod = false, deviseType }) => {
+}> = ({ dateState, setDateState, deviseType }) => {
   // For text field
   const dateInputRef = useRef<HTMLInputElement | null>(null);
-  const selectedZoneRef = useRef<number>(0);
+  const selectedPartRef = useRef<'day' | 'month' | 'year'>('day');
   const isDeviceMobile = deviseType === 'mobile' ? true : deviseType === undefined ? getDeviceType() === 'mobile' : false;
 
   useEffect(() => {
-    setDateInputSelection(dateInputRef, selectedZoneRef.current);
+    setDateInputSelection(dateInputRef, selectedPartRef.current);
   });
 
   // Set date input value
   function setDateInputValueByKey(event: React.KeyboardEvent<HTMLInputElement>) {
-    const zoneNumberValue = getZonesNewNumberValue(dateInputValue, event.key, selectedZoneRef.current);
-    const zoneStringValue = getZonesValuePadStart(zoneNumberValue, selectedZoneRef.current);
-    const zone_copy = selectedZoneRef.current;
-    setDateInputValue((value) => getDateInputNewValue(zoneStringValue, value, zone_copy, isPeriod));
+    const newDateStatePart = getUpdatedByKeyDateStatePart(dateState, event.key, selectedPartRef.current);
+    switch (selectedPartRef.current) {
+      case 'day':
+        setDateState((state) => ({ ...state, day: newDateStatePart }));
+        break;
+      case 'month':
+        setDateState((state) => ({ ...state, month: newDateStatePart }));
+        break;
+      case 'year':
+        setDateState((state) => ({ ...state, year: newDateStatePart }));
+        break;
+    }
 
-    if (event.key >= '0' && event.key <= '9') {
-      switch (selectedZoneRef.current > 3 ? selectedZoneRef.current - 3 : selectedZoneRef.current) {
-        case 1:
-          if (zoneNumberValue >= 4) selectedZoneRef.current++;
+    if (event.key.match(/\d/g)) {
+      switch (selectedPartRef.current) {
+        case 'day':
+          if (newDateStatePart >= 4) selectedPartRef.current = 'month';
           break;
-        case 2:
-          if (zoneNumberValue >= 2) selectedZoneRef.current++;
-          break;
-        case 3:
-          if (zoneNumberValue >= 999 && isPeriod) selectedZoneRef.current++;
+        case 'month':
+          if (newDateStatePart >= 2) selectedPartRef.current = 'year';
           break;
       }
-      if (isPeriod) {
-        if (selectedZoneRef.current > 6) selectedZoneRef.current = 6;
-      } else if (selectedZoneRef.current > 3) selectedZoneRef.current = 3;
-      setDateInputSelection(dateInputRef, selectedZoneRef.current);
+      setDateInputSelection(dateInputRef, selectedPartRef.current);
     }
   }
 
   // Clear date input value
-  const clearDateInputValue = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const clearDateStateValue = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Backspace') {
-      switch (selectedZoneRef.current > 3 ? selectedZoneRef.current - 3 : selectedZoneRef.current) {
-        case 1:
-          setDateInputValue((value) => getDateInputNewValue('дд', value, selectedZoneRef.current, isPeriod));
+      switch (selectedPartRef.current) {
+        case 'day':
+          setDateState((state) => ({ ...state, day: 0 }));
           break;
-        case 2:
-          setDateInputValue((value) => getDateInputNewValue('мм', value, selectedZoneRef.current, isPeriod));
+        case 'month':
+          setDateState((state) => ({ ...state, month: 0 }));
           break;
-        case 3:
-          setDateInputValue((value) => getDateInputNewValue('гггг', value, selectedZoneRef.current, isPeriod));
+        case 'year':
+          setDateState((state) => ({ ...state, year: 0 }));
           break;
       }
     } else if (event.key === 'Delete') {
-      if (isPeriod) setDateInputValue('дд.мм.гггг - дд.мм.гггг');
-      else setDateInputValue('дд.мм.гггг');
+      setDateState({ day: 0, month: 0, year: 0 });
     }
   };
 
@@ -73,28 +72,34 @@ const DateTextInput: React.FC<{
   const setDateInputSelectionByMouse = () => {
     if (dateInputRef.current && dateInputRef.current.selectionStart) {
       const selectionStart = dateInputRef.current.selectionStart;
-      if (selectionStart >= 0 && selectionStart < 3) selectedZoneRef.current = 1;
-      else if (selectionStart >= 3 && selectionStart < 6) selectedZoneRef.current = 2;
-      else if (selectionStart >= 6 && selectionStart < 12) selectedZoneRef.current = 3;
-      else if (selectionStart >= 12 && selectionStart < 16) selectedZoneRef.current = 4;
-      else if (selectionStart >= 16 && selectionStart < 19) selectedZoneRef.current = 5;
-      else if (selectionStart >= 19 && selectionStart <= 23) selectedZoneRef.current = 6;
-      setDateInputSelection(dateInputRef, selectedZoneRef.current);
+      if (selectionStart >= 0 && selectionStart < 3) selectedPartRef.current = 'day';
+      else if (selectionStart >= 3 && selectionStart < 6) selectedPartRef.current = 'month';
+      else if (selectionStart >= 6 && selectionStart < 12) selectedPartRef.current = 'year';
+      setDateInputSelection(dateInputRef, selectedPartRef.current);
     }
   };
 
   const setDateInputSelectionByKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'ArrowLeft' && selectedZoneRef.current > 1) selectedZoneRef.current = selectedZoneRef.current - 1;
-    else if (event.key === 'ArrowRight') {
-      if (!isPeriod && selectedZoneRef.current < 3) selectedZoneRef.current = selectedZoneRef.current + 1;
-      if (isPeriod && selectedZoneRef.current < 6) selectedZoneRef.current = selectedZoneRef.current + 1;
-    } else if (event.key === 'Enter') {
-      selectedZoneRef.current = selectedZoneRef.current + 1;
-      if (isPeriod) {
-        if (selectedZoneRef.current > 6) selectedZoneRef.current = 1;
-      } else if (selectedZoneRef.current > 3) selectedZoneRef.current = 1;
+    if (event.key === 'ArrowRight') {
+      switch (selectedPartRef.current) {
+        case 'day':
+          selectedPartRef.current = 'month';
+          break;
+        case 'month':
+          selectedPartRef.current = 'year';
+          break;
+      }
+    } else if (event.key === 'ArrowLeft') {
+      switch (selectedPartRef.current) {
+        case 'month':
+          selectedPartRef.current = 'day';
+          break;
+        case 'year':
+          selectedPartRef.current = 'month';
+          break;
+      }
     }
-    setDateInputSelection(dateInputRef, selectedZoneRef.current);
+    setDateInputSelection(dateInputRef, selectedPartRef.current);
   };
 
   return (
@@ -102,15 +107,13 @@ const DateTextInput: React.FC<{
       type="text"
       className="form-control"
       ref={dateInputRef}
-      value={dateInputValue}
+      value={getStringDateFromDateState(dateState)}
       readOnly={isDeviceMobile}
       onKeyDown={(event) => {
         event.preventDefault();
-        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'Enter')
-          setDateInputSelectionByKeyboard(event);
-        if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || (event.key >= '0' && event.key <= '9'))
-          setDateInputValueByKey(event);
-        if (event.key === 'Delete' || event.key === 'Backspace') clearDateInputValue(event);
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') setDateInputSelectionByKeyboard(event);
+        if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key.match(/\d/g)) setDateInputValueByKey(event);
+        if (event.key === 'Delete' || event.key === 'Backspace') clearDateStateValue(event);
       }}
       onFocus={setDateInputSelectionByMouse}
       onClick={() => {
@@ -118,7 +121,7 @@ const DateTextInput: React.FC<{
       }}
       onMouseUp={setDateInputSelectionByMouse}
       onMouseDown={setDateInputSelectionByMouse}
-      onBlur={() => setDateInputValue((value) => getValidatedDateInputValue(value))}
+      onBlur={() => setDateState((value) => getValidatedDateTypeValue(value))}
       onSelect={(event) => event.preventDefault()}
       onDoubleClick={(event) => event.preventDefault()}
       onContextMenu={(event) => event.preventDefault()}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAppSelector, useAppDispatch } from 'store/hook.ts';
 import { getAuth } from 'firebase/auth';
-import DateInput from 'components/big_components/date_input_legacy/DateInput.tsx';
+import DateInputLegacy from 'components/big_components/date_input_legacy/DateInput.tsx';
+import DateInput from 'components/small_components/date_input/DateInput.tsx';
 
 import { doc, addDoc, getDocs, deleteDoc, collection, updateDoc, setDoc, getDoc, deleteField } from 'firebase/firestore';
 import { downloadOperations, addOperation, deleteOperation, updateOperation } from 'store/slices/operationsSlice.ts';
@@ -23,6 +24,8 @@ import { signInUserWithGoogle } from 'store/slices/userSlice.ts';
 
 function MainPage(): React.ReactElement {
   const [dateInputValue, setDateInputValue] = useState<string>('');
+  const [timestamp, setTimestamp] = useState<number>(new Date().getTime());
+
   const userState = useAppSelector((state) => state.user.userState);
   const auth = getAuth();
   const user = auth.currentUser;
@@ -169,7 +172,8 @@ function MainPage(): React.ReactElement {
         Test button
       </button>
       <div className="container">
-        <DateInput dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true}></DateInput>
+        <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true}></DateInputLegacy>
+        <DateInput timestamp={timestamp} setTimestamp={setTimestamp}></DateInput>
       </div>
     </div>
   );
