@@ -4,7 +4,7 @@ import ModalContainer from 'components/small_components/ModalContainer';
 import EditBar from 'components/small_components/control_panels/EditBar';
 import SubcategoryOpenedInfo from 'components/pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
 import SubcategoryForm from 'components/pages/categories_page/subcategory_form/SubcategoryForm';
-import { subcategoryAddType, subcategoryType } from 'store/types';
+import { serverResponseStatusHooks, subcategoryAddType, subcategoryType } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { updateSubCategory, deleteSubCategory } from 'store/slices/categoriesSlice';
@@ -33,35 +33,23 @@ const SubcategoryOpened: React.FC<{
     });
   };
 
-  const deleteFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
+  const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       deleteSubCategory({
         categoryID: categoryID,
         subcategoryID: subcategory.id,
-        isOk: isOk,
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
+        ...statusHooks,
       }),
     );
   };
 
-  const updateFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
+  const updateFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       updateSubCategory({
         categoryID: categoryID,
         subcategoryID: subcategory.id,
         newProps: formData,
-        setErrorMessage: setErrorMessage,
-        setIsLoading: setIsLoading,
-        isOk: isOk,
+        ...statusHooks,
       }),
     );
   };

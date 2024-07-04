@@ -6,7 +6,7 @@ import CategoryOpenedInfo from 'components/pages/categories_page/categories_list
 // Subcategories imports
 import SubcategoriesList from 'components/pages/categories_page/subcategories_list/SubcategoriesList';
 import SubcategoryInput from 'components/pages/categories_page/subcategory_form/SubcategoryInput';
-import { categoryType, categoryAddType, subcategoryAddType } from 'store/types';
+import { categoryType, categoryAddType, subcategoryAddType, serverResponseStatusHooks } from 'store/types';
 import { PlusIconSVG } from 'components/small_components/icons_svg/IconsSVG';
 // Store
 import { useAppDispatch } from 'store/hook';
@@ -62,33 +62,21 @@ const CategoryOpened: React.FC<{
     });
   };
 
-  const deleteFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
+  const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       deleteCategory({
         categoryID: openedCategory.category.id,
-        isOk: isOk,
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
+        ...statusHooks,
       }),
     );
   };
 
-  const updateFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
+  const updateFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       updateCategory({
         categoryID: openedCategory.category.id,
         newProps: formData,
-        setErrorMessage: setErrorMessage,
-        setIsLoading: setIsLoading,
-        isOk: isOk,
+        ...statusHooks,
       }),
     );
   };

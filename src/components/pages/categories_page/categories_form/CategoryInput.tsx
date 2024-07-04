@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ModalContainer from 'components/small_components/ModalContainer';
 import InputBar from 'components/small_components/control_panels/InputBar';
 import CategoryForm from 'components/pages/categories_page/categories_form/CategoryForm';
-import { categoryAddType } from 'store/types';
+import { categoryAddType, serverResponseStatusHooks } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addCategory } from 'store/slices/categoriesSlice';
@@ -22,12 +22,8 @@ const CategoryInput: React.FC<{
     description: '',
   });
 
-  const addFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
-    dispatch(addCategory({ isOk: isOk, setIsLoading: setIsLoading, setErrorMessage: setErrorMessage, category: formData }));
+  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+    dispatch(addCategory({ ...statusHooks, category: formData }));
   };
 
   return (

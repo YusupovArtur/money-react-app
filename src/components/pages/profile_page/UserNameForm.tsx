@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { updateUserName } from 'store/slices/userSlice.ts';
 import { PencilSquareIconSVG, CheckIconSVG, CrossIconSVG } from 'components/small_components/icons_svg/IconsSVG';
@@ -12,14 +12,7 @@ const UserNameForm: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const isOk = useRef<boolean>(false);
-
-  useEffect(() => {
-    if (isOk.current) {
-      setIsEdit(false);
-      isOk.current = false;
-    }
-  }, [isOk.current]);
+  const fulfilledFunction = () => setIsEdit(false);
 
   return (
     <div className="mt-2">
@@ -40,9 +33,7 @@ const UserNameForm: React.FC = () => {
           className="btn btn-primary d-flex justify-content-center align-items-center ms-2 py-2 px-3"
           onClick={() => {
             if (isEdit) {
-              dispatch(
-                updateUserName({ setIsLoading: setIsLoading, setErrorMessage: setErrorMessage, isOk: isOk, userName: formData }),
-              );
+              dispatch(updateUserName({ userName: formData, setIsLoading, setErrorMessage, fulfilledFunction }));
             } else {
               setIsEdit(true);
             }

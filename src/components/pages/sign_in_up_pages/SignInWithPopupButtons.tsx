@@ -7,32 +7,24 @@ interface SignInWithPopupButtonsProps {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  isOk: React.MutableRefObject<boolean>;
+  fulfilledFunction: () => void;
 }
 
-const SignInWithPopupButtons: React.FC<SignInWithPopupButtonsProps> = (props) => {
-  const { isLoading, setIsLoading, setErrorMessage, isOk } = props;
+const SignInWithPopupButtons: React.FC<SignInWithPopupButtonsProps> = ({
+  isLoading,
+  setIsLoading,
+  setErrorMessage,
+  fulfilledFunction,
+}) => {
   const dispatch = useAppDispatch();
 
   const iconSize: string = '1.8rem';
 
   const handleSignInWithGoogle = () => {
-    dispatch(
-      signInUserWithGoogle({
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
-        isOk: isOk,
-      }),
-    );
+    dispatch(signInUserWithGoogle({ setIsLoading, setErrorMessage, fulfilledFunction }));
   };
   const handleSignInWithGitHub = () => {
-    dispatch(
-      signInUserWithGitHub({
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
-        isOk: isOk,
-      }),
-    );
+    dispatch(signInUserWithGitHub({ setIsLoading, setErrorMessage, fulfilledFunction }));
   };
 
   return (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addWallet } from 'store/slices/walletsSlice';
-import { walletAddType } from 'store/types';
+import { serverResponseStatusHooks, walletAddType } from 'store/types';
 // Input components
 import ModalContainer from 'components/small_components/ModalContainer';
 import InputBar from 'components/small_components/control_panels/InputBar';
@@ -29,19 +29,8 @@ const WalletInput: React.FC<{
     setStringNumber('0');
   };
 
-  const addFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
-    dispatch(
-      addWallet({
-        isOk: isOk,
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
-        wallet: formData,
-      }),
-    );
+  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+    dispatch(addWallet({ wallet: formData, ...statusHooks }));
   };
 
   return (

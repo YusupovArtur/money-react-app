@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
-import { operationType } from 'store/types';
+import { operationType, serverResponseStatusHooks } from 'store/types';
 // Input components
 import TransactionForm from 'components/pages/transactions_page/transaction_form/TransactionForm';
 import ModalContainer from 'components/small_components/ModalContainer';
@@ -50,12 +50,8 @@ const TransactionInput: React.FC<{
     setToWallet(undefined);
   };
 
-  const addFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
-    dispatch(addOperation({ setIsLoading, setErrorMessage, isOk, operation: formData }));
+  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+    dispatch(addOperation({ operation: formData, ...statusHooks }));
   };
 
   return (

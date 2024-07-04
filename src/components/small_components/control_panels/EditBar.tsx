@@ -1,24 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   CheckIconSVG,
   CrossIconSVG,
   PencilSquareIconSVG,
   TrashFillIconSVG,
 } from 'components/small_components/icons_svg/IconsSVG';
+import { serverResponseStatusHooks } from 'store/types';
 
 interface EditBarProps {
   closeFunction: () => void;
   clearFunction: () => void;
-  deleteFunction: (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => void;
-  updateFunction: (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => void;
+  deleteFunction: (statusHooks: serverResponseStatusHooks) => void;
+  updateFunction: (statusHooks: serverResponseStatusHooks) => void;
   itemType: string;
   itemName: string;
   isEdit: boolean;
@@ -35,16 +28,9 @@ const EditBar: React.FC<EditBarProps> = ({
   isEdit,
   setIsEdit,
 }) => {
-  const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const isOk = useRef<boolean>(false);
-
-  useEffect(() => {
-    if (isOk.current) {
-      setIsEdit(false);
-      isOk.current = false;
-    }
-  }, [isOk.current]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const fulfilledFunction = () => setIsEdit(false);
 
   return (
     <div className="d-flex justify-content-between align-items-center">
@@ -53,7 +39,7 @@ const EditBar: React.FC<EditBarProps> = ({
           className="btn btn-primary d-flex justify-content-center align-items-center me-2 py-2 px-3"
           onClick={() => {
             if (isEdit) {
-              updateFunction(setIsLoading, setErrorMessage, isOk);
+              updateFunction({ setIsLoading, setErrorMessage, fulfilledFunction });
             } else {
               setIsEdit(true);
             }
@@ -85,7 +71,7 @@ const EditBar: React.FC<EditBarProps> = ({
               className="btn btn-danger d-flex justify-content-center align-items-center me-2 py-2 px-3"
               onClick={() => {
                 if (confirm(`Вы уверены что хотите удалить ${itemType}: ${itemName}`)) {
-                  deleteFunction(setIsLoading, setErrorMessage, isOk);
+                  deleteFunction({ setIsLoading, setErrorMessage, fulfilledFunction });
                 }
               }}
             >

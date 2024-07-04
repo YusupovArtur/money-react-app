@@ -9,7 +9,7 @@ export class ErrorWithCode extends Error {
 export type serverResponseStatusHooks = {
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
   setErrorMessage?: React.Dispatch<React.SetStateAction<string>>;
-  isOk?: React.MutableRefObject<boolean>;
+  fulfilledFunction?: () => void;
 };
 
 // User types

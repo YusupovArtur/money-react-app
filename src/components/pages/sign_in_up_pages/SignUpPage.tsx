@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { signUpUserWithEmailAndPassword, updateUserName, setIsRemember } from 'store/slices/userSlice.ts';
@@ -12,20 +12,15 @@ function SignUpPage(): React.ReactElement {
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const isOk = useRef<boolean>(false);
+  const fulfilledFunction = () => {
+    if (userName) dispatch(updateUserName({ userName: userName }));
+    navigate('/');
+  };
 
   const [email, setEmail] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [password1, setPassword1] = useState<string>('');
   const [password2, setPassword2] = useState<string>('');
-
-  useEffect(() => {
-    if (userName) dispatch(updateUserName({ userName: userName }));
-    if (isOk.current) {
-      isOk.current = false;
-      navigate('/');
-    }
-  }, [isOk.current]);
 
   const handleSignUp = () => {
     if (!email) setErrorMessage('Поле электронной почты пусто');
@@ -36,11 +31,11 @@ function SignUpPage(): React.ReactElement {
       setErrorMessage('');
       dispatch(
         signUpUserWithEmailAndPassword({
-          email: email,
+          email,
           password: password1,
-          setIsLoading: setIsLoading,
-          setErrorMessage: setErrorMessage,
-          isOk: isOk,
+          setIsLoading,
+          setErrorMessage,
+          fulfilledFunction,
         }),
       );
     }
@@ -139,7 +134,7 @@ function SignUpPage(): React.ReactElement {
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         setErrorMessage={setErrorMessage}
-        isOk={isOk}
+        fulfilledFunction={fulfilledFunction}
       ></SignInWithPopupButtons>
     </div>
   );

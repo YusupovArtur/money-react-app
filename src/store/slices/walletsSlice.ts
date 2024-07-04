@@ -20,7 +20,7 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
   'wallets/downloadWallets',
   async (props) => {
     const auth = getAuth();
-    const { setIsLoading, setErrorMessage, isOk } = props;
+    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     if (auth.currentUser) {
@@ -28,7 +28,7 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
         .then((querySnapshot) => {
           if (querySnapshot.exists()) {
             if (setIsLoading) setIsLoading(false);
-            if (isOk) isOk.current = true;
+            if (fulfilledFunction) fulfilledFunction();
             return (querySnapshot.data() ? querySnapshot.data() : { list: [] }) as walletsStateType;
           } else {
             throw new ErrorWithCode('Документ wallets не существует');
@@ -38,12 +38,10 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
           console.error('Ошибка чтения счетов:', error.code);
           if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
           if (setIsLoading) setIsLoading(false);
-          if (isOk) isOk.current = false;
         });
     } else {
       if (setErrorMessage) setErrorMessage('Вы не авторизованы');
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     }
   },
 );
@@ -52,7 +50,7 @@ export const addWallet = createAsyncThunk<walletsStateType | void, serverRespons
   'wallets/addWallet',
   async (props) => {
     const auth = getAuth();
-    const { wallet, setIsLoading, setErrorMessage, isOk } = props;
+    const { wallet, setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -77,14 +75,13 @@ export const addWallet = createAsyncThunk<walletsStateType | void, serverRespons
     })
       .then((walletsState) => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return walletsState;
       })
       .catch((error) => {
         console.error('Ошибка добавления счета счета:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   },
 );
@@ -93,7 +90,7 @@ export const deleteWallet = createAsyncThunk<walletsStateType | void, serverResp
   'wallets/deleteWallet',
   async (props) => {
     const auth = getAuth();
-    const { walletID, setIsLoading, setErrorMessage, isOk } = props;
+    const { walletID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -107,14 +104,13 @@ export const deleteWallet = createAsyncThunk<walletsStateType | void, serverResp
     })
       .then((walletsState) => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return walletsState;
       })
       .catch((error) => {
         console.error('Ошибка удаления счета:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   },
 );
@@ -124,7 +120,7 @@ export const shiftWallet = createAsyncThunk<
   serverResponseStatusHooks & { walletID: string; newIndexID: string }
 >('wallets/shiftWallet', async (props) => {
   const auth = getAuth();
-  const { walletID, newIndexID, setIsLoading, setErrorMessage, isOk } = props;
+  const { walletID, newIndexID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -154,14 +150,13 @@ export const shiftWallet = createAsyncThunk<
   })
     .then((walletsState) => {
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = true;
+      if (fulfilledFunction) fulfilledFunction();
       return walletsState;
     })
     .catch((error) => {
       console.error('Ошибка перемещения счета:', error.code);
       if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     });
 });
 
@@ -170,7 +165,7 @@ export const updateWallet = createAsyncThunk<
   serverResponseStatusHooks & { walletID: string; newProps: walletUpdateType }
 >('wallets/updateWallet', async (props) => {
   const auth = getAuth();
-  const { walletID, newProps, setIsLoading, setErrorMessage, isOk } = props;
+  const { walletID, newProps, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -190,14 +185,13 @@ export const updateWallet = createAsyncThunk<
   })
     .then((walletsState) => {
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = true;
+      if (fulfilledFunction) fulfilledFunction();
       return walletsState;
     })
     .catch((error) => {
       console.error('Ошибка обновления счета:', error.code);
       if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     });
 });
 

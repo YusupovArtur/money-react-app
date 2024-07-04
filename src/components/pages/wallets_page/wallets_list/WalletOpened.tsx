@@ -7,7 +7,7 @@ import WalletInfo from 'components/pages/wallets_page/wallets_list/WalletInfo';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { updateWallet, deleteWallet } from 'store/slices/walletsSlice';
-import { walletAddType, walletType } from 'store/types';
+import { serverResponseStatusHooks, walletAddType, walletType } from 'store/types';
 
 const WalletOpened: React.FC<{
   wallet: walletType;
@@ -38,28 +38,18 @@ const WalletOpened: React.FC<{
     });
   };
 
-  const updateFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
+  const updateFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       updateWallet({
         walletID: wallet.id,
         newProps: formData,
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
-        isOk: isOk,
+        ...statusHooks,
       }),
     );
   };
 
-  const deleteFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
-    dispatch(deleteWallet({ walletID: wallet.id, isOk: isOk, setIsLoading: setIsLoading, setErrorMessage: setErrorMessage }));
+  const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
+    dispatch(deleteWallet({ walletID: wallet.id, ...statusHooks }));
   };
 
   return (

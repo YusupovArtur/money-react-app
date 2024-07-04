@@ -1,6 +1,7 @@
 import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../../firebase.ts';
 import { getErrorMessage } from 'store/functions';
+import { serverResponseStatusHooks } from 'store/types.ts';
 
 export const setImage = (ev: ProgressEvent<FileReader>, image: HTMLImageElement, canvas: HTMLCanvasElement | null) => {
   if (ev.target && typeof ev.target.result === 'string') {
@@ -71,18 +72,12 @@ export const rescaleImage = (
 export const uploadImage = (
   canvas: HTMLCanvasElement | null,
   userID: string | null,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-  isOk: React.MutableRefObject<boolean>,
-  photoURLUpdater: (
-    photoURL: string,
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => void,
+  statusHooks: serverResponseStatusHooks,
+  photoUrlUpdater: (photoURL: string, statusHooks: serverResponseStatusHooks) => void,
 ) => {
-  setIsLoading(true);
-  setErrorMessage('');
+  const { setErrorMessage, setIsLoading } = statusHooks;
+  if (setIsLoading) setIsLoading(true);
+  if (setErrorMessage) setErrorMessage('');
   if (canvas) {
     const dataURL = canvas.toDataURL('image/png');
     if (userID) {
@@ -91,29 +86,25 @@ export const uploadImage = (
         .then(() => {
           getDownloadURL(ref(storage, `users_photos/${userID}/profile_photo`))
             .then((url) => {
-              photoURLUpdater(url, setIsLoading, setErrorMessage, isOk);
+              photoUrlUpdater(url, statusHooks);
             })
             .catch((error) => {
               console.error('Ошибка получения url фото:', error.code);
               if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
               if (setIsLoading) setIsLoading(false);
-              if (isOk) isOk.current = false;
             });
         })
         .catch((error) => {
           console.error('Ошибка выгрузки фото:', error.code);
           if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
           if (setIsLoading) setIsLoading(false);
-          if (isOk) isOk.current = false;
         });
     } else {
-      setIsLoading(false);
-      setErrorMessage('Вы не авторизованы');
-      isOk.current = false;
+      if (setIsLoading) setIsLoading(false);
+      if (setErrorMessage) setErrorMessage('Вы не авторизованы');
     }
   } else {
-    setIsLoading(false);
-    setErrorMessage('Не найден canvas');
-    isOk.current = false;
+    if (setIsLoading) setIsLoading(false);
+    if (setErrorMessage) setErrorMessage('Не найден canvas');
   }
 };

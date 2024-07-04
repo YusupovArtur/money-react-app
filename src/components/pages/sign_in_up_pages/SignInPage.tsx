@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { signInUserWithEmailAndPassword, setIsRemember } from 'store/slices/userSlice.ts';
@@ -12,17 +12,10 @@ function SignInPage(): React.ReactElement {
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const isOk = useRef<boolean>(false);
+  const fulfilledFunction = () => navigate('/');
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  useEffect(() => {
-    if (isOk.current) {
-      isOk.current = false;
-      navigate('/');
-    }
-  }, [isOk.current]);
 
   const handleSignIn = () => {
     if (!email) setErrorMessage('Поле электронной почты пусто');
@@ -30,15 +23,7 @@ function SignInPage(): React.ReactElement {
     else if (!isEmailCorrect(email)) setErrorMessage('Неверный формат электронной почты');
     else {
       setErrorMessage('');
-      dispatch(
-        signInUserWithEmailAndPassword({
-          email: email,
-          password: password,
-          setIsLoading: setIsLoading,
-          setErrorMessage: setErrorMessage,
-          isOk: isOk,
-        }),
-      );
+      dispatch(signInUserWithEmailAndPassword({ email, password, setIsLoading, setErrorMessage, fulfilledFunction }));
     }
   };
 
@@ -113,7 +98,7 @@ function SignInPage(): React.ReactElement {
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         setErrorMessage={setErrorMessage}
-        isOk={isOk}
+        fulfilledFunction={fulfilledFunction}
       ></SignInWithPopupButtons>
     </div>
   );

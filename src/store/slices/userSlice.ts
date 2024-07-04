@@ -17,7 +17,7 @@ export const signUpUserWithEmailAndPassword = createAsyncThunk<
   userStateType | void,
   serverResponseStatusHooks & { email: string; password: string }
 >('user/signUpUserWithEmailAndPassword', async (props) => {
-  const { email, password, setIsLoading, setErrorMessage, isOk } = props;
+  const { email, password, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -25,21 +25,20 @@ export const signUpUserWithEmailAndPassword = createAsyncThunk<
     .then((userCredential) => {
       const user = userCredential.user;
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = true;
+      if (fulfilledFunction) fulfilledFunction();
       return getUserState(user);
     })
     .catch((error) => {
       console.error('Ошибка регистрации:', error.code);
       if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     });
 });
 
 export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
   'user/signInWithGoogle',
   async (props) => {
-    const { setIsLoading, setErrorMessage, isOk } = props;
+    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     const auth = getAuth();
@@ -48,14 +47,13 @@ export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serve
       .then((userCredential) => {
         const user = userCredential.user;
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return getUserState(user);
       })
       .catch((error) => {
         console.error('Ошибка авторизации c помощью Google:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   },
 );
@@ -63,7 +61,7 @@ export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serve
 export const signInUserWithGitHub = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
   'user/signInWithGitHub',
   async (props) => {
-    const { setIsLoading, setErrorMessage, isOk } = props;
+    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     const auth = getAuth();
@@ -72,14 +70,13 @@ export const signInUserWithGitHub = createAsyncThunk<userStateType | void, serve
       .then((userCredential) => {
         const user = userCredential.user;
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return getUserState(user);
       })
       .catch((error) => {
         console.error('Ошибка авторизации c помощью GitHub:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   },
 );
@@ -88,7 +85,7 @@ export const signInUserWithEmailAndPassword = createAsyncThunk<
   userStateType | void,
   serverResponseStatusHooks & { email: string; password: string }
 >('user/signInUserWithEmailAndPassword', async function (props) {
-  const { email, password, setIsLoading, setErrorMessage, isOk } = props;
+  const { email, password, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -96,33 +93,31 @@ export const signInUserWithEmailAndPassword = createAsyncThunk<
     .then((userCredential) => {
       const user = userCredential.user;
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = true;
+      if (fulfilledFunction) fulfilledFunction();
       return getUserState(user);
     })
     .catch((error) => {
       console.error('Ошибка входа:', error.code);
       if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     });
 });
 
 export const exitUser = createAsyncThunk<userStateType | void, serverResponseStatusHooks>('user/exitUser', async (props) => {
-  const { setIsLoading, setErrorMessage, isOk } = props;
+  const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
   return await signOut(auth)
     .then(() => {
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = true;
+      if (fulfilledFunction) fulfilledFunction();
       return getUserState(null);
     })
     .catch((error) => {
       console.error('Ошибка выхода пользователя:', error.code);
       if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     });
 });
 
@@ -130,7 +125,7 @@ export const updateUserName = createAsyncThunk<
   { userName: string | null } | void,
   serverResponseStatusHooks & { userName: string }
 >('user/updateUserName', async (props) => {
-  const { userName, setIsLoading, setErrorMessage, isOk } = props;
+  const { userName, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -138,19 +133,17 @@ export const updateUserName = createAsyncThunk<
     return await updateProfile(auth.currentUser, { displayName: userName })
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return { userName: userName };
       })
       .catch((error) => {
         console.error('Ошибка обновления имени:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   } else {
     if (setErrorMessage) setErrorMessage('Вы не авторизованы');
     if (setIsLoading) setIsLoading(false);
-    if (isOk) isOk.current = false;
   }
 });
 
@@ -158,7 +151,7 @@ export const updatePhotoURL = createAsyncThunk<
   { photoURL: string | null } | void,
   serverResponseStatusHooks & { photoURL: string }
 >('user/updatePhotoURL', async (props) => {
-  const { photoURL, setIsLoading, setErrorMessage, isOk } = props;
+  const { photoURL, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -166,24 +159,22 @@ export const updatePhotoURL = createAsyncThunk<
     return await updateProfile(auth.currentUser, { photoURL: photoURL })
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return { photoURL: photoURL };
       })
       .catch((error) => {
         console.error('Ошибка обновления фото:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   } else {
     if (setErrorMessage) setErrorMessage('Вы не авторизованы');
     if (setIsLoading) setIsLoading(false);
-    if (isOk) isOk.current = false;
   }
 });
 
 export const verifieEmail = createAsyncThunk<void, serverResponseStatusHooks>('user/verifieEmail', async (props) => {
-  const { setIsLoading, setErrorMessage, isOk } = props;
+  const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -191,18 +182,16 @@ export const verifieEmail = createAsyncThunk<void, serverResponseStatusHooks>('u
     sendEmailVerification(auth.currentUser)
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
       })
       .catch((error) => {
         console.error('Ошибка верификации электронной почты:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   } else {
     if (setErrorMessage) setErrorMessage('Вы не авторизованы');
     if (setIsLoading) setIsLoading(false);
-    if (isOk) isOk.current = false;
   }
 });
 

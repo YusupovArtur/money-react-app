@@ -16,14 +16,8 @@ function ProfilePhoto(): React.ReactElement {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const isOk = useRef<boolean>(false);
-  const photoURLUpdater = (
-    photoURL: string,
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
-    dispatch(updatePhotoURL({ setIsLoading: setIsLoading, setErrorMessage: setErrorMessage, isOk: isOk, photoURL: photoURL }));
+  const photoURLUpdater = (photoURL: string) => {
+    dispatch(updatePhotoURL({ photoURL, setIsLoading, setErrorMessage, fulfilledFunction: () => setIsOpened(false) }));
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -46,13 +40,6 @@ function ProfilePhoto(): React.ReactElement {
     image_dy.current = 0;
     scale.current = 1;
   }, [isOpened]);
-
-  useEffect(() => {
-    if (isOk.current) {
-      isOk.current = false;
-      setIsOpened(false);
-    }
-  }, [isOk.current]);
 
   return (
     <>
@@ -112,7 +99,7 @@ function ProfilePhoto(): React.ReactElement {
         ></canvas>
         <div className="d-flex justify-content-center align-items-center mt-2">
           <button
-            onClick={() => uploadImage(canvasRef.current, userID, setIsLoading, setErrorMessage, isOk, photoURLUpdater)}
+            onClick={() => uploadImage(canvasRef.current, userID, { setIsLoading, setErrorMessage }, photoURLUpdater)}
             className="btn btn-primary d-flex justify-content-center align-items-center me-2"
           >
             {isLoading ? (

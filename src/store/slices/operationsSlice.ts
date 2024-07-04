@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { doc, addDoc, deleteDoc, collection, updateDoc, runTransaction, deleteField, FieldValue } from 'firebase/firestore';
+import { doc, updateDoc, runTransaction, deleteField, FieldValue } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { db } from '../../firebase.ts';
 import {
@@ -19,7 +19,7 @@ export const downloadOperations = createAsyncThunk<operationsStateType | void, s
   'operations/downloadOperations',
   async (props) => {
     const auth = getAuth();
-    const { setIsLoading, setErrorMessage, isOk } = props;
+    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -36,35 +36,14 @@ export const downloadOperations = createAsyncThunk<operationsStateType | void, s
     })
       .then((operations) => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return operations;
       })
       .catch((error) => {
         console.error('Ошибка чтения операций:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
-    // if (auth.currentUser) {
-    //   return await getDocs(collection(db, 'users_data', auth.currentUser.uid, 'transactions'))
-    //     .then((querySnapshot) => {
-    //       const operations: operationsStateType = {};
-    //       querySnapshot.forEach((doc) => (operations[doc.id] = doc.data() as operationType));
-    //       if (setIsLoading) setIsLoading(false);
-    //       if (isOk) isOk.current = true;
-    //       return operations;
-    //     })
-    //     .catch((error) => {
-    //       console.error('Ошибка чтения операций:', error.code);
-    //       if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
-    //       if (setIsLoading) setIsLoading(false);
-    //       if (isOk) isOk.current = false;
-    //     });
-    // } else {
-    //   if (setErrorMessage) setErrorMessage('Вы не авторизованы');
-    //   if (setIsLoading) setIsLoading(false);
-    //   if (isOk) isOk.current = false;
-    // }
   },
 );
 
@@ -73,7 +52,7 @@ export const addOperation = createAsyncThunk<
   serverResponseStatusHooks & { operation: operationType }
 >('operations/addOperation', async (props) => {
   const auth = getAuth();
-  const { operation, setIsLoading, setErrorMessage, isOk } = props;
+  const { operation, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   if (auth.currentUser) {
@@ -83,19 +62,17 @@ export const addOperation = createAsyncThunk<
     return await updateDoc(doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list'), operationToAdd)
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return { id: id, operation: operation };
       })
       .catch((error) => {
         console.error('Ошибка записи операции:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   } else {
     if (setErrorMessage) setErrorMessage('Вы не авторизованы');
     if (setIsLoading) setIsLoading(false);
-    if (isOk) isOk.current = false;
   }
 });
 
@@ -104,7 +81,7 @@ export const updateOperation = createAsyncThunk<
   serverResponseStatusHooks & { id: string; operation: operationUpdateType }
 >('operations/updateOperation', async (props) => {
   const auth = getAuth();
-  const { id, operation, setIsLoading, setErrorMessage, isOk } = props;
+  const { id, operation, setIsLoading, setErrorMessage, fulfilledFunction } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   if (auth.currentUser) {
@@ -120,19 +97,17 @@ export const updateOperation = createAsyncThunk<
     return await updateDoc(doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list'), operatonToUpdate)
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = true;
+        if (fulfilledFunction) fulfilledFunction();
         return { id: id, operation: operation };
       })
       .catch((error) => {
         console.error('Ошибка изменения операции:', error.code);
         if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
         if (setIsLoading) setIsLoading(false);
-        if (isOk) isOk.current = false;
       });
   } else {
     if (setErrorMessage) setErrorMessage('Вы не авторизованы');
     if (setIsLoading) setIsLoading(false);
-    if (isOk) isOk.current = false;
   }
 });
 
@@ -140,7 +115,7 @@ export const deleteOperation = createAsyncThunk<string | void, serverResponseSta
   'operations/deleteOperation',
   async (props) => {
     const auth = getAuth();
-    const { id, setIsLoading, setErrorMessage, isOk } = props;
+    const { id, setIsLoading, setErrorMessage, fulfilledFunction } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     if (auth.currentUser) {
@@ -149,19 +124,17 @@ export const deleteOperation = createAsyncThunk<string | void, serverResponseSta
       return await updateDoc(doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list'), operationToDelete)
         .then(() => {
           if (setIsLoading) setIsLoading(false);
-          if (isOk) isOk.current = true;
+          if (fulfilledFunction) fulfilledFunction();
           return id;
         })
         .catch((error) => {
           console.error('Ошибка удаления операции:', error.code);
           if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
           if (setIsLoading) setIsLoading(false);
-          if (isOk) isOk.current = false;
         });
     } else {
       if (setErrorMessage) setErrorMessage('Вы не авторизованы');
       if (setIsLoading) setIsLoading(false);
-      if (isOk) isOk.current = false;
     }
   },
 );

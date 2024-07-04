@@ -3,7 +3,7 @@ import React from 'react';
 import ModalContainer from 'components/small_components/ModalContainer';
 import SubcategoryForm from 'components/pages/categories_page/subcategory_form/SubcategoryForm';
 import InputBar from 'components/small_components/control_panels/InputBar';
-import { subcategoryAddType } from 'store/types';
+import { serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addSubCategory } from 'store/slices/categoriesSlice';
@@ -25,18 +25,12 @@ const SubcategoryInput: React.FC<SubcategoryInputProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const addFunction = (
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    isOk: React.MutableRefObject<boolean>,
-  ) => {
+  const addFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       addSubCategory({
-        isOk: isOk,
-        setIsLoading: setIsLoading,
-        setErrorMessage: setErrorMessage,
         categoryID: categoryID,
         subcategory: formData,
+        ...statusHooks,
       }),
     );
   };
