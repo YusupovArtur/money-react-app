@@ -18,9 +18,10 @@ import { dateStateType } from 'components/small_components/date_input/types';
 const DateInputDatePicker: React.FC<{
   dateState: dateStateType;
   setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setTimestampFunction?: (timestamp: number) => void;
   setIsShowDatepicker: React.Dispatch<React.SetStateAction<boolean>>;
   deviseType?: 'desktop' | 'mobile';
-}> = ({ dateState, setDateState, setIsShowDatepicker, deviseType }) => {
+}> = ({ dateState, setDateState, setTimestampFunction, setIsShowDatepicker, deviseType }) => {
   const [currentMonth, setCurrentMonth] = useState<number>(dateState.month ? dateState.month - 1 : new Date().getMonth());
   const [currentYear, setCurrentYear] = useState<number>(dateState.year ? dateState.year : new Date().getFullYear());
   const [displayedField, setDisplayedField] = useState<'day' | 'month' | 'year'>('day');
@@ -72,6 +73,7 @@ const DateInputDatePicker: React.FC<{
           <DatePickerDaysField
             datePickerDaysField={getDatePickerDaysField(currentMonth, currentYear, dateState)}
             setDateState={setDateState}
+            setTimestampFunction={setTimestampFunction}
           ></DatePickerDaysField>
         ) : displayedField === 'month' ? (
           <DatePickerMonthsField

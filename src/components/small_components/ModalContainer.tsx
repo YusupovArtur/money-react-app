@@ -1,14 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 
-interface ModalWindowProps {
-  children: ReactNode;
-  isOpened: boolean;
-  setIsOpened?: React.Dispatch<React.SetStateAction<boolean>>;
-  className?: string;
-  style?: React.CSSProperties;
-  zIndex?: number;
-}
-
 const useMount = (isOpened: boolean) => {
   const [isMounted, setIsMounted] = useState(false);
   const ANIMATION_TIME = 150;
@@ -24,7 +15,14 @@ const useMount = (isOpened: boolean) => {
   return isMounted;
 };
 
-const ModalContainer: React.FC<ModalWindowProps> = ({ isOpened, setIsOpened, children, className, style, zIndex }) => {
+const ModalContainer: React.FC<{
+  children: ReactNode;
+  isOpened: boolean;
+  setIsOpened?: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
+  style?: React.CSSProperties;
+  zIndex?: number;
+}> = ({ children, isOpened, setIsOpened, className, style, zIndex }) => {
   const isMounted = useMount(isOpened);
 
   if (!isMounted) return null;

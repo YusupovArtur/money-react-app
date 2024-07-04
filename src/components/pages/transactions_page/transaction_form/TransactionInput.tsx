@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
 import { operationType } from 'store/types';
 // Input components
-import TransactionTypeToggle from 'components/pages/transactions_page/transaction_form/TransactionTypeToggle';
 import TransactionForm from 'components/pages/transactions_page/transaction_form/TransactionForm';
 import ModalContainer from 'components/small_components/ModalContainer';
 import InputBar from 'components/small_components/control_panels/InputBar';
+import { dateStateType } from 'components/small_components/date_input/types';
+import { getDateStateFromTimestamp } from 'components/small_components/date_input/functions';
+import { walletType } from 'store/types';
 
 const TransactionInput: React.FC<{
   isShowInput: boolean;
@@ -18,7 +20,7 @@ const TransactionInput: React.FC<{
 
   const [formData, setFormData] = useState<operationType>({
     sum: 0,
-    time: 0,
+    time: new Date().getTime(),
     type: type === 'optional' ? 'expense' : type,
     fromWallet: '',
     toWallet: '',
@@ -26,11 +28,15 @@ const TransactionInput: React.FC<{
     subcategory: '',
     description: '',
   });
+  const [stringNumber, setStringNumber] = useState<string>('0');
+  const [dateState, setDateState] = useState<dateStateType>(getDateStateFromTimestamp(new Date().getTime()));
+  const [fromWallet, setFromWallet] = useState<walletType | undefined>(undefined);
+  const [toWallet, setToWallet] = useState<walletType | undefined>(undefined);
 
-  const clearFunction = () =>
+  const clearFunction = () => {
     setFormData({
       sum: 0,
-      time: 0,
+      time: new Date().getTime(),
       type: type === 'optional' ? 'expense' : type,
       fromWallet: '',
       toWallet: '',
@@ -38,6 +44,11 @@ const TransactionInput: React.FC<{
       subcategory: '',
       description: '',
     });
+    setStringNumber('0');
+    setDateState(getDateStateFromTimestamp(new Date().getTime()));
+    setFromWallet(undefined);
+    setToWallet(undefined);
+  };
 
   const addFunction = (
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -46,19 +57,6 @@ const TransactionInput: React.FC<{
   ) => {
     dispatch(addOperation({ setIsLoading, setErrorMessage, isOk, operation: formData }));
   };
-
-  useEffect(() => {
-    setFormData((state) => ({
-      ...state,
-      sum: 0,
-      time: 0,
-      fromWallet: '',
-      toWallet: '',
-      category: '',
-      subcategory: '',
-      description: '',
-    }));
-  }, [formData.type]);
 
   return (
     <ModalContainer
@@ -73,11 +71,19 @@ const TransactionInput: React.FC<{
         clearFunction={clearFunction}
         addFunction={addFunction}
       ></InputBar>
-      <TransactionTypeToggle
-        type={formData.type}
-        setType={(type: 'expense' | 'income' | 'transfer') => setFormData((state) => ({ ...state, type: type }))}
-      ></TransactionTypeToggle>
-      <TransactionForm formData={formData} setFormData={setFormData} type={formData.type}></TransactionForm>
+      <TransactionForm
+        formData={formData}
+        setFormData={setFormData}
+        type={type}
+        stringNumber={stringNumber}
+        setStringNumber={setStringNumber}
+        dateState={dateState}
+        setDateState={setDateState}
+        fromWallet={fromWallet}
+        setFromWallet={setFromWallet}
+        toWallet={toWallet}
+        setToWallet={setToWallet}
+      ></TransactionForm>
     </ModalContainer>
   );
 };

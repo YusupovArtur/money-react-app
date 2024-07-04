@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import ModalContainer from 'components/small_components/ModalContainer';
 import EditBar from 'components/small_components/control_panels/EditBar';
 import WalletForm from 'components/pages/wallets_page/wallet_form/WalletForm';
-import { walletAddType, walletType } from 'store/types';
 import WalletInfo from 'components/pages/wallets_page/wallets_list/WalletInfo';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { updateWallet, deleteWallet } from 'store/slices/walletsSlice';
+import { walletAddType, walletType } from 'store/types';
 
 const WalletOpened: React.FC<{
   wallet: walletType;
@@ -25,6 +25,7 @@ const WalletOpened: React.FC<{
     type: wallet.type,
     description: wallet.description,
   });
+  const [stringNumber, setStringNumber] = useState<string>(wallet.balance.toString());
 
   const clearFunction = () => {
     setFormData({
@@ -79,7 +80,12 @@ const WalletOpened: React.FC<{
         itemName={wallet.name}
       ></EditBar>
       {isEdit ? (
-        <WalletForm formData={formData} setFormData={setFormData}></WalletForm>
+        <WalletForm
+          formData={formData}
+          setFormData={setFormData}
+          stringNumber={stringNumber}
+          setStringNumber={setStringNumber}
+        ></WalletForm>
       ) : (
         <WalletInfo wallet={wallet}></WalletInfo>
       )}

@@ -11,9 +11,9 @@ import NumberInput from 'components/small_components/NumberInput';
 const WalletForm: React.FC<{
   formData: walletAddType;
   setFormData: React.Dispatch<React.SetStateAction<walletAddType>>;
-}> = ({ formData, setFormData }) => {
-  // const balanceInputRef = useRef<HTMLInputElement | null>(null);
-
+  stringNumber: string;
+  setStringNumber: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ formData, setFormData, stringNumber, setStringNumber }) => {
   return (
     <div className="d-flex flex-column">
       <span className="text-body-tertiary mt-2">Имя счета</span>
@@ -47,21 +47,10 @@ const WalletForm: React.FC<{
 
       <span className="text-body-tertiary mt-2 mb-0">Сумма на счете</span>
       <NumberInput
-        number={formData.balance}
-        setNumber={(number: number) => setFormData((state) => ({ ...state, balance: number }))}
-        id="balance"
+        stringNumber={stringNumber}
+        setStringNumber={setStringNumber}
+        setNumberFunction={(number: number) => setFormData((state) => ({ ...state, balance: number }))}
       ></NumberInput>
-      {/* <input
-        type="number"
-        value={formData.balance}
-        onChange={(event) => {
-          setFormData((state) => ({ ...state, balance: parseFloat(event.target.value) }));
-        }}
-        style={{ fontSize: '1.08rem' }}
-        className="form-control py-1 px-2"
-        id="balance"
-        autoComplete="off"
-      /> */}
 
       <span className="text-body-tertiary mt-2 mb-0">Описание</span>
       <input

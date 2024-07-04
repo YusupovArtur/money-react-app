@@ -66,12 +66,14 @@ export const DatePickerCalendarButtons: React.FC<{
 
 export const DatePickerModalButtons: React.FC<{
   setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setTimestampFunction?: (timestamp: number) => void;
   setIsShowDatepicker: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setDateState, setIsShowDatepicker }) => {
+}> = ({ setDateState, setTimestampFunction, setIsShowDatepicker }) => {
   return (
     <div className="d-flex justify-content-end">
       <button
         onClick={() => {
+          if (setTimestampFunction) setTimestampFunction(NaN);
           setDateState({ day: 0, month: 0, year: 0 });
         }}
         className="btn btn-secondary mt-2 me-3 rounded-2"

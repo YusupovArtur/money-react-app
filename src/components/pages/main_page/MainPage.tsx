@@ -21,10 +21,12 @@ import { db } from '../../../firebase.ts';
 import { categoryType } from 'store/types.ts';
 import { addWallet, deleteWallet, shiftWallet, updateWallet } from 'store/slices/walletsSlice.ts';
 import { signInUserWithGoogle } from 'store/slices/userSlice.ts';
+import { dateStateType } from 'components/small_components/date_input/types.ts';
+import DropdownMenu from 'components/small_components/DropdownMenu.tsx';
 
 function MainPage(): React.ReactElement {
   const [dateInputValue, setDateInputValue] = useState<string>('');
-  const [timestamp, setTimestamp] = useState<number>(new Date().getTime());
+  const [dateState, setDateState] = useState<dateStateType>({ day: 1, month: 7, year: 2024 });
 
   const userState = useAppSelector((state) => state.user.userState);
   const auth = getAuth();
@@ -173,7 +175,29 @@ function MainPage(): React.ReactElement {
       </button>
       <div className="container">
         <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true}></DateInputLegacy>
-        <DateInput timestamp={timestamp} setTimestamp={setTimestamp}></DateInput>
+        <DateInput dateState={dateState} setDateState={setDateState}></DateInput>
+        <DropdownMenu
+          DropdownButton={<button className="btn btn-primary">Open</button>}
+          DropdownItem={
+            <ul>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Another action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Something else here
+                </a>
+              </li>
+            </ul>
+          }
+        ></DropdownMenu>
       </div>
     </div>
   );

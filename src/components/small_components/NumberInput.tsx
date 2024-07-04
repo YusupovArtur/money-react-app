@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
-const getNumberFromString = (text: string): number => {
-  const formatedText = getFormatedStringNumber(text);
+const getNumberFromString = (nuberString: string): number => {
+  const formatedText = getFormatedStringNumber(nuberString);
   if (!formatedText || formatedText === '-' || formatedText === '.' || formatedText === '-.') {
     return 0;
   } else {
@@ -9,52 +9,43 @@ const getNumberFromString = (text: string): number => {
   }
 };
 
-const getFormatedStringNumber = (text: string): string => {
-  let formatedText: string = text.replace(/[^-.,\d]/g, '').replace(',', '.');
+const getFormatedStringNumber = (numberString: string): string => {
+  let formatedText: string = numberString.replace(/[^-.,\d]/g, '').replace(',', '.');
   if (formatedText.indexOf('-') > -1) {
     formatedText = formatedText.slice(0, 1) + formatedText.slice(1).replace(/[-]/g, '');
   }
   const firstDot = formatedText.indexOf('.') + 1;
-  if (firstDot > 0) formatedText = formatedText.slice(0, firstDot) + formatedText.slice(firstDot).replace(/[.]/g, '').slice(0, 2);
+  if (firstDot > 0) {
+    formatedText = formatedText.slice(0, firstDot) + formatedText.slice(firstDot).replace(/[.]/g, '').slice(0, 2);
+  }
   return formatedText;
 };
 
 const NumberInput: React.FC<{
-  number: number;
-  setNumber: (number: number) => void;
-  id?: string;
-}> = ({ number, setNumber, id }) => {
-  const [text, setText] = useState<string>('0');
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!number) {
-      if (document.activeElement !== inputRef.current && getNumberFromString(text)) {
-        setText(number || number === 0 ? number.toString() : '');
-      }
-    }
-  }, [number]);
-
+  stringNumber: string;
+  setStringNumber: React.Dispatch<React.SetStateAction<string>>;
+  setNumberFunction?: (number: number) => void;
+}> = ({ stringNumber, setStringNumber, setNumberFunction }) => {
   return (
     <input
       type="text"
-      value={text}
+      value={stringNumber}
       onChange={(event) => {
-        setNumber(getNumberFromString(event.target.value));
-        setText(getFormatedStringNumber(event.target.value));
+        setStringNumber(() => {
+          if (setNumberFunction) setNumberFunction(getNumberFromString(event.target.value));
+          return getFormatedStringNumber(event.target.value);
+        });
       }}
       onFocus={() => {
-        if (text === '0') setText('');
+        if (stringNumber === '0') setStringNumber('');
       }}
       onBlur={() => {
-        if (!text) {
-          setText('0');
+        if (!stringNumber) {
+          setStringNumber('0');
         } else {
-          setText(number.toString());
+          setStringNumber((state) => parseFloat(getFormatedStringNumber(state)).toString());
         }
       }}
-      ref={inputRef}
-      id={id}
       style={{ fontSize: '1.08rem' }}
       className="form-control py-1 px-2"
       autoComplete="off"

@@ -1,17 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   getDeviceType,
   getStringDateFromDateState,
+  getTimestampFromDateState,
   getUpdatedByKeyDateStatePart,
 } from 'components/small_components/date_input/functions';
-import { setDateInputSelection, getValidatedDateTypeValue } from 'components/small_components/date_input/functions';
+import { setDateInputSelection, getValidatedDateStateValue } from 'components/small_components/date_input/functions';
 import { dateStateType } from 'components/small_components/date_input/types';
 
 const DateTextInput: React.FC<{
   dateState: dateStateType;
   setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setTimestampFunction?: (timestamp: number) => void;
   deviseType?: 'desktop' | 'mobile';
-}> = ({ dateState, setDateState, deviseType }) => {
+}> = ({ dateState, setDateState, setTimestampFunction, deviseType }) => {
   // For text field
   const dateInputRef = useRef<HTMLInputElement | null>(null);
   const selectedPartRef = useRef<'day' | 'month' | 'year'>('day');
@@ -26,13 +28,22 @@ const DateTextInput: React.FC<{
     const newDateStatePart = getUpdatedByKeyDateStatePart(dateState, event.key, selectedPartRef.current);
     switch (selectedPartRef.current) {
       case 'day':
-        setDateState((state) => ({ ...state, day: newDateStatePart }));
+        setDateState((state) => {
+          if (setTimestampFunction) setTimestampFunction(getTimestampFromDateState({ ...state, day: newDateStatePart }));
+          return { ...state, day: newDateStatePart };
+        });
         break;
       case 'month':
-        setDateState((state) => ({ ...state, month: newDateStatePart }));
+        setDateState((state) => {
+          if (setTimestampFunction) setTimestampFunction(getTimestampFromDateState({ ...state, month: newDateStatePart }));
+          return { ...state, month: newDateStatePart };
+        });
         break;
       case 'year':
-        setDateState((state) => ({ ...state, year: newDateStatePart }));
+        setDateState((state) => {
+          if (setTimestampFunction) setTimestampFunction(getTimestampFromDateState({ ...state, year: newDateStatePart }));
+          return { ...state, year: newDateStatePart };
+        });
         break;
     }
 
@@ -54,17 +65,29 @@ const DateTextInput: React.FC<{
     if (event.key === 'Backspace') {
       switch (selectedPartRef.current) {
         case 'day':
-          setDateState((state) => ({ ...state, day: 0 }));
+          setDateState((state) => {
+            if (setTimestampFunction) setTimestampFunction(NaN);
+            return { ...state, day: 0 };
+          });
           break;
         case 'month':
-          setDateState((state) => ({ ...state, month: 0 }));
+          setDateState((state) => {
+            if (setTimestampFunction) setTimestampFunction(NaN);
+            return { ...state, month: 0 };
+          });
           break;
         case 'year':
-          setDateState((state) => ({ ...state, year: 0 }));
+          setDateState((state) => {
+            if (setTimestampFunction) setTimestampFunction(NaN);
+            return { ...state, year: 0 };
+          });
           break;
       }
     } else if (event.key === 'Delete') {
-      setDateState({ day: 0, month: 0, year: 0 });
+      setDateState(() => {
+        if (setTimestampFunction) setTimestampFunction(NaN);
+        return { day: 0, month: 0, year: 0 };
+      });
     }
   };
 
@@ -120,13 +143,34 @@ const DateTextInput: React.FC<{
         if (!isDeviceMobile) setDateInputSelectionByMouse();
       }}
       onMouseUp={setDateInputSelectionByMouse}
-      onMouseDown={setDateInputSelectionByMouse}
-      onBlur={() => setDateState((value) => getValidatedDateTypeValue(value))}
-      onSelect={(event) => event.preventDefault()}
-      onDoubleClick={(event) => event.preventDefault()}
-      onContextMenu={(event) => event.preventDefault()}
-      onDragStart={(event) => event.preventDefault()}
-      onDragEnd={(event) => event.preventDefault()}
+      // onMouseDown={setDateInputSelectionByMouse}
+      onBlur={() =>
+        setDateState((state) => {
+          const validatedDateState = getValidatedDateStateValue(state);
+          if (setTimestampFunction) setTimestampFunction(getTimestampFromDateState(validatedDateState));
+          return validatedDateState;
+        })
+      }
+      onSelect={(event) => {
+        event.preventDefault();
+        event.bubbles = false;
+      }}
+      onDoubleClick={(event) => {
+        event.bubbles = false;
+        event.preventDefault();
+      }}
+      onContextMenu={(event) => {
+        event.bubbles = false;
+        event.preventDefault();
+      }}
+      onDragStart={(event) => {
+        event.bubbles = false;
+        event.preventDefault();
+      }}
+      onDragEnd={(event) => {
+        event.bubbles = false;
+        event.preventDefault();
+      }}
       spellCheck={false}
       onChange={() => {}}
     />

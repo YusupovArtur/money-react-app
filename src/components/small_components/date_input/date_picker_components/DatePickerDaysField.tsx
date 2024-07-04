@@ -5,9 +5,11 @@ import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from 'components/small_compone
 const DatePickerDayCell: React.FC<{
   datePickerDayCellProps: datePickerDayCellPropsType;
   setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
-}> = ({ datePickerDayCellProps: cellsProps, setDateState }) => {
+  setTimestampFunction?: (timestamp: number) => void;
+}> = ({ datePickerDayCellProps: cellsProps, setDateState, setTimestampFunction }) => {
   const handleDatepickerSetDate = () => {
     const cellsDate = new Date(cellsProps.timestamp);
+    if (setTimestampFunction) setTimestampFunction(cellsProps.timestamp);
     setDateState({ day: cellsDate.getDate(), month: cellsDate.getMonth() + 1, year: cellsDate.getFullYear() });
   };
 
@@ -51,7 +53,8 @@ const DatePickerDayCell: React.FC<{
 const DatePickerDaysField: React.FC<{
   datePickerDaysField: datePickerDayCellPropsType[][];
   setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
-}> = ({ datePickerDaysField, setDateState }) => {
+  setTimestampFunction?: (timestamp: number) => void;
+}> = ({ datePickerDaysField, setDateState, setTimestampFunction }) => {
   return (
     <div className="container text-center">
       <div className="row">
@@ -70,7 +73,12 @@ const DatePickerDaysField: React.FC<{
       {datePickerDaysField.map((week) => (
         <div className="row" key={week[0].timestamp + week[2].timestamp}>
           {week.map((day) => (
-            <DatePickerDayCell key={day.timestamp} datePickerDayCellProps={day} setDateState={setDateState}></DatePickerDayCell>
+            <DatePickerDayCell
+              key={day.timestamp}
+              datePickerDayCellProps={day}
+              setDateState={setDateState}
+              setTimestampFunction={setTimestampFunction}
+            ></DatePickerDayCell>
           ))}
         </div>
       ))}

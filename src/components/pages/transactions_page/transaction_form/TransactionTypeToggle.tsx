@@ -3,12 +3,16 @@ import React from 'react';
 const TransactionTypeToggle: React.FC<{
   type: 'expense' | 'income' | 'transfer';
   setType: (type: 'expense' | 'income' | 'transfer') => void;
-}> = ({ type, setType }) => {
+  clearFunction: (type: 'expense' | 'income' | 'transfer') => void;
+}> = ({ type, setType, clearFunction }) => {
   return (
     <div className="d-flex mt-3">
       <input
         type="radio"
-        onChange={() => setType('expense')}
+        onChange={() => {
+          setType('expense');
+          clearFunction('expense');
+        }}
         checked={type === 'expense'}
         className="btn-check"
         id="expense"
@@ -20,7 +24,10 @@ const TransactionTypeToggle: React.FC<{
 
       <input
         type="radio"
-        onChange={() => setType('income')}
+        onChange={() => {
+          setType('income');
+          clearFunction('income');
+        }}
         checked={type === 'income'}
         className="btn-check"
         id="income"
@@ -32,7 +39,10 @@ const TransactionTypeToggle: React.FC<{
 
       <input
         type="radio"
-        onChange={() => setType('transfer')}
+        onChange={() => {
+          setType('transfer');
+          clearFunction('transfer');
+        }}
         checked={type === 'transfer'}
         className="btn-check"
         id="transfer"

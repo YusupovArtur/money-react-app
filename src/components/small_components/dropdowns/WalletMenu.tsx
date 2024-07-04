@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAppSelector } from 'store/hook';
 import { walletType } from 'store/types';
 import ContentIcon from 'components/small_components/icons_svg/icon_sets/ContentIconSets';
 
-const WalletMenu: React.FC<{ walletID: string; setWalletID: (walletID: string) => void }> = ({ walletID, setWalletID }) => {
+const WalletMenu: React.FC<{
+  wallet: walletType | undefined;
+  setWallet: React.Dispatch<React.SetStateAction<walletType | undefined>>;
+  setWalletIDFunction?: (walletID: string) => void;
+  selectedWallet?: walletType | undefined;
+}> = ({ wallet, setWallet, setWalletIDFunction, selectedWallet }) => {
   const wallets = useAppSelector((state) => state.wallets.list);
-  const [wallet, setWallet] = useState<walletType | undefined>(wallets.find((wallet) => walletID === wallet.id));
-
-  useEffect(() => {
-    if (wallet && walletID !== wallet.id && !walletID) {
-      setWallet(undefined);
-    }
-  }, [walletID]);
-
   const bigIconSize = 1.5;
   const smallIconSize = 1.3;
+
+  useEffect(() => {
+    if (wallet && selectedWallet && wallet.id === selectedWallet.id) {
+      setWallet(undefined);
+      if (setWalletIDFunction) setWalletIDFunction('');
+    }
+  }, [selectedWallet]);
 
   return (
     <div className="dropdown">
@@ -48,29 +52,36 @@ const WalletMenu: React.FC<{ walletID: string; setWalletID: (walletID: string) =
         )}
       </button>
       <ul style={{ minWidth: '4rem' }} className="dropdown-menu">
-        {wallets.map((wallet) => (
-          <li key={wallet.id}>
-            <button
-              onClick={() => {
-                setWalletID(wallet.id);
-                setWallet(wallet);
-              }}
-              className={`dropdown-item ${wallet.id === walletID && 'active'} d-flex flex-row align-items-center`}
-            >
-              <div
-                className="d-flex justify-content-center align-items-center rounded-circle"
-                style={{
-                  backgroundColor: wallet.color,
-                  width: `${1.415 * smallIconSize}rem`,
-                  height: `${1.415 * smallIconSize}rem`,
+        {wallets
+          .filter((wallet) => wallet.id !== selectedWallet?.id)
+          .map((walletItem) => (
+            <li key={walletItem.id}>
+              <button
+                onClick={() => {
+                  setWallet(() => {
+                    if (setWalletIDFunction) setWalletIDFunction(walletItem.id);
+                    return walletItem;
+                  });
                 }}
+                className={`dropdown-item ${
+                  wallet ? (walletItem.id === wallet.id ? 'active' : '') : ''
+                } d-flex flex-row align-items-center`}
+                // walletItem.id === wallet?.id && 'active'
               >
-                <ContentIcon iconName={wallet.iconName} iconSize={`${smallIconSize}rem`}></ContentIcon>
-              </div>
-              <span className="ms-1">{wallet.name}</span>
-            </button>
-          </li>
-        ))}
+                <div
+                  className="d-flex justify-content-center align-items-center rounded-circle"
+                  style={{
+                    backgroundColor: walletItem.color,
+                    width: `${1.415 * smallIconSize}rem`,
+                    height: `${1.415 * smallIconSize}rem`,
+                  }}
+                >
+                  <ContentIcon iconName={walletItem.iconName} iconSize={`${smallIconSize}rem`}></ContentIcon>
+                </div>
+                <span className="ms-1">{walletItem.name}</span>
+              </button>
+            </li>
+          ))}
       </ul>
     </div>
   );

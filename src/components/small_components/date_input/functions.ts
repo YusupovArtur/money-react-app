@@ -116,7 +116,7 @@ export const getMonthsMaxDate = (month: number, year: number): number => {
   else return 28;
 };
 
-export const getValidatedDateTypeValue = (dateState: dateStateType): dateStateType => {
+export const getValidatedDateStateValue = (dateState: dateStateType): dateStateType => {
   const year = dateState.year ? Math.min(Math.max(dateState.year, MIN_YEAR), MAX_YEAR) : 0;
   const month = dateState.month ? Math.min(Math.max(dateState.month, 1), 12) : 0;
   const day = year && month && dateState.day ? Math.min(Math.max(dateState.day, 1), getMonthsMaxDate(month, year)) : 0;

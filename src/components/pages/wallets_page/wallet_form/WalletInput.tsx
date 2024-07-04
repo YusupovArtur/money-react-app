@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addWallet } from 'store/slices/walletsSlice';
+import { walletAddType } from 'store/types';
 // Input components
 import ModalContainer from 'components/small_components/ModalContainer';
 import InputBar from 'components/small_components/control_panels/InputBar';
 import WalletForm from 'components/pages/wallets_page/wallet_form/WalletForm';
-import { walletAddType } from 'store/types';
 
 const WalletInput: React.FC<{
   isShowInput: boolean;
@@ -22,9 +22,11 @@ const WalletInput: React.FC<{
     type: 'debit',
     description: '',
   });
+  const [stringNumber, setStringNumber] = useState<string>('0');
 
   const clearFunction = () => {
     setFormData({ name: '', balance: 0, iconName: 'Card', color: '#ced4da', type: 'debit', description: '' });
+    setStringNumber('0');
   };
 
   const addFunction = (
@@ -32,7 +34,14 @@ const WalletInput: React.FC<{
     setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
     isOk: React.MutableRefObject<boolean>,
   ) => {
-    dispatch(addWallet({ isOk: isOk, setIsLoading: setIsLoading, setErrorMessage: setErrorMessage, wallet: formData }));
+    dispatch(
+      addWallet({
+        isOk: isOk,
+        setIsLoading: setIsLoading,
+        setErrorMessage: setErrorMessage,
+        wallet: formData,
+      }),
+    );
   };
 
   return (
@@ -48,7 +57,12 @@ const WalletInput: React.FC<{
         clearFunction={clearFunction}
         addFunction={addFunction}
       ></InputBar>
-      <WalletForm formData={formData} setFormData={setFormData}></WalletForm>
+      <WalletForm
+        formData={formData}
+        setFormData={setFormData}
+        stringNumber={stringNumber}
+        setStringNumber={setStringNumber}
+      ></WalletForm>
     </ModalContainer>
   );
 };
