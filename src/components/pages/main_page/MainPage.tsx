@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from 'store/hook.ts';
 import { getAuth } from 'firebase/auth';
 import DateInputLegacy from 'components/big_components/date_input_legacy/DateInput.tsx';
 import DateInput from 'components/small_components/date_input/DateInput.tsx';
+import { runTransaction } from 'firebase/firestore';
 
 import { doc, addDoc, getDocs, deleteDoc, collection, updateDoc, setDoc, getDoc, deleteField } from 'firebase/firestore';
 import { downloadOperations, addOperation, deleteOperation, updateOperation } from 'store/slices/operationsSlice.ts';
@@ -36,10 +37,11 @@ function MainPage(): React.ReactElement {
   const categories = useAppSelector((state) => state.categories.list);
 
   const handleTestButton = async () => {
-    // dispatch(deleteOperation({ id: 'uhcgoscoPUL8fBWNoFbf' }));
+    // dispatch(deleteOperation({ id: 'VmMbG8FaTkM4lLKQC8cg' }));
     // dispatch(
     //   addOperation({
     //     operation: {
+    //       type: 'expense',
     //       sum: 10,
     //       time: new Date().getTime(),
     //       fromWallet: 'test',
@@ -52,7 +54,7 @@ function MainPage(): React.ReactElement {
     // );
     // dispatch(
     //   updateOperation({
-    //     id: 'uhcgoscoPUL8fBWNoFbf',
+    //     id: 'lNSEuTQ2LuReGTqA2fMx',
     //     operation: {
     //       fromWallet: 'alfapay',
     //       sum: 1488,
@@ -162,7 +164,23 @@ function MainPage(): React.ReactElement {
     //     },
     //   }),
     // );
-    console.log(auth.currentUser?.photoURL);
+    // if (auth.currentUser && auth.currentUser.uid) {
+    //   const docRef = doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list');
+    //   try {
+    //     await runTransaction(db, async (transaction) => {
+    //       const sfDoc = await transaction.get(docRef);
+    //       transaction.set(docRef, {});
+    //       // if (!sfDoc.exists()) {
+    //       //   throw 'Document does not exist!';
+    //       // }
+    //       // const newPopulation = sfDoc.data().population + 1;
+    //       // transaction.update(docRef, { population: newPopulation });
+    //     });
+    //     console.log('Transaction successfully committed!');
+    //   } catch (e) {
+    //     console.log('Transaction failed: ', e);
+    //   }
+    // }
   };
 
   return (

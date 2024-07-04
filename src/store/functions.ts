@@ -1,12 +1,12 @@
 // Firebase imports
-import { doc, collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
+import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore';
 import { db } from '../firebase.ts';
 // Hooks imports
 import { setOperations } from 'store/slices/operationsSlice.ts';
 import { setCategories } from 'store/slices/categoriesSlice.ts';
 import { setWallets } from 'store/slices/walletsSlice.ts';
 // Types imports
-import { userStateType, operationType, operationsStateType, categoriesStateType, walletsStateType } from 'store/types';
+import { userStateType, operationsStateType, categoriesStateType, walletsStateType } from 'store/types';
 import { AppDispatch } from 'store/store.ts';
 import { User } from 'firebase/auth';
 
@@ -80,11 +80,13 @@ export class operationsOnSnapshot {
   }
   subscribe(user: User | null) {
     if (user && !this.listener) {
-      this.listener = onSnapshot(collection(db, 'users_data', user.uid, 'transactions'), (querySnapshot) => {
-        if (!querySnapshot.metadata.hasPendingWrites) {
-          const operations: operationsStateType = {};
-          querySnapshot.forEach((doc) => (operations[doc.id] = doc.data() as operationType));
-          this.dispatch(setOperations(operations));
+      this.listener = onSnapshot(doc(db, 'users_data', user.uid, 'transactions', 'list'), (querySnapshot) => {
+        if (!querySnapshot.metadata.hasPendingWrites && querySnapshot.exists()) {
+          const operationsState = (querySnapshot.data() ? querySnapshot.data() : {}) as operationsStateType;
+          if (operationsState) this.dispatch(setOperations(operationsState));
+          // const operations: operationsStateType = {};
+          // querySnapshot.forEach((doc) => (operations[doc.id] = doc.data() as operationType));
+          // this.dispatch(setOperations(operations));
         }
       });
     }
@@ -107,8 +109,8 @@ export class walletsOnSnapshot {
   subscribe(user: User | null) {
     if (user && !this.listener) {
       this.listener = onSnapshot(doc(db, 'users_data', user.uid, 'wallets', 'list'), (querySnapshot) => {
-        if (!querySnapshot.metadata.hasPendingWrites) {
-          const walletsState = querySnapshot.data() as walletsStateType;
+        if (!querySnapshot.metadata.hasPendingWrites && querySnapshot.exists()) {
+          const walletsState = (querySnapshot.data() ? querySnapshot.data() : { list: [] }) as walletsStateType;
           if (walletsState) this.dispatch(setWallets(walletsState));
         }
       });
@@ -132,8 +134,10 @@ export class categoriesOnSnapshot {
   subscribe(user: User | null) {
     if (user && !this.listener) {
       this.listener = onSnapshot(doc(db, 'users_data', user.uid, 'categories', 'list'), (querySnapshot) => {
-        if (!querySnapshot.metadata.hasPendingWrites) {
-          const categoriesState: categoriesStateType = querySnapshot.data() as categoriesStateType;
+        if (!querySnapshot.metadata.hasPendingWrites && querySnapshot.exists()) {
+          const categoriesState: categoriesStateType = (
+            querySnapshot.data() ? querySnapshot.data() : { list: [] }
+          ) as categoriesStateType;
           this.dispatch(setCategories(categoriesState));
         }
       });

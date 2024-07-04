@@ -31,11 +31,13 @@ export const downloadCategories = createAsyncThunk<categoriesStateType | void, s
       const userID = auth.currentUser.uid;
       return await getDoc(doc(db, 'users_data', userID, 'categories', 'list'))
         .then((querySnapshot) => {
-          if (setIsLoading) setIsLoading(false);
-          if (isOk) isOk.current = true;
-          const categoriesState = querySnapshot.data() as categoriesStateType | undefined;
-          if (categoriesState && categoriesState.list) return categoriesState;
-          else return { list: [] };
+          if (querySnapshot.exists()) {
+            if (setIsLoading) setIsLoading(false);
+            if (isOk) isOk.current = true;
+            return (querySnapshot.data() ? querySnapshot.data() : { list: [] }) as categoriesStateType;
+          } else {
+            throw new ErrorWithCode('Документ categories не существует');
+          }
         })
         .catch((error) => {
           console.error('Ошибка чтения категорий:', error.code);
@@ -63,8 +65,9 @@ export const addCategory = createAsyncThunk<
     if (auth.currentUser) {
       if (category.name) {
         const categoriesRef = doc(db, 'users_data', auth.currentUser.uid, 'categories', 'list');
-        const categoriesState = (await transaction.get(categoriesRef)).data() as categoriesStateType | undefined;
-        if (categoriesState && categoriesState.list) {
+        const categoriesSnapshot = await transaction.get(categoriesRef);
+        if (categoriesSnapshot.exists()) {
+          const categoriesState = (categoriesSnapshot.data() ? categoriesSnapshot.data() : { list: [] }) as categoriesStateType;
           categoriesState.list.push({ ...category, id: generateID(20), subcategories: [] });
           transaction.set(categoriesRef, categoriesState);
           return categoriesState;
@@ -369,31 +372,31 @@ const categoriesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(downloadCategories.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(addCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(addSubCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(deleteSubCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(shiftCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(shiftSubCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(updateSubCategory.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       });
   },
 });

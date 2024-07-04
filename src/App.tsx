@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
-import { useAppSelector, useAppDispatch } from 'store/hook.js';
-import { exitUser, setUserState, cleareUserState } from 'store/slices/userSlice.js';
-import { cleareOperations } from 'store/slices/operationsSlice.js';
-import { cleareWallets } from 'store/slices/walletsSlice.js';
-import { cleareCategories } from 'store/slices/categoriesSlice.js';
-import { changeThemeDisplay } from 'store/slices/themeSlice.js';
-import { getUserState, operationsOnSnapshot, walletsOnSnapshot, categoriesOnSnapshot } from 'store/functions.ts';
+import { useAppSelector, useAppDispatch } from 'store/hook';
+import { exitUser, setUserState, cleareUserState } from 'store/slices/userSlice';
+import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice';
+import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.js';
+import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice';
+import { changeThemeDisplay } from 'store/slices/themeSlice';
+import { getUserState, operationsOnSnapshot, walletsOnSnapshot, categoriesOnSnapshot } from 'store/functions';
 // Components
 import Navbar from 'components/big_components/Navbar';
 import MainPage from 'components/pages/main_page/MainPage';
@@ -32,6 +32,9 @@ function App(): React.ReactElement {
 
   // On app building
   useEffect(() => {
+    dispatch(downloadOperations({}));
+    dispatch(downloadWallets({}));
+    dispatch(downloadCategories({}));
     return () => {
       operationListener.unsubscribe();
       walletsListener.unsubscribe();

@@ -24,14 +24,15 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     if (auth.currentUser) {
-      const userID = auth.currentUser.uid;
-      return await getDoc(doc(db, 'users_data', userID, 'wallets', 'list'))
+      return await getDoc(doc(db, 'users_data', auth.currentUser.uid, 'wallets', 'list'))
         .then((querySnapshot) => {
-          const walletsState = querySnapshot.data() as walletsStateType;
-          if (setErrorMessage) setErrorMessage('');
-          if (setIsLoading) setIsLoading(false);
-          if (isOk) isOk.current = true;
-          return walletsState;
+          if (querySnapshot.exists()) {
+            if (setIsLoading) setIsLoading(false);
+            if (isOk) isOk.current = true;
+            return (querySnapshot.data() ? querySnapshot.data() : { list: [] }) as walletsStateType;
+          } else {
+            throw new ErrorWithCode('Документ wallets не существует');
+          }
         })
         .catch((error) => {
           console.error('Ошибка чтения счетов:', error.code);
@@ -54,14 +55,14 @@ export const addWallet = createAsyncThunk<walletsStateType | void, serverRespons
     const { wallet, setIsLoading, setErrorMessage, isOk } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
-
     return await runTransaction(db, async (transaction) => {
       if (auth.currentUser) {
         if (wallet.name) {
           if (wallet.balance || wallet.balance === 0) {
             const walletsRef = doc(db, 'users_data', auth.currentUser.uid, 'wallets', 'list');
-            const walletsState = (await transaction.get(walletsRef)).data() as walletsStateType | undefined;
-            if (walletsState && walletsState.list) {
+            const walletSnapshot = await transaction.get(walletsRef);
+            if (walletSnapshot.exists()) {
+              const walletsState = (walletSnapshot.data() ? walletSnapshot.data() : { list: [] }) as walletsStateType;
               walletsState.list.push({ ...wallet, id: generateID(20) });
               transaction.set(walletsRef, walletsState);
               return walletsState;
@@ -75,7 +76,6 @@ export const addWallet = createAsyncThunk<walletsStateType | void, serverRespons
       } else throw new ErrorWithCode('Вы не авторизованы');
     })
       .then((walletsState) => {
-        if (setErrorMessage) setErrorMessage('');
         if (setIsLoading) setIsLoading(false);
         if (isOk) isOk.current = true;
         return walletsState;
@@ -106,7 +106,6 @@ export const deleteWallet = createAsyncThunk<walletsStateType | void, serverResp
       } else throw new ErrorWithCode('Вы не авторизованы');
     })
       .then((walletsState) => {
-        if (setErrorMessage) setErrorMessage('');
         if (setIsLoading) setIsLoading(false);
         if (isOk) isOk.current = true;
         return walletsState;
@@ -154,7 +153,6 @@ export const shiftWallet = createAsyncThunk<
     } else throw new ErrorWithCode('Вы не авторизованы');
   })
     .then((walletsState) => {
-      if (setErrorMessage) setErrorMessage('');
       if (setIsLoading) setIsLoading(false);
       if (isOk) isOk.current = true;
       return walletsState;
@@ -191,7 +189,6 @@ export const updateWallet = createAsyncThunk<
     } else throw new ErrorWithCode('Вы не авторизованы');
   })
     .then((walletsState) => {
-      if (setErrorMessage) setErrorMessage('');
       if (setIsLoading) setIsLoading(false);
       if (isOk) isOk.current = true;
       return walletsState;
@@ -220,16 +217,16 @@ const walletSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(downloadWallets.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(addWallet.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(shiftWallet.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       })
       .addCase(updateWallet.fulfilled, (state, action) => {
-        if (action.payload && action.payload.list) state.list = action.payload.list;
+        if (action.payload) state.list = action.payload.list;
       });
   },
 });
