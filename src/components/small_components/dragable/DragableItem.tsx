@@ -25,10 +25,10 @@ const DragableItem: React.FC<DragableItemProps> = ({
   itemIDAbove,
 }) => {
   const dragClassName = useDragEnter({
-    dragStartID: dragStartID,
-    dragOverID: dragOverID,
-    itemID: itemID,
-    itemIDAbove: itemIDAbove,
+    dragStartID,
+    dragOverID,
+    itemID,
+    itemIDAbove,
     openClassName: 'move-open-animation-28',
     closeClassName: 'move-close-animation-28',
   });

@@ -42,7 +42,7 @@ const TransactionForm: React.FC<{
         {type && (
           <TransactionTypeToggle
             type={formData.type}
-            setType={(type: 'expense' | 'income' | 'transfer') => setFormData((state) => ({ ...state, type: type }))}
+            setType={(type: 'expense' | 'income' | 'transfer') => setFormData((state) => ({ ...state, type }))}
             clearFunction={() => {
               setFormData((state) => ({
                 ...state,

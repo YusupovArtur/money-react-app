@@ -26,49 +26,49 @@ const isDivContainer = (node: React.ReactNode): boolean => {
 const ContentIcon: React.FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   let icon: React.ReactNode = null;
 
-  icon = BeautyIcon({ iconName: iconName, iconSize: iconSize });
+  icon = BeautyIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = BuildingIcon({ iconName: iconName, iconSize: iconSize });
+  icon = BuildingIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = CompanyIcon({ iconName: iconName, iconSize: iconSize });
+  icon = CompanyIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = EducationIcon({ iconName: iconName, iconSize: iconSize });
+  icon = EducationIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = ElectronicsIcon({ iconName: iconName, iconSize: iconSize });
+  icon = ElectronicsIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = FamilyIcon({ iconName: iconName, iconSize: iconSize });
+  icon = FamilyIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = FinanceIcon({ iconName: iconName, iconSize: iconSize });
+  icon = FinanceIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = FoodIcon({ iconName: iconName, iconSize: iconSize });
+  icon = FoodIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = GoodsIcon({ iconName: iconName, iconSize: iconSize });
+  icon = GoodsIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = HealthIcon({ iconName: iconName, iconSize: iconSize });
+  icon = HealthIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = HouseIcon({ iconName: iconName, iconSize: iconSize });
+  icon = HouseIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = PaymentIcon({ iconName: iconName, iconSize: iconSize });
+  icon = PaymentIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = RecreationIcon({ iconName: iconName, iconSize: iconSize });
+  icon = RecreationIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = SportIcon({ iconName: iconName, iconSize: iconSize });
+  icon = SportIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
-  icon = TransportIcon({ iconName: iconName, iconSize: iconSize });
+  icon = TransportIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;
 
   return <div style={{ width: iconSize, height: iconSize }}></div>;

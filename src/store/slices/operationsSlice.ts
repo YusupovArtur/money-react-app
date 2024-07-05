@@ -63,7 +63,7 @@ export const addOperation = createAsyncThunk<
       .then(() => {
         if (setIsLoading) setIsLoading(false);
         if (fulfilledFunction) fulfilledFunction();
-        return { id: id, operation: operation };
+        return { id, operation };
       })
       .catch((error) => {
         console.error('Ошибка записи операции:', error.code);
@@ -98,7 +98,7 @@ export const updateOperation = createAsyncThunk<
       .then(() => {
         if (setIsLoading) setIsLoading(false);
         if (fulfilledFunction) fulfilledFunction();
-        return { id: id, operation: operation };
+        return { id, operation };
       })
       .catch((error) => {
         console.error('Ошибка изменения операции:', error.code);

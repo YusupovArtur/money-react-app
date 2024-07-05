@@ -36,7 +36,7 @@ const SubcategoryOpened: React.FC<{
   const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       deleteSubCategory({
-        categoryID: categoryID,
+        categoryID,
         subcategoryID: subcategory.id,
         ...statusHooks,
       }),
@@ -46,7 +46,7 @@ const SubcategoryOpened: React.FC<{
   const updateFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       updateSubCategory({
-        categoryID: categoryID,
+        categoryID,
         subcategoryID: subcategory.id,
         newProps: formData,
         ...statusHooks,

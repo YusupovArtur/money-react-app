@@ -16,8 +16,10 @@ function ProfilePhoto(): React.ReactElement {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const fulfilledFunction = () => setIsOpened(false);
+
   const photoURLUpdater = (photoURL: string) => {
-    dispatch(updatePhotoURL({ photoURL, setIsLoading, setErrorMessage, fulfilledFunction: () => setIsOpened(false) }));
+    dispatch(updatePhotoURL({ photoURL, setIsLoading, setErrorMessage, fulfilledFunction }));
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false);

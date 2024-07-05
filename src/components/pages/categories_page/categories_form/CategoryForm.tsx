@@ -30,7 +30,7 @@ const CategoryForm: React.FC<{
       <div className="d-flex align-items-center">
         <IconMenu
           iconName={formData.iconName}
-          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName: iconName }))}
+          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconsField={CATEGOTY_ICONS_FIELD}
           rowLength={7}
           isDivider={true}

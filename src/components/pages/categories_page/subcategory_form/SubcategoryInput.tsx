@@ -28,7 +28,7 @@ const SubcategoryInput: React.FC<SubcategoryInputProps> = ({
   const addFunction = (statusHooks: serverResponseStatusHooks) => {
     dispatch(
       addSubCategory({
-        categoryID: categoryID,
+        categoryID,
         subcategory: formData,
         ...statusHooks,
       }),

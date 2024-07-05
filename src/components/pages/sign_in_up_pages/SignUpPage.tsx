@@ -13,7 +13,7 @@ function SignUpPage(): React.ReactElement {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fulfilledFunction = () => {
-    if (userName) dispatch(updateUserName({ userName: userName }));
+    if (userName) dispatch(updateUserName({ userName }));
     navigate('/');
   };
 

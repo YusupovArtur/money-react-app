@@ -134,7 +134,7 @@ export const updateUserName = createAsyncThunk<
       .then(() => {
         if (setIsLoading) setIsLoading(false);
         if (fulfilledFunction) fulfilledFunction();
-        return { userName: userName };
+        return { userName };
       })
       .catch((error) => {
         console.error('Ошибка обновления имени:', error.code);
@@ -156,11 +156,11 @@ export const updatePhotoURL = createAsyncThunk<
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
   if (auth.currentUser) {
-    return await updateProfile(auth.currentUser, { photoURL: photoURL })
+    return await updateProfile(auth.currentUser, { photoURL })
       .then(() => {
         if (setIsLoading) setIsLoading(false);
         if (fulfilledFunction) fulfilledFunction();
-        return { photoURL: photoURL };
+        return { photoURL };
       })
       .catch((error) => {
         console.error('Ошибка обновления фото:', error.code);

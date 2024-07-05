@@ -34,7 +34,7 @@ const WalletForm: React.FC<{
       <div className="d-flex align-items-center">
         <IconMenu
           iconName={formData.iconName}
-          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName: iconName }))}
+          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconsField={WALLET_ICONS_FIELD}
           rowLength={6}
           isDivider={false}

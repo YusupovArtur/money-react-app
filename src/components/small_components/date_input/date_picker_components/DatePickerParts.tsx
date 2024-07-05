@@ -8,7 +8,7 @@ import {
 } from 'components/small_components/date_input/constants';
 import { dateStateType } from 'components/small_components/date_input/types';
 
-export const DatePickerLabel: React.FC<{ dateState: dateStateType }> = ({ dateState: dateState }) => {
+export const DatePickerLabel: React.FC<{ dateState: dateStateType }> = ({ dateState }) => {
   const label =
     dateState.day && dateState.month && dateState.year
       ? `${dateState.day.toString()} ${MONTH_FULL_NAMES[dateState.month - 1]} ${dateState.year}`
