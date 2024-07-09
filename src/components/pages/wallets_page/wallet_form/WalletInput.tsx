@@ -34,24 +34,21 @@ const WalletInput: React.FC<{
   };
 
   return (
-    <ModalContainer
-      isOpened={isShowInput}
-      setIsOpened={setIsShowInput}
-      style={{ maxWidth: '35rem', width: '100vw' }}
-      className="bg-body-tertiary shadow-sm p-3 rounded-4"
-    >
-      <InputBar
-        addButtonLabel="Счет"
-        setIsOpened={setIsShowInput}
-        clearFunction={clearFunction}
-        addFunction={addFunction}
-      ></InputBar>
-      <WalletForm
-        formData={formData}
-        setFormData={setFormData}
-        stringNumber={stringNumber}
-        setStringNumber={setStringNumber}
-      ></WalletForm>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+      <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
+        <InputBar
+          addButtonLabel="Счет"
+          setIsOpened={setIsShowInput}
+          clearFunction={clearFunction}
+          addFunction={addFunction}
+        ></InputBar>
+        <WalletForm
+          formData={formData}
+          setFormData={setFormData}
+          stringNumber={stringNumber}
+          setStringNumber={setStringNumber}
+        ></WalletForm>
+      </div>
     </ModalContainer>
   );
 };

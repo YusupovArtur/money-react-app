@@ -55,31 +55,31 @@ const TransactionInput: React.FC<{
   };
 
   return (
-    <ModalContainer
-      isOpened={isShowInput}
-      setIsOpened={setIsShowInput}
-      style={{ maxWidth: '35rem', width: '100vw' }}
-      className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"
-    >
-      <InputBar
-        addButtonLabel="Транзакция"
-        setIsOpened={setIsShowInput}
-        clearFunction={clearFunction}
-        addFunction={addFunction}
-      ></InputBar>
-      <TransactionForm
-        formData={formData}
-        setFormData={setFormData}
-        type={type}
-        stringNumber={stringNumber}
-        setStringNumber={setStringNumber}
-        dateState={dateState}
-        setDateState={setDateState}
-        fromWallet={fromWallet}
-        setFromWallet={setFromWallet}
-        toWallet={toWallet}
-        setToWallet={setToWallet}
-      ></TransactionForm>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+      <div
+        style={{ maxWidth: '35rem', width: '100vw' }}
+        className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"
+      >
+        <InputBar
+          addButtonLabel="Транзакция"
+          setIsOpened={setIsShowInput}
+          clearFunction={clearFunction}
+          addFunction={addFunction}
+        ></InputBar>
+        <TransactionForm
+          formData={formData}
+          setFormData={setFormData}
+          type={type}
+          stringNumber={stringNumber}
+          setStringNumber={setStringNumber}
+          dateState={dateState}
+          setDateState={setDateState}
+          fromWallet={fromWallet}
+          setFromWallet={setFromWallet}
+          toWallet={toWallet}
+          setToWallet={setToWallet}
+        ></TransactionForm>
+      </div>
     </ModalContainer>
   );
 };

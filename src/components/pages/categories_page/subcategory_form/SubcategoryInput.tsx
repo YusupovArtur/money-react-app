@@ -36,19 +36,16 @@ const SubcategoryInput: React.FC<SubcategoryInputProps> = ({
   };
 
   return (
-    <ModalContainer
-      isOpened={isShowInput}
-      setIsOpened={setIsShowInput}
-      style={{ maxWidth: '35rem', width: '100vw' }}
-      className="bg-body-tertiary shadow-sm p-3 rounded-4"
-    >
-      <InputBar
-        addButtonLabel="Подкатегория"
-        setIsOpened={setIsShowInput}
-        clearFunction={() => setFormData({ name: '', iconName: 'Card', description: '' })}
-        addFunction={addFunction}
-      ></InputBar>
-      <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+      <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
+        <InputBar
+          addButtonLabel="Подкатегория"
+          setIsOpened={setIsShowInput}
+          clearFunction={() => setFormData({ name: '', iconName: 'Card', description: '' })}
+          addFunction={addFunction}
+        ></InputBar>
+        <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
+      </div>
     </ModalContainer>
   );
 };

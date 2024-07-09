@@ -53,32 +53,29 @@ const WalletOpened: React.FC<{
   };
 
   return (
-    <ModalContainer
-      isOpened={isOpened}
-      setIsOpened={isEdit ? undefined : setIsOpened}
-      style={{ maxWidth: '40rem', width: '100vw' }}
-      className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4"
-    >
-      <EditBar
-        closeFunction={() => setIsOpened(false)}
-        clearFunction={clearFunction}
-        updateFunction={updateFunction}
-        deleteFunction={deleteFunction}
-        isEdit={isEdit}
-        setIsEdit={setIsEdit}
-        itemType="счёт"
-        itemName={wallet.name}
-      ></EditBar>
-      {isEdit ? (
-        <WalletForm
-          formData={formData}
-          setFormData={setFormData}
-          stringNumber={stringNumber}
-          setStringNumber={setStringNumber}
-        ></WalletForm>
-      ) : (
-        <WalletInfo wallet={wallet}></WalletInfo>
-      )}
+    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened}>
+      <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
+        <EditBar
+          closeFunction={() => setIsOpened(false)}
+          clearFunction={clearFunction}
+          updateFunction={updateFunction}
+          deleteFunction={deleteFunction}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          itemType="счёт"
+          itemName={wallet.name}
+        ></EditBar>
+        {isEdit ? (
+          <WalletForm
+            formData={formData}
+            setFormData={setFormData}
+            stringNumber={stringNumber}
+            setStringNumber={setStringNumber}
+          ></WalletForm>
+        ) : (
+          <WalletInfo wallet={wallet}></WalletInfo>
+        )}
+      </div>
     </ModalContainer>
   );
 };

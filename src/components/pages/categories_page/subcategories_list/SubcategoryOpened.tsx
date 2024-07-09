@@ -55,27 +55,24 @@ const SubcategoryOpened: React.FC<{
   };
 
   return (
-    <ModalContainer
-      isOpened={isOpened}
-      setIsOpened={isEdit ? undefined : setIsOpened}
-      style={{ maxWidth: '40rem', width: '100vw' }}
-      className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4"
-    >
-      <EditBar
-        closeFunction={() => setIsOpened(false)}
-        clearFunction={clearFunction}
-        deleteFunction={deleteFunction}
-        updateFunction={updateFunction}
-        itemType="подкатегорию"
-        itemName={subcategory.name}
-        isEdit={isEdit}
-        setIsEdit={setIsEdit}
-      ></EditBar>
-      {isEdit ? (
-        <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
-      ) : (
-        <SubcategoryOpenedInfo subcategory={subcategory} color={color}></SubcategoryOpenedInfo>
-      )}
+    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened}>
+      <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
+        <EditBar
+          closeFunction={() => setIsOpened(false)}
+          clearFunction={clearFunction}
+          deleteFunction={deleteFunction}
+          updateFunction={updateFunction}
+          itemType="подкатегорию"
+          itemName={subcategory.name}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+        ></EditBar>
+        {isEdit ? (
+          <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
+        ) : (
+          <SubcategoryOpenedInfo subcategory={subcategory} color={color}></SubcategoryOpenedInfo>
+        )}
+      </div>
     </ModalContainer>
   );
 };

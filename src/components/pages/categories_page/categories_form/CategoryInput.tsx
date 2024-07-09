@@ -27,19 +27,16 @@ const CategoryInput: React.FC<{
   };
 
   return (
-    <ModalContainer
-      isOpened={isShowInput}
-      setIsOpened={setIsShowInput}
-      style={{ maxWidth: '35rem', width: '100vw' }}
-      className="bg-body-tertiary shadow-sm p-3 rounded-4"
-    >
-      <InputBar
-        addButtonLabel="Категория"
-        setIsOpened={setIsShowInput}
-        clearFunction={() => setFormData({ name: '', iconName: 'Card', color: '#ced4da', type: 'expense', description: '' })}
-        addFunction={addFunction}
-      ></InputBar>
-      <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+      <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
+        <InputBar
+          addButtonLabel="Категория"
+          setIsOpened={setIsShowInput}
+          clearFunction={() => setFormData({ name: '', iconName: 'Card', color: '#ced4da', type: 'expense', description: '' })}
+          addFunction={addFunction}
+        ></InputBar>
+        <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
+      </div>
     </ModalContainer>
   );
 };

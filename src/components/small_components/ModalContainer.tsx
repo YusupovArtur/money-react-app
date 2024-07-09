@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
+import ReactDOM from 'react-dom';
 
 const useMount = (isOpened: boolean) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -19,35 +20,38 @@ const ModalContainer: React.FC<{
   children: ReactNode;
   isOpened: boolean;
   setIsOpened?: React.Dispatch<React.SetStateAction<boolean>>;
-  className?: string;
-  style?: React.CSSProperties;
+  closeFunction?: () => void;
   zIndex?: number;
-}> = ({ children, isOpened, setIsOpened, className, style, zIndex }) => {
+}> = ({ children, isOpened, setIsOpened, closeFunction, zIndex }) => {
   const isMounted = useMount(isOpened);
+  const modalContainerRef = useRef<HTMLDivElement>(null);
+
+  const backgrowndClickHandler = (event: MouseEvent) => {
+    if (modalContainerRef.current && !modalContainerRef.current.contains(event.target as Node)) {
+      if (setIsOpened) setIsOpened(false);
+      if (closeFunction) closeFunction();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', backgrowndClickHandler);
+    return () => document.removeEventListener('mousedown', backgrowndClickHandler);
+  }, []);
 
   if (!isMounted) return null;
   else
-    return (
+    return ReactDOM.createPortal(
       <div
-        onMouseDown={(event) => {
-          event.stopPropagation();
-          if (event.button === 0 && setIsOpened) setIsOpened(false);
-        }}
         style={{ position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, zIndex: zIndex }}
         className={`bg-body-backout d-flex justify-content-center align-items-center ${
           isOpened ? 'appear-backgrownd-animation-150' : 'close-backgrownd-animation-150'
         }`}
       >
-        <div
-          onMouseDown={(event) => {
-            event.stopPropagation();
-          }}
-          style={style}
-          className={`${isOpened ? 'appear-animation-150' : 'close-animation-150'} ${className && className}`}
-        >
+        <div ref={modalContainerRef} className={`${isOpened ? 'appear-animation-150' : 'close-animation-150'}`}>
           {children}
         </div>
-      </div>
+      </div>,
+      document.body,
     );
 };
 

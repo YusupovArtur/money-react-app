@@ -74,54 +74,57 @@ function ProfilePhoto(): React.ReactElement {
         </button>
       </div>
 
-      <ModalContainer
-        isOpened={isOpened}
-        setIsOpened={setIsOpened}
-        style={{ maxWidth: '35rem', width: '100vw' }}
-        className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4"
-      >
-        <canvas
-          onWheel={(event) => {
-            const dscale = event.deltaY / Math.abs(event.deltaY) > 0 ? 1 : -1;
-            rescaleImage(image.current, canvasRef.current, image_dx, image_dy, scale, dscale);
-            drawImage(image.current, canvasRef.current, image_dx.current, image_dy.current, scale.current);
-          }}
-          onMouseDown={() => (isMousePressed.current = true)}
-          onMouseUp={() => (isMousePressed.current = false)}
-          onMouseLeave={() => (isMousePressed.current = false)}
-          onMouseMove={(event) => {
-            if (isMousePressed.current) {
-              moveImage(image.current, canvasRef.current, image_dx, image_dy, scale, event.movementX, event.movementY);
+      <ModalContainer isOpened={isOpened} setIsOpened={setIsOpened}>
+        <div
+          style={{ maxWidth: '35rem', width: '100vw' }}
+          className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4"
+        >
+          <canvas
+            onWheel={(event) => {
+              const dscale = event.deltaY / Math.abs(event.deltaY) > 0 ? 1 : -1;
+              rescaleImage(image.current, canvasRef.current, image_dx, image_dy, scale, dscale);
               drawImage(image.current, canvasRef.current, image_dx.current, image_dy.current, scale.current);
-            }
-          }}
-          ref={canvasRef}
-          className="align-self-center rounded-circle"
-          style={{ maxWidth: '33rem', width: '90vmin', maxHeight: '33rem', height: '90vmin', cursor: 'move' }}
-        ></canvas>
-        <div className="d-flex justify-content-center align-items-center mt-2">
-          <button
-            onClick={() => uploadImage(canvasRef.current, userID, { setIsLoading, setErrorMessage }, photoURLUpdater)}
-            className="btn btn-primary d-flex justify-content-center align-items-center me-2"
-          >
-            {isLoading ? (
-              <div className="spinner-border text-light" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            ) : (
-              <CloudPlusSVG iconSize="1.5rem"></CloudPlusSVG>
-            )}
-            <span className="ms-1">Сохранить</span>
-          </button>
-          <button onClick={() => setIsOpened(false)} className="btn btn-danger d-flex justify-content-center align-items-center">
-            <CrossIconSVG iconSize="1.5rem"></CrossIconSVG>
-          </button>
-        </div>
-        {errorMessage && (
-          <div className="alert alert-warning align-self-stretch px-2 py-1 m-0 mt-2" role="alert">
-            {errorMessage}
+            }}
+            onMouseDown={() => (isMousePressed.current = true)}
+            onMouseUp={() => (isMousePressed.current = false)}
+            onMouseLeave={() => (isMousePressed.current = false)}
+            onMouseMove={(event) => {
+              if (isMousePressed.current) {
+                moveImage(image.current, canvasRef.current, image_dx, image_dy, scale, event.movementX, event.movementY);
+                drawImage(image.current, canvasRef.current, image_dx.current, image_dy.current, scale.current);
+              }
+            }}
+            ref={canvasRef}
+            className="align-self-center rounded-circle"
+            style={{ maxWidth: '33rem', width: '90vmin', maxHeight: '33rem', height: '90vmin', cursor: 'move' }}
+          ></canvas>
+          <div className="d-flex justify-content-center align-items-center mt-2">
+            <button
+              onClick={() => uploadImage(canvasRef.current, userID, { setIsLoading, setErrorMessage }, photoURLUpdater)}
+              className="btn btn-primary d-flex justify-content-center align-items-center me-2"
+            >
+              {isLoading ? (
+                <div className="spinner-border text-light" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              ) : (
+                <CloudPlusSVG iconSize="1.5rem"></CloudPlusSVG>
+              )}
+              <span className="ms-1">Сохранить</span>
+            </button>
+            <button
+              onClick={() => setIsOpened(false)}
+              className="btn btn-danger d-flex justify-content-center align-items-center"
+            >
+              <CrossIconSVG iconSize="1.5rem"></CrossIconSVG>
+            </button>
           </div>
-        )}
+          {errorMessage && (
+            <div className="alert alert-warning align-self-stretch px-2 py-1 m-0 mt-2" role="alert">
+              {errorMessage}
+            </div>
+          )}
+        </div>
       </ModalContainer>
     </>
   );

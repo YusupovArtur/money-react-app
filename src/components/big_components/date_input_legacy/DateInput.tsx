@@ -60,18 +60,15 @@ const DateInput: React.FC<{
           )}
         </ul>
       )}
-      <ModalContainer
-        isOpened={isShowDatePicker && isDeviceMobile}
-        setIsOpened={setIsShowDatePicker}
-        className="p-2 border rounded bg-body-tertiary"
-        zIndex={zIndex}
-      >
-        <DateInputDatePicker
-          dateInputValue={dateInputValue}
-          setDateInputValue={setDateInputValue}
-          setIsShowDatepicker={setIsShowDatePicker}
-          deviseType={deviseType}
-        ></DateInputDatePicker>
+      <ModalContainer isOpened={isShowDatePicker && isDeviceMobile} setIsOpened={setIsShowDatePicker}>
+        <div className="p-2 border rounded bg-body-tertiary">
+          <DateInputDatePicker
+            dateInputValue={dateInputValue}
+            setDateInputValue={setDateInputValue}
+            setIsShowDatepicker={setIsShowDatePicker}
+            deviseType={deviseType}
+          ></DateInputDatePicker>
+        </div>
       </ModalContainer>
     </div>
   );
