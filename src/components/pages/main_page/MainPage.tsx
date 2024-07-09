@@ -183,6 +183,8 @@ function MainPage(): React.ReactElement {
     // }
   };
 
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+
   return (
     <div className="d-flex flex-column justify-content-center align-content-center">
       <p>Main</p>
@@ -195,9 +197,24 @@ function MainPage(): React.ReactElement {
         <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true}></DateInputLegacy>
         <DateInput dateState={dateState} setDateState={setDateState}></DateInput>
         <DropdownMenu
-          DropdownButton={<button className="btn btn-primary">Open</button>}
-          DropdownItem={
-            <ul>
+          DropdownToggle={<button className="btn btn-primary">Open</button>}
+          DropdownMenu={
+            <ul style={{ backgroundColor: 'red' }} className="m-0">
+              <li>
+                <a className="dropdown-item" href="#">
+                  Action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Another action
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Something else here
+                </a>
+              </li>{' '}
               <li>
                 <a className="dropdown-item" href="#">
                   Action
@@ -215,6 +232,12 @@ function MainPage(): React.ReactElement {
               </li>
             </ul>
           }
+          isOpened={isOpened}
+          setIsOpened={setIsOpened}
+          // openFunction={() => console.log('open')}
+          // closeFunction={() => console.log('close')}
+          menuAligmentY="bottom"
+          menuAligmentX="left"
         ></DropdownMenu>
       </div>
     </div>
