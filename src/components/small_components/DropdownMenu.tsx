@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, ReactNode, useState } from 'react';
 
-const getDropdownMenuPosition = (aligmentY: 'bottom' | 'top', aligmentX: 'left' | 'right'): React.CSSProperties => {
-  if (aligmentY === 'bottom') {
-    if (aligmentX === 'left') return { top: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
+const getDropdownMenuPosition = (alignmentY: 'bottom' | 'top', alignmentX: 'left' | 'right'): React.CSSProperties => {
+  if (alignmentY === 'bottom') {
+    if (alignmentX === 'left') return { top: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
     else return { top: '100%', right: '0%', position: 'absolute', display: 'inline-block' };
   } else {
-    if (aligmentX === 'left') return { bottom: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
+    if (alignmentX === 'left') return { bottom: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
     else return { bottom: '100%', right: '0%', position: 'absolute', display: 'inline-block' };
   }
 };
@@ -19,8 +19,8 @@ const DropdownMenu: React.FC<{
   closeFunction?: () => void;
   isCloseWhenClickInside?: boolean;
   isCloseWhenClickOutside?: boolean;
-  menuAligmentY?: 'bottom' | 'top';
-  menuAligmentX?: 'left' | 'right';
+  menuAlignmentY?: 'bottom' | 'top';
+  menuAlignmentX?: 'left' | 'right';
 }> = ({
   DropdownToggle,
   DropdownMenu,
@@ -30,14 +30,14 @@ const DropdownMenu: React.FC<{
   closeFunction,
   isCloseWhenClickInside = true,
   isCloseWhenClickOutside = true,
-  menuAligmentY = 'top',
-  menuAligmentX = 'left',
+  menuAlignmentY = 'top',
+  menuAlignmentX = 'left',
 }) => {
   const dropdownToggleRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
   const [menuContainerStyle, setMenuContainerStyle] = useState<React.CSSProperties>(
-    getDropdownMenuPosition(menuAligmentY, menuAligmentX),
+    getDropdownMenuPosition(menuAlignmentY, menuAlignmentX),
   );
 
   const handleClickDropdownToggle = (event: React.MouseEvent<HTMLDivElement>) => {

@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-type-checked',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
   ],
@@ -24,6 +24,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint', 'react'],
   rules: {
@@ -35,6 +37,7 @@ module.exports = {
     ],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
+    'no-empty': 'warn'
     // '@typescript-eslint/no-explicit-any':
   },
 };
