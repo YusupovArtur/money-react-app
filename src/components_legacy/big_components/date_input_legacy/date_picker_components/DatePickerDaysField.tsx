@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { datePickerDayCellPropsType } from '../types.ts';
 import { getDatePickerNewValue } from '../functions.ts';
 import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from '../constants.ts';
 
 const DatePickerDayCell: FC<{
   datePickerDayCellProps: datePickerDayCellPropsType;
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setDateInputValue: Dispatch<SetStateAction<string>>;
 }> = ({ datePickerDayCellProps: cellsProps, setDateInputValue }) => {
   const handleDatepickerSetDate = () => {
     const cellsDate = new Date(cellsProps.timestamp);
@@ -13,7 +13,6 @@ const DatePickerDayCell: FC<{
       const stringDay = cellsDate.getDate().toString().padStart(2, '0');
       const stringMonth = (cellsDate.getMonth() + 1).toString().padStart(2, '0');
       const stringYear = cellsDate.getFullYear().toString().padStart(4, '0');
-      const newValue = getDatePickerNewValue(value, `${stringDay}.${stringMonth}.${stringYear}`);
       return getDatePickerNewValue(value, `${stringDay}.${stringMonth}.${stringYear}`);
     });
   };
@@ -56,7 +55,7 @@ const DatePickerDayCell: FC<{
 
 const DatePickerDaysField: FC<{
   datePickerDaysField: datePickerDayCellPropsType[][];
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setDateInputValue: Dispatch<SetStateAction<string>>;
 }> = ({ datePickerDaysField, setDateInputValue }) => {
   return (
     <div className="container text-center">

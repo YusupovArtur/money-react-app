@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useRef } from 'react';
 import { datePickerYearCellPropsType } from '../../../big_components/date_input_legacy/types';
-import { DATE_PICKER_CELL_SIZE, MIN_YEAR, MAX_YEAR } from '../../../big_components/date_input_legacy/constants';
+import { DATE_PICKER_CELL_SIZE, MAX_YEAR, MIN_YEAR } from '../../../big_components/date_input_legacy/constants';
 
 const DatepickerYearCell: FC<{
   datePickerYearCellProps: datePickerYearCellPropsType;
-  setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
-  setDisplayedField: React.Dispatch<React.SetStateAction<'day' | 'month' | 'year'>>;
+  setCurrentYear: Dispatch<SetStateAction<number>>;
+  setDisplayedField: Dispatch<SetStateAction<'day' | 'month' | 'year'>>;
 }> = ({ datePickerYearCellProps, setCurrentYear, setDisplayedField }) => {
   return (
     <div
@@ -31,8 +31,8 @@ const DatepickerYearCell: FC<{
 };
 
 const DatepickerYearsField: FC<{
-  setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
-  setDisplayedField: React.Dispatch<React.SetStateAction<'day' | 'month' | 'year'>>;
+  setCurrentYear: Dispatch<SetStateAction<number>>;
+  setDisplayedField: Dispatch<SetStateAction<'day' | 'month' | 'year'>>;
   currentYear: number;
 }> = ({ setCurrentYear, setDisplayedField, currentYear }) => {
   const datePickerYearsFieldRef = useRef<HTMLInputElement | null>(null);

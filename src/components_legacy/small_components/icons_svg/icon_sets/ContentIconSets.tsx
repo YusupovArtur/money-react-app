@@ -1,22 +1,23 @@
-import { FC } from 'react';
-import BeautyIcon from '../../../small_components/icons_svg/icon_sets/BeautyIcons';
-import BuildingIcon from '../../../small_components/icons_svg/icon_sets/BuildingsIconsSVG';
-import CompanyIcon from '../../../small_components/icons_svg/icon_sets/CompanyIconsSVG';
-import EducationIcon from '../../../small_components/icons_svg/icon_sets/EducationIcons';
-import ElectronicsIcon from '../../../small_components/icons_svg/icon_sets/ElectronicsIcons';
-import FamilyIcon from '../../../small_components/icons_svg/icon_sets/FamilyIcons';
-import FinanceIcon from '../../../small_components/icons_svg/icon_sets/FinanceIconsSVG';
-import FoodIcon from '../../../small_components/icons_svg/icon_sets/FoodsIcons';
-import GoodsIcon from '../../../small_components/icons_svg/icon_sets/GoodsIcons';
-import HealthIcon from '../../../small_components/icons_svg/icon_sets/HealthIconsSVG';
-import HouseIcon from '../../../small_components/icons_svg/icon_sets/HouseIcons';
-import PaymentIcon from '../../../small_components/icons_svg/icon_sets/PaymentsIcons';
-import RecreationIcon from '../../../small_components/icons_svg/icon_sets/RecreationIcons';
-import SportIcon from '../../../small_components/icons_svg/icon_sets/SportIcons';
-import TransportIcon from '../../../small_components/icons_svg/icon_sets/TransportIconsSVG';
+import { FC, isValidElement, ReactNode } from 'react';
+import BeautyIcon from './BeautyIcons.tsx';
+import BuildingIcon from './BuildingsIconsSVG.tsx';
+import CompanyIcon from './CompanyIconsSVG.tsx';
+import EducationIcon from './EducationIcons.tsx';
+import ElectronicsIcon from './ElectronicsIcons.tsx';
+import FamilyIcon from './FamilyIcons.tsx';
+import FinanceIcon from './FinanceIconsSVG.tsx';
+import FoodIcon from './FoodsIcons.tsx';
+import GoodsIcon from './GoodsIcons.tsx';
+import HealthIcon from './HealthIconsSVG.tsx';
+import HouseIcon from './HouseIcons.tsx';
+import PaymentIcon from './PaymentsIcons.tsx';
+import RecreationIcon from './RecreationIcons.tsx';
+import SportIcon from './SportIcons.tsx';
+import TransportIcon from './TransportIconsSVG.tsx';
 
-const isDivContainer = (node: React.ReactNode): boolean => {
-  if (React.isValidElement(node)) {
+// TODO: Need to refactor ContentIconSets
+const isDivContainer = (node: ReactNode): boolean => {
+  if (isValidElement(node)) {
     const { type } = node;
     return type === 'div';
   }
@@ -24,7 +25,7 @@ const isDivContainer = (node: React.ReactNode): boolean => {
 };
 
 const ContentIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
-  let icon: React.ReactNode = null;
+  let icon: ReactNode = null;
 
   icon = BeautyIcon({ iconName, iconSize });
   if (!isDivContainer(icon)) return icon;

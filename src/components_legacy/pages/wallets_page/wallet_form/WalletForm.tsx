@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 // Menus imports
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
 import { WALLET_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
@@ -10,9 +10,9 @@ import NumberInput from '../../../small_components/NumberInput';
 
 const WalletForm: FC<{
   formData: walletAddType;
-  setFormData: React.Dispatch<React.SetStateAction<walletAddType>>;
+  setFormData: Dispatch<SetStateAction<walletAddType>>;
   stringNumber: string;
-  setStringNumber: React.Dispatch<React.SetStateAction<string>>;
+  setStringNumber: Dispatch<SetStateAction<string>>;
 }> = ({ formData, setFormData, stringNumber, setStringNumber }) => {
   return (
     <div className="d-flex flex-column">

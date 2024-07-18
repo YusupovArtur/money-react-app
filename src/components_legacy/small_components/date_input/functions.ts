@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
-import { MIN_YEAR, MAX_YEAR } from './constants.ts';
+import { MutableRefObject } from 'react';
+import { MAX_YEAR, MIN_YEAR } from './constants.ts';
 import { dateStateType } from './types.ts';
 
 export const getDeviceType = (): 'mobile' | 'desktop' => {
@@ -85,7 +85,7 @@ export const getUpdatedByKeyDateStatePart = (
 };
 
 export const setDateInputSelection = (
-  dateInputsRef: React.MutableRefObject<HTMLInputElement | null>,
+  dateInputsRef: MutableRefObject<HTMLInputElement | null>,
   selectedPart: 'day' | 'month' | 'year',
 ): void => {
   if (

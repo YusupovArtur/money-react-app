@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 // Input components_legacy
-import ModalContainer from '../../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import SubcategoryForm from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import { serverResponseStatusHooks, subcategoryAddType } from 'store/types';
@@ -11,9 +11,9 @@ import { addSubCategory } from 'store/slices/categoriesSlice';
 interface SubcategoryInputProps {
   categoryID: string;
   isShowInput: boolean;
-  setIsShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowInput: Dispatch<SetStateAction<boolean>>;
   formData: subcategoryAddType;
-  setFormData: React.Dispatch<React.SetStateAction<subcategoryAddType>>;
+  setFormData: Dispatch<SetStateAction<subcategoryAddType>>;
 }
 
 const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isShowInput, setIsShowInput, formData, setFormData }) => {
@@ -33,10 +33,10 @@ const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isShowInput, 
     <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputBar
-          addButtonLabel="Подкатегория"
+          addButtonsLabel="Подкатегория"
           setIsOpened={setIsShowInput}
-          clearFunction={() => setFormData({ name: '', iconName: 'Card', description: '' })}
-          addFunction={addFunction}
+          onClear={() => setFormData({ name: '', iconName: 'Card', description: '' })}
+          onAdd={addFunction}
         ></InputBar>
         <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
       </div>

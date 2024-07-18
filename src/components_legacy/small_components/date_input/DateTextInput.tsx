@@ -1,16 +1,17 @@
-import React, { useRef, useEffect } from 'react';
+import { Dispatch, FC, KeyboardEvent, SetStateAction, useEffect, useRef } from 'react';
 import {
   getDeviceType,
   getStringDateFromDateState,
   getTimestampFromDateState,
   getUpdatedByKeyDateStatePart,
-} from '../../small_components/date_input/functions';
-import { setDateInputSelection, getValidatedDateStateValue } from '../../small_components/date_input/functions';
-import { dateStateType } from '../../small_components/date_input/types';
+  getValidatedDateStateValue,
+  setDateInputSelection,
+} from './functions.ts';
+import { dateStateType } from './types.ts';
 
 const DateTextInput: FC<{
   dateState: dateStateType;
-  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setDateState: Dispatch<SetStateAction<dateStateType>>;
   setTimestampFunction?: (timestamp: number) => void;
   deviseType?: 'desktop' | 'mobile';
 }> = ({ dateState, setDateState, setTimestampFunction, deviseType }) => {
@@ -24,7 +25,7 @@ const DateTextInput: FC<{
   });
 
   // Set date input value
-  function setDateInputValueByKey(event: React.KeyboardEvent<HTMLInputElement>) {
+  function setDateInputValueByKey(event: KeyboardEvent<HTMLInputElement>) {
     const newDateStatePart = getUpdatedByKeyDateStatePart(dateState, event.key, selectedPartRef.current);
     switch (selectedPartRef.current) {
       case 'day':
@@ -61,7 +62,7 @@ const DateTextInput: FC<{
   }
 
   // Clear date input value
-  const clearDateStateValue = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const clearDateStateValue = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Backspace') {
       switch (selectedPartRef.current) {
         case 'day':
@@ -102,7 +103,7 @@ const DateTextInput: FC<{
     }
   };
 
-  const setDateInputSelectionByKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const setDateInputSelectionByKeyboard = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'ArrowRight') {
       switch (selectedPartRef.current) {
         case 'day':

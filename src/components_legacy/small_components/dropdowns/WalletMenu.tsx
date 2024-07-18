@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import { useAppSelector } from 'store/hook';
 import { walletType } from 'store/types';
 import ContentIcon from '../../small_components/icons_svg/icon_sets/ContentIconSets';
 
 const WalletMenu: FC<{
   wallet: walletType | undefined;
-  setWallet: React.Dispatch<React.SetStateAction<walletType | undefined>>;
+  setWallet: Dispatch<SetStateAction<walletType | undefined>>;
   setWalletIDFunction?: (walletID: string) => void;
   selectedWallet?: walletType | undefined;
 }> = ({ wallet, setWallet, setWalletIDFunction, selectedWallet }) => {

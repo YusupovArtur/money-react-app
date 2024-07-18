@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
-import { operationType, serverResponseStatusHooks } from 'store/types';
+import { operationType, serverResponseStatusHooks, walletType } from 'store/types';
 // Input components_legacy
 import TransactionForm from '../../../pages/transactions_page/transaction_form/TransactionForm';
-import ModalContainer from '../../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import { dateStateType } from '../../../small_components/date_input/types';
 import { getDateStateFromTimestamp } from '../../../small_components/date_input/functions';
-import { walletType } from 'store/types';
 
 const TransactionInput: FC<{
   isShowInput: boolean;
-  setIsShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowInput: Dispatch<SetStateAction<boolean>>;
   type: 'expense' | 'income' | 'transfer' | 'optional';
 }> = ({ isShowInput, setIsShowInput, type }) => {
   const dispatch = useAppDispatch();
@@ -61,10 +60,10 @@ const TransactionInput: FC<{
         className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"
       >
         <InputBar
-          addButtonLabel="Транзакция"
+          addButtonsLabel="Транзакция"
           setIsOpened={setIsShowInput}
-          clearFunction={clearFunction}
-          addFunction={addFunction}
+          onClear={clearFunction}
+          onAdd={addFunction}
         ></InputBar>
         <TransactionForm
           formData={formData}

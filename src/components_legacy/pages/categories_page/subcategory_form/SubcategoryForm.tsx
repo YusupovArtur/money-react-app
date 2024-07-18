@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
 import { CATEGOTY_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
 import { subcategoryAddType } from 'store/types';
 
 const SubcategoryForm: FC<{
   formData: subcategoryAddType;
-  setFormData: React.Dispatch<React.SetStateAction<subcategoryAddType>>;
+  setFormData: Dispatch<SetStateAction<subcategoryAddType>>;
 }> = ({ formData, setFormData }) => {
   return (
     <div className="d-flex flex-column">

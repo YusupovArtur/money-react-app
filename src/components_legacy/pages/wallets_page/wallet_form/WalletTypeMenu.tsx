@@ -1,11 +1,11 @@
-import { React } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { walletAddType } from 'store/types';
-import { getWalletTypeName } from '../../../pages/wallets_page/functions';
+import { getWalletTypeName } from '../functions.ts';
 
 const WalletTypeMenu: FC<{
   walletType: 'debit' | 'credit' | 'investment';
-  setType?: React.Dispatch<React.SetStateAction<'debit' | 'credit' | 'investment'>>;
-  setFormData?: React.Dispatch<React.SetStateAction<walletAddType>>;
+  setType?: Dispatch<SetStateAction<'debit' | 'credit' | 'investment'>>;
+  setFormData?: Dispatch<SetStateAction<walletAddType>>;
 }> = ({ walletType, setType, setFormData }) => {
   return (
     <div className="dropdown">

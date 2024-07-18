@@ -9,7 +9,12 @@ export default defineConfig({
       components: '/src/components_legacy',
       store: '/src/store',
       styles: '/src/styles',
-      constants: '/src/constants',
+      shared: '/src/shared',
+      entities: '/src/entities',
+      features: '/src/features',
+      widgets: '/src/widgets',
+      pages: '/src/pages',
+      app: '/src/app',
     },
   },
 });

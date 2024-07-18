@@ -1,4 +1,4 @@
-@keyframes appear-scale-opacity-animation {
+@keyframes scale-opacity-enter {
   0% {
     scale: 0.5;
     opacity: 0;
@@ -9,7 +9,7 @@
   }
 }
 
-@keyframes close-scale-opacity-animation {
+@keyframes scale-opacity-out {
   0% {
     scale: 1;
     opacity: 1;
@@ -20,7 +20,7 @@
   }
 }
 
-@keyframes appear-opacity-animation {
+@keyframes opacity-enter {
   0% {
     opacity: 0;
   }
@@ -29,7 +29,7 @@
   }
 }
 
-@keyframes close-opacity-animation {
+@keyframes opacity-out {
   0% {
     opacity: 1;
   }
@@ -38,18 +38,18 @@
   }
 }
 
-.appear-animation-150 {
-  animation: appear-scale-opacity-animation 150ms linear forwards;
+.scale-opacity-enter-150 {
+  animation: scale-opacity-enter 150ms linear forwards;
 }
 
-.close-animation-150 {
-  animation: close-scale-opacity-animation 150ms linear forwards;
+.scale-opacity-out-150 {
+  animation: scale-opacity-out 150ms linear forwards;
 }
 
-.appear-background-animation-150 {
-  animation: appear-opacity-animation 150ms linear forwards;
+.opacity-enter-150 {
+  animation: opacity-enter 150ms linear forwards;
 }
 
-.close-background-animation-150 {
-  animation: close-opacity-animation 150ms linear forwards;
+.opacity-out-150 {
+  animation: opacity-out 150ms linear forwards;
 }

@@ -1,6 +1,16 @@
-import React, { useEffect, useRef, ReactNode, useState } from 'react';
+import {
+  CSSProperties,
+  Dispatch,
+  FC,
+  MouseEvent as ReactMouseEvent,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-const getDropdownMenuPosition = (alignmentY: 'bottom' | 'top', alignmentX: 'left' | 'right'): React.CSSProperties => {
+const getDropdownMenuPosition = (alignmentY: 'bottom' | 'top', alignmentX: 'left' | 'right'): CSSProperties => {
   if (alignmentY === 'bottom') {
     if (alignmentX === 'left') return { top: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
     else return { top: '100%', right: '0%', position: 'absolute', display: 'inline-block' };
@@ -14,7 +24,7 @@ const DropdownMenu: FC<{
   DropdownToggle: ReactNode;
   DropdownMenu: ReactNode;
   isOpened: boolean;
-  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
   openFunction?: () => void;
   closeFunction?: () => void;
   isCloseWhenClickInside?: boolean;
@@ -36,11 +46,11 @@ const DropdownMenu: FC<{
   const dropdownToggleRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
-  const [menuContainerStyle, setMenuContainerStyle] = useState<React.CSSProperties>(
+  const [menuContainerStyle, setMenuContainerStyle] = useState<CSSProperties>(
     getDropdownMenuPosition(menuAlignmentY, menuAlignmentX),
   );
 
-  const handleClickDropdownToggle = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleClickDropdownToggle = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (!dropdownMenuRef.current || (dropdownMenuRef.current && !dropdownMenuRef.current.contains(event.target as Node))) {
       console.log('toggle');
       setIsOpened((state) => {

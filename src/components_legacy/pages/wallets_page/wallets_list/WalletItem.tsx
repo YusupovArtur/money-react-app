@@ -1,9 +1,9 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
 import { walletType } from 'store/types';
 // Wallet components_legacy
 import WalletOpened from '../../../pages/wallets_page/wallets_list/WalletOpened';
 import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
-import { getStringSum } from '../../../pages/wallets_page/functions';
+import { getStringSum } from '../functions.ts';
 
 const WalletItem: FC<{
   wallet: walletType;

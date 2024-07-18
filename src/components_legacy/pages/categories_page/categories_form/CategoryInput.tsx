@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Input components_legacy
-import ModalContainer from '../../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import CategoryForm from '../../../pages/categories_page/categories_form/CategoryForm';
 import { categoryAddType, serverResponseStatusHooks } from 'store/types';
@@ -10,7 +10,7 @@ import { addCategory } from 'store/slices/categoriesSlice';
 
 const CategoryInput: FC<{
   isShowInput: boolean;
-  setIsShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowInput: Dispatch<SetStateAction<boolean>>;
 }> = ({ isShowInput, setIsShowInput }) => {
   const dispatch = useAppDispatch();
 
@@ -30,9 +30,9 @@ const CategoryInput: FC<{
     <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputBar
-          addButtonLabel="Категория"
+          addButtonsLabel="Категория"
           setIsOpened={setIsShowInput}
-          clearFunction={() =>
+          onClear={() =>
             setFormData({
               name: '',
               iconName: 'Card',
@@ -41,7 +41,7 @@ const CategoryInput: FC<{
               description: '',
             })
           }
-          addFunction={addFunction}
+          onAdd={addFunction}
         ></InputBar>
         <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
       </div>

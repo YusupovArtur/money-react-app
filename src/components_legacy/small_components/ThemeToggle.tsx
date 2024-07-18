@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { useAppSelector, useAppDispatch } from 'store/hook.ts';
-import { changeThemeMode, changeThemeDisplay } from 'store/slices/themeSlice';
+import { useAppDispatch, useAppSelector } from 'store/hook.ts';
+import { changeThemeDisplay, changeThemeMode } from 'store/slices/themeSlice';
 import { ThemeIcon } from './icons_svg/IconsSVG.tsx';
 
-const ThemeToggle = (): React.ReactElement => {
+const ThemeToggle: FC = () => {
   const themeMode: 'light' | 'dark' | 'auto' = useAppSelector((store) => store.theme.themeMode);
   const dispatch = useAppDispatch();
   const iconSize: string = '23px';

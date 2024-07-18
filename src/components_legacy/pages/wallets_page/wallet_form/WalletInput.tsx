@@ -1,16 +1,16 @@
-import { useState, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addWallet } from 'store/slices/walletsSlice';
 import { serverResponseStatusHooks, walletAddType } from 'store/types';
 // Input components_legacy
-import ModalContainer from '../../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 
 const WalletInput: FC<{
   isShowInput: boolean;
-  setIsShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowInput: Dispatch<SetStateAction<boolean>>;
 }> = ({ isShowInput, setIsShowInput }) => {
   const dispatch = useAppDispatch();
 
@@ -36,12 +36,7 @@ const WalletInput: FC<{
   return (
     <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
-        <InputBar
-          addButtonLabel="Счет"
-          setIsOpened={setIsShowInput}
-          clearFunction={clearFunction}
-          addFunction={addFunction}
-        ></InputBar>
+        <InputBar addButtonsLabel="Счет" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction}></InputBar>
         <WalletForm
           formData={formData}
           setFormData={setFormData}

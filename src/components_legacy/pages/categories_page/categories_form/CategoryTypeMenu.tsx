@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { categoryAddType } from 'store/types';
-import { getCategoryTypeName } from '../../../pages/categories_page/functions';
+import { getCategoryTypeName } from '../functions.ts';
 
 const CategoryTypeMenu: FC<{
   categoryType: 'expense' | 'income' | 'transfer';
-  setType?: React.Dispatch<React.SetStateAction<'debit' | 'credit' | 'investment'>>;
-  setFormData?: React.Dispatch<React.SetStateAction<categoryAddType>>;
+  setType?: Dispatch<SetStateAction<'debit' | 'credit' | 'investment'>>;
+  setFormData?: Dispatch<SetStateAction<categoryAddType>>;
 }> = ({ categoryType, setType, setFormData }) => {
   return (
     <div className="dropdown">

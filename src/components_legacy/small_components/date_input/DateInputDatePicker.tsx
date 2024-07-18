@@ -1,25 +1,28 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, TouchEvent, useState } from 'react';
 // Calendar fields and components_legacy
 import DatePickerDaysField from '../../small_components/date_input/date_picker_components/DatePickerDaysField';
 import DatePickerMonthsField from '../../small_components/date_input/date_picker_components/DatePickerMonthsField';
 import DatePickerYearsField from '../../small_components/date_input/date_picker_components/DatePickerYearsField';
 import {
-  DatePickerLabel,
   DatePickerCalendarButtons,
+  DatePickerLabel,
   DatePickerModalButtons,
 } from '../../small_components/date_input/date_picker_components/DatePickerParts';
 
-import { getDatePickerDaysField } from '../../small_components/date_input/date_picker_components/functions';
+import {
+  decrementCalendar,
+  getDatePickerDaysField,
+  incrementCalendar,
+} from '../../small_components/date_input/date_picker_components/functions';
 import { getDeviceType } from '../../small_components/date_input/functions';
 import { DATE_PICKER_CELL_SIZE } from '../../small_components/date_input/constants';
-import { incrementCalendar, decrementCalendar } from '../../small_components/date_input/date_picker_components/functions';
 import { dateStateType } from '../../small_components/date_input/types';
 
 const DateInputDatePicker: FC<{
   dateState: dateStateType;
-  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setDateState: Dispatch<SetStateAction<dateStateType>>;
   setTimestampFunction?: (timestamp: number) => void;
-  setIsShowDatepicker: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShowDatepicker: Dispatch<SetStateAction<boolean>>;
   deviseType?: 'desktop' | 'mobile';
 }> = ({ dateState, setDateState, setTimestampFunction, setIsShowDatepicker, deviseType }) => {
   const [currentMonth, setCurrentMonth] = useState<number>(dateState.month ? dateState.month - 1 : new Date().getMonth());
@@ -31,12 +34,12 @@ const DateInputDatePicker: FC<{
     y1: number = 0,
     y2: number = 0;
 
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     x1 = event.changedTouches[0].clientX;
     y1 = event.changedTouches[0].clientY;
   };
-  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (event !== undefined) {
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (event) {
       x2 = event.changedTouches[0].clientX;
       y2 = event.changedTouches[0].clientY;
       const dx: number = x2 - x1,

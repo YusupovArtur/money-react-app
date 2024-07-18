@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 // Store imports
 import { subcategoryType } from 'store/types';
 // Subcategory components_legacy

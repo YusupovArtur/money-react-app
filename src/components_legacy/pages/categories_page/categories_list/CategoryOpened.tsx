@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 // Categories imports
 import CategoryForm from '../../../pages/categories_page/categories_form/CategoryForm';
 import EditBar from '../../../small_components/control_panels/EditBar';
@@ -6,15 +6,15 @@ import CategoryOpenedInfo from '../../../pages/categories_page/categories_list/C
 // Subcategories imports
 import SubcategoriesList from '../../../pages/categories_page/subcategories_list/SubcategoriesList';
 import SubcategoryInput from '../../../pages/categories_page/subcategory_form/SubcategoryInput';
-import { categoryType, categoryAddType, subcategoryAddType, serverResponseStatusHooks } from 'store/types';
+import { categoryAddType, categoryType, serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 import { PlusIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { updateCategory, deleteCategory } from 'store/slices/categoriesSlice';
+import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
 
 const CategoryOpened: FC<{
   openedCategory: { category: categoryType; isOpened: boolean };
-  setOpenedCategory: React.Dispatch<React.SetStateAction<{ category: categoryType; isOpened: boolean }>>;
+  setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
 }> = ({ openedCategory, setOpenedCategory }) => {
   const dispatch = useAppDispatch();
 

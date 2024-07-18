@@ -1,16 +1,16 @@
-import { FC, useEffect, useRef } from 'react';
-import { getDeviceType } from '../../big_components/date_input_legacy/functions';
+import { Dispatch, FC, KeyboardEvent, SetStateAction, useEffect, useRef } from 'react';
 import {
-  setDateInputSelection,
   getDateInputNewValue,
-  getZonesValuePadStart,
+  getDeviceType,
   getValidatedDateInputValue,
   getZonesNewNumberValue,
-} from '../../big_components/date_input_legacy/functions';
+  getZonesValuePadStart,
+  setDateInputSelection,
+} from './functions.ts';
 
 const DateTextInput: FC<{
   dateInputValue: string;
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
+  setDateInputValue: Dispatch<SetStateAction<string>>;
   isPeriod?: boolean;
   deviseType?: 'desktop' | 'mobile';
 }> = ({ dateInputValue, setDateInputValue, isPeriod = false, deviseType }) => {
@@ -24,7 +24,7 @@ const DateTextInput: FC<{
   });
 
   // Set date input value
-  function setDateInputValueByKey(event: React.KeyboardEvent<HTMLInputElement>) {
+  function setDateInputValueByKey(event: KeyboardEvent<HTMLInputElement>) {
     const zoneNumberValue = getZonesNewNumberValue(dateInputValue, event.key, selectedZoneRef.current);
     const zoneStringValue = getZonesValuePadStart(zoneNumberValue, selectedZoneRef.current);
     const zone_copy = selectedZoneRef.current;
@@ -50,7 +50,7 @@ const DateTextInput: FC<{
   }
 
   // Clear date input value
-  const clearDateInputValue = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const clearDateInputValue = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Backspace') {
       switch (selectedZoneRef.current > 3 ? selectedZoneRef.current - 3 : selectedZoneRef.current) {
         case 1:
@@ -83,7 +83,7 @@ const DateTextInput: FC<{
     }
   };
 
-  const setDateInputSelectionByKeyboard = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const setDateInputSelectionByKeyboard = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'ArrowLeft' && selectedZoneRef.current > 1) selectedZoneRef.current = selectedZoneRef.current - 1;
     else if (event.key === 'ArrowRight') {
       if (!isPeriod && selectedZoneRef.current < 3) selectedZoneRef.current = selectedZoneRef.current + 1;

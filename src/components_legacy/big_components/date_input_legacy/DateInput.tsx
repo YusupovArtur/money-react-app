@@ -1,10 +1,10 @@
-import { useState, useEffect, FC, Dispatch, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import DateTextInput from '../../big_components/date_input_legacy/DateTextInput';
 import DateInputDatePicker from '../../big_components/date_input_legacy/DateInputDatePicker';
 import { CalendarIconSvg } from '../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE } from './constants.ts';
 import { getDeviceType } from './functions.ts';
-import ModalContainer from '../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 
 const DateInput: FC<{
   dateInputValue: string;

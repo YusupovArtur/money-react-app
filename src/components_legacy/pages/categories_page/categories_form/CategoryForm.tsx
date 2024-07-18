@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 // Import menus
 import CategoryTypeMenu from '../../../pages/categories_page/categories_form/CategoryTypeMenu';
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
@@ -8,7 +8,7 @@ import { categoryAddType } from 'store/types';
 
 const CategoryForm: FC<{
   formData: categoryAddType;
-  setFormData: React.Dispatch<React.SetStateAction<categoryAddType>>;
+  setFormData: Dispatch<SetStateAction<categoryAddType>>;
 }> = ({ formData, setFormData }) => {
   return (
     <div className="d-flex flex-column">

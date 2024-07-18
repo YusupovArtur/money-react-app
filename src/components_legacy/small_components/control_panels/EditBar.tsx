@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG, TrashFillIconSVG } from '../../small_components/icons_svg/IconsSVG';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG, TrashFillIconSVG } from '../icons_svg/IconsSVG.tsx';
 import { serverResponseStatusHooks } from 'store/types';
 
 interface EditBarProps {
@@ -10,7 +10,7 @@ interface EditBarProps {
   itemType: string;
   itemName: string;
   isEdit: boolean;
-  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
 }
 
 const EditBar: FC<EditBarProps> = ({

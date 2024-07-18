@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { MIN_YEAR, MAX_YEAR } from '../constants.ts';
+import { MAX_YEAR, MIN_YEAR } from '../constants.ts';
 import { datePickerDayCellPropsType } from '../types.ts';
 import { getIsDateCorrect } from '../functions.ts';
 
@@ -7,8 +7,8 @@ export const incrementCalendar = (
   displayedField: 'day' | 'month' | 'year',
   currentMonth: number,
   currentYear: number,
-  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>,
-  setCurrentYear: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentMonth: Dispatch<SetStateAction<number>>,
+  setCurrentYear: Dispatch<SetStateAction<number>>,
 ): void => {
   if (displayedField === 'day') {
     if (currentYear <= MAX_YEAR) {
@@ -26,8 +26,8 @@ export const decrementCalendar = (
   displayedField: 'day' | 'month' | 'year',
   currentMonth: number,
   currentYear: number,
-  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>,
-  setCurrentYear: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentMonth: Dispatch<SetStateAction<number>>,
+  setCurrentYear: Dispatch<SetStateAction<number>>,
 ) => {
   if (displayedField === 'day') {
     if (currentYear >= MIN_YEAR) {
@@ -62,7 +62,7 @@ export const getDatePickerDaysField = (
         date: currentDateObject.getDate(),
         isInCurrentMonth: currentDateObject.getMonth() === currentMonth,
         isSelected: checkIsDaySelected(dateInputsTimestamps, currentTimestamp),
-        isInPeriod: checkIsDayBeetwenSelection(dateInputsTimestamps, currentTimestamp),
+        isInPeriod: checkIsDayBetweenSelection(dateInputsTimestamps, currentTimestamp),
         isCurrent:
           presentDay.getDate() === currentDateObject.getDate() &&
           presentDay.getMonth() === currentDateObject.getMonth() &&
@@ -116,7 +116,7 @@ const checkIsDaySelected = (
   }
 };
 
-const checkIsDayBeetwenSelection = (
+const checkIsDayBetweenSelection = (
   dateInputsValue: string | { timestamp1: number; timestamp2?: number },
   timestamp: number,
 ): { isInStart: boolean; isInInterim: boolean; isInEnd: boolean } => {

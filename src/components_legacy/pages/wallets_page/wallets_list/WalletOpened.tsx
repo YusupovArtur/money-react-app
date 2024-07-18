@@ -1,18 +1,18 @@
-import { useState, FC } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Components
-import ModalContainer from '../../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import EditBar from '../../../small_components/control_panels/EditBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 import WalletInfo from '../../../pages/wallets_page/wallets_list/WalletInfo';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { updateWallet, deleteWallet } from 'store/slices/walletsSlice';
+import { deleteWallet, updateWallet } from 'store/slices/walletsSlice';
 import { serverResponseStatusHooks, walletAddType, walletType } from 'store/types';
 
 const WalletOpened: FC<{
   wallet: walletType;
   isOpened: boolean;
-  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
 }> = ({ wallet, isOpened, setIsOpened }) => {
   const dispatch = useAppDispatch();
 

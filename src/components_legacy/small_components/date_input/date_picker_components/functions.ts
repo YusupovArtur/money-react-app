@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { MIN_YEAR, MAX_YEAR } from '../constants.ts';
+import { MAX_YEAR, MIN_YEAR } from '../constants.ts';
 import { datePickerDayCellPropsType, dateStateType } from '../types.ts';
 import { getTimestampFromDateState } from '../functions.ts';
 
@@ -26,8 +26,8 @@ export const decrementCalendar = (
   displayedField: 'day' | 'month' | 'year',
   currentMonth: number,
   currentYear: number,
-  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>,
-  setCurrentYear: React.Dispatch<React.SetStateAction<number>>,
+  setCurrentMonth: Dispatch<SetStateAction<number>>,
+  setCurrentYear: Dispatch<SetStateAction<number>>,
 ) => {
   if (displayedField === 'day') {
     if (currentYear >= MIN_YEAR) {

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { operationType, walletType } from 'store/types';
 // Inputs
 import TransactionTypeToggle from '../../../pages/transactions_page/transaction_form/TransactionTypeToggle';
@@ -13,16 +13,16 @@ import { ArrowRightIconSVG } from '../../../small_components/icons_svg/IconsSVG'
 
 const TransactionForm: FC<{
   formData: operationType;
-  setFormData: React.Dispatch<React.SetStateAction<operationType>>;
+  setFormData: Dispatch<SetStateAction<operationType>>;
   type: 'expense' | 'income' | 'transfer' | 'optional';
   stringNumber: string;
-  setStringNumber: React.Dispatch<React.SetStateAction<string>>;
+  setStringNumber: Dispatch<SetStateAction<string>>;
   dateState: dateStateType;
-  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setDateState: Dispatch<SetStateAction<dateStateType>>;
   fromWallet: walletType | undefined;
-  setFromWallet: React.Dispatch<React.SetStateAction<walletType | undefined>>;
+  setFromWallet: Dispatch<SetStateAction<walletType | undefined>>;
   toWallet: walletType | undefined;
-  setToWallet: React.Dispatch<React.SetStateAction<walletType | undefined>>;
+  setToWallet: Dispatch<SetStateAction<walletType | undefined>>;
 }> = ({
   formData,
   setFormData,

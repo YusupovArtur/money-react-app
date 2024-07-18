@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { categoryType } from 'store/types';
 import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
 import { ArrowDownRightIconSVG, ArrowLeftRightIconSVG, ArrowUpRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 
 const CategoryItem: FC<{
   category: categoryType;
-  setOpenedCategory: React.Dispatch<React.SetStateAction<{ category: categoryType; isOpened: boolean }>>;
+  setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
 }> = ({ category, setOpenedCategory }) => {
   const typeIcon =
     category.type === 'expense' ? (

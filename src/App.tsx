@@ -1,15 +1,15 @@
 // React imports
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
-import { useAppSelector, useAppDispatch } from 'store/hook';
-import { exitUser, setUserState, cleareUserState } from 'store/slices/userSlice';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { cleareUserState, exitUser, setUserState } from 'store/slices/userSlice';
 import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice';
 import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.js';
 import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice';
 import { changeThemeDisplay } from 'store/slices/themeSlice';
-import { getUserState, operationsOnSnapshot, walletsOnSnapshot, categoriesOnSnapshot } from 'store/functions';
+import { categoriesOnSnapshot, getUserState, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions';
 // Components
 import Navbar from './components_legacy/big_components/Navbar';
 import MainPage from './components_legacy/pages/main_page/MainPage';
@@ -20,7 +20,7 @@ import WalletsPage from './components_legacy/pages/wallets_page/WalletsPage';
 import CategoriesPage from './components_legacy/pages/categories_page/CategoriesPage';
 import ProfilePage from './components_legacy/pages/profile_page/ProfilePage';
 
-function App(): React.ReactElement {
+const App: FC = () => {
   const dispatch = useAppDispatch();
   const operationListener = new operationsOnSnapshot(dispatch);
   const walletsListener = new walletsOnSnapshot(dispatch);
@@ -94,6 +94,6 @@ function App(): React.ReactElement {
       </div>
     </div>
   );
-}
+};
 
 export default App;

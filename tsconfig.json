@@ -15,10 +15,15 @@
     "jsx": "react-jsx",
 		"baseUrl": "src",
 		"paths": {
-			"components/*": ["components/*"],
+			"components_legacy/*": ["components_legacy/*"],
 			"store/*": ["store/*"],
 			"styles/*": ["styles/*"],
-			"constants/*": ["constants/*"],
+			"shared/*": ["shared/*"],
+			"entities/*": ["entities/*"],
+			"features/*": ["features/*"],
+			"widgets/*": ["widgets/*"],
+			"pages/*": ["pages/*"],
+			"app/*": ["app/*"],
 		},
 
     /* Linting */
@@ -26,6 +31,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 const CategoriesFilter: FC<{
   filter: 'all' | 'expense' | 'income' | 'transfer';
-  setFilter: React.Dispatch<React.SetStateAction<'all' | 'expense' | 'income' | 'transfer'>>;
+  setFilter: Dispatch<SetStateAction<'all' | 'expense' | 'income' | 'transfer'>>;
 }> = ({ filter, setFilter }) => {
   return (
     <div className="btn-group mb-2" role="group">

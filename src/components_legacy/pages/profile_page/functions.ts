@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { storage } from '../../../firebase.ts';
 import { getErrorMessage } from 'store/functions';
 import { serverResponseStatusHooks } from 'store/types.ts';
@@ -60,9 +60,9 @@ export const moveImage = (
 export const rescaleImage = (
   image: HTMLImageElement,
   canvas: HTMLCanvasElement | null,
-  x: React.MutableRefObject<number>,
-  y: React.MutableRefObject<number>,
-  scale: React.MutableRefObject<number>,
+  x: MutableRefObject<number>,
+  y: MutableRefObject<number>,
+  scale: MutableRefObject<number>,
   dscale: -1 | 0 | 1,
 ) => {
   const dscale_rescale = scale.current * 0.1 * dscale;

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from 'store/hook.ts';
 import ThemeToggle from '../small_components/ThemeToggle';
 
-function Navbar(): React.ReactElement {
+const Navbar: FC = () => {
   const location = useLocation();
 
   const isUserAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
@@ -12,7 +12,7 @@ function Navbar(): React.ReactElement {
   const theme = useAppSelector((state) => state.theme.themeDisplay);
 
   return (
-    <nav className="navbar sticky-top navbar-expand-md bg-body-tertiary shadow-sm ">
+    <nav className="sticky-top z-1 navbar navbar-expand-md bg-body-tertiary shadow-sm">
       <div className="container-fluid">
         <Link className="navbar-brand d-flex justify-content-center" to={'/'}>
           <img style={{ width: '1.7rem', height: '1.7rem' }} src="./images/icon_chart2.png" alt="2Money" />
@@ -91,7 +91,7 @@ function Navbar(): React.ReactElement {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
 

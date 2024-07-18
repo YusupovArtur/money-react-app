@@ -1,12 +1,12 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { useAppDispatch } from 'store/hook.ts';
 import { signInUserWithGitHub, signInUserWithGoogle } from 'store/slices/userSlice.ts';
-import { GoogleIconSVG, GithubIconSVG } from '../../small_components/icons_svg/IconsSVG';
+import { GithubIconSVG, GoogleIconSVG } from '../../small_components/icons_svg/IconsSVG';
 
 interface SignInWithPopupButtonsProps {
   isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
   fulfilledFunction: () => void;
 }
 

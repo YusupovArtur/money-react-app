@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { datePickerDayCellPropsType, dateStateType } from '../../../small_components/date_input/types';
 import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from '../../../small_components/date_input/constants';
 
 const DatePickerDayCell: FC<{
   datePickerDayCellProps: datePickerDayCellPropsType;
-  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setDateState: Dispatch<SetStateAction<dateStateType>>;
   setTimestampFunction?: (timestamp: number) => void;
 }> = ({ datePickerDayCellProps: cellsProps, setDateState, setTimestampFunction }) => {
   const handleDatepickerSetDate = () => {
@@ -52,7 +52,7 @@ const DatePickerDayCell: FC<{
 
 const DatePickerDaysField: FC<{
   datePickerDaysField: datePickerDayCellPropsType[][];
-  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setDateState: Dispatch<SetStateAction<dateStateType>>;
   setTimestampFunction?: (timestamp: number) => void;
 }> = ({ datePickerDaysField, setDateState, setTimestampFunction }) => {
   return (

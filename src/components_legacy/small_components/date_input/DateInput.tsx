@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 import DateTextInput from '../../small_components/date_input/DateTextInput';
 import DateInputDatePicker from '../../small_components/date_input/DateInputDatePicker';
 import { CalendarIconSvg } from '../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE } from '../../small_components/date_input/constants';
 import { getDeviceType } from '../../small_components/date_input/functions';
-import ModalContainer from '../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 
 import { dateStateType } from '../../small_components/date_input/types';
 
 const DateInput: FC<{
   dateState: dateStateType;
-  setDateState: React.Dispatch<React.SetStateAction<dateStateType>>;
+  setDateState: Dispatch<SetStateAction<dateStateType>>;
   setTimestampFunction?: (timestamp: number) => void;
   deviseType?: 'desktop' | 'mobile';
 }> = ({ dateState, setDateState, setTimestampFunction, deviseType }) => {

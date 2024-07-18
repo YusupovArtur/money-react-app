@@ -1,13 +1,13 @@
-import { useState, FC, Dispatch, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Subcategory components_legacy
-import ModalContainer from '../../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import EditBar from '../../../small_components/control_panels/EditBar';
 import SubcategoryOpenedInfo from '../../../pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
 import SubcategoryForm from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 import { serverResponseStatusHooks, subcategoryAddType, subcategoryType } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { updateSubCategory, deleteSubCategory } from 'store/slices/categoriesSlice';
+import { deleteSubCategory, updateSubCategory } from 'store/slices/categoriesSlice';
 
 const SubcategoryOpened: FC<{
   subcategory: subcategoryType;

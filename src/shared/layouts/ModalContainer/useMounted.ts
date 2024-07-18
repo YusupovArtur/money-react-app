@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { ANIMATION_TIME } from './config.tsx';
+// import { ANIMATION_TIME } from './config.tsx';
 
-const useDebouncedValue = <T>(value: T): T => {
-  const [isMounted, setIsMounted] = useState<T>(value);
+const useMounted = (isOpened: boolean) => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const ANIMATION_TIME = 150;
   useEffect(() => {
-    if (value && !isMounted) {
+    if (isOpened && !isMounted) {
       setIsMounted(true);
-    } else if (!value && isMounted) {
+    } else if (!isOpened && isMounted) {
       setTimeout(() => {
         setIsMounted(false);
       }, ANIMATION_TIME);
     }
-  }, [value]);
+  }, [isOpened]);
   return isMounted;
 };
 
-export default useDebouncedValue;
+export default useMounted;

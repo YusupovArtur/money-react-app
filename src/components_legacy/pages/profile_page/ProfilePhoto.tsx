@@ -1,13 +1,13 @@
-import { useState, useRef, useEffect, FC } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
-import { useAppSelector, useAppDispatch } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store/hook';
 import { updatePhotoURL } from 'store/slices/userSlice';
-import { setImage, drawImage, moveImage, rescaleImage, uploadImage } from '../../pages/profile_page/functions';
+import { drawImage, moveImage, rescaleImage, setImage, uploadImage } from './functions.ts';
 
-import ModalContainer from '../../small_components/ModalContainer';
+import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import { CloudPlusSVG, CrossIconSVG } from '../../small_components/icons_svg/IconsSVG';
 
-function ProfilePhoto(): React.ReactElement {
+const ProfilePhoto: FC = () => {
   const dispatch = useAppDispatch();
 
   const photoURL = useAppSelector((state) => state.user.userState.photoURL);
@@ -128,6 +128,6 @@ function ProfilePhoto(): React.ReactElement {
       </ModalContainer>
     </>
   );
-}
+};
 
 export default ProfilePhoto;

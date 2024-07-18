@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { MIN_YEAR, MAX_YEAR, MONTH_FULL_NAMES, MONTH_SHORT_NAMES } from './constants.ts';
+import { MAX_YEAR, MIN_YEAR, MONTH_FULL_NAMES, MONTH_SHORT_NAMES } from './constants.ts';
 
 export const getDeviceType = (): 'mobile' | 'desktop' => {
   const userAgent = navigator.userAgent.toLowerCase();
@@ -107,9 +107,6 @@ const getZonesNumberValue = (dateInputsValue: string, selectedZone: number, ifNo
 };
 
 export const getZonesValuePadStart = (zonesValue: string | number, selectedZone: number): string => {
-  // let newStringValue: string = '';
-  // if (typeof zonesValue === 'number') newStringValue = zonesValue.toString();
-  // else newStringValue = zonesValue;
   const newStringValue = zonesValue.toString();
 
   switch (selectedZone > 3 ? selectedZone - 3 : selectedZone) {

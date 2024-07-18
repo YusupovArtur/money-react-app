@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { datePickerMonthCellPropsType } from '../../../small_components/date_input/types';
 import { DATE_PICKER_CELL_SIZE, MONTH_SHORT_NAMES } from '../../../small_components/date_input/constants';
 
 const DatePickerMonthCell: FC<{
   datePickerMonthCellProps: datePickerMonthCellPropsType;
-  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
-  setDisplayedField: React.Dispatch<React.SetStateAction<'day' | 'month' | 'year'>>;
+  setCurrentMonth: Dispatch<SetStateAction<number>>;
+  setDisplayedField: Dispatch<SetStateAction<'day' | 'month' | 'year'>>;
 }> = ({ datePickerMonthCellProps, setCurrentMonth, setDisplayedField }) => {
   return (
     <div
@@ -30,8 +30,8 @@ const DatePickerMonthCell: FC<{
 };
 
 const DatePickerMonthsField: FC<{
-  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
-  setDisplayedField: React.Dispatch<React.SetStateAction<'day' | 'month' | 'year'>>;
+  setCurrentMonth: Dispatch<SetStateAction<number>>;
+  setDisplayedField: Dispatch<SetStateAction<'day' | 'month' | 'year'>>;
   currentMonth: number;
   currentYear: number;
 }> = ({ setCurrentMonth, setDisplayedField, currentMonth, currentYear }) => {

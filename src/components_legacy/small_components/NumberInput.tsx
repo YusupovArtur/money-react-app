@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 const getNumberFromString = (numberString: string): number => {
   const formatedText = getFormatedStringNumber(numberString);
@@ -12,7 +12,7 @@ const getNumberFromString = (numberString: string): number => {
 const getFormatedStringNumber = (numberString: string): string => {
   let formatedText: string = numberString.replace(/[^-.,\d]/g, '').replace(',', '.');
   if (formatedText.indexOf('-') > -1) {
-    formatedText = formatedText.slice(0, 1) + formatedText.slice(1).replace(/[-]/g, '');
+    formatedText = formatedText.slice(0, 1) + formatedText.slice(1).replace(/-/g, '');
   }
   const firstDot = formatedText.indexOf('.') + 1;
   if (firstDot > 0) {
@@ -23,7 +23,7 @@ const getFormatedStringNumber = (numberString: string): string => {
 
 const NumberInput: FC<{
   stringNumber: string;
-  setStringNumber: React.Dispatch<React.SetStateAction<string>>;
+  setStringNumber: Dispatch<SetStateAction<string>>;
   setNumberFunction?: (number: number) => void;
 }> = ({ stringNumber, setStringNumber, setNumberFunction }) => {
   return (

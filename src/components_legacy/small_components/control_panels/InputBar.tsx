@@ -1,53 +1,54 @@
-import { useState, FC } from 'react';
-import { CrossIconSVG, PlusIconSVG } from '../../small_components/icons_svg/IconsSVG';
+// React imports
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+// Store imports
 import { serverResponseStatusHooks } from 'store/types';
+// Ui imports
+import { ButtonWithIcon } from 'shared/ui/ButtonWithIcon';
+import { ErrorMessage } from 'shared/ui/ErrorMessage';
+import { CrossIconSVG, PlusIconSVG } from '../icons_svg/IconsSVG.tsx';
 
 interface InputBarProps {
-  addButtonLabel: string;
-  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
-  clearFunction: () => void;
-  addFunction: (statusHooks: serverResponseStatusHooks) => void;
+  addButtonsLabel: string;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  onAdd: (statusHooks: serverResponseStatusHooks) => void;
+  onClear: () => void;
 }
 
-const InputBar: FC<InputBarProps> = ({ addButtonLabel, setIsOpened, clearFunction, addFunction }) => {
+const InputBar: FC<InputBarProps> = ({ addButtonsLabel, setIsOpened, onClear, onAdd }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fulfilledFunction = () => {
     setIsOpened(false);
-    clearFunction();
+    onClear();
   };
 
   return (
     <div className="d-flex justify-content-start align-items-center">
-      <button
-        className="btn btn-primary d-flex justify-content-between align-items-center me-2"
-        onClick={() => addFunction({ setIsLoading, setErrorMessage, fulfilledFunction })}
-      >
-        {isLoading ? (
-          <div className="spinner-border text-light" style={{ width: '1.25rem', height: '1.25rem' }} role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        ) : (
-          <PlusIconSVG iconSize="1.25rem"></PlusIconSVG>
-        )}
+      <ButtonWithIcon
+        onClick={() => onAdd({ setIsLoading, setErrorMessage, fulfilledFunction })}
+        additionalClassNames="btn-primary me-2"
+        Icon={
+          isLoading ? (
+            <div className="spinner-border text-light" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          ) : (
+            <PlusIconSVG iconSize="1.5rem"></PlusIconSVG>
+          )
+        }
+        buttonsCaption={addButtonsLabel}
+      ></ButtonWithIcon>
 
-        <span className="ms-1">{addButtonLabel}</span>
-      </button>
-      <button
-        className="btn btn-danger d-flex justify-content-center align-items-center py-2 px-3 me-2"
+      <ButtonWithIcon
         onClick={() => {
           setIsOpened(false);
           setErrorMessage('');
-          clearFunction();
+          onClear();
         }}
-      >
-        <CrossIconSVG iconSize="1.25rem"></CrossIconSVG>
-      </button>
-      {errorMessage && (
-        <div className="alert alert-warning px-2 py-1 m-0 align-self-stretch" role="alert">
-          {errorMessage}
-        </div>
-      )}
+        Icon={<CrossIconSVG iconSize="1.5rem"></CrossIconSVG>}
+        additionalClassNames="btn-danger me-2"
+      ></ButtonWithIcon>
+      <ErrorMessage errorMessage={errorMessage} additionalClassNames="alert-warning"></ErrorMessage>
     </div>
   );
 };

@@ -1,27 +1,8 @@
-import { useState, FC } from 'react';
-import { useAppSelector, useAppDispatch } from 'store/hook.ts';
+import { FC, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { getAuth } from 'firebase/auth';
 import DateInputLegacy from '../../big_components/date_input_legacy/DateInput.tsx';
 import DateInput from '../../small_components/date_input/DateInput.tsx';
-import { runTransaction } from 'firebase/firestore';
-
-import { doc, addDoc, getDocs, deleteDoc, collection, updateDoc, setDoc, getDoc, deleteField } from 'firebase/firestore';
-import { downloadOperations, addOperation, deleteOperation, updateOperation } from 'store/slices/operationsSlice.ts';
-import {
-  addCategory,
-  addSubCategory,
-  deleteCategory,
-  deleteSubCategory,
-  downloadCategories,
-  shiftCategory,
-  shiftSubCategory,
-  updateCategory,
-  updateSubCategory,
-} from 'store/slices/categoriesSlice.ts';
-import { db } from '../../../firebase.ts';
-import { categoryType } from 'store/types.ts';
-import { addWallet, deleteWallet, shiftWallet, updateWallet } from 'store/slices/walletsSlice.ts';
-import { signInUserWithGoogle } from 'store/slices/userSlice.ts';
 import { dateStateType } from '../../small_components/date_input/types.ts';
 import DropdownMenu from '../../small_components/DropdownMenu.tsx';
 

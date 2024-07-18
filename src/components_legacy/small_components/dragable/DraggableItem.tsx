@@ -1,4 +1,4 @@
-import { FC, ReactNode, Dispatch, SetStateAction, DragEvent } from 'react';
+import { Dispatch, DragEvent, FC, ReactNode, SetStateAction } from 'react';
 import useDragEnter from '../../small_components/dragable/useDragEnter';
 
 interface DraggableItemProps {

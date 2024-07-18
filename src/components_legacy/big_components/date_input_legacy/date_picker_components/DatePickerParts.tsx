@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { incrementCalendar, decrementCalendar } from '../../../big_components/date_input_legacy/date_picker_components/functions';
+import { Dispatch, FC, SetStateAction } from 'react';
+import { decrementCalendar, incrementCalendar } from '../../../big_components/date_input_legacy/date_picker_components/functions';
 import { getMobileDatePickersLabel } from '../../../big_components/date_input_legacy/functions';
-import { ChevrontRightIconSVG, ChevronLeftIconSVG } from '../../../small_components/icons_svg/IconsSVG';
+import { ChevronLeftIconSVG, ChevrontRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE, MONTH_ABBREVIATED_NAMES } from '../../../big_components/date_input_legacy/constants';
 
 export const DatePickerLabel: FC<{ dateInputValue: string }> = ({ dateInputValue }) => {
@@ -14,11 +14,11 @@ export const DatePickerLabel: FC<{ dateInputValue: string }> = ({ dateInputValue
 
 interface DatePickerCalendarButtonsProps {
   currentMonth: number;
-  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentMonth: Dispatch<SetStateAction<number>>;
   currentYear: number;
-  setCurrentYear: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentYear: Dispatch<SetStateAction<number>>;
   displayedField: 'month' | 'day' | 'year';
-  setDisplayedField: React.Dispatch<React.SetStateAction<'month' | 'day' | 'year'>>;
+  setDisplayedField: Dispatch<SetStateAction<'month' | 'day' | 'year'>>;
 }
 
 export const DatePickerCalendarButtons: FC<DatePickerCalendarButtonsProps> = ({
@@ -66,8 +66,8 @@ export const DatePickerCalendarButtons: FC<DatePickerCalendarButtonsProps> = ({
 };
 
 export const DatePickerModalButtons: FC<{
-  setDateInputValue: React.Dispatch<React.SetStateAction<string>>;
-  setIsShowDatepicker: React.Dispatch<React.SetStateAction<boolean>>;
+  setDateInputValue: Dispatch<SetStateAction<string>>;
+  setIsShowDatepicker: Dispatch<SetStateAction<boolean>>;
 }> = ({ setDateInputValue, setIsShowDatepicker }) => {
   return (
     <div className="d-flex justify-content-end">
