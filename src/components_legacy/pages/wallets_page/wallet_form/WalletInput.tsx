@@ -3,8 +3,8 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useAppDispatch } from 'store/hook';
 import { addWallet } from 'store/slices/walletsSlice';
 import { serverResponseStatusHooks, walletAddType } from 'store/types';
-// Input components_legacy
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
+// Input components
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 
@@ -34,7 +34,7 @@ const WalletInput: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputBar addButtonsLabel="Счет" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction}></InputBar>
         <WalletForm

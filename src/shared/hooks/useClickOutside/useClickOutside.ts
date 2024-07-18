@@ -1,4 +1,4 @@
-import { useEffect, RefObject } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 type itemOrNonEmptyArray<T> = T | [T, T, ...T[]];
 
@@ -7,25 +7,41 @@ interface useClickOutsideProps {
   onClickOutside: () => void;
 }
 
-// TODO: test this hook
 const useClickOutside = ({ elementRef, onClickOutside }: useClickOutsideProps) => {
+  const mouseDownRef = useRef<EventTarget | null>(null);
+
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!Array.isArray(elementRef)) {
-        if (elementRef.current && !elementRef.current.contains(event.target as Node)) {
+    const handleMouseDown = (event: MouseEvent) => {
+      mouseDownRef.current = event.target;
+    };
+
+    const handleMouseUp = (event: MouseEvent) => {
+      const elementsArray = Array.isArray(elementRef) ? elementRef : [elementRef];
+
+      const isClickOutside =
+        mouseDownRef.current === event.target &&
+        elementsArray.every((ref) => {
+          return ref.current && !ref.current.contains(event.target as Node);
+        });
+
+      if (isClickOutside) {
+        setTimeout(() => {
           onClickOutside();
-        }
-      } else {
-        if (elementRef.every((ref) => ref.current && !ref.current.contains(event.target as Node))) {
-          onClickOutside();
-        }
+        }, 0);
       }
     };
-    document.addEventListener('click', handleClickOutside);
+
+    document.addEventListener('pointerdown', handleMouseDown);
+    document.addEventListener('pointerup', handleMouseUp);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('pointerdown', handleMouseDown);
+      document.removeEventListener('pointerup', handleMouseUp);
     };
-  }, [elementRef, onClickOutside]);
+  }, [
+    ...(Array.isArray(elementRef) ? elementRef : [elementRef]),
+    ...(Array.isArray(elementRef) ? elementRef.map((ref) => ref.current) : [elementRef.current]),
+    onClickOutside,
+  ]);
 };
 
 export default useClickOutside;

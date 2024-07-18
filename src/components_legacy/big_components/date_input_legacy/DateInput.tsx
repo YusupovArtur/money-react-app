@@ -4,7 +4,7 @@ import DateInputDatePicker from '../../big_components/date_input_legacy/DateInpu
 import { CalendarIconSvg } from '../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE } from './constants.ts';
 import { getDeviceType } from './functions.ts';
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 
 const DateInput: FC<{
   dateInputValue: string;
@@ -60,7 +60,7 @@ const DateInput: FC<{
           )}
         </ul>
       )}
-      <ModalContainer isOpened={isShowDatePicker && isDeviceMobile} setIsOpened={setIsShowDatePicker}>
+      <ModalContainer isOpened={isShowDatePicker && isDeviceMobile} setIsOpened={setIsShowDatePicker} style={{ margin: 'auto' }}>
         <div className="p-2 border rounded bg-body-tertiary">
           <DateInputDatePicker
             dateInputValue={dateInputValue}

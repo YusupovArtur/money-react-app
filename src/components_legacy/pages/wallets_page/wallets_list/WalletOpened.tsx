@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Components
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 import EditBar from '../../../small_components/control_panels/EditBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 import WalletInfo from '../../../pages/wallets_page/wallets_list/WalletInfo';
@@ -53,13 +53,13 @@ const WalletOpened: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened}>
+    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
         <EditBar
-          closeFunction={() => setIsOpened(false)}
-          clearFunction={clearFunction}
-          updateFunction={updateFunction}
-          deleteFunction={deleteFunction}
+          onClose={() => setIsOpened(false)}
+          onClear={clearFunction}
+          onUpdate={updateFunction}
+          onDelete={deleteFunction}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
           itemType="счёт"

@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useClickOutside } from 'shared/hooks/useClickOutside';
 
 const getDropdownMenuPosition = (alignmentY: 'bottom' | 'top', alignmentX: 'left' | 'right'): CSSProperties => {
   if (alignmentY === 'bottom') {
@@ -52,7 +53,6 @@ const DropdownMenu: FC<{
 
   const handleClickDropdownToggle = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (!dropdownMenuRef.current || (dropdownMenuRef.current && !dropdownMenuRef.current.contains(event.target as Node))) {
-      console.log('toggle');
       setIsOpened((state) => {
         if (!state && openFunction) openFunction();
         if (state && closeFunction) closeFunction();
@@ -63,11 +63,20 @@ const DropdownMenu: FC<{
 
   const handleClickDropdownMenu = () => {
     if (isCloseWhenClickInside) {
-      console.log('menu');
       if (closeFunction) closeFunction();
       setIsOpened(false);
     }
   };
+
+  useClickOutside({
+    elementRef: [dropdownToggleRef, dropdownMenuRef],
+    onClickOutside: () => {
+      if (isCloseWhenClickOutside) {
+        if (closeFunction) closeFunction();
+        setIsOpened(false);
+      }
+    },
+  });
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -77,7 +86,6 @@ const DropdownMenu: FC<{
       !dropdownToggleRef.current.contains(event.target as Node) &&
       !dropdownMenuRef.current.contains(event.target as Node)
     ) {
-      console.log('outside');
       if (closeFunction) closeFunction();
       setIsOpened(false);
     }
@@ -89,12 +97,10 @@ const DropdownMenu: FC<{
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
     window.addEventListener('wheel', handleScroll);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
       window.removeEventListener('wheel', handleScroll);

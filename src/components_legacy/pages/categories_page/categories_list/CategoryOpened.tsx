@@ -87,10 +87,10 @@ const CategoryOpened: FC<{
       className="align-self-start bg-body-tertiary shadow-sm rounded-4 px-3 pt-3"
     >
       <EditBar
-        closeFunction={closeFunction}
-        clearFunction={clearFunction}
-        deleteFunction={deleteFunction}
-        updateFunction={updateFunction}
+        onClose={closeFunction}
+        onClear={clearFunction}
+        onDelete={deleteFunction}
+        onUpdate={updateFunction}
         isEdit={isEdit}
         setIsEdit={setIsEdit}
         itemType="категорию"

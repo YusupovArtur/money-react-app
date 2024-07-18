@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Subcategory components_legacy
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 import EditBar from '../../../small_components/control_panels/EditBar';
 import SubcategoryOpenedInfo from '../../../pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
 import SubcategoryForm from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
@@ -55,13 +55,13 @@ const SubcategoryOpened: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened}>
+    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
         <EditBar
-          closeFunction={() => setIsOpened(false)}
-          clearFunction={clearFunction}
-          deleteFunction={deleteFunction}
-          updateFunction={updateFunction}
+          onClose={() => setIsOpened(false)}
+          onClear={clearFunction}
+          onDelete={deleteFunction}
+          onUpdate={updateFunction}
           itemType="подкатегорию"
           itemName={subcategory.name}
           isEdit={isEdit}

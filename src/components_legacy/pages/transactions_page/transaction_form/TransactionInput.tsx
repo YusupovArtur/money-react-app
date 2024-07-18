@@ -3,9 +3,9 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
 import { operationType, serverResponseStatusHooks, walletType } from 'store/types';
-// Input components_legacy
+// Input components
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 import TransactionForm from '../../../pages/transactions_page/transaction_form/TransactionForm';
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import { dateStateType } from '../../../small_components/date_input/types';
 import { getDateStateFromTimestamp } from '../../../small_components/date_input/functions';
@@ -54,7 +54,7 @@ const TransactionInput: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput} style={{ margin: 'auto' }}>
       <div
         style={{ maxWidth: '35rem', width: '100vw' }}
         className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"

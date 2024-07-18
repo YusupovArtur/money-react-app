@@ -1,10 +1,10 @@
 import { FC, useEffect, useRef, useState } from 'react';
-
+// Store
 import { useAppDispatch, useAppSelector } from 'store/hook';
 import { updatePhotoURL } from 'store/slices/userSlice';
 import { drawImage, moveImage, rescaleImage, setImage, uploadImage } from './functions.ts';
-
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
+// UI
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 import { CloudPlusSVG, CrossIconSVG } from '../../small_components/icons_svg/IconsSVG';
 
 const ProfilePhoto: FC = () => {
@@ -74,7 +74,7 @@ const ProfilePhoto: FC = () => {
         </button>
       </div>
 
-      <ModalContainer isOpened={isOpened} setIsOpened={setIsOpened}>
+      <ModalContainer isOpened={isOpened} setIsOpened={setIsOpened} style={{ margin: 'auto' }}>
         <div
           style={{ maxWidth: '35rem', width: '100vw' }}
           className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4"

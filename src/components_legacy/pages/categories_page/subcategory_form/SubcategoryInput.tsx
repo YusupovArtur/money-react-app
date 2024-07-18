@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Input components_legacy
-import ModalContainer from 'shared/layouts/ModalContainer/ModalContainer.tsx';
+import { ModalContainer } from 'shared/layouts/ModalContainer';
 import SubcategoryForm from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 import InputBar from '../../../small_components/control_panels/InputBar';
 import { serverResponseStatusHooks, subcategoryAddType } from 'store/types';
@@ -30,7 +30,7 @@ const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isShowInput, 
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput}>
+    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputBar
           addButtonsLabel="Подкатегория"
