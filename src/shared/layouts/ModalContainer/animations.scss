@@ -1,0 +1,55 @@
+@keyframes appear-scale-opacity-animation {
+  0% {
+    scale: 0.5;
+    opacity: 0;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes close-scale-opacity-animation {
+  0% {
+    scale: 1;
+    opacity: 1;
+  }
+  100% {
+    scale: 0.5;
+    opacity: 0;
+  }
+}
+
+@keyframes appear-opacity-animation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes close-opacity-animation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.appear-animation-150 {
+  animation: appear-scale-opacity-animation 150ms linear forwards;
+}
+
+.close-animation-150 {
+  animation: close-scale-opacity-animation 150ms linear forwards;
+}
+
+.appear-background-animation-150 {
+  animation: appear-opacity-animation 150ms linear forwards;
+}
+
+.close-background-animation-150 {
+  animation: close-opacity-animation 150ms linear forwards;
+}

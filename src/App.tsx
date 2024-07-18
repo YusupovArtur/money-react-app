@@ -11,14 +11,14 @@ import { cleareCategories, downloadCategories } from 'store/slices/categoriesSli
 import { changeThemeDisplay } from 'store/slices/themeSlice';
 import { getUserState, operationsOnSnapshot, walletsOnSnapshot, categoriesOnSnapshot } from 'store/functions';
 // Components
-import Navbar from 'components/big_components/Navbar';
-import MainPage from 'components/pages/main_page/MainPage';
-import TransactionsPage from 'components/pages/transactions_page/TransactionsPage';
-import SignInPage from 'components/pages/sign_in_up_pages/SignInPage';
-import SignUpPage from 'components/pages/sign_in_up_pages/SignUpPage';
-import WalletsPage from 'components/pages/wallets_page/WalletsPage';
-import CategoriesPage from 'components/pages/categories_page/CategoriesPage';
-import ProfilePage from 'components/pages/profile_page/ProfilePage';
+import Navbar from './components_legacy/big_components/Navbar';
+import MainPage from './components_legacy/pages/main_page/MainPage';
+import TransactionsPage from './components_legacy/pages/transactions_page/TransactionsPage';
+import SignInPage from './components_legacy/pages/sign_in_up_pages/SignInPage';
+import SignUpPage from './components_legacy/pages/sign_in_up_pages/SignUpPage';
+import WalletsPage from './components_legacy/pages/wallets_page/WalletsPage';
+import CategoriesPage from './components_legacy/pages/categories_page/CategoriesPage';
+import ProfilePage from './components_legacy/pages/profile_page/ProfilePage';
 
 function App(): React.ReactElement {
   const dispatch = useAppDispatch();

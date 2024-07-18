@@ -1,5 +1,8 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export class ErrorWithCode extends Error {
   code: string;
+
   constructor(message: string) {
     super(message);
     this.code = message;
@@ -7,8 +10,8 @@ export class ErrorWithCode extends Error {
 }
 
 export type serverResponseStatusHooks = {
-  setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>;
-  setErrorMessage?: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoading?: Dispatch<SetStateAction<boolean>>;
+  setErrorMessage?: Dispatch<SetStateAction<string>>;
   fulfilledFunction?: () => void;
 };
 
