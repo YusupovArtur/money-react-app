@@ -3,22 +3,22 @@ import { FC, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
-import { useAppDispatch, useAppSelector } from 'store/hook';
-import { cleareUserState, exitUser, setUserState } from 'store/slices/userSlice';
-import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice';
-import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.js';
-import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice';
-import { changeThemeDisplay } from 'store/slices/themeSlice';
-import { categoriesOnSnapshot, getUserState, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions';
+import { useAppDispatch, useAppSelector } from 'store/hook.ts';
+import { cleareUserState, exitUser, setUserState } from 'store/slices/userSlice.ts';
+import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice.ts';
+import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.ts';
+import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice.ts';
+import { changeThemeDisplay } from 'store/slices/themeSlice.ts';
+import { categoriesOnSnapshot, getUserState, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions.ts';
 // Components
-import Navbar from './components_legacy/big_components/Navbar';
-import MainPage from './components_legacy/pages/main_page/MainPage';
-import TransactionsPage from './components_legacy/pages/transactions_page/TransactionsPage';
-import SignInPage from './components_legacy/pages/sign_in_up_pages/SignInPage';
-import SignUpPage from './components_legacy/pages/sign_in_up_pages/SignUpPage';
-import WalletsPage from './components_legacy/pages/wallets_page/WalletsPage';
-import CategoriesPage from './components_legacy/pages/categories_page/CategoriesPage';
-import ProfilePage from './components_legacy/pages/profile_page/ProfilePage';
+import Navbar from 'components_legacy/big_components/Navbar.tsx';
+import MainPage from 'components_legacy/pages/main_page/MainPage.tsx';
+import TransactionsPage from 'components_legacy/pages/transactions_page/TransactionsPage.tsx';
+import SignInPage from 'components_legacy/pages/sign_in_up_pages/SignInPage.tsx';
+import SignUpPage from 'components_legacy/pages/sign_in_up_pages/SignUpPage.tsx';
+import WalletsPage from 'components_legacy/pages/wallets_page/WalletsPage.tsx';
+import CategoriesPage from 'components_legacy/pages/categories_page/CategoriesPage.tsx';
+import ProfilePage from 'components_legacy/pages/profile_page/ProfilePage.tsx';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();

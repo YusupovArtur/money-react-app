@@ -13,12 +13,9 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+// console.log(typeof firebaseConfig.apiKey);
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage();
 // const analytics = getAnalytics(app);
-
-// const firebaseApp = getApp();
-// export const storage = getStorage(firebaseApp, 'gs://my-custom-bucket');
-// export const storage = getStorage(app, 'gs://my-custom-bucket');
-// gs://money-85438.appspot.com
