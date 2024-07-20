@@ -1,15 +1,20 @@
 // React
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
-import { serverResponseStatusHooks } from 'store/types';
+import { serverResponseStatusHooks } from 'store/types.ts';
 // UI
 import { ButtonWithIcon } from 'shared/ui/ButtonWithIcon';
 import { AlertMessage } from 'shared/ui/AlertMessage';
 // Icons
-import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG, TrashFillIconSVG } from '../icons_svg/IconsSVG.tsx';
+import {
+  CheckIconSVG,
+  CrossIconSVG,
+  PencilSquareIconSVG,
+  TrashFillIconSVG,
+} from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
 import { ButtonWithIconAndSpinner } from 'shared/ui/ButtonWithIconAndSpinner';
 
-interface EditBarProps {
+interface EntryEditBarProps {
   onClose: () => void;
   onClear: () => void;
   onUpdate: (statusHooks: serverResponseStatusHooks) => void;
@@ -20,7 +25,7 @@ interface EditBarProps {
   setIsEdit: Dispatch<SetStateAction<boolean>>;
 }
 
-const EditBar: FC<EditBarProps> = ({ onClose, onClear, onDelete, onUpdate, itemType, itemName, isEdit, setIsEdit }) => {
+const EntryEditBar: FC<EntryEditBarProps> = ({ onClose, onClear, onDelete, onUpdate, itemType, itemName, isEdit, setIsEdit }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fulfilledFunction = () => setIsEdit(false);
@@ -82,4 +87,4 @@ const EditBar: FC<EditBarProps> = ({ onClose, onClear, onDelete, onUpdate, itemT
   );
 };
 
-export default EditBar;
+export default EntryEditBar;

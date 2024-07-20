@@ -5,7 +5,7 @@ import { addWallet } from 'store/slices/walletsSlice';
 import { serverResponseStatusHooks, walletAddType } from 'store/types';
 // Input components
 import { ModalContainer } from 'shared/layouts/ModalContainer';
-import InputBar from '../../../small_components/control_panels/InputBar';
+import { EntryInputBar } from 'features/EntryInputBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 
 const WalletInput: FC<{
@@ -36,7 +36,12 @@ const WalletInput: FC<{
   return (
     <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
-        <InputBar addButtonsLabel="Счет" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction}></InputBar>
+        <EntryInputBar
+          addButtonsLabel="Счет"
+          setIsOpened={setIsShowInput}
+          onClear={clearFunction}
+          onAdd={addFunction}
+        ></EntryInputBar>
         <WalletForm
           formData={formData}
           setFormData={setFormData}

@@ -1,20 +1,20 @@
 // React imports
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store imports
-import { serverResponseStatusHooks } from 'store/types';
+import { serverResponseStatusHooks } from 'store/types.ts';
 // Ui imports
 import { ButtonWithIcon } from 'shared/ui/ButtonWithIcon';
 import { AlertMessage } from 'shared/ui/AlertMessage';
-import { CrossIconSVG, PlusIconSVG } from '../icons_svg/IconsSVG.tsx';
+import { CrossIconSVG, PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
 
-interface InputBarProps {
+interface EntryInputBarProps {
   addButtonsLabel: string;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   onAdd: (statusHooks: serverResponseStatusHooks) => void;
   onClear: () => void;
 }
 
-const InputBar: FC<InputBarProps> = ({ addButtonsLabel, setIsOpened, onClear, onAdd }) => {
+const EntryInputBar: FC<EntryInputBarProps> = ({ addButtonsLabel, setIsOpened, onClear, onAdd }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const fulfilledFunction = () => {
@@ -53,4 +53,4 @@ const InputBar: FC<InputBarProps> = ({ addButtonsLabel, setIsOpened, onClear, on
   );
 };
 
-export default InputBar;
+export default EntryInputBar;

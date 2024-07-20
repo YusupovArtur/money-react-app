@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 // Categories imports
+import { EntryEditBar } from 'features/EntryEditBar';
 import CategoryForm from '../../../pages/categories_page/categories_form/CategoryForm';
-import EditBar from '../../../small_components/control_panels/EditBar';
 import CategoryOpenedInfo from '../../../pages/categories_page/categories_list/CategoryOpenedInfo';
 // Subcategories imports
 import SubcategoriesList from '../../../pages/categories_page/subcategories_list/SubcategoriesList';
@@ -86,7 +86,7 @@ const CategoryOpened: FC<{
       style={{ maxWidth: '45rem', width: '100vw' }}
       className="align-self-start bg-body-tertiary shadow-sm rounded-4 px-3 pt-3"
     >
-      <EditBar
+      <EntryEditBar
         onClose={closeFunction}
         onClear={clearFunction}
         onDelete={deleteFunction}
@@ -95,7 +95,7 @@ const CategoryOpened: FC<{
         setIsEdit={setIsEdit}
         itemType="категорию"
         itemName={openedCategory.category.name}
-      ></EditBar>
+      ></EntryEditBar>
       {isEdit ? (
         <>
           <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
