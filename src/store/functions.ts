@@ -1,12 +1,12 @@
 // Firebase imports
 import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore';
-import { db } from '../firebase.ts';
+import { db } from 'app/firebase.ts';
 // Hooks imports
 import { setOperations } from 'store/slices/operationsSlice.ts';
 import { setCategories } from 'store/slices/categoriesSlice.ts';
 import { setWallets } from 'store/slices/walletsSlice.ts';
 // Types imports
-import { userStateType, operationsStateType, categoriesStateType, walletsStateType } from 'store/types';
+import { categoriesStateType, operationsStateType, userStateType, walletsStateType } from 'store/types';
 import { AppDispatch } from 'store/store.ts';
 import { User } from 'firebase/auth';
 

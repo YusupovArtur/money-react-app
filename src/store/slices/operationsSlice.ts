@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { doc, updateDoc, runTransaction, deleteField, FieldValue } from 'firebase/firestore';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { deleteField, doc, FieldValue, runTransaction, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from '../../firebase.ts';
+import { db } from 'app/firebase.ts';
 import {
   ErrorWithCode,
   operationsStateType,

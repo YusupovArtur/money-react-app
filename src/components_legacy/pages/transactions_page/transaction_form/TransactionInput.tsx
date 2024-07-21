@@ -4,8 +4,8 @@ import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
 import { operationType, serverResponseStatusHooks, walletType } from 'store/types';
 // Input components
-import { ModalContainer } from 'shared/layouts/ModalContainer';
-import { EntryInputBar } from 'features/EntryInputBar';
+import ModalContainer from 'shared/containers/ModalContainer';
+import InputFormBar from 'features/InputFormBar';
 import TransactionForm from '../../../pages/transactions_page/transaction_form/TransactionForm';
 import { dateStateType } from '../../../small_components/date_input/types';
 import { getDateStateFromTimestamp } from '../../../small_components/date_input/functions';
@@ -59,12 +59,12 @@ const TransactionInput: FC<{
         style={{ maxWidth: '35rem', width: '100vw' }}
         className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"
       >
-        <EntryInputBar
+        <InputFormBar
           addButtonsLabel="Транзакция"
           setIsOpened={setIsShowInput}
           onClear={clearFunction}
           onAdd={addFunction}
-        ></EntryInputBar>
+        ></InputFormBar>
         <TransactionForm
           formData={formData}
           setFormData={setFormData}

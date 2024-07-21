@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
 // Store imports
 import { useAppDispatch } from 'store/hook';
 import { shiftWallet } from 'store/slices/walletsSlice';
@@ -24,7 +24,7 @@ const WalletsList: FC<{
       {wallets.map((wallet, index) => (
         <DraggableItem
           key={wallet.id}
-          dropFunction={dropFunction}
+          onDrop={dropFunction}
           isDraggable={true}
           dragStartID={dragStartID}
           setDragStartID={setDragStartID}
@@ -37,7 +37,7 @@ const WalletsList: FC<{
         </DraggableItem>
       ))}
       <DraggableItem
-        dropFunction={dropFunction}
+        onDrop={dropFunction}
         isDraggable={false}
         dragStartID={dragStartID}
         setDragStartID={setDragStartID}

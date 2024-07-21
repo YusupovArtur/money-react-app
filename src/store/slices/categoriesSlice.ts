@@ -1,18 +1,18 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { doc, getDoc, runTransaction } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from '../../firebase.ts';
+import { db } from 'app/firebase.ts';
 import {
-  serverResponseStatusHooks,
+  CATEGORIES_LIST_LAST_ITEM_ID,
   categoriesStateType,
   categoryAddType,
-  subcategoryType,
-  subcategoryAddType,
   categoryUpdateType,
-  subcategoryUpdateType,
   ErrorWithCode,
-  CATEGORIES_LIST_LAST_ITEM_ID,
+  serverResponseStatusHooks,
   SUBCATEGORIES_LIST_LAST_ITEM_ID,
+  subcategoryAddType,
+  subcategoryType,
+  subcategoryUpdateType,
 } from 'store/types.ts';
 import { generateID, getErrorMessage } from 'store/functions.ts';
 

@@ -1,4 +1,4 @@
-import { useState, FC, Dispatch, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store imports
 import { useAppDispatch } from 'store/hook';
 import { shiftCategory } from 'store/slices/categoriesSlice';
@@ -25,7 +25,7 @@ const CategoriesList: FC<{
         <DraggableItem
           key={category.id}
           isDraggable={true}
-          dropFunction={dropFunction}
+          onDrop={dropFunction}
           itemID={category.id}
           itemIDAbove={index === 0 ? 'no-above-item' : categories[index - 1].id}
           dragStartID={dragStartID}
@@ -39,7 +39,7 @@ const CategoriesList: FC<{
 
       <DraggableItem
         isDraggable={false}
-        dropFunction={dropFunction}
+        onDrop={dropFunction}
         itemID={CATEGORIES_LIST_LAST_ITEM_ID}
         itemIDAbove={categories[categories.length - 1] ? categories[categories.length - 1].id : ''}
         dragStartID={dragStartID}

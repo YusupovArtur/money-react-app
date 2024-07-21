@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Input components
-import { ModalContainer } from 'shared/layouts/ModalContainer';
-import { EntryInputBar } from 'features/EntryInputBar';
+import ModalContainer from 'shared/containers/ModalContainer';
+import InputFormBar from 'features/InputFormBar';
 import CategoryForm from '../../../pages/categories_page/categories_form/CategoryForm';
 import { categoryAddType, serverResponseStatusHooks } from 'store/types';
 // Store
@@ -29,7 +29,7 @@ const CategoryInput: FC<{
   return (
     <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
-        <EntryInputBar
+        <InputFormBar
           addButtonsLabel="Категория"
           setIsOpened={setIsShowInput}
           onClear={() =>
@@ -42,7 +42,7 @@ const CategoryInput: FC<{
             })
           }
           onAdd={addFunction}
-        ></EntryInputBar>
+        ></InputFormBar>
         <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
       </div>
     </ModalContainer>

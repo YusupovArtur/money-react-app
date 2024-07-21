@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { storage } from '../../../firebase.ts';
+import { storage } from 'app/firebase.ts';
 import { getErrorMessage } from 'store/functions';
 import { serverResponseStatusHooks } from 'store/types.ts';
 

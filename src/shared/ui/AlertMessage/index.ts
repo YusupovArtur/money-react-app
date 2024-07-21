@@ -1,1 +1,1 @@
-export { default as AlertMessage } from './AlertMessage.tsx';
+export { default } from './AlertMessage.tsx';

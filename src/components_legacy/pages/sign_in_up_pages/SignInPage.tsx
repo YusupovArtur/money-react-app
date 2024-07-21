@@ -1,9 +1,13 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
+// Router
 import { Link, useNavigate } from 'react-router-dom';
+// Store
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { signInUserWithEmailAndPassword, setIsRemember } from 'store/slices/userSlice.ts';
+import { setIsRemember, signInUserWithEmailAndPassword } from 'store/slices/userSlice.ts';
 import SignInWithPopupButtons from '../../pages/sign_in_up_pages/SignInWithPopupButtons';
 import { isEmailCorrect } from './functions.ts';
+// UI
+import PageLoadingSpinner from 'shared/ui/PageLoadingSpinner';
 
 const SignInPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -27,12 +31,7 @@ const SignInPage: FC = () => {
     }
   };
 
-  if (isLoading)
-    return (
-      <div className="spinner-border text-body loading-spinner" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    );
+  if (isLoading) return <PageLoadingSpinner></PageLoadingSpinner>;
 
   return (
     <div>

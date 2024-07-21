@@ -4,7 +4,7 @@ import useDragEnter from '../../small_components/dragable/useDragEnter';
 interface DraggableItemProps {
   children?: ReactNode;
   isDraggable: boolean;
-  dropFunction: (dropID: string) => void;
+  onDrop: (dropID: string) => void;
   dragStartID: string;
   setDragStartID: Dispatch<SetStateAction<string>>;
   dragOverID: string;
@@ -16,7 +16,7 @@ interface DraggableItemProps {
 const DraggableItem: FC<DraggableItemProps> = ({
   children,
   isDraggable,
-  dropFunction,
+  onDrop,
   dragStartID,
   setDragStartID,
   dragOverID,
@@ -39,7 +39,7 @@ const DraggableItem: FC<DraggableItemProps> = ({
   };
 
   const handleDrop = () => {
-    dropFunction(itemID);
+    onDrop(itemID);
     setDragStartID('');
     setDragOverID('');
   };
@@ -49,13 +49,13 @@ const DraggableItem: FC<DraggableItemProps> = ({
       id={itemID}
       draggable={isDraggable}
       onDragStart={() => setDragStartID(itemID)}
-      onDragEnter={(event) => handleDragOver(event)}
+      onDragEnter={handleDragOver}
       onDragEnd={() => {
         setDragStartID('');
         setDragOverID('');
       }}
       onDrop={() => handleDrop()}
-      className={isDraggable ? '' : 'pb-3'}
+      className={isDraggable ? undefined : 'pb-3'}
     >
       <div id={itemID} className={dragClassName}></div>
       {children}

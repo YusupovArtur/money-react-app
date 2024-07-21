@@ -1,8 +1,8 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
 // Store imports
 import { useAppDispatch } from 'store/hook';
 import { shiftSubCategory } from 'store/slices/categoriesSlice';
-import { SUBCATEGORIES_LIST_LAST_ITEM_ID, categoryType } from 'store/types';
+import { categoryType, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/types';
 // Subcategories imports
 import SubcategoryItem from '../../../pages/categories_page/subcategories_list/SubcategoryItem';
 import DraggableItem from '../../../small_components/dragable/DraggableItem.tsx';
@@ -23,7 +23,7 @@ const SubcategoriesList: FC<{
       {category.subcategories.map((subcategory, index) => (
         <DraggableItem
           key={subcategory.id}
-          dropFunction={dropFunction}
+          onDrop={dropFunction}
           isDraggable={true}
           dragStartID={dragStartID}
           setDragStartID={setDragStartID}
@@ -37,7 +37,7 @@ const SubcategoriesList: FC<{
       ))}
 
       <DraggableItem
-        dropFunction={dropFunction}
+        onDrop={dropFunction}
         isDraggable={false}
         dragStartID={dragStartID}
         setDragStartID={setDragStartID}

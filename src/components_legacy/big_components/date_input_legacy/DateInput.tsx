@@ -4,7 +4,7 @@ import DateInputDatePicker from '../../big_components/date_input_legacy/DateInpu
 import { CalendarIconSvg } from '../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE } from './constants.ts';
 import { getDeviceType } from './functions.ts';
-import { ModalContainer } from 'shared/layouts/ModalContainer';
+import ModalContainer from 'shared/containers/ModalContainer';
 
 const DateInput: FC<{
   dateInputValue: string;

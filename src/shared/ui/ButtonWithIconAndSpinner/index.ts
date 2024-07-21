@@ -1,1 +1,1 @@
-export { default as ButtonWithIconAndSpinner } from './ButtonWithIconAndSpinner';
+export { default } from './ButtonWithIconAndSpinner';

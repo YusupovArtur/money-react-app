@@ -4,7 +4,7 @@ import { getAuth } from 'firebase/auth';
 import DateInputLegacy from '../../big_components/date_input_legacy/DateInput.tsx';
 import DateInput from '../../small_components/date_input/DateInput.tsx';
 import { dateStateType } from '../../small_components/date_input/types.ts';
-import DropdownMenu from '../../small_components/DropdownMenu.tsx';
+import DropdownContainer from 'shared/containers/DropdownContainer';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
@@ -177,7 +177,7 @@ const MainPage: FC = () => {
       <div className="container">
         <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true}></DateInputLegacy>
         <DateInput dateState={dateState} setDateState={setDateState}></DateInput>
-        <DropdownMenu
+        <DropdownContainer
           DropdownToggle={<button className="btn btn-primary">Open</button>}
           DropdownMenu={
             <ul style={{ backgroundColor: 'red' }} className="m-0">
@@ -217,10 +217,11 @@ const MainPage: FC = () => {
           setIsOpened={setIsOpened}
           // openFunction={() => console.log('open')}
           // closeFunction={() => console.log('close')}
-          menuAlignmentY="bottom"
-          menuAlignmentX="left"
-        ></DropdownMenu>
+          menuAlignment={{ y: 'bottom', x: 'right' }}
+        ></DropdownContainer>
       </div>
+      {/*<TextInput></TextInput>*/}
+      {/*<input type="text" className="form-control" autoComplete="off" />*/}
     </div>
   );
 };

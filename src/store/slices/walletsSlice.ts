@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { doc, getDoc, runTransaction } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from '../../firebase.ts';
+import { db } from 'app/firebase.ts';
 import {
-  serverResponseStatusHooks,
   ErrorWithCode,
-  walletsStateType,
+  serverResponseStatusHooks,
   walletAddType,
-  walletUpdateType,
   WALLETS_LIST_LAST_ITEM_ID,
+  walletsStateType,
+  walletUpdateType,
 } from 'store/types.ts';
 import { generateID, getErrorMessage } from 'store/functions.ts';
 
