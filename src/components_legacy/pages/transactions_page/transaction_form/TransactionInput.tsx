@@ -5,7 +5,7 @@ import { addOperation } from 'store/slices/operationsSlice';
 import { operationType, serverResponseStatusHooks, walletType } from 'store/types';
 // Input components
 import ModalContainer from 'shared/containers/ModalContainer';
-import InputFormBar from 'features/InputFormBar';
+import InputFormBar from 'entities/InputFormBar';
 import TransactionForm from '../../../pages/transactions_page/transaction_form/TransactionForm';
 import { dateStateType } from '../../../small_components/date_input/types';
 import { getDateStateFromTimestamp } from '../../../small_components/date_input/functions';
@@ -27,7 +27,6 @@ const TransactionInput: FC<{
     subcategory: '',
     description: '',
   });
-  const [stringNumber, setStringNumber] = useState<string>('0');
   const [dateState, setDateState] = useState<dateStateType>(getDateStateFromTimestamp(new Date().getTime()));
   const [fromWallet, setFromWallet] = useState<walletType | undefined>(undefined);
   const [toWallet, setToWallet] = useState<walletType | undefined>(undefined);
@@ -43,7 +42,6 @@ const TransactionInput: FC<{
       subcategory: '',
       description: '',
     });
-    setStringNumber('0');
     setDateState(getDateStateFromTimestamp(new Date().getTime()));
     setFromWallet(undefined);
     setToWallet(undefined);
@@ -69,8 +67,6 @@ const TransactionInput: FC<{
           formData={formData}
           setFormData={setFormData}
           type={type}
-          stringNumber={stringNumber}
-          setStringNumber={setStringNumber}
           dateState={dateState}
           setDateState={setDateState}
           fromWallet={fromWallet}

@@ -5,10 +5,12 @@ import DateInputLegacy from '../../big_components/date_input_legacy/DateInput.ts
 import DateInput from '../../small_components/date_input/DateInput.tsx';
 import { dateStateType } from '../../small_components/date_input/types.ts';
 import DropdownContainer from 'shared/containers/DropdownContainer';
+import NumberInput from 'shared/inputs/NumberInput';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
   const [dateState, setDateState] = useState<dateStateType>({ day: 1, month: 7, year: 2024 });
+  const [value, setValue] = useState(0);
 
   const userState = useAppSelector((state) => state.user.userState);
   const auth = getAuth();
@@ -183,32 +185,47 @@ const MainPage: FC = () => {
             <ul style={{ backgroundColor: 'red' }} className="m-0">
               <li>
                 <a className="dropdown-item" href="#">
-                  Action
+                  Action big big big big big
                 </a>
               </li>
               <li>
                 <a className="dropdown-item" href="#">
-                  Another action
+                  Another action big big big big big
                 </a>
               </li>
               <li>
                 <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>{' '}
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
+                  Something else here big big big big big
                 </a>
               </li>
               <li>
                 <a className="dropdown-item" href="#">
-                  Another action
+                  Action big big big big big
                 </a>
               </li>
               <li>
                 <a className="dropdown-item" href="#">
-                  Something else here
+                  Another action big big big big big
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Something else here big big big big big
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Action big big big big big
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Another action big big big big big
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Something else here big big big big big
                 </a>
               </li>
             </ul>
@@ -220,8 +237,10 @@ const MainPage: FC = () => {
           menuAlignment={{ y: 'bottom', x: 'right' }}
         ></DropdownContainer>
       </div>
-      {/*<TextInput></TextInput>*/}
-      {/*<input type="text" className="form-control" autoComplete="off" />*/}
+
+      <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
+      <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
+      {/*<input type="number" className="form-control" autoComplete="off"></input>*/}
     </div>
   );
 };

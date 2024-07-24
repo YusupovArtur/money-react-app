@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Input components
 import ModalContainer from 'shared/containers/ModalContainer';
-import InputFormBar from 'features/InputFormBar';
+import InputFormBar from 'entities/InputFormBar';
 import SubcategoryForm from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 import { serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 // Store

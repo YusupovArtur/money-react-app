@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from 'store/hook.ts';
 // UI
 import ThemeToggle from 'features/ThemeToggle';
-import ProfilePhoto from 'features/ProfilePhoto';
+import ProfilePhoto from 'entities/ProfilePhoto';
 
 // TODO: Change links style to more contrast
 const Navbar: FC = () => {

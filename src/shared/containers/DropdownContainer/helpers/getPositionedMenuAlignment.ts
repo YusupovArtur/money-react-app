@@ -1,7 +1,7 @@
 import { MutableRefObject } from 'react';
 import menuAlignmentType from '../types/menuAlignmentType.ts';
 
-const getMenuAlignment = (props: {
+const getPositionedMenuAlignment = (props: {
   toggleRef: MutableRefObject<HTMLSpanElement | null>;
   menuRef: MutableRefObject<HTMLSpanElement | null>;
   menuAlignment: menuAlignmentType;
@@ -43,11 +43,10 @@ const getMenuAlignment = (props: {
       alignment.x = 'left';
     }
 
-    console.log(rightSpace);
     return alignment;
   }
 
   return menuAlignment;
 };
 
-export default getMenuAlignment;
+export default getPositionedMenuAlignment;

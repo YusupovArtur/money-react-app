@@ -5,7 +5,7 @@ import { addWallet } from 'store/slices/walletsSlice';
 import { serverResponseStatusHooks, walletAddType } from 'store/types';
 // Input components
 import ModalContainer from 'shared/containers/ModalContainer';
-import InputFormBar from 'features/InputFormBar';
+import InputFormBar from 'entities/InputFormBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 
 const WalletInput: FC<{
@@ -42,12 +42,7 @@ const WalletInput: FC<{
           onClear={clearFunction}
           onAdd={addFunction}
         ></InputFormBar>
-        <WalletForm
-          formData={formData}
-          setFormData={setFormData}
-          stringNumber={stringNumber}
-          setStringNumber={setStringNumber}
-        ></WalletForm>
+        <WalletForm formData={formData} setFormData={setFormData}></WalletForm>
       </div>
     </ModalContainer>
   );

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store/hook';
 import { updatePhotoURL } from 'store/slices/userSlice';
 import { drawImage, moveImage, rescaleImage, setImage, uploadImage } from './functions.ts';
 // UI
-import ProfilePhoto from 'features/ProfilePhoto';
+import ProfilePhoto from 'entities/ProfilePhoto';
 import ModalContainer from 'shared/containers/ModalContainer';
 import { CloudPlusSVG, CrossIconSVG } from '../../small_components/icons_svg/IconsSVG';
 

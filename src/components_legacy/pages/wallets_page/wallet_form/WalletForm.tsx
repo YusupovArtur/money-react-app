@@ -6,14 +6,14 @@ import ColorMenu from '../../../small_components/dropdowns/ColorMenu';
 import WalletTypeMenu from '../../../pages/wallets_page/wallet_form/WalletTypeMenu';
 import { walletAddType } from 'store/types';
 // Number input
-import NumberInput from '../../../small_components/NumberInput';
+import NumberInput from 'shared/inputs/NumberInput';
 
-const WalletForm: FC<{
+interface WalletFormProps {
   formData: walletAddType;
   setFormData: Dispatch<SetStateAction<walletAddType>>;
-  stringNumber: string;
-  setStringNumber: Dispatch<SetStateAction<string>>;
-}> = ({ formData, setFormData, stringNumber, setStringNumber }) => {
+}
+
+const WalletForm: FC<WalletFormProps> = ({ formData, setFormData }) => {
   return (
     <div className="d-flex flex-column">
       <span className="text-body-tertiary mt-2">Имя счета</span>
@@ -47,9 +47,8 @@ const WalletForm: FC<{
 
       <span className="text-body-tertiary mt-2 mb-0">Сумма на счете</span>
       <NumberInput
-        stringNumber={stringNumber}
-        setStringNumber={setStringNumber}
-        setNumberFunction={(number: number) => setFormData((state) => ({ ...state, balance: number }))}
+        number={formData.balance}
+        setNumber={(number: number) => setFormData((state) => ({ ...state, balance: number }))}
       ></NumberInput>
 
       <span className="text-body-tertiary mt-2 mb-0">Описание</span>

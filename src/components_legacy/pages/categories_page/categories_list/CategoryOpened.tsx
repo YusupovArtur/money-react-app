@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 // Categories imports
-import EditFormBar from 'features/EditFormBar';
+import EditFormBar from 'entities/EditFormBar';
 import CategoryForm from '../../../pages/categories_page/categories_form/CategoryForm';
 import CategoryOpenedInfo from '../../../pages/categories_page/categories_list/CategoryOpenedInfo';
 // Subcategories imports

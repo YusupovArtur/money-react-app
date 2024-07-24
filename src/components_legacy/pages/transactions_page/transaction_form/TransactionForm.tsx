@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { operationType, walletType } from 'store/types';
 // Inputs
 import TransactionTypeToggle from '../../../pages/transactions_page/transaction_form/TransactionTypeToggle';
-import NumberInput from '../../../small_components/NumberInput';
+import NumberInput from 'shared/inputs/NumberInput';
 import DateInput from '../../../small_components/date_input/DateInput';
 import WalletMenu from '../../../small_components/dropdowns/WalletMenu';
 // Types
@@ -11,24 +11,22 @@ import { getDateStateFromTimestamp } from '../../../small_components/date_input/
 // Icons
 import { ArrowRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 
-const TransactionForm: FC<{
+interface TransactionFormProps {
   formData: operationType;
   setFormData: Dispatch<SetStateAction<operationType>>;
   type: 'expense' | 'income' | 'transfer' | 'optional';
-  stringNumber: string;
-  setStringNumber: Dispatch<SetStateAction<string>>;
   dateState: dateStateType;
   setDateState: Dispatch<SetStateAction<dateStateType>>;
   fromWallet: walletType | undefined;
   setFromWallet: Dispatch<SetStateAction<walletType | undefined>>;
   toWallet: walletType | undefined;
   setToWallet: Dispatch<SetStateAction<walletType | undefined>>;
-}> = ({
+}
+
+const TransactionForm: FC<TransactionFormProps> = ({
   formData,
   setFormData,
   type,
-  stringNumber,
-  setStringNumber,
   dateState,
   setDateState,
   fromWallet,
@@ -54,7 +52,6 @@ const TransactionForm: FC<{
                 subcategory: '',
                 description: '',
               }));
-              setStringNumber('0');
               setDateState(getDateStateFromTimestamp(new Date().getTime()));
               setFromWallet(undefined);
               setToWallet(undefined);
@@ -66,9 +63,8 @@ const TransactionForm: FC<{
           {formData.type === 'expense' ? 'Сумма расхода' : formData.type === 'income' ? 'Сумма дохода' : 'Сумма перевода'}
         </span>
         <NumberInput
-          stringNumber={stringNumber}
-          setStringNumber={setStringNumber}
-          setNumberFunction={(number: number) => setFormData((state) => ({ ...state, sum: number }))}
+          number={formData.sum}
+          setNumber={(number: number) => setFormData((state) => ({ ...state, sum: number }))}
         ></NumberInput>
 
         <span className="text-body-tertiary mt-2">Дата операции</span>

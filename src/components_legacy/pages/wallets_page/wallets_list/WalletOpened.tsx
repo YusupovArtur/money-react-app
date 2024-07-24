@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Components
 import ModalContainer from 'shared/containers/ModalContainer';
-import EditFormBar from 'features/EditFormBar';
+import EditFormBar from 'entities/EditFormBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 import WalletInfo from '../../../pages/wallets_page/wallets_list/WalletInfo';
 // Store
@@ -66,12 +66,7 @@ const WalletOpened: FC<{
           itemName={wallet.name}
         ></EditFormBar>
         {isEdit ? (
-          <WalletForm
-            formData={formData}
-            setFormData={setFormData}
-            stringNumber={stringNumber}
-            setStringNumber={setStringNumber}
-          ></WalletForm>
+          <WalletForm formData={formData} setFormData={setFormData}></WalletForm>
         ) : (
           <WalletInfo wallet={wallet}></WalletInfo>
         )}

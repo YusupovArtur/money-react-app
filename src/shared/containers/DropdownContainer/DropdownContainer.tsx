@@ -1,11 +1,11 @@
-import { CSSProperties, Dispatch, FC, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
+import { CSSProperties, Dispatch, FC, ReactNode, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from 'react';
 // Hooks
 import useClickOutside from 'shared/hooks/useClickOutside';
 import useThrottling from 'shared/hooks/useThrottling';
 // Helpers
-import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle.ts';
 import menuAlignmentType from './types/menuAlignmentType.ts';
-import getMenuAlignment from 'shared/containers/DropdownContainer/helpers/getMenuAlignment.ts';
+import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle.ts';
+import getPositionedMenuAlignment from './helpers/getPositionedMenuAlignment.ts';
 
 const DropdownContainer: FC<{
   DropdownToggle: ReactNode;
@@ -16,7 +16,7 @@ const DropdownContainer: FC<{
   onClose?: () => void;
   isInsideClickClose?: boolean;
   isOutsideClickClose?: boolean;
-  menuAlignment: menuAlignmentType;
+  menuAlignment?: menuAlignmentType;
 }> = ({
   DropdownToggle,
   DropdownMenu,
@@ -26,7 +26,7 @@ const DropdownContainer: FC<{
   onClose,
   isInsideClickClose = true,
   isOutsideClickClose = true,
-  menuAlignment,
+  menuAlignment = { y: 'bottom', x: 'right' },
 }) => {
   const toggleRef = useRef<HTMLSpanElement>(null);
   const menuRef = useRef<HTMLSpanElement>(null);
@@ -56,12 +56,21 @@ const DropdownContainer: FC<{
 
   const throttledHandleScroll = useThrottling(() => {
     if (toggleRef && menuRef && toggleRef.current && menuRef.current) {
-      const alignment = getMenuAlignment({ toggleRef, menuRef, menuAlignment });
-      setMenuAlignmentStyle(getMenuAlignmentStyle(alignment));
+      const alignmentPositioned = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
+      const alignmentStyle = getMenuAlignmentStyle(alignmentPositioned);
+      setMenuAlignmentStyle(alignmentStyle);
     }
   }, 100);
 
   useClickOutside({ elementRef: [toggleRef, menuRef], onClickOutside: handleOutsideClick });
+
+  useLayoutEffect(() => {
+    if (isOpened) {
+      const alignment = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
+      const alignmentStyle = getMenuAlignmentStyle(alignment);
+      setMenuAlignmentStyle(alignmentStyle);
+    }
+  }, [isOpened]);
 
   useEffect(() => {
     window.addEventListener('scroll', throttledHandleScroll);
