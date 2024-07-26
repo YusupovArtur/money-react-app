@@ -1,5 +1,3 @@
-import getDividedTextNumber from './getDividedTextNumber.ts';
-
 const getFormatedTextNumber = (numberText: string): string => {
   let numberTextValid: string = numberText.replace(/[^-.,\d]/g, '').replace(/,/g, '.');
 
@@ -14,10 +12,11 @@ const getFormatedTextNumber = (numberText: string): string => {
       ? numberTextValid.slice(0, firstDotIndex) + numberTextValid.slice(firstDotIndex).replace(/[.]/g, '').slice(0, 2)
       : numberTextValid;
 
-  const [numberSign, numberIntegerPart, numberFloatPart] = getDividedTextNumber(numberTextValid);
+  return numberTextValid;
+  // const [numberSign, numberIntegerPart, numberFloatPart] = getDividedTextNumber(numberTextValid);
 
   // return `${numberSign}${!numberIntegerPart && numberFloatPart ? '0' : numberIntegerPart}${numberFloatPart}`;
-  return `${numberSign}${numberIntegerPart}${numberFloatPart}`;
+  // return `${numberSign}${numberIntegerPart}${numberFloatPart}`;
 };
 
 export default getFormatedTextNumber;

@@ -61,7 +61,7 @@ const IconMenu: FC<{
                       <button
                         onClick={() => setIcon(icon)}
                         key={icon}
-                        className={`btn btn-body hover-scale-10 p-1 m-1 ${iconName === icon && 'bordered-emphasis'}`}
+                        className={`btn btn-body hover-scale-10 p-1 m-1 ${iconName === icon && 'bordered-strong'}`}
                       >
                         <ContentIcon iconName={icon} iconSize="1.7rem"></ContentIcon>
                       </button>

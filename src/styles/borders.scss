@@ -1,0 +1,25 @@
+:root,
+[data-bs-theme=light] {
+  --border-color: #dee2e6;
+  --border-color-emphasis: #d5d9dd;
+  --border-color-strong: #888a90;
+}
+
+[data-bs-theme=dark] {
+  color-scheme: dark;
+  --border-color: #495057;
+  --border-color-emphasis: #585966;
+  --border-color-strong: #888a90;
+}
+
+.bordered {
+  border: 2px var(--bs-border-style) var(--border-color-emphasis) !important;
+}
+
+.bordered-emphasis {
+  border: 2px var(--bs-border-style) var(--border-color-emphasis) !important;
+}
+
+.bordered-strong {
+  border: 2px var(--bs-border-style) var(--border-color-strong) !important;
+}

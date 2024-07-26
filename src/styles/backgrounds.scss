@@ -1,27 +1,19 @@
 .bg-body-subtle {
-	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-	background-color: var(--bg-color-body-subtle);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: var(--bg-color-body-subtle);
 }
 
 .bg-body-backout {
-	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-	background-color: var(--bg-color-backout);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: var(--bg-color-backout);
 }
 
 .bg-primary-soft {
-	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-	background-color: var(--bg-color-primary-15);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: var(--bg-color-primary-15);
 }
 
 .bg-primary-active {
-	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-	background-color: #0a58ca !important;
-}
-
-.bordered {
-	border: 2px var(--bs-border-style) var(--border-color-accent) !important;
-}
-
-.bordered-emphasis {
-	border: 0.1rem var(--bs-border-style) var(--border-color-emphasis) !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: #0a58ca !important;
 }

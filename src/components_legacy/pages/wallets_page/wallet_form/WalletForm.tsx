@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 // Menus imports
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
 import { WALLET_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
-import ColorMenu from '../../../small_components/dropdowns/ColorMenu';
+import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
 import WalletTypeMenu from '../../../pages/wallets_page/wallet_form/WalletTypeMenu';
 import { walletAddType } from 'store/types';
 // Number input
@@ -39,10 +39,10 @@ const WalletForm: FC<WalletFormProps> = ({ formData, setFormData }) => {
           rowLength={6}
           isDivider={false}
         ></IconMenu>
-        <ColorMenu
+        <ColorInput
           color={formData.color}
           setColor={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
-        ></ColorMenu>
+        ></ColorInput>
       </div>
 
       <span className="text-body-tertiary mt-2 mb-0">Сумма на счете</span>

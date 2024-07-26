@@ -1,7 +1,8 @@
-@import "./colors.scss";
-@import "./buttons.scss";
-@import "./backgrounds.scss";
-@import "./animations.scss";
+@import "colors";
+@import "buttons";
+@import "backgrounds";
+@import "animations";
+@import "borders";
 
 .text-body-quaternary {
   color: var(--text-color-quaternary);

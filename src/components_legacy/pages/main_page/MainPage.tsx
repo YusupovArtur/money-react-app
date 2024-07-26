@@ -6,11 +6,13 @@ import DateInput from '../../small_components/date_input/DateInput.tsx';
 import { dateStateType } from '../../small_components/date_input/types.ts';
 import DropdownContainer from 'shared/containers/DropdownContainer';
 import NumberInput from 'shared/inputs/NumberInput';
+import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
   const [dateState, setDateState] = useState<dateStateType>({ day: 1, month: 7, year: 2024 });
   const [value, setValue] = useState(0);
+  const [color, setColor] = useState<string>('#000000');
 
   const userState = useAppSelector((state) => state.user.userState);
   const auth = getAuth();
@@ -230,17 +232,11 @@ const MainPage: FC = () => {
               </li>
             </ul>
           }
-          isOpened={isOpened}
-          setIsOpened={setIsOpened}
-          // openFunction={() => console.log('open')}
-          // closeFunction={() => console.log('close')}
-          menuAlignment={{ y: 'bottom', x: 'right' }}
         ></DropdownContainer>
       </div>
 
       <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
-      <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
-      {/*<input type="number" className="form-control" autoComplete="off"></input>*/}
+      <ColorInput color={color} setColor={setColor}></ColorInput>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import CategoryTypeMenu from '../../../pages/categories_page/categories_form/CategoryTypeMenu';
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
 import { CATEGOTY_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
-import ColorMenu from '../../../small_components/dropdowns/ColorMenu';
+import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
 import { categoryAddType } from 'store/types';
 
 const CategoryForm: FC<{
@@ -35,10 +35,10 @@ const CategoryForm: FC<{
           rowLength={7}
           isDivider={true}
         ></IconMenu>
-        <ColorMenu
+        <ColorInput
           color={formData.color}
           setColor={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
-        ></ColorMenu>
+        ></ColorInput>
       </div>
 
       <span className="text-body-tertiary mt-2 mb-0">Описание</span>

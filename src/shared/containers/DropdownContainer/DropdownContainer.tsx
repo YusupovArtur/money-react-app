@@ -1,60 +1,72 @@
 import { CSSProperties, Dispatch, FC, ReactNode, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from 'react';
+// Containers
+import ModalContainer from 'shared/containers/ModalContainer';
 // Hooks
 import useClickOutside from 'shared/hooks/useClickOutside';
-import useThrottling from 'shared/hooks/useThrottling';
+import useThrottledCallback from 'shared/hooks/useThrottledCallback';
 // Helpers
 import menuAlignmentType from './types/menuAlignmentType.ts';
 import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle.ts';
 import getPositionedMenuAlignment from './helpers/getPositionedMenuAlignment.ts';
+import getDeviceType from './helpers/getDeviceType.ts';
 
-const DropdownContainer: FC<{
+interface BaseDropdownContainerProps {
   DropdownToggle: ReactNode;
   DropdownMenu: ReactNode;
-  isOpened: boolean;
-  setIsOpened: Dispatch<SetStateAction<boolean>>;
-  onOpen?: () => void;
-  onClose?: () => void;
   isInsideClickClose?: boolean;
   isOutsideClickClose?: boolean;
   menuAlignment?: menuAlignmentType;
-}> = ({
+  modalForMobileDevice?: { isEnable: boolean; zIndex?: number };
+}
+
+interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
+  isOpened: boolean;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+}
+
+interface WithoutStateDropdownContainerProps extends BaseDropdownContainerProps {
+  isOpened?: never;
+  setIsOpened?: never;
+}
+
+type DropdownContainerProps = WithStateDropdownContainerProps | WithoutStateDropdownContainerProps;
+
+const DropdownContainer: FC<DropdownContainerProps> = ({
   DropdownToggle,
   DropdownMenu,
-  isOpened,
-  setIsOpened,
-  onOpen,
-  onClose,
+  isOpened: outerIsOpened,
+  setIsOpened: outerSetIsOpened,
   isInsideClickClose = true,
   isOutsideClickClose = true,
   menuAlignment = { y: 'bottom', x: 'right' },
+  modalForMobileDevice: { isEnable = false, zIndex = 3 } = {},
 }) => {
+  const [isOpened, setIsOpened] =
+    outerIsOpened !== undefined && outerSetIsOpened ? [outerIsOpened, outerSetIsOpened] : useState<boolean>(false);
+
   const toggleRef = useRef<HTMLSpanElement>(null);
   const menuRef = useRef<HTMLSpanElement>(null);
+
   const [menuAlignmentStyle, setMenuAlignmentStyle] = useState<CSSProperties>(getMenuAlignmentStyle(menuAlignment));
+  const deviceType = isEnable ? getDeviceType() : 'desktop';
 
   const handleToggleClick = () => {
-    setIsOpened((state) => {
-      if (!state && onOpen) onOpen();
-      if (state && onClose) onClose();
-      return !state;
-    });
+    setIsOpened((state) => !state);
   };
 
   const handleMenuClick = () => {
     if (isInsideClickClose) {
-      if (onClose) onClose();
       setIsOpened(false);
     }
   };
 
   const handleOutsideClick = () => {
     if (isOutsideClickClose) {
-      if (onClose) onClose();
       setIsOpened(false);
     }
   };
 
-  const throttledHandleScroll = useThrottling(() => {
+  const throttledHandleScroll = useThrottledCallback(() => {
     if (toggleRef && menuRef && toggleRef.current && menuRef.current) {
       const alignmentPositioned = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
       const alignmentStyle = getMenuAlignmentStyle(alignmentPositioned);
@@ -88,7 +100,8 @@ const DropdownContainer: FC<{
       <span ref={toggleRef} onClick={handleToggleClick} style={{ display: 'inline-block' }}>
         {DropdownToggle}
       </span>
-      {isOpened && (
+
+      {isOpened && deviceType === 'desktop' && (
         <span
           onClick={handleMenuClick}
           ref={menuRef}
@@ -96,6 +109,18 @@ const DropdownContainer: FC<{
         >
           {DropdownMenu}
         </span>
+      )}
+
+      {isOpened && deviceType === 'mobile' && (
+        <ModalContainer
+          isOpened={isOpened}
+          setIsOpened={setIsOpened}
+          onClick={() => setIsOpened(false)}
+          zIndex={zIndex}
+          style={{ margin: 'auto' }}
+        >
+          {DropdownMenu}
+        </ModalContainer>
       )}
     </div>
   );

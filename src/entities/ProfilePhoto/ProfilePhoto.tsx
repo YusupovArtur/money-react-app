@@ -1,8 +1,8 @@
-import { FC, HTMLProps, useState } from 'react';
+import { FC, HTMLAttributes, useState } from 'react';
 import { useAppSelector } from 'store/hook.ts';
 import DefaultUserIcon from 'entities/ProfilePhoto/ui/DefaultUserIcon.tsx';
 
-interface ProfilePhotoProps extends HTMLProps<HTMLSpanElement> {
+interface ProfilePhotoProps extends HTMLAttributes<HTMLSpanElement> {
   iconSize?: string;
 }
 
