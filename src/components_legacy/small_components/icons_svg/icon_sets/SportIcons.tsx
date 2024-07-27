@@ -3,9 +3,9 @@ import { FC } from 'react';
 const SportIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Dumbbell':
-      return <DumbbellIconSVG iconSize={iconSize}></DumbbellIconSVG>;
+      return <DumbbellIconSVG iconSize={iconSize} />;
     case 'Ball':
-      return <BallIconSVG iconSize={iconSize}></BallIconSVG>;
+      return <BallIconSVG iconSize={iconSize} />;
     // case '':
     //   return <IconSVG iconSize={iconSize}></IconSVG>;
 

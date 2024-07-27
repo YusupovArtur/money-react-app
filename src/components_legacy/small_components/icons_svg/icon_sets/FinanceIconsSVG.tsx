@@ -3,33 +3,33 @@ import { FC } from 'react';
 const FinanceIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Cash':
-      return <CashIconSVG iconSize={iconSize}></CashIconSVG>;
+      return <CashIconSVG iconSize={iconSize} />;
     case 'CashCoin':
-      return <CashCoinIconSVG iconSize={iconSize}></CashCoinIconSVG>;
+      return <CashCoinIconSVG iconSize={iconSize} />;
     case 'CashStack':
-      return <CashStackIconSVG iconSize={iconSize}></CashStackIconSVG>;
+      return <CashStackIconSVG iconSize={iconSize} />;
     case 'Wallet':
-      return <WalletIconSVG iconSize={iconSize}></WalletIconSVG>;
+      return <WalletIconSVG iconSize={iconSize} />;
     case 'WalletFill':
-      return <WalletFillIconSVG iconSize={iconSize}></WalletFillIconSVG>;
+      return <WalletFillIconSVG iconSize={iconSize} />;
     case 'Card':
-      return <CardIconSVG iconSize={iconSize}></CardIconSVG>;
+      return <CardIconSVG iconSize={iconSize} />;
     case 'CardFill':
-      return <CardFillIconSVG iconSize={iconSize}></CardFillIconSVG>;
+      return <CardFillIconSVG iconSize={iconSize} />;
 
     case 'Bank':
-      return <BankIconSVG iconSize={iconSize}></BankIconSVG>;
+      return <BankIconSVG iconSize={iconSize} />;
     case 'PiggyBank':
-      return <PiggyBankIconSVG iconSize={iconSize}></PiggyBankIconSVG>;
+      return <PiggyBankIconSVG iconSize={iconSize} />;
     case 'Percent':
-      return <PercentIconSVG iconSize={iconSize}></PercentIconSVG>;
+      return <PercentIconSVG iconSize={iconSize} />;
     case 'GraphArrow':
-      return <GraphArrowIconSVG iconSize={iconSize}></GraphArrowIconSVG>;
+      return <GraphArrowIconSVG iconSize={iconSize} />;
     case 'BarChartLineFill':
-      return <BarChartLineFillIconSVG iconSize={iconSize}></BarChartLineFillIconSVG>;
+      return <BarChartLineFillIconSVG iconSize={iconSize} />;
 
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

@@ -38,7 +38,7 @@ const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isShowInput, 
           onClear={() => setFormData({ name: '', iconName: 'Card', description: '' })}
           onAdd={addFunction}
         ></InputFormBar>
-        <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
+        <SubcategoryForm formData={formData} setFormData={setFormData} />
       </div>
     </ModalContainer>
   );

@@ -16,7 +16,7 @@ const ExitButton: FC = () => {
       }}
       className="btn btn-outline-danger align-self-start d-flex justify-content-between align-items-center"
     >
-      <BoxArrowLeftSVG iconSize="1.2rem"></BoxArrowLeftSVG>
+      <BoxArrowLeftSVG iconSize="1.2rem" />
       <span className="ms-1">Выйти</span>
     </button>
   );

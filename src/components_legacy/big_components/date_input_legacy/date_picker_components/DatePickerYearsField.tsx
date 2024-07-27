@@ -59,7 +59,11 @@ const DatepickerYearsField: FC<{
   return (
     <div
       className="container text-center"
-      style={{ width: `${DATE_PICKER_CELL_SIZE * 7}rem`, height: `${DATE_PICKER_CELL_SIZE * 7}rem`, overflowY: 'scroll' }}
+      style={{
+        width: `${DATE_PICKER_CELL_SIZE * 7}rem`,
+        height: `${DATE_PICKER_CELL_SIZE * 7}rem`,
+        overflowY: 'scroll',
+      }}
       ref={datePickerYearsFieldRef}
     >
       {datepickerYearsField.map((row) => (
@@ -70,7 +74,7 @@ const DatepickerYearsField: FC<{
               datePickerYearCellProps={year}
               setCurrentYear={setCurrentYear}
               setDisplayedField={setDisplayedField}
-            ></DatepickerYearCell>
+            />
           ))}
         </div>
       ))}

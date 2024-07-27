@@ -20,7 +20,7 @@ const SubcategoryOpenedInfo: FC<{ subcategory: subcategoryType; color: string }>
           className="d-flex justify-content-center align-items-center rounded-circle"
           style={{ backgroundColor: color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
         >
-          <ContentIcon iconName={subcategory.iconName} iconSize={`${iconSize}rem`}></ContentIcon>
+          <ContentIcon iconName={subcategory.iconName} iconSize={`${iconSize}rem`} />
         </div>
       </div>
 

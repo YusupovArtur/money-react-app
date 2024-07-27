@@ -3,17 +3,17 @@ import { FC } from 'react';
 const BeautyIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Scissors':
-      return <ScissorsIconSVG iconSize={iconSize}></ScissorsIconSVG>;
+      return <ScissorsIconSVG iconSize={iconSize} />;
     case 'Toothbruth':
-      return <ToothbruthIconSVG iconSize={iconSize}></ToothbruthIconSVG>;
+      return <ToothbruthIconSVG iconSize={iconSize} />;
     case 'Cream':
-      return <CreamIconSVG iconSize={iconSize}></CreamIconSVG>;
+      return <CreamIconSVG iconSize={iconSize} />;
     case 'Pomade':
-      return <PomadeIconSVG iconSize={iconSize}></PomadeIconSVG>;
+      return <PomadeIconSVG iconSize={iconSize} />;
     case 'Nail':
-      return <NailIconSVG iconSize={iconSize}></NailIconSVG>;
+      return <NailIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

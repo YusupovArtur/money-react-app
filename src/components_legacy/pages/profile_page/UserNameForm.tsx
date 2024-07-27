@@ -1,7 +1,7 @@
-import { useState, FC } from 'react';
+import { FC, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { updateUserName } from 'store/slices/userSlice.ts';
-import { PencilSquareIconSVG, CheckIconSVG, CrossIconSVG } from '../../small_components/icons_svg/IconsSVG';
+import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG } from '../../small_components/icons_svg/IconsSVG';
 
 const UserNameForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -44,9 +44,9 @@ const UserNameForm: FC = () => {
               <span className="visually-hidden">Loading...</span>
             </div>
           ) : isEdit ? (
-            <CheckIconSVG iconSize="1.125rem"></CheckIconSVG>
+            <CheckIconSVG iconSize="1.125rem" />
           ) : (
-            <PencilSquareIconSVG iconSize="1.125rem"></PencilSquareIconSVG>
+            <PencilSquareIconSVG iconSize="1.125rem" />
           )}
         </button>
         {isEdit && (
@@ -58,7 +58,7 @@ const UserNameForm: FC = () => {
             }}
             className="btn btn-danger d-flex justify-content-center align-items-center ms-2 py-2 px-3"
           >
-            <CrossIconSVG iconSize="1.13rem"></CrossIconSVG>
+            <CrossIconSVG iconSize="1.13rem" />
           </button>
         )}
         {errorMessage && (

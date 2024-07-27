@@ -3,21 +3,21 @@ import { FC } from 'react';
 const FoodIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'BasketFill':
-      return <BasketFillIconSVG iconSize={iconSize}></BasketFillIconSVG>;
+      return <BasketFillIconSVG iconSize={iconSize} />;
     case 'BasketFill2':
-      return <BasketFill2IconSVG iconSize={iconSize}></BasketFill2IconSVG>;
+      return <BasketFill2IconSVG iconSize={iconSize} />;
     case 'Cart':
-      return <CartIconSVG iconSize={iconSize}></CartIconSVG>;
+      return <CartIconSVG iconSize={iconSize} />;
     case 'CartFill':
-      return <CartFillIconSVG iconSize={iconSize}></CartFillIconSVG>;
+      return <CartFillIconSVG iconSize={iconSize} />;
     case 'Fastfood':
-      return <FastfoodIconSVG iconSize={iconSize}></FastfoodIconSVG>;
+      return <FastfoodIconSVG iconSize={iconSize} />;
     case 'Cafe':
-      return <CafeIconSVG iconSize={iconSize}></CafeIconSVG>;
+      return <CafeIconSVG iconSize={iconSize} />;
     case 'Cup':
-      return <CupIconSVG iconSize={iconSize}></CupIconSVG>;
+      return <CupIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

@@ -1,7 +1,8 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { useAppDispatch } from 'store/hook.ts';
-import { signInUserWithGitHub, signInUserWithGoogle } from 'store/slices/userSlice.ts';
-import { GithubIconSVG, GoogleIconSVG } from '../../small_components/icons_svg/IconsSVG';
+import { signInUserWithGitHub } from 'store/slices/userSlice.ts';
+import SigninWithGoogleButton from 'pages/LoginPage/features/SigninWIthGoogleButton/SigninWithGoogleButton.tsx';
+import SigninWithGitHubButton from 'pages/LoginPage/features/SigninWithGitHubButton';
 
 interface SignInWithPopupButtonsProps {
   isLoading: boolean;
@@ -18,26 +19,29 @@ const SignInWithPopupButtons: FC<SignInWithPopupButtonsProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const iconSize: string = '1.8rem';
+  const iconSize: string = '1.5rem';
 
-  const handleSignInWithGoogle = () => {
-    dispatch(signInUserWithGoogle({ setIsLoading, setErrorMessage, fulfilledFunction }));
-  };
   const handleSignInWithGitHub = () => {
     dispatch(signInUserWithGitHub({ setIsLoading, setErrorMessage, fulfilledFunction }));
   };
 
   return (
-    <div className={`${isLoading && 'd-none'}`}>
-      <div style={{ maxWidth: '27rem', width: '90vw' }} className="d-flex max-width-form flex-wrap justify-content-evenly">
-        <button onClick={handleSignInWithGoogle} type="button" className="btn btn-body shadow-sm rounded-4 px-3 py-2 mt-2">
-          <span className="me-2">Войти с</span>
-          <GoogleIconSVG iconSize={iconSize}></GoogleIconSVG>
-        </button>
-        <button onClick={handleSignInWithGitHub} type="button" className="btn btn-body shadow-sm rounded-4 px-3 py-2 mt-2">
-          <span className="me-2">Войти с</span>
-          <GithubIconSVG iconSize={iconSize}></GithubIconSVG>
-        </button>
+    <div className={`mt-2 ${isLoading && 'd-none'}`}>
+      <div className="d-flex max-width-form flex-wrap justify-content-evenly">
+        <SigninWithGoogleButton
+          setIsLoading={setIsLoading}
+          setErrorMessage={setErrorMessage}
+          fulfilledFunction={fulfilledFunction}
+          className="btn-body"
+          iconSize={iconSize}
+        />
+        <SigninWithGitHubButton
+          setIsLoading={setIsLoading}
+          setErrorMessage={setErrorMessage}
+          fulfilledFunction={fulfilledFunction}
+          className="btn-body"
+          iconSize={iconSize}
+        />
       </div>
     </div>
   );

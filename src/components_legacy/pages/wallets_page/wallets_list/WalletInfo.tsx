@@ -21,7 +21,7 @@ const WalletInfo: FC<{ wallet: walletType }> = ({ wallet }) => {
           className="d-flex justify-content-center align-items-center rounded-circle"
           style={{ backgroundColor: wallet.color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
         >
-          <ContentIcon iconName={wallet.iconName} iconSize={`${iconSize}rem`}></ContentIcon>
+          <ContentIcon iconName={wallet.iconName} iconSize={`${iconSize}rem`} />
         </div>
       </div>
 

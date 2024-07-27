@@ -24,7 +24,7 @@ const ProfilePhoto: FC<ProfilePhotoProps> = ({ iconSize = '1.5rem', ...props }) 
         }}
         alt="Нет фото"
       />
-      {!isLoaded && <DefaultUserIcon iconSize={iconSize}></DefaultUserIcon>}
+      {!isLoaded && <DefaultUserIcon iconSize={iconSize} />}
     </span>
   );
 };

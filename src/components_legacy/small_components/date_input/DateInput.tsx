@@ -37,7 +37,7 @@ const DateInput: FC<{
         setDateState={setDateState}
         setTimestampFunction={setTimestampFunction}
         deviseType={deviseType}
-      ></DateTextInput>
+      />
       <span
         onClick={() => {
           setIsShowDatePicker((isShowDatePicker) => !isShowDatePicker);
@@ -47,7 +47,7 @@ const DateInput: FC<{
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <CalendarIconSvg iconSize="1.3rem"></CalendarIconSvg>
+        <CalendarIconSvg iconSize="1.3rem" />
       </span>
       {!isDeviceMobile && (
         <ul className="p-2 bg-body-tertiary dropdown-menu dropdown-menu-end">
@@ -58,7 +58,7 @@ const DateInput: FC<{
               setTimestampFunction={setTimestampFunction}
               setIsShowDatepicker={setIsShowDatePicker}
               deviseType={deviseType}
-            ></DateInputDatePicker>
+            />
           ) : (
             <div
               style={{
@@ -77,7 +77,7 @@ const DateInput: FC<{
             setTimestampFunction={setTimestampFunction}
             setIsShowDatepicker={setIsShowDatePicker}
             deviseType={deviseType}
-          ></DateInputDatePicker>
+          />
         </div>
       </ModalContainer>
     </div>

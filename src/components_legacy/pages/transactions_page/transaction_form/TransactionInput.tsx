@@ -57,12 +57,7 @@ const TransactionInput: FC<{
         style={{ maxWidth: '35rem', width: '100vw' }}
         className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"
       >
-        <InputFormBar
-          addButtonsLabel="Транзакция"
-          setIsOpened={setIsShowInput}
-          onClear={clearFunction}
-          onAdd={addFunction}
-        ></InputFormBar>
+        <InputFormBar addButtonsLabel="Транзакция" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction} />
         <TransactionForm
           formData={formData}
           setFormData={setFormData}
@@ -73,7 +68,7 @@ const TransactionInput: FC<{
           setFromWallet={setFromWallet}
           toWallet={toWallet}
           setToWallet={setToWallet}
-        ></TransactionForm>
+        />
       </div>
     </ModalContainer>
   );

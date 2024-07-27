@@ -3,19 +3,19 @@ import { FC } from 'react';
 const HouseIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Furniture':
-      return <FurnitureIconSVG iconSize={iconSize}></FurnitureIconSVG>;
+      return <FurnitureIconSVG iconSize={iconSize} />;
     case 'Spray':
-      return <SprayIconSVG iconSize={iconSize}></SprayIconSVG>;
+      return <SprayIconSVG iconSize={iconSize} />;
     case 'Washing':
-      return <WashingIconSVG iconSize={iconSize}></WashingIconSVG>;
+      return <WashingIconSVG iconSize={iconSize} />;
     case 'Hammer':
-      return <HammerIconSVG iconSize={iconSize}></HammerIconSVG>;
+      return <HammerIconSVG iconSize={iconSize} />;
     case 'Tools':
-      return <ToolsIconSVG iconSize={iconSize}></ToolsIconSVG>;
+      return <ToolsIconSVG iconSize={iconSize} />;
     case 'Brush':
-      return <BrushIconSVG iconSize={iconSize}></BrushIconSVG>;
+      return <BrushIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

@@ -43,7 +43,7 @@ const CategoryInput: FC<{
           }
           onAdd={addFunction}
         ></InputFormBar>
-        <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
+        <CategoryForm formData={formData} setFormData={setFormData} />
       </div>
     </ModalContainer>
   );

@@ -78,7 +78,7 @@ const DatePickerDaysField: FC<{
               datePickerDayCellProps={day}
               setDateState={setDateState}
               setTimestampFunction={setTimestampFunction}
-            ></DatePickerDayCell>
+            />
           ))}
         </div>
       ))}

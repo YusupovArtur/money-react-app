@@ -53,7 +53,7 @@ const DateInputDatePicker: FC<{
 
   return (
     <div style={{ width: `${DATE_PICKER_CELL_SIZE * 7}rem` }} className="d-flex flex-column">
-      {isDeviceMobile && <DatePickerLabel dateState={dateState}></DatePickerLabel>}
+      {isDeviceMobile && <DatePickerLabel dateState={dateState} />}
       {/* Calendar range setter */}
       <DatePickerCalendarButtons
         currentMonth={currentMonth}
@@ -62,7 +62,7 @@ const DateInputDatePicker: FC<{
         setCurrentYear={setCurrentYear}
         displayedField={displayedField}
         setDisplayedField={setDisplayedField}
-      ></DatePickerCalendarButtons>
+      />
       {/* Calendar field */}
       <div
         onTouchStart={(event) => {
@@ -77,28 +77,26 @@ const DateInputDatePicker: FC<{
             datePickerDaysField={getDatePickerDaysField(currentMonth, currentYear, dateState)}
             setDateState={setDateState}
             setTimestampFunction={setTimestampFunction}
-          ></DatePickerDaysField>
+          />
         ) : displayedField === 'month' ? (
           <DatePickerMonthsField
             setCurrentMonth={setCurrentMonth}
             setDisplayedField={setDisplayedField}
             currentMonth={currentMonth}
             currentYear={currentYear}
-          ></DatePickerMonthsField>
+          />
         ) : (
           displayedField === 'year' && (
             <DatePickerYearsField
               setCurrentYear={setCurrentYear}
               setDisplayedField={setDisplayedField}
               currentYear={currentYear}
-            ></DatePickerYearsField>
+            />
           )
         )}
       </div>
       {/* Bottom buttons */}
-      {isDeviceMobile && (
-        <DatePickerModalButtons setDateState={setDateState} setIsShowDatepicker={setIsShowDatepicker}></DatePickerModalButtons>
-      )}
+      {isDeviceMobile && <DatePickerModalButtons setDateState={setDateState} setIsShowDatepicker={setIsShowDatepicker} />}
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import { MutableRefObject } from 'react';
-import menuAlignmentType from '../types/menuAlignmentType.ts';
+import MenuAlignmentType from '../types/MenuAlignmentType.ts';
 
 const getPositionedMenuAlignment = (props: {
   toggleRef: MutableRefObject<HTMLSpanElement | null>;
   menuRef: MutableRefObject<HTMLSpanElement | null>;
-  menuAlignment: menuAlignmentType;
-}): menuAlignmentType => {
+  menuAlignment: MenuAlignmentType;
+}): MenuAlignmentType => {
   const { toggleRef, menuRef, menuAlignment } = props;
   if (toggleRef.current && menuRef.current && window.visualViewport) {
-    const alignment: menuAlignmentType = { ...menuAlignment };
+    const alignment: MenuAlignmentType = { ...menuAlignment };
 
     const toggleRect = toggleRef.current.getBoundingClientRect();
     const menuRect = menuRef.current.getBoundingClientRect();

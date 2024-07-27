@@ -44,7 +44,7 @@ const ProfilePhotoFeature: FC = () => {
   return (
     <>
       <div className="d-flex flex-column align-self-center">
-        <ProfilePhoto iconSize="8rem" className="text-body align-self-center"></ProfilePhoto>
+        <ProfilePhoto iconSize="8rem" className="text-body align-self-center" />
         <input
           onChange={(event) => {
             if (event.target.files && event.target.files[0]) {
@@ -101,7 +101,7 @@ const ProfilePhotoFeature: FC = () => {
                   <span className="visually-hidden">Loading...</span>
                 </div>
               ) : (
-                <CloudPlusSVG iconSize="1.5rem"></CloudPlusSVG>
+                <CloudPlusSVG iconSize="1.5rem" />
               )}
               <span className="ms-1">Сохранить</span>
             </button>
@@ -109,7 +109,7 @@ const ProfilePhotoFeature: FC = () => {
               onClick={() => setIsOpened(false)}
               className="btn btn-danger d-flex justify-content-center align-items-center"
             >
-              <CrossIconSVG iconSize="1.5rem"></CrossIconSVG>
+              <CrossIconSVG iconSize="1.5rem" />
             </button>
           </div>
           {errorMessage && (

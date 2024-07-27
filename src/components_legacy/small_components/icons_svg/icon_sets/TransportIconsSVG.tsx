@@ -3,37 +3,37 @@ import { FC } from 'react';
 const TransportIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Car':
-      return <CarIconSVG iconSize={iconSize}></CarIconSVG>;
+      return <CarIconSVG iconSize={iconSize} />;
     case 'CarFill':
-      return <CarFillIconSVG iconSize={iconSize}></CarFillIconSVG>;
+      return <CarFillIconSVG iconSize={iconSize} />;
     case 'Parking':
-      return <ParkingIconSVG iconSize={iconSize}></ParkingIconSVG>;
+      return <ParkingIconSVG iconSize={iconSize} />;
     case 'FuelPump':
-      return <FuelPumpIconSVG iconSize={iconSize}></FuelPumpIconSVG>;
+      return <FuelPumpIconSVG iconSize={iconSize} />;
     case 'Bus':
-      return <BusIconSVG iconSize={iconSize}></BusIconSVG>;
+      return <BusIconSVG iconSize={iconSize} />;
     case 'BusFill':
-      return <BusFillIconSVG iconSize={iconSize}></BusFillIconSVG>;
+      return <BusFillIconSVG iconSize={iconSize} />;
     case 'Taxi':
-      return <TaxiIconSVG iconSize={iconSize}></TaxiIconSVG>;
+      return <TaxiIconSVG iconSize={iconSize} />;
     case 'TruckFront':
-      return <TruckFrontIconSVG iconSize={iconSize}></TruckFrontIconSVG>;
+      return <TruckFrontIconSVG iconSize={iconSize} />;
     case 'Truck':
-      return <TruckIconSVG iconSize={iconSize}></TruckIconSVG>;
+      return <TruckIconSVG iconSize={iconSize} />;
     case 'Airplane':
-      return <AirplaneIconSVG iconSize={iconSize}></AirplaneIconSVG>;
+      return <AirplaneIconSVG iconSize={iconSize} />;
     case 'AirplaneFill':
-      return <AirplaneFillIconSVG iconSize={iconSize}></AirplaneFillIconSVG>;
+      return <AirplaneFillIconSVG iconSize={iconSize} />;
     case 'Train':
-      return <TrainIconSVG iconSize={iconSize}></TrainIconSVG>;
+      return <TrainIconSVG iconSize={iconSize} />;
     case 'TrainFill':
-      return <TrainFillIconSVG iconSize={iconSize}></TrainFillIconSVG>;
+      return <TrainFillIconSVG iconSize={iconSize} />;
     case 'Scooter':
-      return <ScooterIconSVG iconSize={iconSize}></ScooterIconSVG>;
+      return <ScooterIconSVG iconSize={iconSize} />;
     case 'Bicycle':
-      return <BicycleIconSVG iconSize={iconSize}></BicycleIconSVG>;
+      return <BicycleIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

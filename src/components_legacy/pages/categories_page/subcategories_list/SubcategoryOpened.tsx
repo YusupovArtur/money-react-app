@@ -68,9 +68,9 @@ const SubcategoryOpened: FC<{
           setIsEdit={setIsEdit}
         ></EditFormBar>
         {isEdit ? (
-          <SubcategoryForm formData={formData} setFormData={setFormData}></SubcategoryForm>
+          <SubcategoryForm formData={formData} setFormData={setFormData} />
         ) : (
-          <SubcategoryOpenedInfo subcategory={subcategory} color={color}></SubcategoryOpenedInfo>
+          <SubcategoryOpenedInfo subcategory={subcategory} color={color} />
         )}
       </div>
     </ModalContainer>

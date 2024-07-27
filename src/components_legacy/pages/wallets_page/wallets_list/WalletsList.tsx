@@ -33,7 +33,7 @@ const WalletsList: FC<{
           itemID={wallet.id}
           itemIDAbove={index === 0 ? 'no-above-item' : wallets[index - 1].id}
         >
-          <WalletItem wallet={wallet}></WalletItem>
+          <WalletItem wallet={wallet} />
         </DraggableItem>
       ))}
       <DraggableItem
@@ -45,7 +45,7 @@ const WalletsList: FC<{
         setDragOverID={setDragOverID}
         itemID={WALLETS_LIST_LAST_ITEM_ID}
         itemIDAbove={wallets[wallets.length - 1] ? wallets[wallets.length - 1].id : ''}
-      ></DraggableItem>
+      />
     </>
   );
 };

@@ -3,22 +3,21 @@ import { FC } from 'react';
 const CompanyIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Sberbank':
-      return <SberbankIconSVG iconSize={iconSize}></SberbankIconSVG>;
+      return <SberbankIconSVG iconSize={iconSize} />;
     case 'VTB':
-      return <VTBIconSVG iconSize={iconSize}></VTBIconSVG>;
+      return <VTBIconSVG iconSize={iconSize} />;
     case 'Tinkoff':
-      return <TinkoffIconSVG iconSize={iconSize}></TinkoffIconSVG>;
+      return <TinkoffIconSVG iconSize={iconSize} />;
     case 'AlfaBank':
-      return <AlfaBankIconSVG iconSize={iconSize}></AlfaBankIconSVG>;
+      return <AlfaBankIconSVG iconSize={iconSize} />;
     case 'GazpromBank':
-      return <GazpromBankIconSVG iconSize={iconSize}></GazpromBankIconSVG>;
+      return <GazpromBankIconSVG iconSize={iconSize} />;
     case 'Raiffeisen':
-      return <RaiffeisenIconSVG iconSize={iconSize}></RaiffeisenIconSVG>;
+      return <RaiffeisenIconSVG iconSize={iconSize} />;
     case 'Rosneft':
-      return <RosneftIconSVG iconSize={iconSize}></RosneftIconSVG>;
-
+      return <RosneftIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

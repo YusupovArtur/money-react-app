@@ -11,6 +11,8 @@ import { PlusIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
+import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
+import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 
 const CategoryOpened: FC<{
   openedCategory: { category: categoryType; isOpened: boolean };
@@ -82,10 +84,7 @@ const CategoryOpened: FC<{
   };
 
   return (
-    <div
-      style={{ maxWidth: '45rem', width: '100vw' }}
-      className="align-self-start bg-body-tertiary shadow-sm rounded-4 px-3 pt-3"
-    >
+    <PageContentWrapper style={{ margin: '0 auto' }} className="pb-0">
       <EditFormBar
         onClose={closeFunction}
         onClear={clearFunction}
@@ -95,23 +94,23 @@ const CategoryOpened: FC<{
         setIsEdit={setIsEdit}
         itemType="категорию"
         itemName={openedCategory.category.name}
-      ></EditFormBar>
+      />
       {isEdit ? (
         <>
-          <CategoryForm formData={formData} setFormData={setFormData}></CategoryForm>
+          <CategoryForm formData={formData} setFormData={setFormData} />
           <div className="mb-3"></div>
         </>
       ) : (
         <>
-          <CategoryOpenedInfo category={openedCategory.category}></CategoryOpenedInfo>
-          <button
+          <CategoryOpenedInfo category={openedCategory.category} />
+          <ButtonWithIcon
             onClick={() => setIsShowInput(true)}
-            className="btn btn-primary d-flex justify-content-between align-items-center mt-4"
+            caption="Подкатегория"
+            className="btn-primary align-self-start mt-4"
           >
-            <PlusIconSVG iconSize="1.2rem"></PlusIconSVG>
-            <span className="ms-1">Подкатегория</span>
-          </button>
-          <SubcategoriesList category={openedCategory.category}></SubcategoriesList>
+            <PlusIconSVG iconSize="1.2rem" />
+          </ButtonWithIcon>
+          <SubcategoriesList category={openedCategory.category} />
         </>
       )}
 
@@ -121,8 +120,8 @@ const CategoryOpened: FC<{
         setIsShowInput={setIsShowInput}
         formData={subcategoryFormData}
         setFormData={setSubcategoryFormData}
-      ></SubcategoryInput>
-    </div>
+      />
+    </PageContentWrapper>
   );
 };
 

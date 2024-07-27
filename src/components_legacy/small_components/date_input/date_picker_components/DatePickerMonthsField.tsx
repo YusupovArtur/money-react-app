@@ -61,7 +61,7 @@ const DatePickerMonthsField: FC<{
               datePickerMonthCellProps={month}
               setCurrentMonth={setCurrentMonth}
               setDisplayedField={setDisplayedField}
-            ></DatePickerMonthCell>
+            />
           ))}
         </div>
       ))}

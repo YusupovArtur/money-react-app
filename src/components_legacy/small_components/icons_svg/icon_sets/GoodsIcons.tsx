@@ -3,13 +3,13 @@ import { FC } from 'react';
 const GoodsIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Cloth':
-      return <ClothIconSVG iconSize={iconSize}></ClothIconSVG>;
+      return <ClothIconSVG iconSize={iconSize} />;
     case 'Shoes':
-      return <ShoesIconSVG iconSize={iconSize}></ShoesIconSVG>;
+      return <ShoesIconSVG iconSize={iconSize} />;
     case 'Watch':
-      return <WatchIconSVG iconSize={iconSize}></WatchIconSVG>;
+      return <WatchIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

@@ -33,7 +33,7 @@ const CategoriesList: FC<{
           dragOverID={dragOverID}
           setDragOverID={setDragOverID}
         >
-          <CategoryItem category={category} setOpenedCategory={setOpenedCategory}></CategoryItem>
+          <CategoryItem category={category} setOpenedCategory={setOpenedCategory} />
         </DraggableItem>
       ))}
 
@@ -46,7 +46,7 @@ const CategoriesList: FC<{
         setDragStartID={setDragStartID}
         dragOverID={dragOverID}
         setDragOverID={setDragOverID}
-      ></DraggableItem>
+      />
     </div>
   );
 };

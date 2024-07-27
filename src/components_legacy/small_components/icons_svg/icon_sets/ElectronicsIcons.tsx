@@ -3,23 +3,23 @@ import { FC } from 'react';
 const ElectronicsIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'CPU':
-      return <CPUIconSVG iconSize={iconSize}></CPUIconSVG>;
+      return <CPUIconSVG iconSize={iconSize} />;
     case 'Phone':
-      return <PhoneIconSVG iconSize={iconSize}></PhoneIconSVG>;
+      return <PhoneIconSVG iconSize={iconSize} />;
     case 'Telephone':
-      return <TelephoneIconSVG iconSize={iconSize}></TelephoneIconSVG>;
+      return <TelephoneIconSVG iconSize={iconSize} />;
     case 'TelephoneFill':
-      return <TelephoneFillIconSVG iconSize={iconSize}></TelephoneFillIconSVG>;
+      return <TelephoneFillIconSVG iconSize={iconSize} />;
     case 'Display':
-      return <DisplayIconSVG iconSize={iconSize}></DisplayIconSVG>;
+      return <DisplayIconSVG iconSize={iconSize} />;
     case 'DisplayPC':
-      return <PCDisplayIconSVG iconSize={iconSize}></PCDisplayIconSVG>;
+      return <PCDisplayIconSVG iconSize={iconSize} />;
     case 'Controller':
-      return <ControllerIconSVG iconSize={iconSize}></ControllerIconSVG>;
+      return <ControllerIconSVG iconSize={iconSize} />;
     case 'Headset':
-      return <HeadsetIconSVG iconSize={iconSize}></HeadsetIconSVG>;
+      return <HeadsetIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

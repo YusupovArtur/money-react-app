@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { datePickerMonthCellPropsType } from '../types.ts';
 import { DATE_PICKER_CELL_SIZE, MONTH_SHORT_NAMES } from '../constants.ts';
 
@@ -61,7 +61,7 @@ const DatePickerMonthsField: FC<{
               datePickerMonthCellProps={month}
               setCurrentMonth={setCurrentMonth}
               setDisplayedField={setDisplayedField}
-            ></DatePickerMonthCell>
+            />
           ))}
         </div>
       ))}

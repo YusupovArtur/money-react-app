@@ -5,6 +5,7 @@ import { serverResponseStatusHooks } from 'store/types.ts';
 import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 import AlertMessage from 'shared/ui/AlertMessage';
 import { CrossIconSVG, PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import ButtonWithIconAndSpinner from 'shared/ui/ButtonWithIconAndSpinner';
 
 interface InputFormBarProps {
   addButtonsLabel: string;
@@ -23,20 +24,14 @@ const InputFormBar: FC<InputFormBarProps> = ({ addButtonsLabel, setIsOpened, onC
 
   return (
     <div className="d-flex justify-content-start align-items-center">
-      <ButtonWithIcon
+      <ButtonWithIconAndSpinner
         onClick={() => onAdd({ setIsLoading, setErrorMessage, fulfilledFunction })}
+        caption={addButtonsLabel}
+        isLoading={isLoading}
         className="btn-primary me-2"
-        Icon={
-          isLoading ? (
-            <div className="spinner-border text-light" style={{ width: '1.5rem', height: '1.5rem' }} role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          ) : (
-            <PlusIconSVG iconSize="1.5rem"></PlusIconSVG>
-          )
-        }
-        buttonsCaption={addButtonsLabel}
-      ></ButtonWithIcon>
+      >
+        <PlusIconSVG iconSize="1.5rem" />
+      </ButtonWithIconAndSpinner>
 
       <ButtonWithIcon
         onClick={() => {
@@ -44,10 +39,11 @@ const InputFormBar: FC<InputFormBarProps> = ({ addButtonsLabel, setIsOpened, onC
           setErrorMessage('');
           onClear();
         }}
-        Icon={<CrossIconSVG iconSize="1.5rem"></CrossIconSVG>}
         className="btn-danger me-2"
-      ></ButtonWithIcon>
-      <AlertMessage alertMessage={errorMessage} className="alert-warning"></AlertMessage>
+      >
+        <CrossIconSVG iconSize="1.5rem" />
+      </ButtonWithIcon>
+      <AlertMessage alertMessage={errorMessage} className="alert-warning" />
     </div>
   );
 };

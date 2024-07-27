@@ -75,11 +75,7 @@ const DatePickerDaysField: FC<{
       {datePickerDaysField.map((week) => (
         <div className="row" key={week[0].timestamp + week[2].timestamp}>
           {week.map((day) => (
-            <DatePickerDayCell
-              key={day.timestamp}
-              datePickerDayCellProps={day}
-              setDateInputValue={setDateInputValue}
-            ></DatePickerDayCell>
+            <DatePickerDayCell key={day.timestamp} datePickerDayCellProps={day} setDateInputValue={setDateInputValue} />
           ))}
         </div>
       ))}

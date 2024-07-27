@@ -5,14 +5,14 @@ interface PageContentWrapperProps extends HTMLProps<HTMLDivElement> {
 }
 
 const PageContentWrapper: FC<PageContentWrapperProps> = (props) => {
-  const { className, style, children, ...rest } = props;
+  const { className = '', style = {}, children, ...restProps } = props;
   const { maxWidth = '45rem', ...restStyle } = style as CSSProperties;
 
   return (
     <div
-      style={{ maxWidth: maxWidth, width: '100vw', ...restStyle }}
-      className={`align-self-start bg-body-tertiary rounded-4 shadow-sm p-3 ${className}`}
-      {...props}
+      style={{ width: '100vw', maxWidth: maxWidth, ...restStyle }}
+      className={`d-flex flex-column bg-body-tertiary rounded-4 shadow-sm p-3 ${className}`}
+      {...restProps}
     >
       {children}
     </div>

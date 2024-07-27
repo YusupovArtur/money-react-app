@@ -3,21 +3,21 @@ import { FC } from 'react';
 const HealthIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Cross':
-      return <MedecineCrossIconSVG iconSize={iconSize}></MedecineCrossIconSVG>;
+      return <MedecineCrossIconSVG iconSize={iconSize} />;
     case 'Capsule':
-      return <CapsuleIconSVG iconSize={iconSize}></CapsuleIconSVG>;
+      return <CapsuleIconSVG iconSize={iconSize} />;
     case 'CapsulePill':
-      return <CapsulePillIconSVG iconSize={iconSize}></CapsulePillIconSVG>;
+      return <CapsulePillIconSVG iconSize={iconSize} />;
     case 'Hospital':
-      return <HospitalIconSVG iconSize={iconSize}></HospitalIconSVG>;
+      return <HospitalIconSVG iconSize={iconSize} />;
     case 'HospitalFill':
-      return <HospitalFillIconSVG iconSize={iconSize}></HospitalFillIconSVG>;
+      return <HospitalFillIconSVG iconSize={iconSize} />;
     case 'Tooth':
-      return <ToothIconSVG iconSize={iconSize}></ToothIconSVG>;
+      return <ToothIconSVG iconSize={iconSize} />;
     case 'Stethoscope':
-      return <StethoscopeIconSVG iconSize={iconSize}></StethoscopeIconSVG>;
+      return <StethoscopeIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

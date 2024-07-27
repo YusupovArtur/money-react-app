@@ -70,7 +70,7 @@ const DatepickerYearsField: FC<{
               datePickerYearCellProps={year}
               setCurrentYear={setCurrentYear}
               setDisplayedField={setDisplayedField}
-            ></DatepickerYearCell>
+            />
           ))}
         </div>
       ))}

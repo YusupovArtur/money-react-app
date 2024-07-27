@@ -1,7 +1,7 @@
 import { Dispatch, FC, HTMLAttributes, ReactNode, SetStateAction, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useMounted from './hooks/useMounted.ts';
-import './ui/animations.scss';
+import './style/animations.scss';
 
 const ANIMATION_TIMEOUT = 150;
 

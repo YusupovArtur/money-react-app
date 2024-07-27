@@ -5,7 +5,7 @@ import ModalContainer from 'shared/containers/ModalContainer';
 import useClickOutside from 'shared/hooks/useClickOutside';
 import useThrottledCallback from 'shared/hooks/useThrottledCallback';
 // Helpers
-import menuAlignmentType from './types/menuAlignmentType.ts';
+import MenuAlignmentType from './types/MenuAlignmentType.ts';
 import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle.ts';
 import getPositionedMenuAlignment from './helpers/getPositionedMenuAlignment.ts';
 import getDeviceType from './helpers/getDeviceType.ts';
@@ -15,7 +15,7 @@ interface BaseDropdownContainerProps {
   DropdownMenu: ReactNode;
   isInsideClickClose?: boolean;
   isOutsideClickClose?: boolean;
-  menuAlignment?: menuAlignmentType;
+  menuAlignment?: MenuAlignmentType;
   modalForMobileDevice?: { isEnable: boolean; zIndex?: number };
 }
 

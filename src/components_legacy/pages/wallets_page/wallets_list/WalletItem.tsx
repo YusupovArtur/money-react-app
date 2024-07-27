@@ -24,7 +24,7 @@ const WalletItem: FC<{
             className="d-flex justify-content-center align-items-center rounded-circle"
             style={{ backgroundColor: wallet.color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
           >
-            <ContentIcon iconName={wallet.iconName} iconSize={`${iconSize}rem`}></ContentIcon>
+            <ContentIcon iconName={wallet.iconName} iconSize={`${iconSize}rem`} />
           </div>
           <span id={wallet.id} className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
             {wallet.name}
@@ -37,7 +37,7 @@ const WalletItem: FC<{
         </div>
       </div>
 
-      <WalletOpened wallet={wallet} isOpened={isOpened} setIsOpened={setIsOpened}></WalletOpened>
+      <WalletOpened wallet={wallet} isOpened={isOpened} setIsOpened={setIsOpened} />
     </>
   );
 };

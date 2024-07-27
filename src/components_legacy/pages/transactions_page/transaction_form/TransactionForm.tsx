@@ -86,7 +86,7 @@ const TransactionForm: FC<TransactionFormProps> = ({
             setWalletIDFunction={(walletID: string) => setFormData((state) => ({ ...state, fromWallet: walletID }))}
           ></WalletMenu>
         )}
-        {formData.type === 'transfer' && <ArrowRightIconSVG iconSize="1.5rem"></ArrowRightIconSVG>}
+        {formData.type === 'transfer' && <ArrowRightIconSVG iconSize="1.5rem" />}
         {(formData.type === 'income' || formData.type === 'transfer') && (
           <WalletMenu
             wallet={toWallet}

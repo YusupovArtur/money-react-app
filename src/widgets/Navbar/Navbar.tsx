@@ -64,7 +64,7 @@ const Navbar: FC = () => {
                 >
                   <div className="d-flex align-items-center">
                     <span>Профиль</span>
-                    <ProfilePhoto iconSize="1.5rem" className="text-body p-0 ms-1"></ProfilePhoto>
+                    <ProfilePhoto iconSize="1.5rem" className="text-body p-0 ms-1" />
                   </div>
                 </Link>
               </li>
@@ -82,7 +82,7 @@ const Navbar: FC = () => {
               </li>
             )}
           </ul>
-          <ThemeToggle></ThemeToggle>
+          <ThemeToggle />
         </div>
       </div>
     </nav>

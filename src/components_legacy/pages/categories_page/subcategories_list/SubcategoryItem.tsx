@@ -26,7 +26,7 @@ const SubcategoryItem: FC<{
             className="d-flex justify-content-center align-items-center rounded-circle"
             style={{ backgroundColor: color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
           >
-            <ContentIcon iconName={subcategory.iconName} iconSize={`${iconSize}rem`}></ContentIcon>
+            <ContentIcon iconName={subcategory.iconName} iconSize={`${iconSize}rem`} />
           </div>
           <span id={subcategory.id} className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
             {subcategory.name}
@@ -40,7 +40,7 @@ const SubcategoryItem: FC<{
         color={color}
         isOpened={isOpened}
         setIsOpened={setIsOpened}
-      ></SubcategoryOpened>
+      />
     </>
   );
 };

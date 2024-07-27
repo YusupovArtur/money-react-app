@@ -7,6 +7,7 @@ import WalletInput from '../../pages/wallets_page/wallet_form/WalletInput';
 import WalletsList from '../../pages/wallets_page/wallets_list/WalletsList';
 // Transaction components_legacy
 import TransactionInput from '../../pages/transactions_page/transaction_form/TransactionInput';
+import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
 
 const WalletsPage: FC = () => {
   const wallets: walletType[] = useAppSelector((state) => state.wallets.list);
@@ -15,35 +16,28 @@ const WalletsPage: FC = () => {
 
   return (
     <>
-      <div
-        style={{ maxWidth: '45rem', width: '100vw' }}
-        className="align-self-start bg-body-tertiary shadow-sm px-3 pt-3 rounded-4"
-      >
+      <PageContentWrapper style={{ margin: '0 auto' }} className="pb-0">
         <div className="d-flex justify-content-between align-items-center">
           <button
             onClick={() => setIsShowTransactionInput(true)}
             className="btn btn-primary d-flex justify-content-between align-items-center mb-1"
           >
-            <ArrowLeftRightIconSVG iconSize="1.2rem"></ArrowLeftRightIconSVG>
+            <ArrowLeftRightIconSVG iconSize="1.2rem" />
             <span className="ms-1">Перевод</span>
           </button>
           <button
             onClick={() => setIsShowWalletInput(true)}
             className="btn btn-primary d-flex justify-content-between align-items-center mb-1"
           >
-            <PlusIconSVG iconSize="1.2rem"></PlusIconSVG>
+            <PlusIconSVG iconSize="1.2rem" />
             <span className="ms-1">Счет</span>
           </button>
         </div>
-        <WalletsList wallets={wallets}></WalletsList>
-      </div>
+        <WalletsList wallets={wallets} />
+      </PageContentWrapper>
 
-      <WalletInput isShowInput={isShowWalletInput} setIsShowInput={setIsShowWalletInput}></WalletInput>
-      <TransactionInput
-        isShowInput={isShowTransactionInput}
-        setIsShowInput={setIsShowTransactionInput}
-        type="transfer"
-      ></TransactionInput>
+      <WalletInput isShowInput={isShowWalletInput} setIsShowInput={setIsShowWalletInput} />
+      <TransactionInput isShowInput={isShowTransactionInput} setIsShowInput={setIsShowTransactionInput} type="transfer" />
     </>
   );
 };

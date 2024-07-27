@@ -34,7 +34,7 @@ const OperationsTable: FC<{
   // // const hash_table_keys = Object.keys(hash_table).sort((a, b) => hash_table[a].time - hash_table[b].time);
 
   return (
-    <table className="table table-bordered">
+    <table className="table table-bordered m-0">
       <thead>
         <tr>
           <th>ID</th>

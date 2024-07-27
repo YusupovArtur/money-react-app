@@ -1,14 +1,13 @@
-import { FC, useState, Dispatch, SetStateAction, TouchEvent } from 'react';
+import { Dispatch, FC, SetStateAction, TouchEvent, useState } from 'react';
 // Calendar fields and components_legacy
 import DatePickerDaysField from '../../big_components/date_input_legacy/date_picker_components/DatePickerDaysField';
 import DatePickerMonthsField from '../../big_components/date_input_legacy/date_picker_components/DatePickerMonthsField';
 import DatePickerYearsField from '../../big_components/date_input_legacy/date_picker_components/DatePickerYearsField';
-import { DatePickerLabel, DatePickerCalendarButtons, DatePickerModalButtons } from './date_picker_components/DatePickerParts.tsx';
+import { DatePickerCalendarButtons, DatePickerLabel, DatePickerModalButtons } from './date_picker_components/DatePickerParts.tsx';
 
-import { getDatePickerDaysField } from './date_picker_components/functions.ts';
+import { decrementCalendar, getDatePickerDaysField, incrementCalendar } from './date_picker_components/functions.ts';
 import { getDeviceType } from './functions.ts';
 import { DATE_PICKER_CELL_SIZE } from './constants.ts';
-import { incrementCalendar, decrementCalendar } from './date_picker_components/functions.ts';
 
 const DateInputDatePicker: FC<{
   dateInputValue: string;
@@ -48,7 +47,7 @@ const DateInputDatePicker: FC<{
 
   return (
     <div style={{ width: `${DATE_PICKER_CELL_SIZE * 7}rem` }} className="d-flex flex-column">
-      {isDeviceMobile && <DatePickerLabel dateInputValue={dateInputValue}></DatePickerLabel>}
+      {isDeviceMobile && <DatePickerLabel dateInputValue={dateInputValue} />}
       {/* Calendar range setter */}
       <DatePickerCalendarButtons
         currentMonth={currentMonth}
@@ -57,7 +56,7 @@ const DateInputDatePicker: FC<{
         setCurrentYear={setCurrentYear}
         displayedField={displayedField}
         setDisplayedField={setDisplayedField}
-      ></DatePickerCalendarButtons>
+      />
       {/* Calendar field */}
       <div
         onTouchStart={(event) => {
@@ -71,30 +70,27 @@ const DateInputDatePicker: FC<{
           <DatePickerDaysField
             datePickerDaysField={getDatePickerDaysField(currentMonth, currentYear, dateInputValue)}
             setDateInputValue={setDateInputValue}
-          ></DatePickerDaysField>
+          />
         ) : displayedField === 'month' ? (
           <DatePickerMonthsField
             setCurrentMonth={setCurrentMonth}
             setDisplayedField={setDisplayedField}
             currentMonth={currentMonth}
             currentYear={currentYear}
-          ></DatePickerMonthsField>
+          />
         ) : (
           displayedField === 'year' && (
             <DatePickerYearsField
               setCurrentYear={setCurrentYear}
               setDisplayedField={setDisplayedField}
               currentYear={currentYear}
-            ></DatePickerYearsField>
+            />
           )
         )}
       </div>
       {/* Bottom buttons */}
       {isDeviceMobile && (
-        <DatePickerModalButtons
-          setDateInputValue={setDateInputValue}
-          setIsShowDatepicker={setIsShowDatepicker}
-        ></DatePickerModalButtons>
+        <DatePickerModalButtons setDateInputValue={setDateInputValue} setIsShowDatepicker={setIsShowDatepicker} />
       )}
     </div>
   );

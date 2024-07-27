@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
-import menuAlignmentType from '../types/menuAlignmentType.ts';
+import MenuAlignmentType from '../types/MenuAlignmentType.ts';
 
-const getMenuAlignmentStyle = (props: menuAlignmentType): CSSProperties => {
+const getMenuAlignmentStyle = (props: MenuAlignmentType): CSSProperties => {
   const { x, y } = props;
 
   const style: CSSProperties = {};

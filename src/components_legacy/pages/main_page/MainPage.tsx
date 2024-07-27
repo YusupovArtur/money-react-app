@@ -7,6 +7,7 @@ import { dateStateType } from '../../small_components/date_input/types.ts';
 import DropdownContainer from 'shared/containers/DropdownContainer';
 import NumberInput from 'shared/inputs/NumberInput';
 import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
+import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
@@ -171,7 +172,7 @@ const MainPage: FC = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
-    <div className="d-flex flex-column justify-content-center align-content-center">
+    <PageContentWrapper style={{ margin: 'auto', maxWidth: '30rem' }}>
       <p>Main</p>
       <p>{`Username state: ${userState.userName}`}</p>
       <p>{`Username firebase: ${user?.email}`}</p>
@@ -179,8 +180,8 @@ const MainPage: FC = () => {
         Test button
       </button>
       <div className="container">
-        <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true}></DateInputLegacy>
-        <DateInput dateState={dateState} setDateState={setDateState}></DateInput>
+        <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true} />
+        <DateInput dateState={dateState} setDateState={setDateState} />
         <DropdownContainer
           DropdownToggle={<button className="btn btn-primary">Open</button>}
           DropdownMenu={
@@ -236,8 +237,10 @@ const MainPage: FC = () => {
       </div>
 
       <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
-      <ColorInput color={color} setColor={setColor}></ColorInput>
-    </div>
+      <ColorInput color={color} setColor={setColor} />
+
+      <input type="text" className="form-control mt-3 is-valid" style={{ backgroundImage: 'none' }}></input>
+    </PageContentWrapper>
   );
 };
 

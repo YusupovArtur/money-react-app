@@ -18,7 +18,7 @@ const CategoryOpenedInfo: FC<{ category: categoryType }> = ({ category }) => {
           className="d-flex justify-content-center align-items-center rounded-circle"
           style={{ backgroundColor: category.color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
         >
-          <ContentIcon iconName={category.iconName} iconSize={`${iconSize}rem`}></ContentIcon>
+          <ContentIcon iconName={category.iconName} iconSize={`${iconSize}rem`} />
         </div>
       </div>
       <span className="text-body-tertiary mt-2">Тип категории</span>

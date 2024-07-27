@@ -3,25 +3,25 @@ import { FC } from 'react';
 const RecreationIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'MusicNote':
-      return <MusicNoteIconSVG iconSize={iconSize}></MusicNoteIconSVG>;
+      return <MusicNoteIconSVG iconSize={iconSize} />;
     case 'Film':
-      return <FilmIconSVG iconSize={iconSize}></FilmIconSVG>;
+      return <FilmIconSVG iconSize={iconSize} />;
     case 'Wine':
-      return <WineIconSVG iconSize={iconSize}></WineIconSVG>;
+      return <WineIconSVG iconSize={iconSize} />;
     case 'Ticket':
-      return <TicketIconSVG iconSize={iconSize}></TicketIconSVG>;
+      return <TicketIconSVG iconSize={iconSize} />;
     case 'TicketFill':
-      return <TicketFillIconSVG iconSize={iconSize}></TicketFillIconSVG>;
+      return <TicketFillIconSVG iconSize={iconSize} />;
     case 'Suitcase':
-      return <SuitcaseIconSVG iconSize={iconSize}></SuitcaseIconSVG>;
+      return <SuitcaseIconSVG iconSize={iconSize} />;
     case 'SuitcaseFill':
-      return <SuitcaseFillIconSVG iconSize={iconSize}></SuitcaseFillIconSVG>;
+      return <SuitcaseFillIconSVG iconSize={iconSize} />;
     case 'Backpack':
-      return <BackpackIconSVG iconSize={iconSize}></BackpackIconSVG>;
+      return <BackpackIconSVG iconSize={iconSize} />;
     case 'BackpackFill':
-      return <BackpackFillIconSVG iconSize={iconSize}></BackpackFillIconSVG>;
+      return <BackpackFillIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

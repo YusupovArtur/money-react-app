@@ -3,21 +3,21 @@ import { FC } from 'react';
 const PaymentIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'FileText':
-      return <FileTextIconSVG iconSize={iconSize}></FileTextIconSVG>;
+      return <FileTextIconSVG iconSize={iconSize} />;
     case 'FileTextFill':
-      return <FileTextFillIconSVG iconSize={iconSize}></FileTextFillIconSVG>;
+      return <FileTextFillIconSVG iconSize={iconSize} />;
     case 'Droplet':
-      return <DropletIconSVG iconSize={iconSize}></DropletIconSVG>;
+      return <DropletIconSVG iconSize={iconSize} />;
     case 'Globe2':
-      return <Globe2IconSVG iconSize={iconSize}></Globe2IconSVG>;
+      return <Globe2IconSVG iconSize={iconSize} />;
     case 'WIFI':
-      return <WIFIIconSVG iconSize={iconSize}></WIFIIconSVG>;
+      return <WIFIIconSVG iconSize={iconSize} />;
     case 'RouterFill':
-      return <RouterFillIconSVG iconSize={iconSize}></RouterFillIconSVG>;
+      return <RouterFillIconSVG iconSize={iconSize} />;
     case 'SIMFill':
-      return <SIMFillIconSVG iconSize={iconSize}></SIMFillIconSVG>;
+      return <SIMFillIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

@@ -32,7 +32,7 @@ const SubcategoriesList: FC<{
           itemID={subcategory.id}
           itemIDAbove={index === 0 ? 'no-above-item' : category.subcategories[index - 1].id}
         >
-          <SubcategoryItem subcategory={subcategory} categoryID={category.id} color={category.color}></SubcategoryItem>
+          <SubcategoryItem subcategory={subcategory} categoryID={category.id} color={category.color} />
         </DraggableItem>
       ))}
 
@@ -49,7 +49,7 @@ const SubcategoriesList: FC<{
             ? category.subcategories[category.subcategories.length - 1].id
             : ''
         }
-      ></DraggableItem>
+      />
     </>
   );
 };

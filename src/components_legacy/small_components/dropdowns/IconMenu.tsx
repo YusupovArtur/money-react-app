@@ -44,7 +44,7 @@ const IconMenu: FC<{
         aria-expanded="false"
       >
         <div className="d-flex justify-content-center align-items-center rounded-circle">
-          <ContentIcon iconName={iconName} iconSize="2.4rem"></ContentIcon>
+          <ContentIcon iconName={iconName} iconSize="2.4rem" />
         </div>
       </button>
       <ul className="dropdown-menu p-2">
@@ -63,7 +63,7 @@ const IconMenu: FC<{
                         key={icon}
                         className={`btn btn-body hover-scale-10 p-1 m-1 ${iconName === icon && 'bordered-strong'}`}
                       >
-                        <ContentIcon iconName={icon} iconSize="1.7rem"></ContentIcon>
+                        <ContentIcon iconName={icon} iconSize="1.7rem" />
                       </button>
                     ))}
                   </div>

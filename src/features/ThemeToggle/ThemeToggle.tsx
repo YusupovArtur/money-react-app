@@ -40,29 +40,29 @@ const ThemeToggle: FC = () => {
         aria-expanded="false"
       >
         {themeMode === 'light' ? (
-          <LightThemeIcon iconSize={iconSize}></LightThemeIcon>
+          <LightThemeIcon iconSize={iconSize} />
         ) : themeMode === 'dark' ? (
-          <DarkThemeIcon iconSize={iconSize}></DarkThemeIcon>
+          <DarkThemeIcon iconSize={iconSize} />
         ) : (
-          <AutoThemeIcon iconSize={iconSize}></AutoThemeIcon>
+          <AutoThemeIcon iconSize={iconSize} />
         )}
       </button>
       <ul style={{ minWidth: '4rem' }} className="dropdown-menu dropdown-menu-md-end">
         <li>
           <button className={`dropdown-item ${themeMode === 'light' && 'active'}`} onClick={setLight}>
-            <LightThemeIcon iconSize={iconSize}></LightThemeIcon>
+            <LightThemeIcon iconSize={iconSize} />
             {' Светлая'}
           </button>
         </li>
         <li>
           <button className={`dropdown-item ${themeMode === 'dark' && 'active'}`} onClick={setDark}>
-            <DarkThemeIcon iconSize={iconSize}></DarkThemeIcon>
+            <DarkThemeIcon iconSize={iconSize} />
             {' Темная'}
           </button>
         </li>
         <li>
           <button className={`dropdown-item ${themeMode === 'auto' && 'active'}`} onClick={setAuto}>
-            <AutoThemeIcon iconSize={iconSize}></AutoThemeIcon>
+            <AutoThemeIcon iconSize={iconSize} />
             {' Авто'}
           </button>
         </li>

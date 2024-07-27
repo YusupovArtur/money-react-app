@@ -64,12 +64,8 @@ const WalletOpened: FC<{
           setIsEdit={setIsEdit}
           itemType="счёт"
           itemName={wallet.name}
-        ></EditFormBar>
-        {isEdit ? (
-          <WalletForm formData={formData} setFormData={setFormData}></WalletForm>
-        ) : (
-          <WalletInfo wallet={wallet}></WalletInfo>
-        )}
+        />
+        {isEdit ? <WalletForm formData={formData} setFormData={setFormData} /> : <WalletInfo wallet={wallet} />}
       </div>
     </ModalContainer>
   );

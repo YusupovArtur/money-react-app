@@ -38,7 +38,7 @@ const WalletMenu: FC<{
                 height: `${1.415 * bigIconSize}rem`,
               }}
             >
-              <ContentIcon iconName={wallet.iconName} iconSize={`${bigIconSize}rem`}></ContentIcon>
+              <ContentIcon iconName={wallet.iconName} iconSize={`${bigIconSize}rem`} />
             </div>
             <span className="ms-2">{wallet.name}</span>
           </>
@@ -76,7 +76,7 @@ const WalletMenu: FC<{
                     height: `${1.415 * smallIconSize}rem`,
                   }}
                 >
-                  <ContentIcon iconName={walletItem.iconName} iconSize={`${smallIconSize}rem`}></ContentIcon>
+                  <ContentIcon iconName={walletItem.iconName} iconSize={`${smallIconSize}rem`} />
                 </div>
                 <span className="ms-1">{walletItem.name}</span>
               </button>

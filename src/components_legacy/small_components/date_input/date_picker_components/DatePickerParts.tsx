@@ -46,14 +46,14 @@ export const DatePickerCalendarButtons: FC<{
           style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
           className="btn btn-body d-flex align-items-center justify-content-center rounded"
         >
-          <ChevronLeftIconSVG iconSize="1rem"></ChevronLeftIconSVG>
+          <ChevronLeftIconSVG iconSize="1rem" />
         </button>
         <button
           onClick={() => incrementCalendar(displayedField, currentMonth, currentYear, setCurrentMonth, setCurrentYear)}
           style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
           className="btn btn-body d-flex align-items-center justify-content-center rounded"
         >
-          <ChevrontRightIconSVG iconSize="1rem"></ChevrontRightIconSVG>
+          <ChevrontRightIconSVG iconSize="1rem" />
         </button>
       </div>
     </div>

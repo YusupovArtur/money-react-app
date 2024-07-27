@@ -1,0 +1,15 @@
+:root,
+[data-bs-theme=light] {
+  --form-feedback-invalid-color: #dc3545;
+}
+
+[data-bs-theme=dark] {
+  color-scheme: dark;
+  --form-feedback-invalid-color: #ea868f;
+}
+
+.invalid-form-feedback {
+  width: 100%;
+  font-size: 0.875em;
+  color: var(--form-feedback-invalid-color);
+}

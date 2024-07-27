@@ -3,15 +3,15 @@ import { FC } from 'react';
 const EducationIcon: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Book':
-      return <BookIconSVG iconSize={iconSize}></BookIconSVG>;
+      return <BookIconSVG iconSize={iconSize} />;
     case 'BookFill':
-      return <BookFillIconSVG iconSize={iconSize}></BookFillIconSVG>;
+      return <BookFillIconSVG iconSize={iconSize} />;
     case 'Journal':
-      return <JournalIconSVG iconSize={iconSize}></JournalIconSVG>;
+      return <JournalIconSVG iconSize={iconSize} />;
     case 'HatGraduate':
-      return <HatGraduateIconSVG iconSize={iconSize}></HatGraduateIconSVG>;
+      return <HatGraduateIconSVG iconSize={iconSize} />;
     // case '':
-    //   return <IconSVG iconSize={iconSize}></IconSVG>;
+    //   return <IconSVG iconSize={iconSize} />;
 
     default:
       return <div style={{ width: iconSize, height: iconSize }}></div>;

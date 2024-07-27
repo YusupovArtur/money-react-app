@@ -24,7 +24,7 @@ const CategoryForm: FC<{
       />
 
       <span className="text-body-tertiary mt-2 mb-0">Тип категории</span>
-      <CategoryTypeMenu categoryType={formData.type} setFormData={setFormData}></CategoryTypeMenu>
+      <CategoryTypeMenu categoryType={formData.type} setFormData={setFormData} />
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка и цвет</span>
       <div className="d-flex align-items-center">

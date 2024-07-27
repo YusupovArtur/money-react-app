@@ -28,7 +28,7 @@ const WalletForm: FC<WalletFormProps> = ({ formData, setFormData }) => {
       />
 
       <span className="text-body-tertiary mt-2 mb-0">Тип счета</span>
-      <WalletTypeMenu walletType={formData.type} setFormData={setFormData}></WalletTypeMenu>
+      <WalletTypeMenu walletType={formData.type} setFormData={setFormData} />
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка и цвет</span>
       <div className="d-flex align-items-center">

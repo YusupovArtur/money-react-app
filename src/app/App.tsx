@@ -12,6 +12,7 @@ import { categoriesOnSnapshot, getUserState, operationsOnSnapshot, walletsOnSnap
 // Components imports
 import Navbar from 'widgets/Navbar';
 import PageLoadingSpinner from 'shared/ui/PageLoadingSpinner';
+import AppWrapper from 'app/AppWrapper.tsx';
 
 const MainPage = lazy(() => import('components_legacy/pages/main_page/MainPage.tsx'));
 const TransactionsPage = lazy(() => import('components_legacy/pages/transactions_page/TransactionsPage.tsx'));
@@ -20,6 +21,7 @@ const SignUpPage = lazy(() => import('components_legacy/pages/sign_in_up_pages/S
 const WalletsPage = lazy(() => import('components_legacy/pages/wallets_page/WalletsPage.tsx'));
 const CategoriesPage = lazy(() => import('components_legacy/pages/categories_page/CategoriesPage.tsx'));
 const ProfilePage = lazy(() => import('components_legacy/pages/profile_page/ProfilePage.tsx'));
+const LoginPage = lazy(() => import('pages/LoginPage/LoginPage.tsx'));
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,6 @@ const App: FC = () => {
   const categoriesListener = new categoriesOnSnapshot(dispatch);
 
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
-  const themeDisplay = useAppSelector((state) => state.theme.themeDisplay);
   const auth = getAuth();
 
   // On app building
@@ -64,27 +65,21 @@ const App: FC = () => {
   });
 
   return (
-    <div
-      onDragOver={(event) => event.preventDefault()}
-      onDragEnter={(event) => event.preventDefault()}
-      className="min-vh-100 bg-body-secondary d-flex flex-column"
-      data-bs-theme={themeDisplay}
-    >
-      <Navbar></Navbar>
-      <div className="flex-grow-1 d-flex justify-content-center align-items-center">
-        <Suspense fallback={<PageLoadingSpinner></PageLoadingSpinner>}>
-          <Routes>
-            <Route path={'/'} Component={MainPage} />
-            <Route path={'/transactions'} Component={TransactionsPage} />
-            <Route path={'/wallets'} Component={WalletsPage} />
-            <Route path={'/categories'} Component={CategoriesPage} />
-            <Route path={'/signin'} Component={SignInPage} />
-            <Route path={'/signup'} Component={SignUpPage} />
-            <Route path={'/profile'} Component={ProfilePage}></Route>
-          </Routes>
-        </Suspense>
-      </div>
-    </div>
+    <AppWrapper>
+      <Navbar />
+      <Suspense fallback={<PageLoadingSpinner />}>
+        <Routes>
+          <Route path={'/'} Component={MainPage} />
+          <Route path={'/transactions'} Component={TransactionsPage} />
+          <Route path={'/wallets'} Component={WalletsPage} />
+          <Route path={'/categories'} Component={CategoriesPage} />
+          <Route path={'/signin'} Component={SignInPage} />
+          <Route path={'/signup'} Component={SignUpPage} />
+          <Route path={'/profile'} Component={ProfilePage} />
+          <Route path={'/login'} Component={LoginPage} />
+        </Routes>
+      </Suspense>
+    </AppWrapper>
   );
 };
 

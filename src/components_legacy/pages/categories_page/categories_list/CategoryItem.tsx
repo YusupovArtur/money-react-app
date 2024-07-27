@@ -10,15 +10,15 @@ const CategoryItem: FC<{
   const typeIcon =
     category.type === 'expense' ? (
       <div id={category.id} style={{ color: '#dc3545' }}>
-        <ArrowDownRightIconSVG iconSize="1.4rem"></ArrowDownRightIconSVG>
+        <ArrowDownRightIconSVG iconSize="1.4rem" />
       </div>
     ) : category.type === 'income' ? (
       <div id={category.id} style={{ color: '#198754' }}>
-        <ArrowUpRightIconSVG iconSize="1.4rem"></ArrowUpRightIconSVG>
+        <ArrowUpRightIconSVG iconSize="1.4rem" />
       </div>
     ) : (
       <div id={category.id} style={{ color: '#0d6efd' }}>
-        <ArrowLeftRightIconSVG iconSize="1.4rem"></ArrowLeftRightIconSVG>
+        <ArrowLeftRightIconSVG iconSize="1.4rem" />
       </div>
     );
 
@@ -35,7 +35,7 @@ const CategoryItem: FC<{
           className="d-flex justify-content-center align-items-center rounded-circle"
           style={{ backgroundColor: category.color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
         >
-          <ContentIcon iconName={category.iconName} iconSize={`${iconSize}rem`}></ContentIcon>
+          <ContentIcon iconName={category.iconName} iconSize={`${iconSize}rem`} />
         </div>
         <span id={category.id} className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
           {category.name}

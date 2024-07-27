@@ -39,11 +39,10 @@ const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdat
             setIsEdit(true);
           }
         }}
-        Icon={
-          isEdit ? <CheckIconSVG iconSize="1.5rem"></CheckIconSVG> : <PencilSquareIconSVG iconSize="1.5rem"></PencilSquareIconSVG>
-        }
         className="btn-primary px-3 me-2"
-      ></ButtonWithIconAndSpinner>
+      >
+        {isEdit ? <CheckIconSVG iconSize="1.5rem" /> : <PencilSquareIconSVG iconSize="1.5rem" />}
+      </ButtonWithIconAndSpinner>
 
       {isEdit && (
         <>
@@ -53,9 +52,10 @@ const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdat
               setIsEdit(false);
               onClear();
             }}
-            Icon={<CrossIconSVG iconSize="1.5rem"></CrossIconSVG>}
             className="btn-danger px-3 me-2"
-          ></ButtonWithIcon>
+          >
+            <CrossIconSVG iconSize="1.5rem" />
+          </ButtonWithIcon>
 
           <ButtonWithIcon
             onClick={() => {
@@ -63,13 +63,14 @@ const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdat
                 onDelete({ setIsLoading, setErrorMessage, fulfilledFunction });
               }
             }}
-            Icon={<TrashFillIconSVG iconSize={'1.5rem'}></TrashFillIconSVG>}
             className="btn-danger px-3"
-          ></ButtonWithIcon>
+          >
+            <TrashFillIconSVG iconSize={'1.5rem'} />
+          </ButtonWithIcon>
         </>
       )}
 
-      <AlertMessage alertMessage={errorMessage} className="alert-warning"></AlertMessage>
+      <AlertMessage alertMessage={errorMessage} className="alert-warning" />
 
       <ButtonWithIcon
         onClick={() => {
@@ -79,8 +80,9 @@ const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdat
           setErrorMessage('');
         }}
         className="btn-secondary px-3 ms-auto"
-        Icon={<CrossIconSVG iconSize={'1.5rem'}></CrossIconSVG>}
-      ></ButtonWithIcon>
+      >
+        <CrossIconSVG iconSize={'1.5rem'} />
+      </ButtonWithIcon>
     </div>
   );
 };
