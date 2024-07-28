@@ -1,7 +1,8 @@
 import { FC, useState } from 'react';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { signinUserWithEmailAndPassword } from 'store/slices/userSlice.ts';
+import signinUserWithEmailAndPassword from 'store/slices/userSlice/asyncThunks/signinUserWithEmailAndPassword.ts';
+import signupUserWithEmailAndPassword from 'store/slices/userSlice/asyncThunks/signupUserWithEmailAndPassword.ts';
 // Router
 import { Navigate } from 'react-router-dom';
 // Forms
@@ -43,6 +44,17 @@ const LoginPage: FC = () => {
     );
   };
 
+  const handleSignup = () => {
+    dispatch(
+      signupUserWithEmailAndPassword({
+        email: signupFormData.email,
+        password: signinFormData.password,
+        setIsLoading,
+        setErrorMessage,
+      }),
+    );
+  };
+
   const handleLink = () => {
     setPage((state) => {
       if (state === 'signin') {
@@ -66,7 +78,7 @@ const LoginPage: FC = () => {
       {page === 'signin' ? (
         <SigninForm formData={signinFormData} setFormData={setSigninFormData} onSubmit={handleSignin} />
       ) : (
-        <SignupForm formData={signupFormData} setFormData={setSignupFormData} />
+        <SignupForm formData={signupFormData} setFormData={setSignupFormData} onSubmit={handleSignup} />
       )}
 
       <a onClick={handleLink} className="link align-self-center user-select-none mt-1" style={{ cursor: 'pointer' }}>

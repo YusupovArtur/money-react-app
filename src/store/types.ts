@@ -15,16 +15,6 @@ export type serverResponseStatusHooks = {
   onFulfilled?: () => void;
 };
 
-// User types
-export type userStateType = {
-  isUserAuthorised: boolean;
-  email: string | null;
-  username: string | null;
-  id: string | null;
-  isEmailVerified: boolean;
-  photoURL: string | null;
-};
-
 export type operationType = {
   sum: number;
   time: number;

@@ -4,11 +4,13 @@ import { Route, Routes } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { clearUserState, logoutUser, setUserState } from 'store/slices/userSlice.ts';
+import logoutUser from 'store/slices/userSlice/asyncThunks/logoutUser.ts';
+import { clearUserState, setUserState } from 'store/slices/userSlice/userSlice.ts';
 import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice.ts';
 import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.ts';
 import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice.ts';
-import { categoriesOnSnapshot, getUserState, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions.ts';
+import { categoriesOnSnapshot, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions.ts';
+import { getUserState } from 'store/slices/userSlice';
 // Components imports
 import Navbar from 'widgets/Navbar';
 import PageLoadingSpinner from 'shared/ui/PageLoadingSpinner';

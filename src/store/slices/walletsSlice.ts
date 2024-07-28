@@ -10,7 +10,8 @@ import {
   walletsStateType,
   walletUpdateType,
 } from 'store/types.ts';
-import { generateID, getErrorMessage } from 'store/functions.ts';
+import { generateID } from 'store/functions.ts';
+import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 
 const initialState: walletsStateType = {
   list: [],
@@ -46,45 +47,47 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
   },
 );
 
-export const addWallet = createAsyncThunk<walletsStateType | void, serverResponseStatusHooks & { wallet: walletAddType }>(
-  'wallets/addWallet',
-  async (props) => {
-    const auth = getAuth();
-    const { wallet, setIsLoading, setErrorMessage, onFulfilled } = props;
-    if (setErrorMessage) setErrorMessage('');
-    if (setIsLoading) setIsLoading(true);
-    return await runTransaction(db, async (transaction) => {
-      if (auth.currentUser) {
-        if (wallet.name) {
-          if (wallet.balance || wallet.balance === 0) {
-            const walletsRef = doc(db, 'users_data', auth.currentUser.uid, 'wallets', 'list');
-            const walletSnapshot = await transaction.get(walletsRef);
-            if (walletSnapshot.exists()) {
-              const walletsState = (walletSnapshot.data() ? walletSnapshot.data() : { list: [] }) as walletsStateType;
-              walletsState.list.push({ ...wallet, id: generateID(20) });
-              transaction.set(walletsRef, walletsState);
-              return walletsState;
-            } else {
-              const walletsState = { list: [{ ...wallet, id: generateID(20) }] };
-              transaction.set(walletsRef, walletsState);
-              return walletsState;
-            }
-          } else throw new ErrorWithCode('Вы не ввели баланс на счете');
-        } else throw new ErrorWithCode('Вы не ввели имя счета');
-      } else throw new ErrorWithCode('Вы не авторизованы');
+export const addWallet = createAsyncThunk<
+  walletsStateType | void,
+  serverResponseStatusHooks & {
+    wallet: walletAddType;
+  }
+>('wallets/addWallet', async (props) => {
+  const auth = getAuth();
+  const { wallet, setIsLoading, setErrorMessage, onFulfilled } = props;
+  if (setErrorMessage) setErrorMessage('');
+  if (setIsLoading) setIsLoading(true);
+  return await runTransaction(db, async (transaction) => {
+    if (auth.currentUser) {
+      if (wallet.name) {
+        if (wallet.balance || wallet.balance === 0) {
+          const walletsRef = doc(db, 'users_data', auth.currentUser.uid, 'wallets', 'list');
+          const walletSnapshot = await transaction.get(walletsRef);
+          if (walletSnapshot.exists()) {
+            const walletsState = (walletSnapshot.data() ? walletSnapshot.data() : { list: [] }) as walletsStateType;
+            walletsState.list.push({ ...wallet, id: generateID(20) });
+            transaction.set(walletsRef, walletsState);
+            return walletsState;
+          } else {
+            const walletsState = { list: [{ ...wallet, id: generateID(20) }] };
+            transaction.set(walletsRef, walletsState);
+            return walletsState;
+          }
+        } else throw new ErrorWithCode('Вы не ввели баланс на счете');
+      } else throw new ErrorWithCode('Вы не ввели имя счета');
+    } else throw new ErrorWithCode('Вы не авторизованы');
+  })
+    .then((walletsState) => {
+      if (setIsLoading) setIsLoading(false);
+      if (onFulfilled) onFulfilled();
+      return walletsState;
     })
-      .then((walletsState) => {
-        if (setIsLoading) setIsLoading(false);
-        if (onFulfilled) onFulfilled();
-        return walletsState;
-      })
-      .catch((error) => {
-        console.error('Ошибка добавления счета счета:', error.code);
-        if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
-        if (setIsLoading) setIsLoading(false);
-      });
-  },
-);
+    .catch((error) => {
+      console.error('Ошибка добавления счета счета:', error.code);
+      if (setErrorMessage) setErrorMessage(getErrorMessage(error.code));
+      if (setIsLoading) setIsLoading(false);
+    });
+});
 
 export const deleteWallet = createAsyncThunk<walletsStateType | void, serverResponseStatusHooks & { walletID: string }>(
   'wallets/deleteWallet',

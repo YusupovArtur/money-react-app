@@ -6,32 +6,9 @@ import { setOperations } from 'store/slices/operationsSlice.ts';
 import { setCategories } from 'store/slices/categoriesSlice.ts';
 import { setWallets } from 'store/slices/walletsSlice.ts';
 // Types imports
-import { categoriesStateType, operationsStateType, userStateType, walletsStateType } from 'store/types';
+import { categoriesStateType, operationsStateType, walletsStateType } from 'store/types';
 import { AppDispatch } from 'store/store.ts';
 import { User } from 'firebase/auth';
-
-export const getErrorMessage = (errorCode: string): string => {
-  switch (errorCode) {
-    case 'auth/email-already-in-use':
-      return 'Электронная почта уже используется';
-    case 'auth/invalid-email':
-      return 'Неверный формат электронной почты';
-    case 'auth/weak-password':
-      return 'Слабый пароль или неверный формат пароля';
-    case 'auth/network-request-failed':
-      return 'Отсутствует подключение к интернету';
-    case 'auth/internal-error':
-      return 'Сервер недоступен, проблема с интернет соединением';
-    case 'auth/invalid-login-credentials':
-      return 'Неверные электронная почта и пароль';
-    case 'auth/popup-blocked':
-      return 'Всплывающее окно заблокировано';
-    case 'auth/popup-closed-by-user':
-      return 'Всплывающее окно закрыто';
-    default:
-      return errorCode;
-  }
-};
 
 export const generateID = (length: number): string => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -43,41 +20,22 @@ export const generateID = (length: number): string => {
   return id;
 };
 
-export const getUserState = (user: User | null): userStateType => {
-  if (user) {
-    return {
-      isUserAuthorised: true,
-      email: user.email,
-      username: user.displayName,
-      id: user.uid,
-      isEmailVerified: user.emailVerified,
-      photoURL: user.photoURL,
-    };
-  } else {
-    return {
-      isUserAuthorised: false,
-      email: null,
-      username: null,
-      id: null,
-      isEmailVerified: false,
-      photoURL: null,
-    };
-  }
-};
-
 export class operationsOnSnapshot {
   listener: Unsubscribe | null = null;
   dispatch: AppDispatch;
+
   constructor(dispatch: AppDispatch) {
     this.listener = null;
     this.dispatch = dispatch;
   }
+
   unsubscribe() {
     if (this.listener) {
       this.listener();
       this.listener = null;
     }
   }
+
   subscribe(user: User | null) {
     if (user && !this.listener) {
       this.listener = onSnapshot(doc(db, 'users_data', user.uid, 'transactions', 'list'), (querySnapshot) => {
@@ -96,16 +54,19 @@ export class operationsOnSnapshot {
 export class walletsOnSnapshot {
   listener: Unsubscribe | null = null;
   dispatch: AppDispatch;
+
   constructor(dispatch: AppDispatch) {
     this.listener = null;
     this.dispatch = dispatch;
   }
+
   unsubscribe() {
     if (this.listener) {
       this.listener();
       this.listener = null;
     }
   }
+
   subscribe(user: User | null) {
     if (user && !this.listener) {
       this.listener = onSnapshot(doc(db, 'users_data', user.uid, 'wallets', 'list'), (querySnapshot) => {
@@ -121,16 +82,19 @@ export class walletsOnSnapshot {
 export class categoriesOnSnapshot {
   listener: Unsubscribe | null = null;
   dispatch: AppDispatch;
+
   constructor(dispatch: AppDispatch) {
     this.listener = null;
     this.dispatch = dispatch;
   }
+
   unsubscribe() {
     if (this.listener) {
       this.listener();
       this.listener = null;
     }
   }
+
   subscribe(user: User | null) {
     if (user && !this.listener) {
       this.listener = onSnapshot(doc(db, 'users_data', user.uid, 'categories', 'list'), (querySnapshot) => {

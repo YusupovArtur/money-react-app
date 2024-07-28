@@ -1,7 +1,7 @@
 import { Dispatch, FC, MutableRefObject, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { updatePhotoURL } from 'store/slices/userSlice.ts';
+import updateUserState from 'store/slices/userSlice/asyncThunks/updateUserState.ts';
 import { uploadUserPhoto } from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/uploadUserPhoto.ts';
 // UI
 import AlertMessage from 'shared/ui/AlertMessage';
@@ -24,7 +24,7 @@ const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canvasRef, 
     setIsOpened(false);
   };
   const userPhotoURLUpdater = (photoURL: string) => {
-    dispatch(updatePhotoURL({ photoURL, setIsLoading, setErrorMessage, onFulfilled }));
+    dispatch(updateUserState({ photoURL, setIsLoading, setErrorMessage, onFulfilled }));
   };
 
   const handleUploadPhoto = () => {

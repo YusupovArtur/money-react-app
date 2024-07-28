@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { updateUsername } from 'store/slices/userSlice.ts';
+import updateUserState from 'store/slices/userSlice/asyncThunks/updateUserState.ts';
 // Hooks
 import useFormValidation, { getValidityClassName } from 'shared/hooks/useFormValidation';
 import UsernameEditFormDataType from 'pages/ProfilePage/types/UsernameEditFormStateType.ts';
@@ -43,7 +43,7 @@ const UsernameEditForm: FC = () => {
 
   const handleEditButtonClick = () => {
     if (isEdit) {
-      dispatch(updateUsername({ username: formData.username, setIsLoading, setErrorMessage, onFulfilled }));
+      dispatch(updateUserState({ username: formData.username, setIsLoading, setErrorMessage, onFulfilled }));
     } else {
       setIsEdit(true);
       setIsValidate({ username: true });

@@ -14,7 +14,8 @@ import {
   subcategoryType,
   subcategoryUpdateType,
 } from 'store/types.ts';
-import { generateID, getErrorMessage } from 'store/functions.ts';
+import { generateID } from 'store/functions.ts';
+import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 
 const initialState: categoriesStateType = {
   list: [],

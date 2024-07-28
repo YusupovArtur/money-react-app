@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { setIsRemember } from 'store/slices/userSlice.ts';
+import { setIsRemember } from 'store/slices/userSlice/userSlice.ts';
 // Hooks
 import useFormValidation, { getValidityClassName } from 'shared/hooks/useFormValidation';
 import emailValidator from 'pages/LoginPage/forms/SignupForm/helpers/emailValidator.ts';

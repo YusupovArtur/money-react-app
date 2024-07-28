@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook.ts';
-import { logoutUser } from 'store/slices/userSlice.ts';
+import logoutUser from 'store/slices/userSlice/asyncThunks/logoutUser.ts';
 // UI
 import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 import BoxArrowLeftIcon from 'pages/ProfilePage/features/UserLogoutButton/ui/BoxArrowLeftIcon.tsx';

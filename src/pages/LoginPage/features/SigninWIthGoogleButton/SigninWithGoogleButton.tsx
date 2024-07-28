@@ -1,8 +1,10 @@
 import { ButtonHTMLAttributes, Dispatch, FC, SetStateAction } from 'react';
+// Store
 import { useAppDispatch } from 'store/hook.ts';
-import { signinUserWithGoogle } from 'store/slices/userSlice.ts';
-import GoogleIcon from 'pages/LoginPage/ui/GoogleIcon.tsx';
+import signinUserWithGoogle from 'store/slices/userSlice/asyncThunks/signinUserWithGoogle.ts';
+// UI
 import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
+import GoogleIcon from 'pages/LoginPage/ui/GoogleIcon.tsx';
 
 interface SigninWithGoogleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
