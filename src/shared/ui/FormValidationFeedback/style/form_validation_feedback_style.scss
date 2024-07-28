@@ -9,8 +9,10 @@
 }
 
 .invalid-form-feedback {
+  position: absolute;
   display: flex;
-  justify-content: end;
+  flex-direction: column;
+  align-items: end;
   width: 100%;
   font-size: 0.75em;
   color: var(--form-feedback-invalid-color);

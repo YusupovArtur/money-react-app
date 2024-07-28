@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, Dispatch, FC, SetStateAction } from 'react';
 import { useAppDispatch } from 'store/hook.ts';
-import { signInUserWithGoogle } from 'store/slices/userSlice.ts';
+import { signinUserWithGoogle } from 'store/slices/userSlice.ts';
 import GoogleIcon from 'pages/LoginPage/ui/GoogleIcon.tsx';
 import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 
@@ -21,7 +21,7 @@ const SigninWithGoogleButton: FC<SigninWithGoogleButtonProps> = ({
   const dispatch = useAppDispatch();
 
   const handleSigninWithGoogle = () => {
-    dispatch(signInUserWithGoogle({ setIsLoading, setErrorMessage, onFulfilled }));
+    dispatch(signinUserWithGoogle({ setIsLoading, setErrorMessage, onFulfilled }));
   };
 
   return (

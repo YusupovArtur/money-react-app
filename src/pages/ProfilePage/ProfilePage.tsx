@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import ExitButton from '../../pages/profile_page/ExitButton';
-import UserNameForm from '../../pages/profile_page/UserNameForm';
+// Store
+import { useAppSelector } from 'store/hook.ts';
+// Router
+import { Navigate } from 'react-router-dom';
+// Features
+import LogoutButton from 'pages/ProfilePage/features/LogoutButton';
+import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm';
 import ProfilePhotoFeature from 'components_legacy/pages/profile_page/ProfilePhotoFeature.tsx';
 import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
-import { Navigate } from 'react-router-dom';
-import { useAppSelector } from 'store/hook.ts';
 
 const ProfilePage: FC = () => {
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
@@ -14,10 +17,10 @@ const ProfilePage: FC = () => {
   }
 
   return (
-    <PageContentWrapper style={{ margin: 'auto' }}>
+    <PageContentWrapper style={{ margin: 'auto', maxWidth: '25rem' }}>
       <ProfilePhotoFeature />
-      <ExitButton />
-      <UserNameForm />
+      <LogoutButton className="btn-outline-danger align-self-start" iconSize="1.3rem" />
+      <UsernameEditForm />
     </PageContentWrapper>
   );
 };

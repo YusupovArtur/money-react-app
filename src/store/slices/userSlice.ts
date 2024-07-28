@@ -13,10 +13,10 @@ import {
 import { getErrorMessage, getUserState } from 'store/functions';
 import { serverResponseStatusHooks, userStateType } from 'store/types';
 
-export const signUpUserWithEmailAndPassword = createAsyncThunk<
+export const signupUserWithEmailAndPassword = createAsyncThunk<
   userStateType | void,
   serverResponseStatusHooks & { email: string; password: string }
->('user/signUpUserWithEmailAndPassword', async (props) => {
+>('user/signupUserWithEmailAndPassword', async (props) => {
   const { email, password, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
@@ -35,8 +35,8 @@ export const signUpUserWithEmailAndPassword = createAsyncThunk<
     });
 });
 
-export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
-  'user/signInWithGoogle',
+export const signinUserWithGoogle = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
+  'user/signinWithGoogle',
   async (props) => {
     const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
@@ -58,8 +58,8 @@ export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serve
   },
 );
 
-export const signInUserWithGitHub = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
-  'user/signInWithGitHub',
+export const signinUserWithGitHub = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
+  'user/signinWithGitHub',
   async (props) => {
     const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
@@ -81,10 +81,10 @@ export const signInUserWithGitHub = createAsyncThunk<userStateType | void, serve
   },
 );
 
-export const signInUserWithEmailAndPassword = createAsyncThunk<
+export const signinUserWithEmailAndPassword = createAsyncThunk<
   userStateType | void,
   serverResponseStatusHooks & { email: string; password: string }
->('user/signInUserWithEmailAndPassword', async function (props) {
+>('user/signinUserWithEmailAndPassword', async function (props) {
   const { email, password, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
@@ -103,7 +103,7 @@ export const signInUserWithEmailAndPassword = createAsyncThunk<
     });
 });
 
-export const exitUser = createAsyncThunk<userStateType | void, serverResponseStatusHooks>('user/exitUser', async (props) => {
+export const logoutUser = createAsyncThunk<userStateType | void, serverResponseStatusHooks>('user/logoutUser', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
@@ -121,20 +121,20 @@ export const exitUser = createAsyncThunk<userStateType | void, serverResponseSta
     });
 });
 
-export const updateUserName = createAsyncThunk<
-  { userName: string | null } | void,
-  serverResponseStatusHooks & { userName: string }
->('user/updateUserName', async (props) => {
-  const { userName, setIsLoading, setErrorMessage, onFulfilled } = props;
+export const updateUsername = createAsyncThunk<
+  { username: string | null } | void,
+  serverResponseStatusHooks & { username: string }
+>('user/updateUsername', async (props) => {
+  const { username, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
   if (auth.currentUser) {
-    return await updateProfile(auth.currentUser, { displayName: userName })
+    return await updateProfile(auth.currentUser, { displayName: username })
       .then(() => {
         if (setIsLoading) setIsLoading(false);
         if (onFulfilled) onFulfilled();
-        return { userName };
+        return { username };
       })
       .catch((error) => {
         console.error('Ошибка обновления имени:', error.code);
@@ -173,7 +173,7 @@ export const updatePhotoURL = createAsyncThunk<
   }
 });
 
-export const verifieEmail = createAsyncThunk<void, serverResponseStatusHooks>('user/verifieEmail', async (props) => {
+export const verifyEmail = createAsyncThunk<void, serverResponseStatusHooks>('user/verifyEmail', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
@@ -196,7 +196,7 @@ export const verifieEmail = createAsyncThunk<void, serverResponseStatusHooks>('u
 });
 
 const initialState: { userState: userStateType; isShouldRemember: boolean } = {
-  userState: { isUserAuthorised: false, email: null, userName: null, id: null, isEmailVerified: false, photoURL: null },
+  userState: { isUserAuthorised: false, email: null, username: null, id: null, isEmailVerified: false, photoURL: null },
   isShouldRemember: false,
 };
 
@@ -218,25 +218,25 @@ const userSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(signUpUserWithEmailAndPassword.fulfilled, (state, action) => {
+      .addCase(signupUserWithEmailAndPassword.fulfilled, (state, action) => {
         if (action.payload) state.userState = action.payload;
       })
-      .addCase(signInUserWithGoogle.fulfilled, (state, action) => {
+      .addCase(signinUserWithGoogle.fulfilled, (state, action) => {
         if (action.payload) state.userState = action.payload;
       })
-      .addCase(signInUserWithGitHub.fulfilled, (state, action) => {
+      .addCase(signinUserWithGitHub.fulfilled, (state, action) => {
         if (action.payload) state.userState = action.payload;
       })
-      .addCase(signInUserWithEmailAndPassword.fulfilled, (state, action) => {
+      .addCase(signinUserWithEmailAndPassword.fulfilled, (state, action) => {
         if (action.payload) state.userState = action.payload;
       })
-      .addCase(updateUserName.fulfilled, (state, action) => {
-        if (action.payload) state.userState.userName = action.payload.userName;
+      .addCase(updateUsername.fulfilled, (state, action) => {
+        if (action.payload) state.userState.username = action.payload.username;
       })
       .addCase(updatePhotoURL.fulfilled, (state, action) => {
         if (action.payload) state.userState.photoURL = action.payload.photoURL;
       })
-      .addCase(exitUser.fulfilled, (state, action) => {
+      .addCase(logoutUser.fulfilled, (state, action) => {
         if (action.payload) state.userState = action.payload;
         state.isShouldRemember = false;
       });

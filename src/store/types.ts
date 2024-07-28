@@ -19,7 +19,7 @@ export type serverResponseStatusHooks = {
 export type userStateType = {
   isUserAuthorised: boolean;
   email: string | null;
-  userName: string | null;
+  username: string | null;
   id: string | null;
   isEmailVerified: boolean;
   photoURL: string | null;

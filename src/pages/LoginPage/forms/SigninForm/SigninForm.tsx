@@ -3,12 +3,13 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { setIsRemember } from 'store/slices/userSlice.ts';
 // Hooks
-import useFormValidation from 'shared/hooks/useFormValidation';
+import useFormValidation, { getValidityClassName } from 'shared/hooks/useFormValidation';
 import emailValidator from 'pages/LoginPage/forms/SigninForm/helpers/emailValidator.ts';
 import passwordValidator from 'pages/LoginPage/forms/SigninForm/helpers/passwordValidator.ts';
 import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType.ts';
 // UI
 import FormValidationFeedback from 'shared/ui/FormValidationFeedback';
+import TextInput from 'shared/inputs/TextInput';
 
 interface SigninFormProps {
   formData: SigninFormDataType;
@@ -45,35 +46,31 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
         <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
           Электронная почта
         </label>
-        <input
+        <TextInput
           type="email"
           value={formData.email}
           onChange={(event) => setFormData((state) => ({ ...state, email: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, email: true }))}
-          className={`form-control ${fieldValidities.email !== undefined && (fieldValidities.email ? 'is-valid' : 'is-invalid')}`}
-          autoComplete="off"
+          className={getValidityClassName(fieldValidities.email)}
           name="email"
           id="signinEmail"
         />
-        <FormValidationFeedback errorMessage={fieldFeedbacks.email} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.email} />
       </div>
       <div className="mb-3 position-relative">
         <label htmlFor="signinPassword" className="form-label text-body user-select-none mb-1">
           Пароль
         </label>
-        <input
+        <TextInput
           type="password"
           value={formData.password}
           onChange={(event) => setFormData((state) => ({ ...state, password: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, password: true }))}
-          className={`form-control ${
-            fieldValidities.password !== undefined && (fieldValidities.password ? 'is-valid' : 'is-invalid')
-          }`}
-          autoComplete="off"
+          className={getValidityClassName(fieldValidities.password)}
           name="password"
           id="signinPassword"
         />
-        <FormValidationFeedback errorMessage={fieldFeedbacks.password} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.password} />
       </div>
       <div className="mb-2 form-check">
         <input
@@ -88,7 +85,9 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
           Запомнить меня
         </label>
       </div>
-      <button className={`btn btn-primary align-self-stretch ${!isValid && 'disabled'}`}>Войти</button>
+      <button disabled={!isValid} className="btn btn-primary align-self-stretch">
+        Войти
+      </button>
     </form>
   );
 };

@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { signInUserWithEmailAndPassword } from 'store/slices/userSlice.ts';
+import { signinUserWithEmailAndPassword } from 'store/slices/userSlice.ts';
 // Router
 import { Navigate } from 'react-router-dom';
 // Forms
@@ -34,7 +34,7 @@ const LoginPage: FC = () => {
 
   const handleSignin = () => {
     dispatch(
-      signInUserWithEmailAndPassword({
+      signinUserWithEmailAndPassword({
         email: signinFormData.email,
         password: signinFormData.password,
         setIsLoading,

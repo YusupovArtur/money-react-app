@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, Dispatch, FC, SetStateAction } from 'react';
 import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 import GitHubIcon from 'pages/LoginPage/ui/GitHubIcon.tsx';
-import { signInUserWithGitHub } from 'store/slices/userSlice.ts';
+import { signinUserWithGitHub } from 'store/slices/userSlice.ts';
 import { useAppDispatch } from 'store/hook.ts';
 
 interface SigninWithGitHubButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,7 +21,7 @@ const SigninWithGitHubButton: FC<SigninWithGitHubButtonProps> = ({
   const dispatch = useAppDispatch();
 
   const handleSigninWithGitHub = () => {
-    dispatch(signInUserWithGitHub({ setIsLoading, setErrorMessage, onFulfilled }));
+    dispatch(signinUserWithGitHub({ setIsLoading, setErrorMessage, onFulfilled }));
   };
 
   return (

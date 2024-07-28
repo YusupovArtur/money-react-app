@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { clearUserState, exitUser, setUserState } from 'store/slices/userSlice.ts';
+import { clearUserState, logoutUser, setUserState } from 'store/slices/userSlice.ts';
 import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice.ts';
 import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.ts';
 import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice.ts';
@@ -18,8 +18,8 @@ const MainPage = lazy(() => import('components_legacy/pages/main_page/MainPage.t
 const TransactionsPage = lazy(() => import('components_legacy/pages/transactions_page/TransactionsPage.tsx'));
 const WalletsPage = lazy(() => import('components_legacy/pages/wallets_page/WalletsPage.tsx'));
 const CategoriesPage = lazy(() => import('components_legacy/pages/categories_page/CategoriesPage.tsx'));
-const ProfilePage = lazy(() => import('components_legacy/pages/profile_page/ProfilePage.tsx'));
-const LoginPage = lazy(() => import('pages/LoginPage/LoginPage.tsx'));
+const LoginPage = lazy(() => import('pages/LoginPage'));
+const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +39,7 @@ const App: FC = () => {
       operationListener.unsubscribe();
       walletsListener.unsubscribe();
       categoriesListener.unsubscribe();
-      if (!isShouldRemember) dispatch(exitUser({}));
+      if (!isShouldRemember) dispatch(logoutUser({}));
       else dispatch(clearUserState());
     };
   }, []);

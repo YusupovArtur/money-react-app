@@ -3,13 +3,14 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
 import { setIsRemember } from 'store/slices/userSlice.ts';
 // Hooks
-import useFormValidation from 'shared/hooks/useFormValidation';
+import useFormValidation, { getValidityClassName } from 'shared/hooks/useFormValidation';
 import emailValidator from 'pages/LoginPage/forms/SignupForm/helpers/emailValidator.ts';
 import password1Validator from 'pages/LoginPage/forms/SignupForm/helpers/password1Validator.ts';
 import password2Validator from 'pages/LoginPage/forms/SignupForm/helpers/password2Validator.ts';
 import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType.ts';
 // UI
 import FormValidationFeedback from 'shared/ui/FormValidationFeedback';
+import TextInput from 'shared/inputs/TextInput';
 
 interface SignupFormProps {
   formData: SignupFormDataType;
@@ -48,50 +49,46 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
         <label htmlFor="signupEmail" className="form-label text-body user-select-none mb-1">
           Электронная почта
         </label>
-        <input
+        <TextInput
           type="email"
           value={formData.email}
           onChange={(event) => setFormData((state) => ({ ...state, email: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, email: true }))}
-          className={`form-control ${fieldValidities.email !== undefined && (fieldValidities.email ? 'is-valid' : 'is-invalid')}`}
+          className={getValidityClassName(fieldValidities.email)}
           name="email"
           id="signupEmail"
         />
-        <FormValidationFeedback errorMessage={fieldFeedbacks.email} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.email} />
       </div>
       <div className="position-relative mb-3">
         <label htmlFor="signupUsername" className="form-label text-body user-select-none mb-1">
           Пароль
         </label>
-        <input
+        <TextInput
           type="password"
           value={formData.password1}
           onChange={(event) => setFormData((state) => ({ ...state, password1: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, password1: true }))}
-          className={`form-control ${
-            fieldValidities.password1 !== undefined && (fieldValidities.password1 ? 'is-valid' : 'is-invalid')
-          }`}
+          className={getValidityClassName(fieldValidities.password1)}
           name="password1"
           id="signupPassword1"
         />
-        <FormValidationFeedback errorMessage={fieldFeedbacks.password1} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.password1} />
       </div>
       <div className="position-relative mb-3">
         <label htmlFor="signupPassword2" className="form-label text-body user-select-none mb-1">
           Повторите пароль
         </label>
-        <input
+        <TextInput
           type="password"
           value={formData.password2}
           onChange={(event) => setFormData((state) => ({ ...state, password2: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, password2: true }))}
-          className={`form-control ${
-            fieldValidities.password2 !== undefined && (fieldValidities.password2 ? 'is-valid' : 'is-invalid')
-          }`}
+          className={getValidityClassName(fieldValidities.password2)}
           name="password2"
           id="signupPassword2"
         />
-        <FormValidationFeedback errorMessage={fieldFeedbacks.password2} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.password2} />
       </div>
       <div className="mb-2 form-check">
         <input
@@ -106,7 +103,9 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
           Запомнить меня
         </label>
       </div>
-      <button className={`btn btn-primary align-self-stretch ${!isValid && 'disabled'}`}>Зарегистрироваться</button>
+      <button disabled={!isValid} className="btn btn-primary align-self-stretch">
+        Зарегистрироваться
+      </button>
     </form>
   );
 };

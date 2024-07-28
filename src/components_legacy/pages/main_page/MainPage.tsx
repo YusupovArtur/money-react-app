@@ -174,7 +174,7 @@ const MainPage: FC = () => {
   return (
     <PageContentWrapper style={{ margin: 'auto', maxWidth: '30rem' }}>
       <p>Main</p>
-      <p>{`Username state: ${userState.userName}`}</p>
+      <p>{`Username state: ${userState.username}`}</p>
       <p>{`Username firebase: ${user?.email}`}</p>
       <button className="btn btn-primary" onClick={handleTestButton}>
         Test button
