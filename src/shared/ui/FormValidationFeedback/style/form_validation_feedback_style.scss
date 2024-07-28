@@ -9,7 +9,9 @@
 }
 
 .invalid-form-feedback {
+  display: flex;
+  justify-content: end;
   width: 100%;
-  font-size: 0.875em;
+  font-size: 0.75em;
   color: var(--form-feedback-invalid-color);
 }

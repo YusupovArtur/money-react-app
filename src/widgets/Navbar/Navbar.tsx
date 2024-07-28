@@ -55,13 +55,7 @@ const Navbar: FC = () => {
             </li>
             {isUserAuthorised ? (
               <li className="nav-item">
-                <Link
-                  to={'/profile'}
-                  className={`nav-link ${
-                    (location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/profile') &&
-                    'active'
-                  }`}
-                >
+                <Link to={'/profile'} className={`nav-link ${location.pathname === '/profile' && 'active'}`}>
                   <div className="d-flex align-items-center">
                     <span>Профиль</span>
                     <ProfilePhoto iconSize="1.5rem" className="text-body p-0 ms-1" />
@@ -70,13 +64,7 @@ const Navbar: FC = () => {
               </li>
             ) : (
               <li className="nav-item">
-                <Link
-                  to={'/signin'}
-                  className={`nav-link ${
-                    (location.pathname === '/signin' || location.pathname === '/signup' || location.pathname === '/profile') &&
-                    'active'
-                  }`}
-                >
+                <Link to={'/login'} className={`nav-link ${location.pathname === '/login' && 'active'}`}>
                   Войти
                 </Link>
               </li>

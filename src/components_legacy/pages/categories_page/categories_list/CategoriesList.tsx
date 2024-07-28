@@ -11,8 +11,6 @@ const CategoriesList: FC<{
   categories: categoryType[];
   setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
 }> = ({ categories, setOpenedCategory }) => {
-  if (categories.length === 0) return null;
-
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 

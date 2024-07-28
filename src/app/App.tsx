@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { cleareUserState, exitUser, setUserState } from 'store/slices/userSlice.ts';
+import { clearUserState, exitUser, setUserState } from 'store/slices/userSlice.ts';
 import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice.ts';
 import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.ts';
 import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice.ts';
@@ -16,8 +16,6 @@ import AppWrapper from 'app/AppWrapper.tsx';
 
 const MainPage = lazy(() => import('components_legacy/pages/main_page/MainPage.tsx'));
 const TransactionsPage = lazy(() => import('components_legacy/pages/transactions_page/TransactionsPage.tsx'));
-const SignInPage = lazy(() => import('components_legacy/pages/sign_in_up_pages/SignInPage.tsx'));
-const SignUpPage = lazy(() => import('components_legacy/pages/sign_in_up_pages/SignUpPage.tsx'));
 const WalletsPage = lazy(() => import('components_legacy/pages/wallets_page/WalletsPage.tsx'));
 const CategoriesPage = lazy(() => import('components_legacy/pages/categories_page/CategoriesPage.tsx'));
 const ProfilePage = lazy(() => import('components_legacy/pages/profile_page/ProfilePage.tsx'));
@@ -42,7 +40,7 @@ const App: FC = () => {
       walletsListener.unsubscribe();
       categoriesListener.unsubscribe();
       if (!isShouldRemember) dispatch(exitUser({}));
-      else dispatch(cleareUserState());
+      else dispatch(clearUserState());
     };
   }, []);
 
@@ -57,7 +55,7 @@ const App: FC = () => {
       operationListener.unsubscribe();
       walletsListener.unsubscribe();
       categoriesListener.unsubscribe();
-      dispatch(cleareUserState());
+      dispatch(clearUserState());
       dispatch(cleareOperations());
       dispatch(cleareWallets());
       dispatch(cleareCategories());
@@ -73,10 +71,8 @@ const App: FC = () => {
           <Route path={'/transactions'} Component={TransactionsPage} />
           <Route path={'/wallets'} Component={WalletsPage} />
           <Route path={'/categories'} Component={CategoriesPage} />
-          <Route path={'/signin'} Component={SignInPage} />
-          <Route path={'/signup'} Component={SignUpPage} />
-          <Route path={'/profile'} Component={ProfilePage} />
           <Route path={'/login'} Component={LoginPage} />
+          <Route path={'/profile'} Component={ProfilePage} />
         </Routes>
       </Suspense>
     </AppWrapper>

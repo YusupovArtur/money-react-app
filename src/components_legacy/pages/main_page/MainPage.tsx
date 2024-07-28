@@ -238,8 +238,6 @@ const MainPage: FC = () => {
 
       <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
       <ColorInput color={color} setColor={setColor} />
-
-      <input type="text" className="form-control mt-3 is-valid" style={{ backgroundImage: 'none' }}></input>
     </PageContentWrapper>
   );
 };

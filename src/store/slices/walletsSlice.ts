@@ -20,7 +20,7 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
   'wallets/downloadWallets',
   async (props) => {
     const auth = getAuth();
-    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     if (auth.currentUser) {
@@ -28,7 +28,7 @@ export const downloadWallets = createAsyncThunk<walletsStateType | void, serverR
         .then((querySnapshot) => {
           if (querySnapshot.exists()) {
             if (setIsLoading) setIsLoading(false);
-            if (fulfilledFunction) fulfilledFunction();
+            if (onFulfilled) onFulfilled();
             return (querySnapshot.data() ? querySnapshot.data() : { list: [] }) as walletsStateType;
           } else {
             throw new ErrorWithCode('Документ wallets не существует');
@@ -50,7 +50,7 @@ export const addWallet = createAsyncThunk<walletsStateType | void, serverRespons
   'wallets/addWallet',
   async (props) => {
     const auth = getAuth();
-    const { wallet, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { wallet, setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -75,7 +75,7 @@ export const addWallet = createAsyncThunk<walletsStateType | void, serverRespons
     })
       .then((walletsState) => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return walletsState;
       })
       .catch((error) => {
@@ -90,7 +90,7 @@ export const deleteWallet = createAsyncThunk<walletsStateType | void, serverResp
   'wallets/deleteWallet',
   async (props) => {
     const auth = getAuth();
-    const { walletID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { walletID, setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -104,7 +104,7 @@ export const deleteWallet = createAsyncThunk<walletsStateType | void, serverResp
     })
       .then((walletsState) => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return walletsState;
       })
       .catch((error) => {
@@ -120,7 +120,7 @@ export const shiftWallet = createAsyncThunk<
   serverResponseStatusHooks & { walletID: string; newIndexID: string }
 >('wallets/shiftWallet', async (props) => {
   const auth = getAuth();
-  const { walletID, newIndexID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { walletID, newIndexID, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -150,7 +150,7 @@ export const shiftWallet = createAsyncThunk<
   })
     .then((walletsState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return walletsState;
     })
     .catch((error) => {
@@ -165,7 +165,7 @@ export const updateWallet = createAsyncThunk<
   serverResponseStatusHooks & { walletID: string; newProps: walletUpdateType }
 >('wallets/updateWallet', async (props) => {
   const auth = getAuth();
-  const { walletID, newProps, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { walletID, newProps, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -185,7 +185,7 @@ export const updateWallet = createAsyncThunk<
   })
     .then((walletsState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return walletsState;
     })
     .catch((error) => {

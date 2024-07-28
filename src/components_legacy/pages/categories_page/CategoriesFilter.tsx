@@ -5,7 +5,7 @@ const CategoriesFilter: FC<{
   setFilter: Dispatch<SetStateAction<'all' | 'expense' | 'income' | 'transfer'>>;
 }> = ({ filter, setFilter }) => {
   return (
-    <div className="btn-group mb-2" role="group">
+    <div className="btn-group mb-1" role="group">
       <input
         type="radio"
         onChange={() => setFilter('all')}

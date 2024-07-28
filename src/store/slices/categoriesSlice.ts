@@ -24,7 +24,7 @@ export const downloadCategories = createAsyncThunk<categoriesStateType | void, s
   'categories/downloadCategories',
   async (props) => {
     const auth = getAuth();
-    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     if (auth.currentUser) {
@@ -33,7 +33,7 @@ export const downloadCategories = createAsyncThunk<categoriesStateType | void, s
         .then((querySnapshot) => {
           if (querySnapshot.exists()) {
             if (setIsLoading) setIsLoading(false);
-            if (fulfilledFunction) fulfilledFunction();
+            if (onFulfilled) onFulfilled();
             return (querySnapshot.data() ? querySnapshot.data() : { list: [] }) as categoriesStateType;
           } else {
             throw new ErrorWithCode('Документ categories не существует');
@@ -56,7 +56,7 @@ export const addCategory = createAsyncThunk<
   serverResponseStatusHooks & { category: categoryAddType }
 >('categories/addCategory', async (props) => {
   const auth = getAuth();
-  const { category, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { category, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -79,7 +79,7 @@ export const addCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {
@@ -94,7 +94,7 @@ export const addSubCategory = createAsyncThunk<
   serverResponseStatusHooks & { categoryID: string; subcategory: subcategoryAddType }
 >('categories/addSubCategory', async (props) => {
   const auth = getAuth();
-  const { categoryID, subcategory, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { categoryID, subcategory, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -112,7 +112,7 @@ export const addSubCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {
@@ -126,7 +126,7 @@ export const deleteCategory = createAsyncThunk<categoriesStateType | void, serve
   'categories/deleteCategory',
   async (props) => {
     const auth = getAuth();
-    const { categoryID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { categoryID, setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -140,7 +140,7 @@ export const deleteCategory = createAsyncThunk<categoriesStateType | void, serve
     })
       .then((categoriesState) => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return categoriesState;
       })
       .catch((error) => {
@@ -156,7 +156,7 @@ export const deleteSubCategory = createAsyncThunk<
   serverResponseStatusHooks & { categoryID: string; subcategoryID: string }
 >('categories/deleteSubCategory', async (props) => {
   const auth = getAuth();
-  const { categoryID, subcategoryID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { categoryID, subcategoryID, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -174,7 +174,7 @@ export const deleteSubCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {
@@ -189,7 +189,7 @@ export const shiftCategory = createAsyncThunk<
   serverResponseStatusHooks & { categoryID: string; newIndexID: string }
 >('categories/shiftCategory', async (props) => {
   const auth = getAuth();
-  const { categoryID, newIndexID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { categoryID, newIndexID, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -219,7 +219,7 @@ export const shiftCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {
@@ -234,7 +234,7 @@ export const shiftSubCategory = createAsyncThunk<
   serverResponseStatusHooks & { categoryID: string; subcategoryID: string; newIndexID: string }
 >('categories/shiftSubCategory', async (props) => {
   const auth = getAuth();
-  const { categoryID, subcategoryID, newIndexID, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { categoryID, subcategoryID, newIndexID, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -267,7 +267,7 @@ export const shiftSubCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {
@@ -282,7 +282,7 @@ export const updateCategory = createAsyncThunk<
   serverResponseStatusHooks & { categoryID: string; newProps: categoryUpdateType }
 >('categories/updateCategory', async (props) => {
   const auth = getAuth();
-  const { categoryID, newProps, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { categoryID, newProps, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -298,7 +298,7 @@ export const updateCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {
@@ -313,7 +313,7 @@ export const updateSubCategory = createAsyncThunk<
   serverResponseStatusHooks & { categoryID: string; subcategoryID: string; newProps: subcategoryUpdateType }
 >('categories/updateSubCategory', async (props) => {
   const auth = getAuth();
-  const { categoryID, subcategoryID, newProps, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { categoryID, subcategoryID, newProps, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   return await runTransaction(db, async (transaction) => {
@@ -336,7 +336,7 @@ export const updateSubCategory = createAsyncThunk<
   })
     .then((categoriesState) => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return categoriesState;
     })
     .catch((error) => {

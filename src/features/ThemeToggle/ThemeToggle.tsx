@@ -5,6 +5,7 @@ import { changeThemeDisplay, changeThemeMode } from 'store/slices/themeSlice.ts'
 // UI imports
 import { AutoThemeIcon, DarkThemeIcon, LightThemeIcon } from './ui/ThemeModeIcons.tsx';
 import useThemeAutoModeListener from './model/useThemeAutoModeListener.ts';
+import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 
 const ThemeToggle: FC = () => {
   const themeMode: 'light' | 'dark' | 'auto' = useAppSelector((store) => store.theme.themeMode);
@@ -31,43 +32,26 @@ const ThemeToggle: FC = () => {
     }
   };
 
+  const handleToggleClick = () => {
+    if (themeMode === 'light') {
+      setDark();
+    } else if (themeMode === 'dark') {
+      setAuto();
+    } else {
+      setLight();
+    }
+  };
+
   return (
-    <div className="dropdown">
-      <button
-        type="button"
-        className="btn btn-body dropdown-toggle d-flex justify-content-center align-items-center"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        {themeMode === 'light' ? (
-          <LightThemeIcon iconSize={iconSize} />
-        ) : themeMode === 'dark' ? (
-          <DarkThemeIcon iconSize={iconSize} />
-        ) : (
-          <AutoThemeIcon iconSize={iconSize} />
-        )}
-      </button>
-      <ul style={{ minWidth: '4rem' }} className="dropdown-menu dropdown-menu-md-end">
-        <li>
-          <button className={`dropdown-item ${themeMode === 'light' && 'active'}`} onClick={setLight}>
-            <LightThemeIcon iconSize={iconSize} />
-            {' Светлая'}
-          </button>
-        </li>
-        <li>
-          <button className={`dropdown-item ${themeMode === 'dark' && 'active'}`} onClick={setDark}>
-            <DarkThemeIcon iconSize={iconSize} />
-            {' Темная'}
-          </button>
-        </li>
-        <li>
-          <button className={`dropdown-item ${themeMode === 'auto' && 'active'}`} onClick={setAuto}>
-            <AutoThemeIcon iconSize={iconSize} />
-            {' Авто'}
-          </button>
-        </li>
-      </ul>
-    </div>
+    <ButtonWithIcon onClick={handleToggleClick} className="btn-body">
+      {themeMode === 'light' ? (
+        <LightThemeIcon iconSize={iconSize} />
+      ) : themeMode === 'dark' ? (
+        <DarkThemeIcon iconSize={iconSize} />
+      ) : (
+        <AutoThemeIcon iconSize={iconSize} />
+      )}
+    </ButtonWithIcon>
   );
 };
 

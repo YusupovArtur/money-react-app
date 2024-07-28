@@ -17,7 +17,7 @@ interface InputFormBarProps {
 const InputFormBar: FC<InputFormBarProps> = ({ addButtonsLabel, setIsOpened, onClear, onAdd }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const fulfilledFunction = () => {
+  const onFulfilled = () => {
     setIsOpened(false);
     onClear();
   };
@@ -25,7 +25,7 @@ const InputFormBar: FC<InputFormBarProps> = ({ addButtonsLabel, setIsOpened, onC
   return (
     <div className="d-flex justify-content-start align-items-center">
       <ButtonWithIconAndSpinner
-        onClick={() => onAdd({ setIsLoading, setErrorMessage, fulfilledFunction })}
+        onClick={() => onAdd({ setIsLoading, setErrorMessage, onFulfilled })}
         caption={addButtonsLabel}
         isLoading={isLoading}
         className="btn-primary me-2"

@@ -14,10 +14,10 @@ const ProfilePhotoFeature: FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const fulfilledFunction = () => setIsOpened(false);
+  const onFulfilled = () => setIsOpened(false);
 
   const photoURLUpdater = (photoURL: string) => {
-    dispatch(updatePhotoURL({ photoURL, setIsLoading, setErrorMessage, fulfilledFunction }));
+    dispatch(updatePhotoURL({ photoURL, setIsLoading, setErrorMessage, onFulfilled }));
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false);

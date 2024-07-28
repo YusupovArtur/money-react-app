@@ -1,23 +1,23 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  getAuth,
-  signOut,
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
+  getAuth,
   GithubAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  updateProfile,
+  GoogleAuthProvider,
   sendEmailVerification,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from 'firebase/auth';
 import { getErrorMessage, getUserState } from 'store/functions';
-import { userStateType, serverResponseStatusHooks } from 'store/types';
+import { serverResponseStatusHooks, userStateType } from 'store/types';
 
 export const signUpUserWithEmailAndPassword = createAsyncThunk<
   userStateType | void,
   serverResponseStatusHooks & { email: string; password: string }
 >('user/signUpUserWithEmailAndPassword', async (props) => {
-  const { email, password, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { email, password, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -25,7 +25,7 @@ export const signUpUserWithEmailAndPassword = createAsyncThunk<
     .then((userCredential) => {
       const user = userCredential.user;
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return getUserState(user);
     })
     .catch((error) => {
@@ -38,7 +38,7 @@ export const signUpUserWithEmailAndPassword = createAsyncThunk<
 export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
   'user/signInWithGoogle',
   async (props) => {
-    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     const auth = getAuth();
@@ -47,7 +47,7 @@ export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serve
       .then((userCredential) => {
         const user = userCredential.user;
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return getUserState(user);
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ export const signInUserWithGoogle = createAsyncThunk<userStateType | void, serve
 export const signInUserWithGitHub = createAsyncThunk<userStateType | void, serverResponseStatusHooks>(
   'user/signInWithGitHub',
   async (props) => {
-    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     const auth = getAuth();
@@ -70,7 +70,7 @@ export const signInUserWithGitHub = createAsyncThunk<userStateType | void, serve
       .then((userCredential) => {
         const user = userCredential.user;
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return getUserState(user);
       })
       .catch((error) => {
@@ -85,7 +85,7 @@ export const signInUserWithEmailAndPassword = createAsyncThunk<
   userStateType | void,
   serverResponseStatusHooks & { email: string; password: string }
 >('user/signInUserWithEmailAndPassword', async function (props) {
-  const { email, password, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { email, password, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -93,7 +93,7 @@ export const signInUserWithEmailAndPassword = createAsyncThunk<
     .then((userCredential) => {
       const user = userCredential.user;
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return getUserState(user);
     })
     .catch((error) => {
@@ -104,14 +104,14 @@ export const signInUserWithEmailAndPassword = createAsyncThunk<
 });
 
 export const exitUser = createAsyncThunk<userStateType | void, serverResponseStatusHooks>('user/exitUser', async (props) => {
-  const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
   return await signOut(auth)
     .then(() => {
       if (setIsLoading) setIsLoading(false);
-      if (fulfilledFunction) fulfilledFunction();
+      if (onFulfilled) onFulfilled();
       return getUserState(null);
     })
     .catch((error) => {
@@ -125,7 +125,7 @@ export const updateUserName = createAsyncThunk<
   { userName: string | null } | void,
   serverResponseStatusHooks & { userName: string }
 >('user/updateUserName', async (props) => {
-  const { userName, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { userName, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -133,7 +133,7 @@ export const updateUserName = createAsyncThunk<
     return await updateProfile(auth.currentUser, { displayName: userName })
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return { userName };
       })
       .catch((error) => {
@@ -151,7 +151,7 @@ export const updatePhotoURL = createAsyncThunk<
   { photoURL: string | null } | void,
   serverResponseStatusHooks & { photoURL: string }
 >('user/updatePhotoURL', async (props) => {
-  const { photoURL, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { photoURL, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -159,7 +159,7 @@ export const updatePhotoURL = createAsyncThunk<
     return await updateProfile(auth.currentUser, { photoURL })
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return { photoURL };
       })
       .catch((error) => {
@@ -174,7 +174,7 @@ export const updatePhotoURL = createAsyncThunk<
 });
 
 export const verifieEmail = createAsyncThunk<void, serverResponseStatusHooks>('user/verifieEmail', async (props) => {
-  const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   const auth = getAuth();
@@ -182,7 +182,7 @@ export const verifieEmail = createAsyncThunk<void, serverResponseStatusHooks>('u
     sendEmailVerification(auth.currentUser)
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
       })
       .catch((error) => {
         console.error('Ошибка верификации электронной почты:', error.code);
@@ -211,7 +211,7 @@ const userSlice = createSlice({
     setUserState(state, action: PayloadAction<userStateType>) {
       state.userState = action.payload;
     },
-    cleareUserState(state) {
+    clearUserState(state) {
       state.userState = getUserState(null);
     },
   },
@@ -238,9 +238,10 @@ const userSlice = createSlice({
       })
       .addCase(exitUser.fulfilled, (state, action) => {
         if (action.payload) state.userState = action.payload;
+        state.isShouldRemember = false;
       });
   },
 });
 
-export const { setUserState, cleareUserState, setIsRemember } = userSlice.actions;
+export const { setUserState, clearUserState, setIsRemember } = userSlice.actions;
 export default userSlice.reducer;

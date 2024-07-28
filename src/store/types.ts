@@ -12,7 +12,7 @@ export class ErrorWithCode extends Error {
 export type serverResponseStatusHooks = {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
-  fulfilledFunction?: () => void;
+  onFulfilled?: () => void;
 };
 
 // User types

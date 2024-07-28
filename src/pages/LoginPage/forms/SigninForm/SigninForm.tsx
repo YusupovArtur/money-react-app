@@ -1,73 +1,94 @@
-import { FC, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+// Store
+import { useAppDispatch, useAppSelector } from 'store/hook.ts';
+import { setIsRemember } from 'store/slices/userSlice.ts';
+// Hooks
 import useFormValidation from 'shared/hooks/useFormValidation';
-import isEmailFormatCorrect from 'pages/LoginPage/helpers/isEmailFormatCorrect.ts';
+import emailValidator from 'pages/LoginPage/forms/SigninForm/helpers/emailValidator.ts';
+import passwordValidator from 'pages/LoginPage/forms/SigninForm/helpers/passwordValidator.ts';
+import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType.ts';
+// UI
 import FormValidationFeedback from 'shared/ui/FormValidationFeedback';
 
-interface SigninFormProps {}
+interface SigninFormProps {
+  formData: SigninFormDataType;
+  setFormData: Dispatch<SetStateAction<SigninFormDataType>>;
+  onSubmit?: () => void;
+}
 
-type SigninFormDataType = {
-  email: string;
-  password: string;
-};
+const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) => {
+  const dispatch = useAppDispatch();
+  const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
-const SigninForm: FC<SigninFormProps> = ({}) => {
-  const [signinFormData, setSigninFormData] = useState<SigninFormDataType>({
-    email: '',
-    password: '',
+  const [isValidate, setIsValidate] = useState<{ [K in keyof SigninFormDataType]?: boolean }>({
+    email: Boolean(formData.email),
+    password: Boolean(formData.password),
   });
-  const [isValidate, setIsValidate] = useState<{ [K in keyof SigninFormDataType]?: boolean }>({});
-
   const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<SigninFormDataType>(
-    signinFormData,
+    formData,
     {
-      email: (email: string) => {
-        if (!email) {
-          return { isValid: false, feedBack: 'Поле email должно быть заполнено' };
-        }
-        if (!isEmailFormatCorrect(email)) {
-          return { isValid: false, feedBack: 'Некорректный формат email' };
-        }
-        return { isValid: true };
-      },
-      password: (password: string) => ({ isValid: Boolean(password) }),
+      email: emailValidator,
+      password: passwordValidator,
     },
     isValidate,
   );
 
   return (
-    <form>
-      <div className="mb-4 position-relative">
-        <label htmlFor="loginLogin" className="form-label text-body user-select-none">
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (onSubmit && isValid) onSubmit();
+      }}
+      className="d-flex flex-column"
+    >
+      <div className="mb-3 position-relative">
+        <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
           Электронная почта
         </label>
         <input
           type="email"
-          value={signinFormData.email}
-          onChange={(event) => setSigninFormData((state) => ({ ...state, email: event.target.value }))}
+          value={formData.email}
+          onChange={(event) => setFormData((state) => ({ ...state, email: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, email: true }))}
           className={`form-control ${fieldValidities.email !== undefined && (fieldValidities.email ? 'is-valid' : 'is-invalid')}`}
           autoComplete="off"
-          id="loginLogin"
+          name="email"
+          id="signinEmail"
         />
         <FormValidationFeedback errorMessage={fieldFeedbacks.email} />
       </div>
-      <div className="mb-4">
-        <label htmlFor="loginPassword" className="form-label text-body user-select-none">
+      <div className="mb-3 position-relative">
+        <label htmlFor="signinPassword" className="form-label text-body user-select-none mb-1">
           Пароль
         </label>
         <input
           type="password"
-          value={signinFormData.password}
-          onChange={(event) => setSigninFormData((state) => ({ ...state, password: event.target.value }))}
+          value={formData.password}
+          onChange={(event) => setFormData((state) => ({ ...state, password: event.target.value }))}
           onFocus={() => setIsValidate((state) => ({ ...state, password: true }))}
           className={`form-control ${
             fieldValidities.password !== undefined && (fieldValidities.password ? 'is-valid' : 'is-invalid')
           }`}
           autoComplete="off"
-          id="loginPassword"
+          name="password"
+          id="signinPassword"
         />
+        <FormValidationFeedback errorMessage={fieldFeedbacks.password} />
       </div>
-      {isValid ? 'good' : 'bad'}
+      <div className="mb-2 form-check">
+        <input
+          type="checkbox"
+          checked={isShouldRemember}
+          onChange={(event) => dispatch(setIsRemember(event.target.checked))}
+          className="form-check-input"
+          name="rememberCheckbox"
+          id="rememberCheckbox"
+        />
+        <label className="form-check-label text-body user-select-none" htmlFor="rememberCheckbox">
+          Запомнить меня
+        </label>
+      </div>
+      <button className={`btn btn-primary align-self-stretch ${!isValid && 'disabled'}`}>Войти</button>
     </form>
   );
 };

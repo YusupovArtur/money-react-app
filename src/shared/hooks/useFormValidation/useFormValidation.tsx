@@ -4,10 +4,14 @@ type FormDataType<T> = {
   [K in keyof T]: T[K];
 };
 
-type ValidatorsType<T> = {
-  [K in keyof T]?: FieldValidatorType<T[K]>;
+export type validatorsReturnType = {
+  isValid: boolean;
+  feedback?: string;
 };
-type FieldValidatorType<T> = (value: T) => { isValid: boolean; feedBack?: string };
+
+type ValidatorsType<T> = {
+  [K in keyof T]?: (value: T) => validatorsReturnType;
+};
 
 type IsValidateType<T> = {
   [K in keyof T]?: boolean;
@@ -31,12 +35,17 @@ const useFormValidation = <T,>(
 
     (Object.keys(formData) as Array<keyof T>).forEach((field) => {
       const validator = validators[field];
-      if (validator && isValidate[field]) {
-        const validationResult = validator(formData[field]);
-        newFieldValidities[field] = validationResult.isValid;
-        newFieldFeedbacks[field] = validationResult.feedBack;
+      if (validator) {
+        if (isValidate[field]) {
+          const validationResult = validator(formData);
+          newFieldValidities[field] = validationResult.isValid;
+          newFieldFeedbacks[field] = validationResult.feedback;
+        } else {
+          newFieldValidities[field] = undefined;
+          newFieldFeedbacks[field] = undefined;
+        }
       } else {
-        newFieldValidities[field] = undefined;
+        newFieldValidities[field] = true;
         newFieldFeedbacks[field] = undefined;
       }
     });
@@ -45,7 +54,6 @@ const useFormValidation = <T,>(
   }, [formData, isValidate]);
 
   const isValid = Object.values(fieldValidities).every(Boolean);
-
   return { isValid, fieldValidities, fieldFeedbacks };
 };
 export default useFormValidation;

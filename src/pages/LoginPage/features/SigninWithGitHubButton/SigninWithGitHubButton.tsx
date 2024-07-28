@@ -7,21 +7,21 @@ import { useAppDispatch } from 'store/hook.ts';
 interface SigninWithGitHubButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
-  fulfilledFunction?: () => void;
+  onFulfilled?: () => void;
   iconSize?: string;
 }
 
 const SigninWithGitHubButton: FC<SigninWithGitHubButtonProps> = ({
   setIsLoading,
   setErrorMessage,
-  fulfilledFunction,
+  onFulfilled,
   iconSize = '1.5rem',
   ...props
 }) => {
   const dispatch = useAppDispatch();
 
   const handleSigninWithGitHub = () => {
-    dispatch(signInUserWithGitHub({ setIsLoading, setErrorMessage, fulfilledFunction }));
+    dispatch(signInUserWithGitHub({ setIsLoading, setErrorMessage, onFulfilled }));
   };
 
   return (

@@ -12,7 +12,7 @@ const UserNameForm: FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const fulfilledFunction = () => setIsEdit(false);
+  const onFulfilled = () => setIsEdit(false);
 
   return (
     <div className="mt-2">
@@ -33,7 +33,7 @@ const UserNameForm: FC = () => {
           className="btn btn-primary d-flex justify-content-center align-items-center ms-2 py-2 px-3"
           onClick={() => {
             if (isEdit) {
-              dispatch(updateUserName({ userName: formData, setIsLoading, setErrorMessage, fulfilledFunction }));
+              dispatch(updateUserName({ userName: formData, setIsLoading, setErrorMessage, onFulfilled }));
             } else {
               setIsEdit(true);
             }

@@ -61,7 +61,7 @@ const CategoriesPage: FC = () => {
       <PageContentWrapper style={{ margin: '0 auto' }} className="pb-0">
         <div className="d-flex justify-content-between align-items-center flex-wrap-reverse">
           <CategoriesFilter filter={filter} setFilter={setFilter} />
-          <ButtonWithIcon caption="Категории" onClick={() => setIsShowInput(true)} className="btn-body-primary mb-2">
+          <ButtonWithIcon caption="Категории" onClick={() => setIsShowInput(true)} className="btn-body-primary mb-1">
             <PlusIconSVG iconSize="1.5rem" />
           </ButtonWithIcon>
         </div>

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import './style/index.scss';
+import './style/form_validation_feedback_style.scss';
 
 interface FormValidationFeedbackProps {
   errorMessage?: string;
@@ -11,7 +11,7 @@ const FormValidationFeedback: FC<FormValidationFeedbackProps> = ({ errorMessage 
   }
   return (
     <div className="invalid-form-feedback" style={{ position: 'absolute' }}>
-      {errorMessage}
+      <span>{errorMessage}</span>
     </div>
   );
 };

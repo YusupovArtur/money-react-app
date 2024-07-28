@@ -19,7 +19,7 @@ export const downloadOperations = createAsyncThunk<operationsStateType | void, s
   'operations/downloadOperations',
   async (props) => {
     const auth = getAuth();
-    const { setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     return await runTransaction(db, async (transaction) => {
@@ -36,7 +36,7 @@ export const downloadOperations = createAsyncThunk<operationsStateType | void, s
     })
       .then((operations) => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return operations;
       })
       .catch((error) => {
@@ -52,7 +52,7 @@ export const addOperation = createAsyncThunk<
   serverResponseStatusHooks & { operation: operationType }
 >('operations/addOperation', async (props) => {
   const auth = getAuth();
-  const { operation, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { operation, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   if (auth.currentUser) {
@@ -62,7 +62,7 @@ export const addOperation = createAsyncThunk<
     return await updateDoc(doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list'), operationToAdd)
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return { id, operation };
       })
       .catch((error) => {
@@ -81,7 +81,7 @@ export const updateOperation = createAsyncThunk<
   serverResponseStatusHooks & { id: string; operation: operationUpdateType }
 >('operations/updateOperation', async (props) => {
   const auth = getAuth();
-  const { id, operation, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+  const { id, operation, setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);
   if (auth.currentUser) {
@@ -97,7 +97,7 @@ export const updateOperation = createAsyncThunk<
     return await updateDoc(doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list'), operatonToUpdate)
       .then(() => {
         if (setIsLoading) setIsLoading(false);
-        if (fulfilledFunction) fulfilledFunction();
+        if (onFulfilled) onFulfilled();
         return { id, operation };
       })
       .catch((error) => {
@@ -115,7 +115,7 @@ export const deleteOperation = createAsyncThunk<string | void, serverResponseSta
   'operations/deleteOperation',
   async (props) => {
     const auth = getAuth();
-    const { id, setIsLoading, setErrorMessage, fulfilledFunction } = props;
+    const { id, setIsLoading, setErrorMessage, onFulfilled } = props;
     if (setErrorMessage) setErrorMessage('');
     if (setIsLoading) setIsLoading(true);
     if (auth.currentUser) {
@@ -124,7 +124,7 @@ export const deleteOperation = createAsyncThunk<string | void, serverResponseSta
       return await updateDoc(doc(db, 'users_data', auth.currentUser.uid, 'transactions', 'list'), operationToDelete)
         .then(() => {
           if (setIsLoading) setIsLoading(false);
-          if (fulfilledFunction) fulfilledFunction();
+          if (onFulfilled) onFulfilled();
           return id;
         })
         .catch((error) => {

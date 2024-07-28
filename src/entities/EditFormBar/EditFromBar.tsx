@@ -26,7 +26,7 @@ interface EditFormBarProps {
 const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdate, itemType, itemName, isEdit, setIsEdit }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const fulfilledFunction = () => setIsEdit(false);
+  const onFulfilled = () => setIsEdit(false);
 
   return (
     <div className="d-flex justify-content-start align-items-center">
@@ -34,7 +34,7 @@ const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdat
         isLoading={isLoading}
         onClick={() => {
           if (isEdit) {
-            onUpdate({ setIsLoading, setErrorMessage, fulfilledFunction });
+            onUpdate({ setIsLoading, setErrorMessage, onFulfilled });
           } else {
             setIsEdit(true);
           }
@@ -60,7 +60,7 @@ const EditFromBar: FC<EditFormBarProps> = ({ onClose, onClear, onDelete, onUpdat
           <ButtonWithIcon
             onClick={() => {
               if (confirm(`Вы уверены что хотите удалить ${itemType}: ${itemName}`)) {
-                onDelete({ setIsLoading, setErrorMessage, fulfilledFunction });
+                onDelete({ setIsLoading, setErrorMessage, onFulfilled });
               }
             }}
             className="btn-danger px-3"

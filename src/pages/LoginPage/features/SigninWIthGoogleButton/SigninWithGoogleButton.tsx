@@ -7,21 +7,21 @@ import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
 interface SigninWithGoogleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
-  fulfilledFunction?: () => void;
+  onFulfilled?: () => void;
   iconSize?: string;
 }
 
 const SigninWithGoogleButton: FC<SigninWithGoogleButtonProps> = ({
   setIsLoading,
   setErrorMessage,
-  fulfilledFunction,
+  onFulfilled,
   iconSize = '1.5rem',
   ...props
 }) => {
   const dispatch = useAppDispatch();
 
   const handleSigninWithGoogle = () => {
-    dispatch(signInUserWithGoogle({ setIsLoading, setErrorMessage, fulfilledFunction }));
+    dispatch(signInUserWithGoogle({ setIsLoading, setErrorMessage, onFulfilled }));
   };
 
   return (
