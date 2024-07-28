@@ -4,10 +4,11 @@ import { useAppSelector } from 'store/hook.ts';
 // Router
 import { Navigate } from 'react-router-dom';
 // Features
-import LogoutButton from 'pages/ProfilePage/features/LogoutButton';
+import UserLogoutButton from 'pages/ProfilePage/features/UserLogoutButton';
 import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm';
-import ProfilePhotoFeature from 'components_legacy/pages/profile_page/ProfilePhotoFeature.tsx';
+import UserPhotoChangeButton from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoChangeButton.tsx';
 import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
+import UserPhoto from 'entities/UserPhoto';
 
 const ProfilePage: FC = () => {
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
@@ -17,9 +18,10 @@ const ProfilePage: FC = () => {
   }
 
   return (
-    <PageContentWrapper style={{ margin: 'auto', maxWidth: '25rem' }}>
-      <ProfilePhotoFeature />
-      <LogoutButton className="btn-outline-danger align-self-start" iconSize="1.3rem" />
+    <PageContentWrapper style={{ margin: 'auto', maxWidth: '35rem' }}>
+      <UserPhoto iconSize="12rem" className="align-self-center" />
+      <UserPhotoChangeButton />
+      <UserLogoutButton className="btn-outline-danger align-self-start" iconSize="1.3rem" />
       <UsernameEditForm />
     </PageContentWrapper>
   );

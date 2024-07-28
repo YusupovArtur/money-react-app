@@ -64,37 +64,39 @@ const UsernameEditForm: FC = () => {
       onSubmit={(event) => {
         event.preventDefault();
       }}
-      className="my-3 position-relative"
+      className="mt-3"
     >
-      <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
-        Имя
-      </label>
-      <div className="d-flex align-items-stretch">
-        <TextInput
-          value={formData.username}
-          onChange={(event) => setFormData({ username: event.target.value })}
-          onFocus={() => setIsValidate({ username: true })}
-          className={getValidityClassName(fieldValidities.username)}
-          disabled={!isEdit}
-          placeholder={!formData.username && !isEdit ? 'Нет имени' : undefined}
-        />
-        <ButtonWithIconAndSpinner
-          onClick={handleEditButtonClick}
-          disabled={isEdit && !isValid}
-          isLoading={isLoading}
-          className="btn-primary ms-1"
-        >
-          {isEdit ? <CheckIconSVG iconSize="1.5rem" /> : <PencilSquareIconSVG iconSize="1.5rem" />}
-        </ButtonWithIconAndSpinner>
+      <div className="position-relative mb-2">
+        <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
+          Имя
+        </label>
+        <div className="d-flex align-items-stretch">
+          <TextInput
+            value={formData.username}
+            onChange={(event) => setFormData({ username: event.target.value })}
+            onFocus={() => setIsValidate({ username: true })}
+            className={getValidityClassName(fieldValidities.username)}
+            disabled={!isEdit}
+            placeholder={!formData.username && !isEdit ? 'Нет имени' : undefined}
+          />
+          <ButtonWithIconAndSpinner
+            onClick={handleEditButtonClick}
+            disabled={isEdit && !isValid}
+            isLoading={isLoading}
+            className="btn-primary ms-1"
+          >
+            {isEdit ? <CheckIconSVG iconSize="1.5rem" /> : <PencilSquareIconSVG iconSize="1.5rem" />}
+          </ButtonWithIconAndSpinner>
 
-        {isEdit && (
-          <ButtonWithIcon onClick={handleClearButtonClick} className="btn-danger ms-1">
-            <CrossIconSVG iconSize="1.5rem" />
-          </ButtonWithIcon>
-        )}
-        <AlertMessage alertMessage={errorMessage} className="alert-warning ms-1" />
+          {isEdit && (
+            <ButtonWithIcon onClick={handleClearButtonClick} className="btn-danger ms-1">
+              <CrossIconSVG iconSize="1.5rem" />
+            </ButtonWithIcon>
+          )}
+        </div>
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.username} className="align-items-start" />
       </div>
-      <FormValidationFeedback feedbackMessage={fieldFeedbacks.username} className="align-items-start" />
+      <AlertMessage alertMessage={errorMessage} className="alert-danger mt-3" />
     </form>
   );
 };

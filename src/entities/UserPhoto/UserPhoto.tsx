@@ -1,12 +1,12 @@
 import { FC, HTMLAttributes, useState } from 'react';
 import { useAppSelector } from 'store/hook.ts';
-import DefaultUserIcon from 'entities/ProfilePhoto/ui/DefaultUserIcon.tsx';
+import DefaultUserIcon from './ui/DefaultUserIcon.tsx';
 
-interface ProfilePhotoProps extends HTMLAttributes<HTMLSpanElement> {
+interface UserPhotoProps extends HTMLAttributes<HTMLSpanElement> {
   iconSize?: string;
 }
 
-const ProfilePhoto: FC<ProfilePhotoProps> = ({ iconSize = '1.5rem', ...props }) => {
+const UserPhoto: FC<UserPhotoProps> = ({ iconSize = '1.5rem', ...props }) => {
   const photoURL = useAppSelector((state) => state.user.userState.photoURL);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -29,4 +29,4 @@ const ProfilePhoto: FC<ProfilePhotoProps> = ({ iconSize = '1.5rem', ...props }) 
   );
 };
 
-export default ProfilePhoto;
+export default UserPhoto;

@@ -6,7 +6,7 @@ interface DropdownMenuWrapperProps extends HTMLProps<HTMLDivElement> {
 
 const DropdownMenuWrapper: FC<DropdownMenuWrapperProps> = ({ children, className, ...props }) => {
   return (
-    <div className={`bg-white border rounded-2 my-1 p-2 ${className}`} {...props}>
+    <div className={`bg-white border rounded-2 my-1 p-2 ${className && className}`} {...props}>
       {children}
     </div>
   );

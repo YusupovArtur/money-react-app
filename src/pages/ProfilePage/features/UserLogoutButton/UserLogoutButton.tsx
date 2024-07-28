@@ -4,13 +4,13 @@ import { useAppDispatch } from 'store/hook.ts';
 import { logoutUser } from 'store/slices/userSlice.ts';
 // UI
 import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
-import BoxArrowLeftIcon from './ui/BoxArrowLeftIcon.tsx';
+import BoxArrowLeftIcon from 'pages/ProfilePage/features/UserLogoutButton/ui/BoxArrowLeftIcon.tsx';
 
 interface ExitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconSize?: string;
 }
 
-const LogoutButton: FC<ExitButtonProps> = ({ iconSize = '1.5rem', ...props }) => {
+const UserLogoutButton: FC<ExitButtonProps> = ({ iconSize = '1.5rem', ...props }) => {
   const dispatch = useAppDispatch();
 
   const handleExit = () => {
@@ -24,4 +24,4 @@ const LogoutButton: FC<ExitButtonProps> = ({ iconSize = '1.5rem', ...props }) =>
   );
 };
 
-export default LogoutButton;
+export default UserLogoutButton;

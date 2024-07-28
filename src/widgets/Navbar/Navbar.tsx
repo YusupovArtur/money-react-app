@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from 'store/hook.ts';
 // UI
 import ThemeToggle from 'features/ThemeToggle';
-import ProfilePhoto from 'entities/ProfilePhoto';
+import UserPhoto from 'entities/UserPhoto';
 
 // TODO: Change links style to more contrast
 const Navbar: FC = () => {
@@ -13,7 +13,7 @@ const Navbar: FC = () => {
   const isUserAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
 
   return (
-    <nav className="sticky-top z-1 navbar navbar-expand-md bg-body-tertiary shadow-sm">
+    <nav className="sticky-top z-1 navbar navbar-expand-sm bg-body-tertiary shadow-sm">
       <div className="container-fluid">
         <Link className="navbar-brand d-flex justify-content-center" to={'/'}>
           <img style={{ width: '1.7rem', height: '1.7rem' }} src="/images/icon_chart.png" alt="2Money" />
@@ -58,7 +58,7 @@ const Navbar: FC = () => {
                 <Link to={'/profile'} className={`nav-link ${location.pathname === '/profile' && 'active'}`}>
                   <div className="d-flex align-items-center">
                     <span>Профиль</span>
-                    <ProfilePhoto iconSize="1.5rem" className="text-body p-0 ms-1" />
+                    <UserPhoto iconSize="1.5rem" className="text-body p-0 ms-1" />
                   </div>
                 </Link>
               </li>
