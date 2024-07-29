@@ -1,13 +1,10 @@
 import { Dispatch, FC, MutableRefObject, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import updateUserState from 'store/slices/userSlice/asyncThunks/updateUserState.ts';
-import { uploadUserPhoto } from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/uploadUserPhoto.ts';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { uploadUserPhoto } from 'store/slices/userSlice';
 // UI
-import AlertMessage from 'shared/ui/AlertMessage';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
-import ButtonWithIconAndSpinner from 'shared/ui/ButtonWithIconAndSpinner';
-import { CloudPlusSVG, CrossIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
+import { CloudPlusSVG, CrossIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG';
 
 interface ImageFormControlButtonsProps {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;
@@ -23,14 +20,11 @@ const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canvasRef, 
   const onFulfilled = () => {
     setIsOpened(false);
   };
-  const userPhotoURLUpdater = (photoURL: string) => {
-    dispatch(updateUserState({ photoURL, setIsLoading, setErrorMessage, onFulfilled }));
-  };
 
   const handleUploadPhoto = () => {
     if (canvasRef.current && userID) {
       const imageDataURL = canvasRef.current.toDataURL();
-      uploadUserPhoto(imageDataURL, userID, { setIsLoading, setErrorMessage }, userPhotoURLUpdater);
+      dispatch(uploadUserPhoto({ imageDataURL, setErrorMessage, setIsLoading, onFulfilled }));
     }
   };
 

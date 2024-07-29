@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { changeThemeDisplay } from 'store/slices/themeSlice.ts';
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
+import { changeThemeDisplay } from 'store/slices/themeSlice';
+import { useAppDispatch, useAppSelector } from 'store/hook';
 
 const useThemeAutoModeListener = () => {
   const dispatch = useAppDispatch();

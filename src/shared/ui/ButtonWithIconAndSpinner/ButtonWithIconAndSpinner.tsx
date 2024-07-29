@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
+import { ButtonWithIcon } from 'shared/ui';
 
 interface ButtonWithIconAndSpinnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;

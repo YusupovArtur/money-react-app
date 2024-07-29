@@ -1,16 +1,16 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { setIsRemember } from 'store/slices/userSlice/userSlice.ts';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
-import useFormValidation, { getValidityClassName } from 'shared/hooks/useFormValidation';
-import emailValidator from 'pages/LoginPage/forms/SignupForm/helpers/emailValidator.ts';
+import { getValidityClassName, useFormValidation } from 'shared/hooks';
+import emailValidator from 'pages/LoginPage/forms/SignupForm/helpers/emailValidator';
 import password1Validator from 'pages/LoginPage/forms/SignupForm/helpers/password1Validator.ts';
 import password2Validator from 'pages/LoginPage/forms/SignupForm/helpers/password2Validator.ts';
 import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType.ts';
 // UI
-import FormValidationFeedback from 'shared/ui/FormValidationFeedback';
-import TextInput from 'shared/inputs/TextInput';
+import { FormValidationFeedback } from 'shared/ui';
+import { TextInput } from 'shared/inputs';
 
 interface SignupFormProps {
   formData: SignupFormDataType;

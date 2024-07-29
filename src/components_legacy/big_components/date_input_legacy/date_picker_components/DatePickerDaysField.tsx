@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { datePickerDayCellPropsType } from '../types.ts';
-import { getDatePickerNewValue } from '../functions.ts';
-import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from '../constants.ts';
+import { datePickerDayCellPropsType } from '../types';
+import { getDatePickerNewValue } from '../functions';
+import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from '../constants';
 
 const DatePickerDayCell: FC<{
   datePickerDayCellProps: datePickerDayCellPropsType;

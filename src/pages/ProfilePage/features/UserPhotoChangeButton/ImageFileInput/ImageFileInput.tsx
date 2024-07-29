@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, ChangeEvent, Dispatch, FC, SetStateAction, useRef } from 'react';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
-import ImageIcon from './ui/ImageIcon.tsx';
+import { ButtonWithIcon } from 'shared/ui';
+import ImageIcon from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFileInput/icons/ImageIcon';
 
 interface ImageInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   reader: FileReader;

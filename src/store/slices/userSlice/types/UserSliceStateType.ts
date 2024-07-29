@@ -1,4 +1,4 @@
-import UserStateType from 'store/slices/userSlice/types/UserStateType.ts';
+import UserStateType from './UserStateType.ts';
 
 type UserSliceStateType = {
   userState: UserStateType;

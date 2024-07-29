@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { useAppSelector } from 'store/hook.ts';
+import { useAppSelector } from 'store/hook';
 
 import CategoryInput from '../../pages/categories_page/categories_form/CategoryInput';
 import CategoriesList from '../../pages/categories_page/categories_list/CategoriesList';
@@ -8,8 +8,8 @@ import CategoryOpened from '../../pages/categories_page/categories_list/Category
 import CategoriesFilter from '../../pages/categories_page/CategoriesFilter';
 import { PlusIconSVG } from '../../small_components/icons_svg/IconsSVG';
 import { categoryType } from 'store/types';
-import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
+import { PageContentWrapper } from 'shared/wrappers';
+import { ButtonWithIcon } from 'shared/ui';
 
 const CategoriesPage: FC = () => {
   const categories = useAppSelector((state) => state.categories.list);

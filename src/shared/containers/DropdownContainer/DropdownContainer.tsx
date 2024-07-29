@@ -1,14 +1,13 @@
 import { CSSProperties, Dispatch, FC, ReactNode, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from 'react';
 // Containers
-import ModalContainer from 'shared/containers/ModalContainer';
+import ModalContainer from 'shared/containers/ModalContainer/ModalContainer';
 // Hooks
-import useClickOutside from 'shared/hooks/useClickOutside';
-import useThrottledCallback from 'shared/hooks/useThrottledCallback';
+import { useClickOutside, useThrottledCallback } from 'shared/hooks';
 // Helpers
-import MenuAlignmentType from './types/MenuAlignmentType.ts';
-import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle.ts';
-import getPositionedMenuAlignment from './helpers/getPositionedMenuAlignment.ts';
-import getDeviceType from './helpers/getDeviceType.ts';
+import MenuAlignmentType from './types/MenuAlignmentType';
+import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle';
+import getPositionedMenuAlignment from './helpers/getPositionedMenuAlignment';
+import getDeviceType from './helpers/getDeviceType';
 
 interface BaseDropdownContainerProps {
   DropdownToggle: ReactNode;

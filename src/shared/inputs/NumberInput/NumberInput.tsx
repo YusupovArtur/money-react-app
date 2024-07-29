@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 // UI
-import TextInput from 'shared/inputs/TextInput';
+import { TextInput } from 'shared/inputs';
 // Helpers
-import getFormatedTextNumber from './helpers/getFormatedTextNumber.ts';
-import getNumberFromText from './helpers/getNumberFromText.ts';
-import getCursorShift from 'shared/inputs/NumberInput/helpers/getCursorShift.ts';
+import getFormatedTextNumber from './helpers/getFormatedTextNumber';
+import getNumberFromText from './helpers/getNumberFromText';
+import getCursorShift from 'shared/inputs/NumberInput/helpers/getCursorShift';
 
 interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value'> {
   number: number;

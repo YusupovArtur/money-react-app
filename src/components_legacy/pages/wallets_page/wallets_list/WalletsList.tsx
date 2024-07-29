@@ -5,7 +5,7 @@ import { shiftWallet } from 'store/slices/walletsSlice';
 import { WALLETS_LIST_LAST_ITEM_ID, walletType } from 'store/types';
 
 import WalletItem from '../../../pages/wallets_page/wallets_list/WalletItem';
-import DraggableItem from '../../../small_components/dragable/DraggableItem.tsx';
+import DraggableItem from '../../../small_components/dragable/DraggableItem';
 
 const WalletsList: FC<{
   wallets: walletType[];

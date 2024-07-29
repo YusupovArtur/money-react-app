@@ -1,11 +1,14 @@
 import { FC } from 'react';
 // Store imports
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import { changeThemeDisplay, changeThemeMode } from 'store/slices/themeSlice.ts';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { changeThemeDisplay, changeThemeMode } from 'store/slices/themeSlice';
 // UI imports
-import { AutoThemeIcon, DarkThemeIcon, LightThemeIcon } from './ui/ThemeModeIcons.tsx';
-import useThemeAutoModeListener from './model/useThemeAutoModeListener.ts';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
+import { ButtonWithIcon } from 'shared/ui';
+import { LightThemeIcon } from 'features/ThemeToggle/icons/AutoThemeIcon';
+import { DarkThemeIcon } from 'features/ThemeToggle/icons/DarkThemeIcon';
+import { AutoThemeIcon } from 'features/ThemeToggle/icons/LightThemeIcon';
+// Model
+import useThemeAutoModeListener from './model/useThemeAutoModeListener';
 
 const ThemeToggle: FC = () => {
   const themeMode: 'light' | 'dark' | 'auto' = useAppSelector((store) => store.theme.themeMode);

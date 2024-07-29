@@ -6,7 +6,7 @@ import {
   getZonesNewNumberValue,
   getZonesValuePadStart,
   setDateInputSelection,
-} from './functions.ts';
+} from './functions';
 
 const DateTextInput: FC<{
   dateInputValue: string;

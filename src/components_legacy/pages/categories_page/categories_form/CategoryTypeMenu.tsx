@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { categoryAddType } from 'store/types';
-import { getCategoryTypeName } from '../functions.ts';
+import { getCategoryTypeName } from '../functions';
 
 const CategoryTypeMenu: FC<{
   categoryType: 'expense' | 'income' | 'transfer';

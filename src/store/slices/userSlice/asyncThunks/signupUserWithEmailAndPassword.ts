@@ -1,4 +1,5 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
+import { updateUserState } from 'store/slices/userSlice';
 // Firebase
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // Helpers
@@ -11,14 +12,17 @@ import { serverResponseStatusHooks } from 'store/types.ts';
 
 const signupUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,
-  serverResponseStatusHooks & { email: string; password: string },
+  serverResponseStatusHooks & { email: string; password: string; username?: string },
   { rejectValue: string }
->('user/signupUserWithEmailAndPassword', async (props, { rejectWithValue }) => {
-  const { email, password } = props;
+>('user/signupUserWithEmailAndPassword', async (props, { dispatch, rejectWithValue }) => {
+  const { email, password, username } = props;
   const auth = getAuth();
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      if (username) {
+        dispatch(updateUserState({ username }));
+      }
       return getUserState(user);
     })
     .catch((error) => {

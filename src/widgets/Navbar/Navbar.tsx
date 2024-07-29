@@ -2,7 +2,7 @@ import { FC } from 'react';
 // Router
 import { Link, useLocation } from 'react-router-dom';
 // Store
-import { useAppSelector } from 'store/hook.ts';
+import { useAppSelector } from 'store/hook';
 // UI
 import ThemeToggle from 'features/ThemeToggle';
 import UserPhoto from 'entities/UserPhoto';

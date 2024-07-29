@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
-import { MAX_YEAR, MIN_YEAR } from './constants.ts';
-import { dateStateType } from './types.ts';
+import { MAX_YEAR, MIN_YEAR } from './constants';
+import { dateStateType } from './types';
 
 export const getDeviceType = (): 'mobile' | 'desktop' => {
   const userAgent = navigator.userAgent.toLowerCase();

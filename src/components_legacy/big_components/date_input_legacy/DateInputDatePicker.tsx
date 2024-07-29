@@ -3,11 +3,11 @@ import { Dispatch, FC, SetStateAction, TouchEvent, useState } from 'react';
 import DatePickerDaysField from '../../big_components/date_input_legacy/date_picker_components/DatePickerDaysField';
 import DatePickerMonthsField from '../../big_components/date_input_legacy/date_picker_components/DatePickerMonthsField';
 import DatePickerYearsField from '../../big_components/date_input_legacy/date_picker_components/DatePickerYearsField';
-import { DatePickerCalendarButtons, DatePickerLabel, DatePickerModalButtons } from './date_picker_components/DatePickerParts.tsx';
+import { DatePickerCalendarButtons, DatePickerLabel, DatePickerModalButtons } from './date_picker_components/DatePickerParts';
 
-import { decrementCalendar, getDatePickerDaysField, incrementCalendar } from './date_picker_components/functions.ts';
-import { getDeviceType } from './functions.ts';
-import { DATE_PICKER_CELL_SIZE } from './constants.ts';
+import { decrementCalendar, getDatePickerDaysField, incrementCalendar } from './date_picker_components/functions';
+import { getDeviceType } from './functions';
+import { DATE_PICKER_CELL_SIZE } from './constants';
 
 const DateInputDatePicker: FC<{
   dateInputValue: string;

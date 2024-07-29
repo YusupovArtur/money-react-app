@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { doc, getDoc, runTransaction } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from 'app/firebase.ts';
+import { db } from 'app/firebase';
 import {
   ErrorWithCode,
   serverResponseStatusHooks,
@@ -9,9 +9,9 @@ import {
   WALLETS_LIST_LAST_ITEM_ID,
   walletsStateType,
   walletUpdateType,
-} from 'store/types.ts';
-import { generateID } from 'store/functions.ts';
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
+} from 'store/types';
+import { generateID } from 'store/functions';
+import getErrorMessage from 'store/helpers/getErrorMessage';
 
 const initialState: walletsStateType = {
   list: [],

@@ -1,13 +1,13 @@
 // Firebase imports
 import { doc, onSnapshot, Unsubscribe } from 'firebase/firestore';
-import { db } from 'app/firebase.ts';
+import { db } from 'app/firebase';
 // Hooks imports
-import { setOperations } from 'store/slices/operationsSlice.ts';
-import { setCategories } from 'store/slices/categoriesSlice.ts';
-import { setWallets } from 'store/slices/walletsSlice.ts';
+import { setOperations } from 'store/slices/operationsSlice';
+import { setCategories } from 'store/slices/categoriesSlice';
+import { setWallets } from 'store/slices/walletsSlice';
 // Types imports
 import { categoriesStateType, operationsStateType, walletsStateType } from 'store/types';
-import { AppDispatch } from 'store/store.ts';
+import { AppDispatch } from 'store/store';
 import { User } from 'firebase/auth';
 
 export const generateID = (length: number): string => {

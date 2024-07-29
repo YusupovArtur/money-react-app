@@ -1,16 +1,14 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store imports
-import { serverResponseStatusHooks } from 'store/types.ts';
+import { serverResponseStatusHooks } from 'store/types';
 // UI imports
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
-import ButtonWithIconAndSpinner from 'shared/ui/ButtonWithIconAndSpinner';
-import AlertMessage from 'shared/ui/AlertMessage';
+import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
 import {
   CheckIconSVG,
   CrossIconSVG,
   PencilSquareIconSVG,
   TrashFillIconSVG,
-} from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+} from 'components_legacy/small_components/icons_svg/IconsSVG';
 
 interface EditFormBarProps {
   onClose: () => void;

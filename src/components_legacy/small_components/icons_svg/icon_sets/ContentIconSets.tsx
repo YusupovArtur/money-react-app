@@ -1,19 +1,19 @@
 import { FC, isValidElement, ReactNode } from 'react';
-import BeautyIcon from './BeautyIcons.tsx';
-import BuildingIcon from './BuildingsIconsSVG.tsx';
-import CompanyIcon from './CompanyIconsSVG.tsx';
-import EducationIcon from './EducationIcons.tsx';
-import ElectronicsIcon from './ElectronicsIcons.tsx';
-import FamilyIcon from './FamilyIcons.tsx';
-import FinanceIcon from './FinanceIconsSVG.tsx';
-import FoodIcon from './FoodsIcons.tsx';
-import GoodsIcon from './GoodsIcons.tsx';
-import HealthIcon from './HealthIconsSVG.tsx';
-import HouseIcon from './HouseIcons.tsx';
-import PaymentIcon from './PaymentsIcons.tsx';
-import RecreationIcon from './RecreationIcons.tsx';
-import SportIcon from './SportIcons.tsx';
-import TransportIcon from './TransportIconsSVG.tsx';
+import BeautyIcon from './BeautyIcons';
+import BuildingIcon from './BuildingsIconsSVG';
+import CompanyIcon from './CompanyIconsSVG';
+import EducationIcon from './EducationIcons';
+import ElectronicsIcon from './ElectronicsIcons';
+import FamilyIcon from './FamilyIcons';
+import FinanceIcon from './FinanceIconsSVG';
+import FoodIcon from './FoodsIcons';
+import GoodsIcon from './GoodsIcons';
+import HealthIcon from './HealthIconsSVG';
+import HouseIcon from './HouseIcons';
+import PaymentIcon from './PaymentsIcons';
+import RecreationIcon from './RecreationIcons';
+import SportIcon from './SportIcons';
+import TransportIcon from './TransportIconsSVG';
 
 // TODO: Need to refactor ContentIconSets
 const isDivContainer = (node: ReactNode): boolean => {

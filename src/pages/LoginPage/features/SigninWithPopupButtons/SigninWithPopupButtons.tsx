@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import SigninWithGoogleButton from 'pages/LoginPage/features/SigninWIthGoogleButton';
-import SigninWithGitHubButton from 'pages/LoginPage/features/SigninWithGitHubButton';
+import SigninWithGoogleButton from 'pages/LoginPage/features/SigninWIthGoogleButton/SigninWithGoogleButton';
+import SigninWithGitHubButton from 'pages/LoginPage/features/SigninWithGitHubButton/SigninWithGitHubButton';
 
 interface SigninWithPopupButtonsProps {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;

@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 // import slices
-import userSlice from 'store/slices/userSlice/userSlice.ts';
+import userSlice from 'store/slices/userSlice/userSlice';
 import operationsSlice from 'store/slices/operationsSlice';
 import walletsSlice from 'store/slices/walletsSlice';
 import categoriesSlice from 'store/slices/categoriesSlice';

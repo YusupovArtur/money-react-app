@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Components
-import ModalContainer from 'shared/containers/ModalContainer';
+import { ModalContainer } from 'shared/containers';
 import EditFormBar from 'entities/EditFormBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 import WalletInfo from '../../../pages/wallets_page/wallets_list/WalletInfo';
@@ -25,7 +25,6 @@ const WalletOpened: FC<{
     type: wallet.type,
     description: wallet.description,
   });
-  const [stringNumber, setStringNumber] = useState<string>(wallet.balance.toString());
 
   const clearFunction = () => {
     setFormData({

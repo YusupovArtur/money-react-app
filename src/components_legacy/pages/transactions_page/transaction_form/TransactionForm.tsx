@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { operationType, walletType } from 'store/types';
 // Inputs
 import TransactionTypeToggle from '../../../pages/transactions_page/transaction_form/TransactionTypeToggle';
-import NumberInput from 'shared/inputs/NumberInput';
+import { NumberInput } from 'shared/inputs';
 import DateInput from '../../../small_components/date_input/DateInput';
 import WalletMenu from '../../../small_components/dropdowns/WalletMenu';
 // Types

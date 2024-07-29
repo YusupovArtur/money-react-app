@@ -3,18 +3,16 @@ import { FC, lazy, Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store imports
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import logoutUser from 'store/slices/userSlice/asyncThunks/logoutUser.ts';
-import { clearUserState, setUserState } from 'store/slices/userSlice/userSlice.ts';
-import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice.ts';
-import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice.ts';
-import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice.ts';
-import { categoriesOnSnapshot, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions.ts';
-import { getUserState } from 'store/slices/userSlice';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { clearUserState, getUserState, logoutUser, setUserState } from 'store/slices/userSlice';
+import { cleareOperations, downloadOperations } from 'store/slices/operationsSlice';
+import { cleareWallets, downloadWallets } from 'store/slices/walletsSlice';
+import { cleareCategories, downloadCategories } from 'store/slices/categoriesSlice';
+import { categoriesOnSnapshot, operationsOnSnapshot, walletsOnSnapshot } from 'store/functions';
 // Components imports
 import Navbar from 'widgets/Navbar';
-import PageLoadingSpinner from 'shared/ui/PageLoadingSpinner';
-import AppWrapper from 'app/AppWrapper.tsx';
+import { PageLoadingSpinner } from 'shared/ui';
+import AppWrapper from 'app/AppWrapper';
 
 const MainPage = lazy(() => import('components_legacy/pages/main_page/MainPage.tsx'));
 const TransactionsPage = lazy(() => import('components_legacy/pages/transactions_page/TransactionsPage.tsx'));

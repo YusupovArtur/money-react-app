@@ -11,8 +11,8 @@ import { PlusIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
-import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
+import { PageContentWrapper } from 'shared/wrappers';
+import { ButtonWithIcon } from 'shared/ui';
 
 const CategoryOpened: FC<{
   openedCategory: { category: categoryType; isOpened: boolean };

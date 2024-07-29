@@ -4,7 +4,7 @@ import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
 import { operationType, serverResponseStatusHooks, walletType } from 'store/types';
 // Input components
-import ModalContainer from 'shared/containers/ModalContainer';
+import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
 import TransactionForm from '../../../pages/transactions_page/transaction_form/TransactionForm';
 import { dateStateType } from '../../../small_components/date_input/types';

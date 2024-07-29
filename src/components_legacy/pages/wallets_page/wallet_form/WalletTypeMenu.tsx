@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { walletAddType } from 'store/types';
-import { getWalletTypeName } from '../functions.ts';
+import { getWalletTypeName } from '../functions';
 
 const WalletTypeMenu: FC<{
   walletType: 'debit' | 'credit' | 'investment';

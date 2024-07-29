@@ -1,13 +1,12 @@
 import { FC, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
+import { useAppDispatch, useAppSelector } from 'store/hook';
 import { getAuth } from 'firebase/auth';
-import DateInputLegacy from '../../big_components/date_input_legacy/DateInput.tsx';
-import DateInput from '../../small_components/date_input/DateInput.tsx';
-import { dateStateType } from '../../small_components/date_input/types.ts';
-import DropdownContainer from 'shared/containers/DropdownContainer';
-import NumberInput from 'shared/inputs/NumberInput';
-import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
-import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
+import DateInputLegacy from '../../big_components/date_input_legacy/DateInput';
+import DateInput from '../../small_components/date_input/DateInput';
+import { dateStateType } from '../../small_components/date_input/types';
+import { DropdownContainer } from 'shared/containers';
+import { ColorInput, NumberInput } from 'shared/inputs';
+import { PageContentWrapper } from 'shared/wrappers';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');

@@ -1,4 +1,4 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
 import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType.ts';
 
 const password2Validator = (formData: SignupFormDataType): validatorsReturnType => {

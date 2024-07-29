@@ -4,7 +4,7 @@ import { useAppDispatch } from 'store/hook';
 import { addWallet } from 'store/slices/walletsSlice';
 import { serverResponseStatusHooks, walletAddType } from 'store/types';
 // Input components
-import ModalContainer from 'shared/containers/ModalContainer';
+import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 

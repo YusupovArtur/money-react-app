@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
-import { MAX_YEAR, MIN_YEAR } from '../constants.ts';
-import { datePickerDayCellPropsType } from '../types.ts';
-import { getIsDateCorrect } from '../functions.ts';
+import { MAX_YEAR, MIN_YEAR } from '../constants';
+import { datePickerDayCellPropsType } from '../types';
+import { getIsDateCorrect } from '../functions';
 
 export const incrementCalendar = (
   displayedField: 'day' | 'month' | 'year',

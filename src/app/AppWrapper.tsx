@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { useAppSelector } from 'store/hook.ts';
+import { useAppSelector } from 'store/hook';
 
 interface AppWrapperProps {
   children: ReactNode;

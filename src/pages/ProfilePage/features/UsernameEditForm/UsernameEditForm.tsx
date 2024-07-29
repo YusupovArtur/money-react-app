@@ -1,18 +1,15 @@
 import { FC, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import updateUserState from 'store/slices/userSlice/asyncThunks/updateUserState.ts';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { updateUserState } from 'store/slices/userSlice';
 // Hooks
-import useFormValidation, { getValidityClassName } from 'shared/hooks/useFormValidation';
-import UsernameEditFormDataType from 'pages/ProfilePage/types/UsernameEditFormStateType.ts';
-import usernameValidator from 'pages/ProfilePage/features/UsernameEditForm/helpers/usernameValidator.ts';
+import { getValidityClassName, useFormValidation } from 'shared/hooks';
+import UsernameEditFormDataType from 'pages/ProfilePage/types/UsernameEditFormStateType';
+import usernameValidator from 'pages/ProfilePage/features/UsernameEditForm/helpers/usernameValidator';
 // UI
-import TextInput from 'shared/inputs/TextInput';
-import AlertMessage from 'shared/ui/AlertMessage';
-import ButtonWithIcon from 'shared/ui/ButtonWithIcon';
-import ButtonWithIconAndSpinner from 'shared/ui/ButtonWithIconAndSpinner';
-import FormValidationFeedback from 'shared/ui/FormValidationFeedback';
-import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { TextInput } from 'shared/inputs';
+import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner, FormValidationFeedback } from 'shared/ui';
+import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG';
 
 const UsernameEditForm: FC = () => {
   const dispatch = useAppDispatch();

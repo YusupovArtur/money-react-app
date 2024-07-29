@@ -1,6 +1,6 @@
 import isUsernameFormatValid from 'pages/ProfilePage/features/UsernameEditForm/helpers/isUsernameFormatValid.ts';
 import UsernameEditFormDataType from 'pages/ProfilePage/types/UsernameEditFormStateType.ts';
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
 
 const usernameValidator = (formData: UsernameEditFormDataType): validatorsReturnType => {
   const username = formData.username;

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useAppSelector } from 'store/hook';
 import OperationsTable from '../../pages/transactions_page/OperationsTable';
-import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
+import { PageContentWrapper } from 'shared/wrappers';
 
 const TransactionsPage: FC = () => {
   const operations = useAppSelector((state) => state.operations.list);

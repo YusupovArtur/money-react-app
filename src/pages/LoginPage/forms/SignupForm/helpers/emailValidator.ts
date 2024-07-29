@@ -1,6 +1,6 @@
-import isEmailFormatValid from 'pages/LoginPage/helpers/isEmailFormatValid.ts';
-import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType.ts';
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import isEmailFormatValid from 'pages/LoginPage/helpers/isEmailFormatValid';
+import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType';
+import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
 
 const emailValidator = (formData: SignupFormDataType): validatorsReturnType => {
   const email = formData.email;

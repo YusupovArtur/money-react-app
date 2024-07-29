@@ -3,7 +3,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import CategoryTypeMenu from '../../../pages/categories_page/categories_form/CategoryTypeMenu';
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
 import { CATEGOTY_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
-import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
+import { ColorInput } from 'shared/inputs';
 import { categoryAddType } from 'store/types';
 
 const CategoryForm: FC<{

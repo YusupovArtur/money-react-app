@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import MenuAlignmentType from '../types/MenuAlignmentType.ts';
+import MenuAlignmentType from '../types/MenuAlignmentType';
 
 const getPositionedMenuAlignment = (props: {
   toggleRef: MutableRefObject<HTMLSpanElement | null>;

@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { datePickerMonthCellPropsType } from '../types.ts';
-import { DATE_PICKER_CELL_SIZE, MONTH_SHORT_NAMES } from '../constants.ts';
+import { datePickerMonthCellPropsType } from '../types';
+import { DATE_PICKER_CELL_SIZE, MONTH_SHORT_NAMES } from '../constants';
 
 const DatePickerMonthCell: FC<{
   datePickerMonthCellProps: datePickerMonthCellPropsType;

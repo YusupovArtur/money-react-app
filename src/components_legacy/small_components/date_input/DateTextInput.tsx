@@ -6,8 +6,8 @@ import {
   getUpdatedByKeyDateStatePart,
   getValidatedDateStateValue,
   setDateInputSelection,
-} from './functions.ts';
-import { dateStateType } from './types.ts';
+} from './functions';
+import { dateStateType } from './types';
 
 const DateTextInput: FC<{
   dateState: dateStateType;

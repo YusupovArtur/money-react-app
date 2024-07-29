@@ -4,7 +4,7 @@ import DateInputDatePicker from '../../small_components/date_input/DateInputDate
 import { CalendarIconSvg } from '../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE } from '../../small_components/date_input/constants';
 import { getDeviceType } from '../../small_components/date_input/functions';
-import ModalContainer from 'shared/containers/ModalContainer';
+import { ModalContainer } from 'shared/containers';
 
 import { dateStateType } from '../../small_components/date_input/types';
 

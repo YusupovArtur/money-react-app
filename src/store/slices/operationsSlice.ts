@@ -1,16 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deleteField, doc, FieldValue, runTransaction, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from 'app/firebase.ts';
-import {
-  ErrorWithCode,
-  operationsStateType,
-  operationType,
-  operationUpdateType,
-  serverResponseStatusHooks,
-} from 'store/types.ts';
-import { generateID } from 'store/functions.ts';
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
+import { db } from 'app/firebase';
+import { ErrorWithCode, operationsStateType, operationType, operationUpdateType, serverResponseStatusHooks } from 'store/types';
+import { generateID } from 'store/functions';
+import getErrorMessage from 'store/helpers/getErrorMessage';
 
 const initialState: { list: operationsStateType } = {
   list: {},

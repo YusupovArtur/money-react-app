@@ -1,21 +1,19 @@
 import { FC, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook.ts';
-import signinUserWithEmailAndPassword from 'store/slices/userSlice/asyncThunks/signinUserWithEmailAndPassword.ts';
-import signupUserWithEmailAndPassword from 'store/slices/userSlice/asyncThunks/signupUserWithEmailAndPassword.ts';
+import { useAppDispatch, useAppSelector } from 'store/hook';
+import { signinUserWithEmailAndPassword, signupUserWithEmailAndPassword } from 'store/slices/userSlice';
 // Router
 import { Navigate } from 'react-router-dom';
 // Forms
-import SigninForm from './forms/SigninForm';
-import SigninFormDataType from './types/SigninFormDataType.ts';
+import SigninForm from './forms/SigninForm/SigninForm';
+import SigninFormDataType from './types/SigninFormDataType';
 // Features
-import SignInWithPopupButtons from './features/SigninWithPopupButtons';
+import SigninWithPopupButtons from './features/SigninWithPopupButtons/SigninWithPopupButtons';
 // UI
-import AlertMessage from 'shared/ui/AlertMessage';
-import PageLoadingSpinner from 'shared/ui/PageLoadingSpinner';
-import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
+import { AlertMessage, PageLoadingSpinner } from 'shared/ui';
+import { PageContentWrapper } from 'shared/wrappers';
 import SignupForm from './forms/SignupForm';
-import SignupFormDataType from './types/SignupFormDataType.ts';
+import SignupFormDataType from './types/SignupFormDataType';
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -85,7 +83,7 @@ const LoginPage: FC = () => {
         {page === 'signup' ? '←Войти' : 'Зарегистрироваться→'}
       </a>
 
-      <SignInWithPopupButtons setIsLoading={setIsLoading} setErrorMessage={setErrorMessage} />
+      <SigninWithPopupButtons setIsLoading={setIsLoading} setErrorMessage={setErrorMessage} />
       <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2" />
     </PageContentWrapper>
   );

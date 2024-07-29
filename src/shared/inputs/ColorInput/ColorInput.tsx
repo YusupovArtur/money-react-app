@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import colorHexOptions from './constants/colorHexOptions.ts';
-import DropdownContainer from 'shared/containers/DropdownContainer';
-import DropdownMenuWrapper from 'shared/wrappers/DropdownMenuWrapper';
+import colorHexOptions from './constants/colorHexOptions';
+import { DropdownContainer } from 'shared/containers';
+import { DropdownMenuWrapper } from 'shared/wrappers';
 
 interface ColorInputProps {
   color: string;

@@ -1,19 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAuth, sendEmailVerification } from 'firebase/auth';
 // Helpers
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
-import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
+import getErrorMessage from 'store/helpers/getErrorMessage';
+import getUserState from 'store/slices/userSlice/helpers/getUserState';
 // Types
-import UserStateType from 'store/slices/userSlice/types/UserStateType.ts';
-import { serverResponseStatusHooks } from 'store/types.ts';
+import UserStateType from 'store/slices/userSlice/types/UserStateType';
+import { serverResponseStatusHooks } from 'store/types';
 // Async Thunks
-import UserSliceStateType from './types/UserSliceStateType.ts';
-import { addSigninWithEmailAndPasswordExtraReducers } from './asyncThunks/signinUserWithEmailAndPassword.ts';
-import { addSignupWithEmailAndPasswordExtraReducers } from './asyncThunks/signupUserWithEmailAndPassword.ts';
-import { addSigninUserWithGoogleExtraReducers } from './asyncThunks/signinUserWithGoogle.ts';
-import { addSigninUserWithGitHubExtraReducers } from './asyncThunks/signinUserWithGitHub.ts';
-import { addLogoutUserExtraReducers } from './asyncThunks/logoutUser.ts';
-import { addUpdateUserExtraReducers } from './asyncThunks/updateUserState.ts';
+import UserSliceStateType from './types/UserSliceStateType';
+import { addSigninWithEmailAndPasswordExtraReducers } from './asyncThunks/signinUserWithEmailAndPassword';
+import { addSignupWithEmailAndPasswordExtraReducers } from './asyncThunks/signupUserWithEmailAndPassword';
+import { addSigninUserWithGoogleExtraReducers } from './asyncThunks/signinUserWithGoogle';
+import { addSigninUserWithGitHubExtraReducers } from './asyncThunks/signinUserWithGitHub';
+import { addLogoutUserExtraReducers } from './asyncThunks/logoutUser';
+import { addUpdateUserExtraReducers } from './asyncThunks/updateUserState';
+import { addUpdateUserPhotoExtraReducers } from './asyncThunks/uploadUserPhoto.ts';
 
 export const verifyEmail = createAsyncThunk<void, serverResponseStatusHooks>('user/verifyEmail', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;
@@ -65,6 +66,7 @@ const userSlice = createSlice({
     addSigninUserWithGitHubExtraReducers(builder);
     addLogoutUserExtraReducers(builder);
     addUpdateUserExtraReducers(builder);
+    addUpdateUserPhotoExtraReducers(builder);
   },
 });
 

@@ -1,13 +1,13 @@
 import { FC, useRef, useState } from 'react';
 // Model
-import ImageFileInput from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFileInput/ImageFileInput.tsx';
-import ImageCanvas from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageCanvas/ImageCanvas.tsx';
+import ImageFileInput from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFileInput/ImageFileInput';
+import ImageCanvas from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageCanvas/ImageCanvas';
 // Helpers
-import drawCanvasImage from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage.ts';
+import drawCanvasImage from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage';
 // UI
-import ModalContainer from 'shared/containers/ModalContainer';
-import ModalContainerWrapper from 'shared/wrappers/ModalContainerWrapper';
-import ImageFormControlButtons from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFormControlButtons/ImageFormControlButtons.tsx';
+import { ModalContainer } from 'shared/containers';
+import { ModalContainerWrapper } from 'shared/wrappers';
+import ImageFormControlButtons from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFormControlButtons/ImageFormControlButtons';
 
 const UserPhotoChangeButton: FC = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false);

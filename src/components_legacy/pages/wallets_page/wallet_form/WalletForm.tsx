@@ -2,11 +2,10 @@ import { Dispatch, FC, SetStateAction } from 'react';
 // Menus imports
 import IconMenu from '../../../small_components/dropdowns/IconMenu';
 import { WALLET_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
-import ColorInput from 'shared/inputs/ColorInput/ColorInput.tsx';
+// Number input
+import { ColorInput, NumberInput } from 'shared/inputs';
 import WalletTypeMenu from '../../../pages/wallets_page/wallet_form/WalletTypeMenu';
 import { walletAddType } from 'store/types';
-// Number input
-import NumberInput from 'shared/inputs/NumberInput';
 
 interface WalletFormProps {
   formData: walletAddType;

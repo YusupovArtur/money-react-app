@@ -1,14 +1,14 @@
 import { FC } from 'react';
 // Store
-import { useAppSelector } from 'store/hook.ts';
+import { useAppSelector } from 'store/hook';
 // Router
 import { Navigate } from 'react-router-dom';
 // Features
-import UserLogoutButton from 'pages/ProfilePage/features/UserLogoutButton';
-import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm';
-import UserPhotoChangeButton from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoChangeButton.tsx';
-import PageContentWrapper from 'shared/wrappers/PageContentWrapper';
+import UserLogoutButton from 'pages/ProfilePage/features/UserLogoutButton/UserLogoutButton';
+import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm/UsernameEditForm';
+import UserPhotoChangeButton from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoChangeButton';
 import UserPhoto from 'entities/UserPhoto';
+import { PageContentWrapper } from 'shared/wrappers';
 
 const ProfilePage: FC = () => {
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);

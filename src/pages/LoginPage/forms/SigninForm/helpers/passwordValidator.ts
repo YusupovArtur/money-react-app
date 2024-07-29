@@ -1,6 +1,6 @@
-import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType.ts';
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
-import isPasswordFormatValid from 'pages/LoginPage/helpers/isPasswordFormatValid.ts';
+import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType';
+import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
+import isPasswordFormatValid from 'pages/LoginPage/helpers/isPasswordFormatValid';
 
 const passwordValidator = (formData: SigninFormDataType): validatorsReturnType => {
   const password = formData.password;
