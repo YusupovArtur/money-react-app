@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
+import { ContentIcon } from 'shared/ui';
 import { subcategoryType } from 'store/types';
 
-const SubcategoryOpenedInfo: FC<{ subcategory: subcategoryType; color: string }> = ({ subcategory, color }) => {
+export const SubcategoryOpenedInfo: FC<{ subcategory: subcategoryType; color: string }> = ({ subcategory, color }) => {
   const iconSize: number = 2.5;
 
   return (
@@ -32,5 +32,3 @@ const SubcategoryOpenedInfo: FC<{ subcategory: subcategoryType; color: string }>
     </div>
   );
 };
-
-export default SubcategoryOpenedInfo;

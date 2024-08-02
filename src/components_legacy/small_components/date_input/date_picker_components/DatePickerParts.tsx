@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { decrementCalendar, incrementCalendar } from '../../../small_components/date_input/date_picker_components/functions';
-import { ChevronLeftIconSVG, ChevrontRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
+import { ChevronLeftIconSVG, ChevronRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE, MONTH_ABBREVIATED_NAMES, MONTH_FULL_NAMES } from '../../../small_components/date_input/constants';
 import { dateStateType } from '../../../small_components/date_input/types';
 
@@ -53,7 +53,7 @@ export const DatePickerCalendarButtons: FC<{
           style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
           className="btn btn-body d-flex align-items-center justify-content-center rounded"
         >
-          <ChevrontRightIconSVG iconSize="1rem" />
+          <ChevronRightIconSVG iconSize="1rem" />
         </button>
       </div>
     </div>

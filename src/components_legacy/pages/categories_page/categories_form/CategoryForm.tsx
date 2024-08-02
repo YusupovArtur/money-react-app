@@ -1,12 +1,10 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Import menus
 import CategoryTypeMenu from '../../../pages/categories_page/categories_form/CategoryTypeMenu';
-import IconMenu from '../../../small_components/dropdowns/IconMenu';
-import { CATEGOTY_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
-import { ColorInput } from 'shared/inputs';
+import { CATEGORY_ICON_OPTIONS, ColorInput, IconInput } from 'shared/inputs';
 import { categoryAddType } from 'store/types';
 
-const CategoryForm: FC<{
+export const CategoryForm: FC<{
   formData: categoryAddType;
   setFormData: Dispatch<SetStateAction<categoryAddType>>;
 }> = ({ formData, setFormData }) => {
@@ -28,13 +26,13 @@ const CategoryForm: FC<{
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка и цвет</span>
       <div className="d-flex align-items-center">
-        <IconMenu
+        <IconInput
           iconName={formData.iconName}
           setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
-          iconsField={CATEGOTY_ICONS_FIELD}
+          iconOptions={CATEGORY_ICON_OPTIONS}
           rowLength={7}
           isDivider={true}
-        ></IconMenu>
+        ></IconInput>
         <ColorInput
           color={formData.color}
           setColor={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
@@ -54,5 +52,3 @@ const CategoryForm: FC<{
     </div>
   );
 };
-
-export default CategoryForm;

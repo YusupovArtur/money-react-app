@@ -6,14 +6,14 @@ import { signinUserWithEmailAndPassword, signupUserWithEmailAndPassword } from '
 import { Navigate } from 'react-router-dom';
 // Forms
 import SigninForm from './forms/SigninForm/SigninForm';
+import SignupForm from './forms/SignupForm/SignupForm';
 import SigninFormDataType from './types/SigninFormDataType';
 // Features
 import SigninWithPopupButtons from './features/SigninWithPopupButtons/SigninWithPopupButtons';
 // UI
 import { AlertMessage, PageLoadingSpinner } from 'shared/ui';
 import { PageContentWrapper } from 'shared/wrappers';
-import SignupForm from './forms/SignupForm';
-import SignupFormDataType from './types/SignupFormDataType';
+import { SignupFormDataType } from './types/SignupFormDataType';
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,8 @@ const LoginPage: FC = () => {
   const [signinFormData, setSigninFormData] = useState<SigninFormDataType>({ email: '', password: '' });
   const [signupFormData, setSignupFormData] = useState<SignupFormDataType>({
     email: '',
-    password1: '',
+    username: '',
+    password: '',
     password2: '',
   });
 
@@ -46,7 +47,8 @@ const LoginPage: FC = () => {
     dispatch(
       signupUserWithEmailAndPassword({
         email: signupFormData.email,
-        password: signinFormData.password,
+        password: signupFormData.password,
+        username: signupFormData.username,
         setIsLoading,
         setErrorMessage,
       }),
@@ -79,9 +81,9 @@ const LoginPage: FC = () => {
         <SignupForm formData={signupFormData} setFormData={setSignupFormData} onSubmit={handleSignup} />
       )}
 
-      <a onClick={handleLink} className="link align-self-center user-select-none mt-1" style={{ cursor: 'pointer' }}>
+      <button onClick={handleLink} className="btn btn-link align-self-center" style={{ cursor: 'pointer' }}>
         {page === 'signup' ? '←Войти' : 'Зарегистрироваться→'}
-      </a>
+      </button>
 
       <SigninWithPopupButtons setIsLoading={setIsLoading} setErrorMessage={setErrorMessage} />
       <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2" />

@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 
-const CategoriesFilter: FC<{
+export const CategoriesFilter: FC<{
   filter: 'all' | 'expense' | 'income' | 'transfer';
   setFilter: Dispatch<SetStateAction<'all' | 'expense' | 'income' | 'transfer'>>;
 }> = ({ filter, setFilter }) => {
@@ -60,5 +60,3 @@ const CategoriesFilter: FC<{
     </div>
   );
 };
-
-export default CategoriesFilter;

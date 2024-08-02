@@ -1,3 +1,7 @@
-export { default as ColorInput } from './ColorInput/ColorInput';
-export { default as NumberInput } from './NumberInput/NumberInput';
-export { default as TextInput } from './TextInput/TextInput';
+export { TextInput } from './TextInput/TextInput.tsx';
+export { NumberInput } from './NumberInput/NumberInput.tsx';
+export { ColorInput } from './ColorInput/ColorInput.tsx';
+export { IconInput } from './IconInput/IconInput.tsx';
+
+export { WALLET_ICON_OPTIONS } from './IconInput/constants/WALLET_ICON_OPTIONS.ts';
+export { CATEGORY_ICON_OPTIONS } from './IconInput/constants/CATEGORY_ICON_OPTIONS.ts';

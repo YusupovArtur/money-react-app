@@ -79,7 +79,7 @@ export const ChevronLeftIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ChevrontRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ChevronRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -4,9 +4,9 @@ import { useAppSelector } from 'store/hook';
 // Router
 import { Navigate } from 'react-router-dom';
 // Features
-import UserLogoutButton from 'pages/ProfilePage/features/UserLogoutButton/UserLogoutButton';
+import { UserLogoutButton } from 'pages/ProfilePage/features/UserLogoutButton/UserLogoutButton';
 import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm/UsernameEditForm';
-import UserPhotoChangeButton from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoChangeButton';
+import { UserPhotoEditForm } from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoEditForm.tsx';
 import UserPhoto from 'entities/UserPhoto';
 import { PageContentWrapper } from 'shared/wrappers';
 
@@ -18,11 +18,11 @@ const ProfilePage: FC = () => {
   }
 
   return (
-    <PageContentWrapper style={{ margin: 'auto', maxWidth: '35rem' }}>
+    <PageContentWrapper style={{ margin: 'auto', maxWidth: '25rem' }}>
       <UserPhoto iconSize="12rem" className="align-self-center" />
-      <UserPhotoChangeButton />
-      <UserLogoutButton className="btn-outline-danger align-self-start" iconSize="1.3rem" />
+      <UserPhotoEditForm />
       <UsernameEditForm />
+      <UserLogoutButton className="btn-danger align-self-center" iconSize="1.5rem" />
     </PageContentWrapper>
   );
 };

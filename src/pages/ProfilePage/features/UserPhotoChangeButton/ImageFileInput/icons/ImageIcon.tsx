@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-const ImageIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ImageIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,5 +15,3 @@ const ImageIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
     </svg>
   );
 };
-
-export default ImageIcon;

@@ -11,7 +11,7 @@ interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
   setNumber: (number: number) => void;
 }
 
-const NumberInput: FC<NumberInputProps> = ({ number, setNumber, className, ...props }) => {
+export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, className, ...props }) => {
   const [textNumber, setTextNumber] = useState<string>('0');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -67,5 +67,3 @@ const NumberInput: FC<NumberInputProps> = ({ number, setNumber, className, ...pr
     />
   );
 };
-
-export default NumberInput;

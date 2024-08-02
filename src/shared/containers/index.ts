@@ -1,2 +1,3 @@
-export { default as ModalContainer } from './ModalContainer/ModalContainer';
-export { default as DropdownContainer } from './DropdownContainer/DropdownContainer';
+export { ModalContainer } from './ModalContainer/ModalContainer.tsx';
+export { DropdownContainer } from './DropdownContainer/DropdownContainer.tsx';
+export { ModalWindowContainer } from './ModalWindowContainer/ModalWindowContainer.tsx';

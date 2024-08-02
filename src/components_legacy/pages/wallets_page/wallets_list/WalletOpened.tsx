@@ -52,7 +52,7 @@ const WalletOpened: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isOpened} onCollapse={isEdit ? undefined : () => setIsOpened(false)} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
         <EditFormBar
           onClose={() => setIsOpened(false)}

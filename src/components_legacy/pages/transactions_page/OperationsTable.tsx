@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { operationsStateType } from 'store/types';
 // import { useAppSelector } from 'store/hook';
 
-const OperationsTable: FC<{
+export const OperationsTable: FC<{
   operations: operationsStateType;
 }> = ({ operations }) => {
   const toStringDate = (date: Date): string => {
@@ -66,9 +66,3 @@ const OperationsTable: FC<{
     </table>
   );
 };
-
-// const OperationsTable: FC<{ operations: Operation[] }> = (props) => {
-//   return <p>Statistics</p>;
-// }
-
-export default OperationsTable;

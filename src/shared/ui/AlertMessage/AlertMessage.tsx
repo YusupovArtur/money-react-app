@@ -4,7 +4,7 @@ interface AlertMessageProps extends HTMLAttributes<HTMLDivElement> {
   alertMessage: string;
 }
 
-const AlertMessage: FC<AlertMessageProps> = ({ alertMessage, className = '', ...props }) => {
+export const AlertMessage: FC<AlertMessageProps> = ({ alertMessage, className = '', ...props }) => {
   const paddingY = '0.375rem';
   const paddingX = '0.75rem';
 
@@ -22,5 +22,3 @@ const AlertMessage: FC<AlertMessageProps> = ({ alertMessage, className = '', ...
     </div>
   );
 };
-
-export default AlertMessage;

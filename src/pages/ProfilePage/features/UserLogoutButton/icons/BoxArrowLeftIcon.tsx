@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-const BoxArrowLeftSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const BoxArrowLeftIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,5 +21,3 @@ const BoxArrowLeftSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
     </svg>
   );
 };
-
-export default BoxArrowLeftSVG;

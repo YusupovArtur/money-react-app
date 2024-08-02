@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import { useAppSelector } from 'store/hook';
 import { walletType } from 'store/types';
-import ContentIcon from '../../small_components/icons_svg/icon_sets/ContentIconSets';
+import { ContentIcon } from 'shared/ui';
 
 const WalletMenu: FC<{
   wallet: walletType | undefined;

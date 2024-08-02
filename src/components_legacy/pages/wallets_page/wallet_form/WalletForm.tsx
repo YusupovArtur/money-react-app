@@ -1,9 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Menus imports
-import IconMenu from '../../../small_components/dropdowns/IconMenu';
-import { WALLET_ICONS_FIELD } from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
 // Number input
-import { ColorInput, NumberInput } from 'shared/inputs';
+import { ColorInput, IconInput, NumberInput, WALLET_ICON_OPTIONS } from 'shared/inputs';
 import WalletTypeMenu from '../../../pages/wallets_page/wallet_form/WalletTypeMenu';
 import { walletAddType } from 'store/types';
 
@@ -31,13 +29,13 @@ const WalletForm: FC<WalletFormProps> = ({ formData, setFormData }) => {
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка и цвет</span>
       <div className="d-flex align-items-center">
-        <IconMenu
+        <IconInput
           iconName={formData.iconName}
           setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
-          iconsField={WALLET_ICONS_FIELD}
+          iconOptions={WALLET_ICON_OPTIONS}
           rowLength={6}
           isDivider={false}
-        ></IconMenu>
+        ></IconInput>
         <ColorInput
           color={formData.color}
           setColor={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}

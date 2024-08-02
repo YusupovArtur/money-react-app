@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
+import { ContentIcon } from 'shared/ui';
 import { getCategoryTypeName } from '../../../pages/categories_page/functions';
 import { categoryType } from 'store/types';
 
-const CategoryOpenedInfo: FC<{ category: categoryType }> = ({ category }) => {
+export const CategoryOpenedInfo: FC<{ category: categoryType }> = ({ category }) => {
   const iconSize: number = 2.5;
 
   return (
@@ -32,5 +32,3 @@ const CategoryOpenedInfo: FC<{ category: categoryType }> = ({ category }) => {
     </div>
   );
 };
-
-export default CategoryOpenedInfo;

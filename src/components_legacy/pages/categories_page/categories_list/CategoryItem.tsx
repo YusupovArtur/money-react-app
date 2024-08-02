@@ -1,9 +1,9 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { categoryType } from 'store/types';
-import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
+import { ContentIcon } from 'shared/ui';
 import { ArrowDownRightIconSVG, ArrowLeftRightIconSVG, ArrowUpRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 
-const CategoryItem: FC<{
+export const CategoryItem: FC<{
   category: categoryType;
   setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
 }> = ({ category, setOpenedCategory }) => {
@@ -45,5 +45,3 @@ const CategoryItem: FC<{
     </div>
   );
 };
-
-export default CategoryItem;

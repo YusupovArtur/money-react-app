@@ -4,10 +4,9 @@ import { useAppDispatch, useAppSelector } from 'store/hook';
 import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import emailValidator from 'pages/LoginPage/forms/SignupForm/helpers/emailValidator';
-import password1Validator from 'pages/LoginPage/forms/SignupForm/helpers/password1Validator.ts';
+import { emailValidator, passwordValidator, usernameValidator } from 'shared/helpers/validators';
 import password2Validator from 'pages/LoginPage/forms/SignupForm/helpers/password2Validator.ts';
-import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType.ts';
+import { SignupFormDataType } from 'pages/LoginPage/types/SignupFormDataType.ts';
 // UI
 import { FormValidationFeedback } from 'shared/ui';
 import { TextInput } from 'shared/inputs';
@@ -24,14 +23,16 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
 
   const [isValidate, setIsValidate] = useState<{ [K in keyof SignupFormDataType]?: boolean }>({
     email: Boolean(formData.email),
-    password1: Boolean(formData.password1),
+    username: Boolean(formData.username),
+    password: Boolean(formData.password),
     password2: Boolean(formData.password2),
   });
   const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<SignupFormDataType>(
     formData,
     {
       email: emailValidator,
-      password1: password1Validator,
+      username: usernameValidator,
+      password: passwordValidator,
       password2: password2Validator,
     },
     isValidate,
@@ -45,6 +46,7 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
       }}
       className="d-flex flex-column"
     >
+      {/*Email*/}
       <div className="position-relative mb-3">
         <label htmlFor="signupEmail" className="form-label text-body user-select-none mb-1">
           Электронная почта
@@ -52,29 +54,64 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
         <TextInput
           type="email"
           value={formData.email}
-          onChange={(event) => setFormData((state) => ({ ...state, email: event.target.value }))}
-          onFocus={() => setIsValidate((state) => ({ ...state, email: true }))}
+          onChange={(event) => {
+            setFormData((state) => ({ ...state, email: event.target.value }));
+            setIsValidate((state) => ({ ...state, email: true }));
+          }}
+          onFocus={() => {
+            setIsValidate((state) => ({ ...state, email: true }));
+          }}
           className={getValidityClassName(fieldValidities.email)}
           name="email"
           id="signupEmail"
         />
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.email} />
       </div>
+
+      {/*Username*/}
       <div className="position-relative mb-3">
         <label htmlFor="signupUsername" className="form-label text-body user-select-none mb-1">
+          Имя
+        </label>
+        <TextInput
+          type="text"
+          value={formData.username}
+          onChange={(event) => {
+            setFormData((state) => ({ ...state, username: event.target.value }));
+            setIsValidate((state) => ({ ...state, username: true }));
+          }}
+          onFocus={() => {
+            setIsValidate((state) => ({ ...state, username: true }));
+          }}
+          className={getValidityClassName(fieldValidities.username)}
+          id="signupUsername"
+        />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.username} />
+      </div>
+
+      {/*Password*/}
+      <div className="position-relative mb-3">
+        <label htmlFor="signupPassword" className="form-label text-body user-select-none mb-1">
           Пароль
         </label>
         <TextInput
           type="password"
-          value={formData.password1}
-          onChange={(event) => setFormData((state) => ({ ...state, password1: event.target.value }))}
-          onFocus={() => setIsValidate((state) => ({ ...state, password1: true }))}
-          className={getValidityClassName(fieldValidities.password1)}
-          name="password1"
-          id="signupPassword1"
+          value={formData.password}
+          onChange={(event) => {
+            setFormData((state) => ({ ...state, password: event.target.value }));
+            setIsValidate((state) => ({ ...state, password: true }));
+          }}
+          onFocus={() => {
+            setIsValidate((state) => ({ ...state, password: true }));
+          }}
+          className={getValidityClassName(fieldValidities.password)}
+          name="password"
+          id="signupPassword"
         />
-        <FormValidationFeedback feedbackMessage={fieldFeedbacks.password1} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.password} />
       </div>
+
+      {/*Password2*/}
       <div className="position-relative mb-3">
         <label htmlFor="signupPassword2" className="form-label text-body user-select-none mb-1">
           Повторите пароль
@@ -82,15 +119,22 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
         <TextInput
           type="password"
           value={formData.password2}
-          onChange={(event) => setFormData((state) => ({ ...state, password2: event.target.value }))}
-          onFocus={() => setIsValidate((state) => ({ ...state, password2: true }))}
+          onChange={(event) => {
+            setFormData((state) => ({ ...state, password2: event.target.value }));
+            setIsValidate((state) => ({ ...state, password2: true }));
+          }}
+          onFocus={() => {
+            setIsValidate((state) => ({ ...state, password2: true }));
+          }}
           className={getValidityClassName(fieldValidities.password2)}
           name="password2"
           id="signupPassword2"
         />
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.password2} />
       </div>
-      <div className="mb-2 form-check">
+
+      {/*Checkbox*/}
+      <div className="mb-3 form-check">
         <input
           type="checkbox"
           checked={isShouldRemember}

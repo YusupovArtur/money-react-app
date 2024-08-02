@@ -1,4 +1,10 @@
-const drawCanvasImage = (canvas: HTMLCanvasElement | null, image: HTMLImageElement, x: number, y: number, scale: number) => {
+export const drawCanvasImage = (
+  canvas: HTMLCanvasElement | null,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  scale: number,
+) => {
   if (canvas) {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
@@ -21,5 +27,3 @@ const drawCanvasImage = (canvas: HTMLCanvasElement | null, image: HTMLImageEleme
     }
   }
 };
-
-export default drawCanvasImage;

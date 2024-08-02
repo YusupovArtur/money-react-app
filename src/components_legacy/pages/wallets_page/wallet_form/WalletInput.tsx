@@ -34,7 +34,7 @@ const WalletInput: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} setIsOpened={setIsShowInput} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isShowInput} onCollapse={() => setIsShowInput(false)} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputFormBar addButtonsLabel="Счет" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction} />
         <WalletForm formData={formData} setFormData={setFormData} />

@@ -11,7 +11,7 @@ interface ImageFormControlButtonsProps {
   setIsOpened: Dispatch<SetStateAction<boolean>>;
 }
 
-const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canvasRef, setIsOpened }) => {
+export const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canvasRef, setIsOpened }) => {
   const dispatch = useAppDispatch();
   const userID = useAppSelector((state) => state.user.userState.id);
 
@@ -44,6 +44,7 @@ const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canvasRef, 
             setIsOpened(false);
           }}
           className="btn-danger"
+          disabled={isLoading}
         >
           <CrossIconSVG iconSize="1.5rem" />
         </ButtonWithIcon>
@@ -52,5 +53,3 @@ const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canvasRef, 
     </>
   );
 };
-
-export default ImageFormControlButtons;

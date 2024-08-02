@@ -5,7 +5,7 @@ interface FormValidationFeedbackProps extends HTMLAttributes<HTMLDivElement> {
   feedbackMessage?: string;
 }
 
-const FormValidationFeedback: FC<FormValidationFeedbackProps> = ({ feedbackMessage, className, ...props }) => {
+export const FormValidationFeedback: FC<FormValidationFeedbackProps> = ({ feedbackMessage, className, ...props }) => {
   if (!feedbackMessage) {
     return null;
   }
@@ -15,5 +15,3 @@ const FormValidationFeedback: FC<FormValidationFeedbackProps> = ({ feedbackMessa
     </div>
   );
 };
-
-export default FormValidationFeedback;

@@ -4,10 +4,10 @@ import { useAppDispatch } from 'store/hook';
 import { shiftCategory } from 'store/slices/categoriesSlice';
 import { CATEGORIES_LIST_LAST_ITEM_ID, categoryType } from 'store/types';
 // Category imports
-import CategoryItem from '../../../pages/categories_page/categories_list/CategoryItem';
+import { CategoryItem } from '../../../pages/categories_page/categories_list/CategoryItem';
 import DraggableItem from '../../../small_components/dragable/DraggableItem';
 
-const CategoriesList: FC<{
+export const CategoriesList: FC<{
   categories: categoryType[];
   setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
 }> = ({ categories, setOpenedCategory }) => {
@@ -48,5 +48,3 @@ const CategoriesList: FC<{
     </div>
   );
 };
-
-export default CategoriesList;

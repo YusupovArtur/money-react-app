@@ -1,7 +1,7 @@
 import { FC, MouseEvent, MutableRefObject, useRef, WheelEvent } from 'react';
 // Helpers
-import drawCanvasImage from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage.ts';
-import moveCanvasImageCoordinates from './helpers/moveCanvasImageCoordiates.ts';
+import { drawCanvasImage } from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage.ts';
+import { moveCanvasImageCoordinates } from './helpers/moveCanvasImageCoordiates.ts';
 
 interface ImageCanvasProps {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;
@@ -9,7 +9,7 @@ interface ImageCanvasProps {
   canvasSize?: string;
 }
 
-const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize = '30rem' }) => {
+export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize = '30rem' }) => {
   const image_dx = useRef<number>(0);
   const image_dy = useRef<number>(0);
   const scale = useRef<number>(1);
@@ -49,5 +49,3 @@ const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize = '30r
     ></canvas>
   );
 };
-
-export default ImageCanvas;

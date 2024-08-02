@@ -2,10 +2,10 @@ import { FC, useState } from 'react';
 // Store imports
 import { subcategoryType } from 'store/types';
 // Subcategory components_legacy
-import SubcategoryOpened from '../../../pages/categories_page/subcategories_list/SubcategoryOpened';
-import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
+import { SubcategoryOpened } from '../../../pages/categories_page/subcategories_list/SubcategoryOpened';
+import { ContentIcon } from 'shared/ui';
 
-const SubcategoryItem: FC<{
+export const SubcategoryItem: FC<{
   subcategory: subcategoryType;
   categoryID: string;
   color: string;
@@ -44,5 +44,3 @@ const SubcategoryItem: FC<{
     </>
   );
 };
-
-export default SubcategoryItem;

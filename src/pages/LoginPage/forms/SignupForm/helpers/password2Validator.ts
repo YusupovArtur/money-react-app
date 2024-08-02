@@ -1,8 +1,12 @@
 import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
-import SignupFormDataType from 'pages/LoginPage/types/SignupFormDataType.ts';
 
-const password2Validator = (formData: SignupFormDataType): validatorsReturnType => {
-  const password1 = formData.password1;
+interface HasPasswords {
+  password: string;
+  password2: string;
+}
+
+const password2Validator = <T extends HasPasswords>(formData: T): validatorsReturnType => {
+  const password1 = formData.password;
   const password2 = formData.password2;
 
   if (!password2) {

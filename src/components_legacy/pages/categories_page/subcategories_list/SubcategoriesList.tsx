@@ -4,10 +4,10 @@ import { useAppDispatch } from 'store/hook';
 import { shiftSubCategory } from 'store/slices/categoriesSlice';
 import { categoryType, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/types';
 // Subcategories imports
-import SubcategoryItem from '../../../pages/categories_page/subcategories_list/SubcategoryItem';
+import { SubcategoryItem } from '../../../pages/categories_page/subcategories_list/SubcategoryItem';
 import DraggableItem from '../../../small_components/dragable/DraggableItem';
 
-const SubcategoriesList: FC<{
+export const SubcategoriesList: FC<{
   category: categoryType;
 }> = ({ category }) => {
   const [dragOverID, setDragOverID] = useState<string>('');
@@ -53,5 +53,3 @@ const SubcategoriesList: FC<{
     </>
   );
 };
-
-export default SubcategoriesList;

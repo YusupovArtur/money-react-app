@@ -5,13 +5,11 @@ interface ButtonWithIconProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   caption?: string;
 }
 
-const ButtonWithIcon: FC<ButtonWithIconProps> = ({ children, caption, className = '', ...props }) => {
+export const ButtonWithIcon: FC<ButtonWithIconProps> = ({ children, caption, className = '', ...props }) => {
   return (
-    <button className={`${className} btn d-flex justify-content-between align-items-center`} {...props}>
+    <button type="button" className={`${className} btn d-flex justify-content-center align-items-center`} {...props}>
       {children}
       {caption && <span className="ms-1">{caption}</span>}
     </button>
   );
 };
-
-export default ButtonWithIcon;

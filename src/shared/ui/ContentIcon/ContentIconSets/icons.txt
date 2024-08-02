@@ -1,0 +1,150 @@
+// App icons
+ChevronDownIconSVG
+ChevronUpIconSVG
+ChevronLeftIconSVG
+ChevronRightIconSVG
+ArrowLeftRightIconSVG
+PlusIconSVG
+CheckIconSVG
+CrossIconSVG
+PencilSquareIconSVG
+TrashFillIconSVG
+CalendarIconSvg
+GoogleIconSVG
+GithubIconSVG
+SunIconSVG
+MoonIconSVG
+ThemeAutoIconSVG
+
+// Beauty
+Scissors
+Toothbrush
+Cream
+Pomade
+Nail
+
+// Building
+House
+HouseFill
+Building
+BuildingFill
+Buildings
+BuildingsFill
+
+// Companies
+Rosneft
+Sberbank
+VTB
+Tinkoff
+AlfaBank
+GazpromBank
+Raiffeisen
+
+// Education
+Book
+BookFill
+Journal
+HatGraduate
+
+// Electronics
+CPU
+Phone
+Telephone
+TelephoneFill
+Display
+DisplayPC
+Controller
+Headset
+
+// Family
+Family
+Children
+GiftFill
+Pet
+Toys
+
+// Finances
+Cash
+CashCoin
+CashStack
+Wallet
+WalletFill
+Card
+CardFill
+Bank
+PiggyBank
+Percent
+GraphArrow
+BarChartLineFill
+
+// Foods
+BasketFill
+BasketFill2
+Cart
+CartFill
+FastFood
+Cafe
+Cup
+
+// Goods
+Cloth
+Shoes
+Watch
+
+// Health
+Cross
+Capsule
+CapsulePill
+Hospital
+HospitalFill
+Tooth
+Stethoscope
+
+// House
+Furniture
+Spray
+Washing
+Hammer
+Tools
+Brush
+
+// Payments
+FileText
+FileTextFill
+Droplet
+Globe2
+WIFI
+RouterFill
+SIMFill
+
+// Recreation
+MusicNote
+Film
+Wine
+Ticket
+TicketFill
+Suitcase
+SuitcaseFill
+Backpack
+BackpackFill
+
+// Sports
+Dumbbell
+Ball
+
+// Transport
+Car
+CarFill
+Parking
+FuelPump
+Bus
+BusFill
+Taxi
+TruckFront
+Truck
+Airplane
+AirplaneFill
+Train
+TrainFill
+Scooter
+Bicycle

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useAppSelector } from 'store/hook';
-import OperationsTable from '../../pages/transactions_page/OperationsTable';
+import { OperationsTable } from '../../pages/transactions_page/OperationsTable';
 import { PageContentWrapper } from 'shared/wrappers';
 
 const TransactionsPage: FC = () => {

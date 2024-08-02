@@ -4,8 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store/hook';
 import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import emailValidator from 'pages/LoginPage/forms/SigninForm/helpers/emailValidator';
-import passwordValidator from 'pages/LoginPage/forms/SigninForm/helpers/passwordValidator';
+import { emailValidator, passwordValidator } from 'shared/helpers/validators';
 import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType';
 // UI
 import { FormValidationFeedback } from 'shared/ui';
@@ -42,6 +41,7 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
       }}
       className="d-flex flex-column"
     >
+      {/*Email*/}
       <div className="mb-3 position-relative">
         <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
           Электронная почта
@@ -49,14 +49,21 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
         <TextInput
           type="email"
           value={formData.email}
-          onChange={(event) => setFormData((state) => ({ ...state, email: event.target.value }))}
-          onFocus={() => setIsValidate((state) => ({ ...state, email: true }))}
+          onChange={(event) => {
+            setFormData((state) => ({ ...state, email: event.target.value }));
+            setIsValidate((state) => ({ ...state, email: true }));
+          }}
+          onFocus={() => {
+            setIsValidate((state) => ({ ...state, email: true }));
+          }}
           className={getValidityClassName(fieldValidities.email)}
           name="email"
           id="signinEmail"
         />
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.email} />
       </div>
+
+      {/*Password*/}
       <div className="mb-3 position-relative">
         <label htmlFor="signinPassword" className="form-label text-body user-select-none mb-1">
           Пароль
@@ -64,15 +71,22 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
         <TextInput
           type="password"
           value={formData.password}
-          onChange={(event) => setFormData((state) => ({ ...state, password: event.target.value }))}
-          onFocus={() => setIsValidate((state) => ({ ...state, password: true }))}
+          onChange={(event) => {
+            setFormData((state) => ({ ...state, password: event.target.value }));
+            setIsValidate((state) => ({ ...state, password: true }));
+          }}
+          onFocus={() => {
+            setIsValidate((state) => ({ ...state, password: true }));
+          }}
           className={getValidityClassName(fieldValidities.password)}
           name="password"
           id="signinPassword"
         />
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.password} />
       </div>
-      <div className="mb-2 form-check">
+
+      {/*Checkbox*/}
+      <div className="mb-3 form-check">
         <input
           type="checkbox"
           checked={isShouldRemember}

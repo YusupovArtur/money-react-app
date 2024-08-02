@@ -4,15 +4,18 @@ import { getAuth } from 'firebase/auth';
 import DateInputLegacy from '../../big_components/date_input_legacy/DateInput';
 import DateInput from '../../small_components/date_input/DateInput';
 import { dateStateType } from '../../small_components/date_input/types';
-import { DropdownContainer } from 'shared/containers';
+import { DropdownContainer, ModalWindowContainer } from 'shared/containers';
 import { ColorInput, NumberInput } from 'shared/inputs';
 import { PageContentWrapper } from 'shared/wrappers';
+import { ButtonWithIconAndSpinner } from 'shared/ui';
+import { CheckIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
   const [dateState, setDateState] = useState<dateStateType>({ day: 1, month: 7, year: 2024 });
   const [value, setValue] = useState(0);
   const [color, setColor] = useState<string>('#000000');
+  const [isLoading, setIsLoading] = useState(false);
 
   const userState = useAppSelector((state) => state.user.userState);
   const auth = getAuth();
@@ -168,7 +171,7 @@ const MainPage: FC = () => {
     // }
   };
 
-  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [isOpened, setIsOpened] = useState<boolean>(true);
 
   return (
     <PageContentWrapper style={{ margin: 'auto', maxWidth: '30rem' }}>
@@ -234,9 +237,71 @@ const MainPage: FC = () => {
           }
         ></DropdownContainer>
       </div>
-
       <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
       <ColorInput color={color} setColor={setColor} />
+      <ButtonWithIconAndSpinner
+        caption="Submit"
+        onClick={() => {
+          setIsLoading(true);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1500);
+        }}
+        className="btn-primary align-self-start"
+        isLoading={isLoading}
+      >
+        <CheckIconSVG iconSize="1.5rem" />
+      </ButtonWithIconAndSpinner>
+
+      <ModalWindowContainer isOpened={isOpened} onClose={() => setIsOpened(false)} style={{ margin: 'auto' }}>
+        <ul style={{ backgroundColor: 'red' }} className="m-0">
+          <li>
+            <a className="dropdown-item" href="#">
+              Action big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Another action big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Something else here big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Action big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Another action big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Something else here big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Action big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Another action big big big big big
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Something else here big big big big big
+            </a>
+          </li>
+        </ul>
+      </ModalWindowContainer>
     </PageContentWrapper>
   );
 };

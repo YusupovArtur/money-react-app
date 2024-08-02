@@ -9,7 +9,7 @@ interface ButtonWithIconAndSpinnerProps extends ButtonHTMLAttributes<HTMLButtonE
   spinnerThickness?: string;
 }
 
-const ButtonWithIconAndSpinner: FC<ButtonWithIconAndSpinnerProps> = ({
+export const ButtonWithIconAndSpinner: FC<ButtonWithIconAndSpinnerProps> = ({
   children,
   isLoading,
   spinnerSize = '1.5rem',
@@ -18,7 +18,7 @@ const ButtonWithIconAndSpinner: FC<ButtonWithIconAndSpinnerProps> = ({
 }) => {
   return (
     <>
-      <ButtonWithIcon {...props}>
+      <ButtonWithIcon disabled={isLoading} {...props}>
         {isLoading ? (
           <div
             className="spinner-border text-light"
@@ -34,5 +34,3 @@ const ButtonWithIconAndSpinner: FC<ButtonWithIconAndSpinnerProps> = ({
     </>
   );
 };
-
-export default ButtonWithIconAndSpinner;

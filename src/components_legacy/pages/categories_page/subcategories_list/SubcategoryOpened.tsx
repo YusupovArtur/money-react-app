@@ -2,14 +2,14 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Subcategory components_legacy
 import { ModalContainer } from 'shared/containers';
 import EditFormBar from 'entities/EditFormBar';
-import SubcategoryOpenedInfo from '../../../pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
-import SubcategoryForm from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
+import { SubcategoryOpenedInfo } from '../../../pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
+import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 import { serverResponseStatusHooks, subcategoryAddType, subcategoryType } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { deleteSubCategory, updateSubCategory } from 'store/slices/categoriesSlice';
 
-const SubcategoryOpened: FC<{
+export const SubcategoryOpened: FC<{
   subcategory: subcategoryType;
   categoryID: string;
   color: string;
@@ -55,7 +55,7 @@ const SubcategoryOpened: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isOpened} setIsOpened={isEdit ? undefined : setIsOpened} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isOpened} onCollapse={isEdit ? undefined : () => setIsOpened(false)} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
         <EditFormBar
           onClose={() => setIsOpened(false)}
@@ -76,5 +76,3 @@ const SubcategoryOpened: FC<{
     </ModalContainer>
   );
 };
-
-export default SubcategoryOpened;

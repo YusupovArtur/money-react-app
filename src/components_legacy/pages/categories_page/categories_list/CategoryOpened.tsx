@@ -1,11 +1,11 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 // Categories imports
 import EditFormBar from 'entities/EditFormBar';
-import CategoryForm from '../../../pages/categories_page/categories_form/CategoryForm';
-import CategoryOpenedInfo from '../../../pages/categories_page/categories_list/CategoryOpenedInfo';
+import { CategoryForm } from '../../../pages/categories_page/categories_form/CategoryForm';
+import { CategoryOpenedInfo } from '../../../pages/categories_page/categories_list/CategoryOpenedInfo';
 // Subcategories imports
-import SubcategoriesList from '../../../pages/categories_page/subcategories_list/SubcategoriesList';
-import SubcategoryInput from '../../../pages/categories_page/subcategory_form/SubcategoryInput';
+import { SubcategoriesList } from '../../../pages/categories_page/subcategories_list/SubcategoriesList';
+import { SubcategoryInput } from '../../../pages/categories_page/subcategory_form/SubcategoryInput';
 import { categoryAddType, categoryType, serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 import { PlusIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 // Store
@@ -14,7 +14,7 @@ import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
 import { PageContentWrapper } from 'shared/wrappers';
 import { ButtonWithIcon } from 'shared/ui';
 
-const CategoryOpened: FC<{
+export const CategoryOpened: FC<{
   openedCategory: { category: categoryType; isOpened: boolean };
   setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
 }> = ({ openedCategory, setOpenedCategory }) => {
@@ -124,5 +124,3 @@ const CategoryOpened: FC<{
     </PageContentWrapper>
   );
 };
-
-export default CategoryOpened;

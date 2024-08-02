@@ -1,5 +1,6 @@
-export { default as AlertMessage } from './AlertMessage/AlertMessage';
-export { default as ButtonWithIcon } from './ButtonWithIcon/ButtonWithIcon';
-export { default as ButtonWithIconAndSpinner } from './ButtonWithIconAndSpinner/ButtonWithIconAndSpinner';
-export { default as FormValidationFeedback } from './FormValidationFeedback/FormValidationFeedback';
-export { default as PageLoadingSpinner } from './PageLoadingSpinner/PageLoadingSpinner';
+export { AlertMessage } from './AlertMessage/AlertMessage.tsx';
+export { ButtonWithIcon } from './ButtonWithIcon/ButtonWithIcon.tsx';
+export { ButtonWithIconAndSpinner } from './ButtonWithIconAndSpinner/ButtonWithIconAndSpinner.tsx';
+export { ContentIcon } from './ContentIcon/ContentIcon.tsx';
+export { FormValidationFeedback } from './FormValidationFeedback/FormValidationFeedback.tsx';
+export { PageLoadingSpinner } from './PageLoadingSpinner/PageLoadingSpinner.tsx';

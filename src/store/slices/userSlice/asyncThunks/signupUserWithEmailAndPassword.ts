@@ -17,6 +17,7 @@ const signupUserWithEmailAndPassword = createAsyncThunk<
 >('user/signupUserWithEmailAndPassword', async (props, { dispatch, rejectWithValue }) => {
   const { email, password, username } = props;
   const auth = getAuth();
+  console.log(props);
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;

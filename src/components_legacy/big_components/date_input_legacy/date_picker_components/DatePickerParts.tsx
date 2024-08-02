@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { decrementCalendar, incrementCalendar } from '../../../big_components/date_input_legacy/date_picker_components/functions';
 import { getMobileDatePickersLabel } from '../../../big_components/date_input_legacy/functions';
-import { ChevronLeftIconSVG, ChevrontRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
+import { ChevronLeftIconSVG, ChevronRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 import { DATE_PICKER_CELL_SIZE, MONTH_ABBREVIATED_NAMES } from '../../../big_components/date_input_legacy/constants';
 
 export const DatePickerLabel: FC<{ dateInputValue: string }> = ({ dateInputValue }) => {
@@ -58,7 +58,7 @@ export const DatePickerCalendarButtons: FC<DatePickerCalendarButtonsProps> = ({
           style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
           className="btn btn-body d-flex align-items-center justify-content-center rounded"
         >
-          <ChevrontRightIconSVG iconSize="1rem" />
+          <ChevronRightIconSVG iconSize="1rem" />
         </button>
       </div>
     </div>

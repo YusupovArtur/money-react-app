@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import ContentIcon from '../../../small_components/icons_svg/icon_sets/ContentIconSets';
+import { ContentIcon } from 'shared/ui';
 import { getStringSum, getWalletTypeName } from '../../../pages/wallets_page/functions';
 import { walletType } from 'store/types';
 

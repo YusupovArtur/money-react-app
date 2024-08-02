@@ -1,6 +1,6 @@
 import { CSSProperties, FC } from 'react';
 
-const PageLoadingSpinner: FC = () => {
+export const PageLoadingSpinner: FC = () => {
   const spinnerSize: CSSProperties = {
     margin: 'auto',
     width: '4.5rem',
@@ -14,5 +14,3 @@ const PageLoadingSpinner: FC = () => {
     </div>
   );
 };
-
-export default PageLoadingSpinner;

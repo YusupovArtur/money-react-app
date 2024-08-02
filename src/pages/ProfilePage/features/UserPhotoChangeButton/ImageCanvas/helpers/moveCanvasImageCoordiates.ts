@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 
-const moveCanvasImageCoordinates = (
+export const moveCanvasImageCoordinates = (
   canvas: HTMLCanvasElement | null,
   image: HTMLImageElement,
   x: MutableRefObject<number>,
@@ -23,5 +23,3 @@ const moveCanvasImageCoordinates = (
   x.current = Math.min(Math.max(x.current + dx_rescale, x_min), x_max);
   y.current = Math.min(Math.max(y.current + dy_rescale, y_min), y_max);
 };
-
-export default moveCanvasImageCoordinates;

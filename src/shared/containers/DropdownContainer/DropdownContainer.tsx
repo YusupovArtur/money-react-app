@@ -1,6 +1,6 @@
-import { CSSProperties, Dispatch, FC, ReactNode, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { CSSProperties, FC, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 // Containers
-import ModalContainer from 'shared/containers/ModalContainer/ModalContainer';
+import { ModalContainer } from 'shared/containers';
 // Hooks
 import { useClickOutside, useThrottledCallback } from 'shared/hooks';
 // Helpers
@@ -20,7 +20,7 @@ interface BaseDropdownContainerProps {
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
   isOpened: boolean;
-  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  setIsOpened: (isOpened: boolean) => void;
 }
 
 interface WithoutStateDropdownContainerProps extends BaseDropdownContainerProps {
@@ -30,7 +30,7 @@ interface WithoutStateDropdownContainerProps extends BaseDropdownContainerProps 
 
 type DropdownContainerProps = WithStateDropdownContainerProps | WithoutStateDropdownContainerProps;
 
-const DropdownContainer: FC<DropdownContainerProps> = ({
+export const DropdownContainer: FC<DropdownContainerProps> = ({
   DropdownToggle,
   DropdownMenu,
   isOpened: outerIsOpened,
@@ -50,7 +50,7 @@ const DropdownContainer: FC<DropdownContainerProps> = ({
   const deviceType = isEnable ? getDeviceType() : 'desktop';
 
   const handleToggleClick = () => {
-    setIsOpened((state) => !state);
+    setIsOpened(!isOpened);
   };
 
   const handleMenuClick = () => {
@@ -113,7 +113,7 @@ const DropdownContainer: FC<DropdownContainerProps> = ({
       {isOpened && deviceType === 'mobile' && (
         <ModalContainer
           isOpened={isOpened}
-          setIsOpened={setIsOpened}
+          onCollapse={() => setIsOpened(false)}
           onClick={() => setIsOpened(false)}
           zIndex={zIndex}
           style={{ margin: 'auto' }}
@@ -124,5 +124,3 @@ const DropdownContainer: FC<DropdownContainerProps> = ({
     </div>
   );
 };
-
-export default DropdownContainer;
