@@ -203,7 +203,7 @@ const walletSlice = createSlice({
   initialState,
 
   reducers: {
-    cleareWallets(state) {
+    clearWallets(state) {
       state.list = [];
     },
     setWallets(state, action: PayloadAction<walletsStateType | undefined>) {
@@ -228,5 +228,5 @@ const walletSlice = createSlice({
   },
 });
 
-export const { cleareWallets, setWallets } = walletSlice.actions;
+export const { clearWallets, setWallets } = walletSlice.actions;
 export default walletSlice.reducer;

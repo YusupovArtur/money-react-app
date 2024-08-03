@@ -1,8 +1,9 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { addOperation } from 'store/slices/operationsSlice';
-import { operationType, serverResponseStatusHooks } from 'store/types';
+import { addTransaction } from 'store/slices/transactionsSlice';
+import { serverResponseStatusHooks } from 'store/types';
+import { TransactionType } from 'store/slices/transactionsSlice';
 // Input components
 import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
@@ -18,7 +19,7 @@ const TransactionInput: FC<{
 }> = ({ isShowInput, setIsShowInput, type }) => {
   const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState<operationType>({
+  const [formData, setFormData] = useState<TransactionType>({
     sum: 0,
     time: new Date().getTime(),
     type: type === 'optional' ? 'expense' : type,
@@ -45,11 +46,11 @@ const TransactionInput: FC<{
   };
 
   const addFunction = (statusHooks: serverResponseStatusHooks) => {
-    dispatch(addOperation({ operation: formData, ...statusHooks }));
+    dispatch(addTransaction({ operation: formData, ...statusHooks }));
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} onCollapse={() => setIsShowInput(false)} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isShowInput} onCollapse={setIsShowInput} style={{ margin: 'auto' }}>
       <ModalContainerWrapper style={{ maxWidth: '35rem', width: '100vw' }}>
         <InputFormBar addButtonsLabel="Транзакция" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction} />
         <TransactionForm

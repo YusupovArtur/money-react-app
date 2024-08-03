@@ -3,14 +3,14 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import storage from 'redux-persist/lib/storage';
 // import slices
 import userSlice from 'store/slices/userSlice/userSlice';
-import operationsSlice from 'store/slices/operationsSlice';
+import transactionsSlice from 'store/slices/transactionsSlice/transactionsSlice.ts';
 import walletsSlice from 'store/slices/walletsSlice';
-import categoriesSlice from 'store/slices/categoriesSlice';
-import themeSlice from 'store/slices/themeSlice';
+import categoriesSlice from 'store/slices/categoriesSlice.ts';
+import themeSlice from 'store/slices/themeSlice/themeSlice.ts';
 
 const rootReducer = combineReducers({
   user: userSlice,
-  operations: operationsSlice,
+  transactions: transactionsSlice,
   wallets: walletsSlice,
   categories: categoriesSlice,
   theme: themeSlice,

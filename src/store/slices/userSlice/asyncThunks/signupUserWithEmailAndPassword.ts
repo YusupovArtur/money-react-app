@@ -1,23 +1,21 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { updateUserState } from 'store/slices/userSlice';
+// Types
+import { updateUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 // Firebase
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // Helpers
 import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
-// Types
-import UserSliceStateType from 'store/slices/userSlice/types/UserSliceStateType.ts';
-import UserStateType from 'store/slices/userSlice/types/UserStateType.ts';
 import { serverResponseStatusHooks } from 'store/types.ts';
 
-const signupUserWithEmailAndPassword = createAsyncThunk<
+export const signupUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,
   serverResponseStatusHooks & { email: string; password: string; username?: string },
   { rejectValue: string }
 >('user/signupUserWithEmailAndPassword', async (props, { dispatch, rejectWithValue }) => {
   const { email, password, username } = props;
   const auth = getAuth();
-  console.log(props);
+
   return await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
@@ -39,6 +37,7 @@ export const addSignupWithEmailAndPasswordExtraReducers = (builder: ActionReduce
     })
     .addCase(signupUserWithEmailAndPassword.fulfilled, (state, action) => {
       state.userState = action.payload;
+
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
       if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
@@ -49,5 +48,3 @@ export const addSignupWithEmailAndPasswordExtraReducers = (builder: ActionReduce
       console.error('Ошибка регистрации с почтой и паролем:', action.payload);
     });
 };
-
-export default signupUserWithEmailAndPassword;

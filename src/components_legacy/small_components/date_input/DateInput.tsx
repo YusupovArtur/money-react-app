@@ -69,11 +69,7 @@ const DateInput: FC<{
           )}
         </ul>
       )}
-      <ModalContainer
-        isOpened={isShowDatePicker && isDeviceMobile}
-        onCollapse={() => setIsShowDatePicker(false)}
-        style={{ margin: 'auto' }}
-      >
+      <ModalContainer isOpened={isShowDatePicker && isDeviceMobile} onCollapse={setIsShowDatePicker} style={{ margin: 'auto' }}>
         <div className="p-2 border rounded bg-body-tertiary">
           <DateInputDatePicker
             dateState={dateState}

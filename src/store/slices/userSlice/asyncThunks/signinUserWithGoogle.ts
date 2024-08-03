@@ -5,15 +5,15 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 import getUserState from '../helpers/getUserState.ts';
 // Types
-import UserSliceStateType from 'store/slices/userSlice/types/UserSliceStateType.ts';
-import UserStateType from 'store/slices/userSlice/types/UserStateType.ts';
+import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 import { serverResponseStatusHooks } from 'store/types.ts';
 
-const signinUserWithGoogle = createAsyncThunk<UserStateType, serverResponseStatusHooks, { rejectValue: string }>(
+export const signinUserWithGoogle = createAsyncThunk<UserStateType, serverResponseStatusHooks, { rejectValue: string }>(
   'user/signinWithGoogle',
   async (_props, { rejectWithValue }) => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
+
     return signInWithPopup(auth, provider)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -33,6 +33,7 @@ export const addSigninUserWithGoogleExtraReducers = (builder: ActionReducerMapBu
     })
     .addCase(signinUserWithGoogle.fulfilled, (state, action) => {
       state.userState = action.payload;
+
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
       if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
@@ -43,5 +44,3 @@ export const addSigninUserWithGoogleExtraReducers = (builder: ActionReducerMapBu
       console.error('Ошибка авторизации c помощью Google:', action.payload);
     });
 };
-
-export default signinUserWithGoogle;

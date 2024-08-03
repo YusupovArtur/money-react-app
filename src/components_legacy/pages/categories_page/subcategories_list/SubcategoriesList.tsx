@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 // Store imports
 import { useAppDispatch } from 'store/hook';
-import { shiftSubCategory } from 'store/slices/categoriesSlice';
+import { shiftSubCategory } from 'store/slices/categoriesSlice.ts';
 import { categoryType, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/types';
 // Subcategories imports
 import { SubcategoryItem } from '../../../pages/categories_page/subcategories_list/SubcategoryItem';

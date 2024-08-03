@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { operationType } from 'store/types';
+import { TransactionType } from 'store/slices/transactionsSlice';
 // Inputs
 import TransactionTypeToggle from '../../../pages/transactions_page/transaction_form/TransactionTypeToggle';
 import { NumberInput, WalletIDInput } from 'shared/inputs';
@@ -11,8 +11,8 @@ import { getDateStateFromTimestamp } from '../../../small_components/date_input/
 import { ArrowRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 
 interface TransactionFormProps {
-  formData: operationType;
-  setFormData: Dispatch<SetStateAction<operationType>>;
+  formData: TransactionType;
+  setFormData: Dispatch<SetStateAction<TransactionType>>;
   type: 'expense' | 'income' | 'transfer' | 'optional';
   dateState: dateStateType;
   setDateState: Dispatch<SetStateAction<dateStateType>>;

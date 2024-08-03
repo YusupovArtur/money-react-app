@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store imports
 import { useAppDispatch } from 'store/hook';
-import { shiftCategory } from 'store/slices/categoriesSlice';
+import { shiftCategory } from 'store/slices/categoriesSlice.ts';
 import { CATEGORIES_LIST_LAST_ITEM_ID, categoryType } from 'store/types';
 // Category imports
 import { CategoryItem } from '../../../pages/categories_page/categories_list/CategoryItem';

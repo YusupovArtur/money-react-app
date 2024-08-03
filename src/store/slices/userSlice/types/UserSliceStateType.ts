@@ -1,8 +1,6 @@
-import UserStateType from './UserStateType.ts';
+import { UserStateType } from './UserStateType.ts';
 
-type UserSliceStateType = {
+export type UserSliceStateType = {
   userState: UserStateType;
   isShouldRemember: boolean;
 };
-
-export default UserSliceStateType;

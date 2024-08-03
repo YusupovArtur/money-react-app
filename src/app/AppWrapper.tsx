@@ -4,7 +4,7 @@ interface AppWrapperProps {
   children: ReactNode;
 }
 
-const AppWrapper: FC<AppWrapperProps> = ({ children }) => {
+export const AppWrapper: FC<AppWrapperProps> = ({ children }) => {
   return (
     <div
       onDragOver={(event) => event.preventDefault()}
@@ -15,5 +15,3 @@ const AppWrapper: FC<AppWrapperProps> = ({ children }) => {
     </div>
   );
 };
-
-export default AppWrapper;

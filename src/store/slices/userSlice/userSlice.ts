@@ -4,10 +4,9 @@ import { getAuth, sendEmailVerification } from 'firebase/auth';
 import getErrorMessage from 'store/helpers/getErrorMessage';
 import getUserState from 'store/slices/userSlice/helpers/getUserState';
 // Types
-import UserStateType from 'store/slices/userSlice/types/UserStateType';
+import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 import { serverResponseStatusHooks } from 'store/types';
 // Async Thunks
-import UserSliceStateType from './types/UserSliceStateType';
 import { addSigninWithEmailAndPasswordExtraReducers } from './asyncThunks/signinUserWithEmailAndPassword';
 import { addSignupWithEmailAndPasswordExtraReducers } from './asyncThunks/signupUserWithEmailAndPassword';
 import { addSigninUserWithGoogleExtraReducers } from './asyncThunks/signinUserWithGoogle';

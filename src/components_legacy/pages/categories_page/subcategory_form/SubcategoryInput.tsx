@@ -6,7 +6,7 @@ import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form
 import { serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { addSubCategory } from 'store/slices/categoriesSlice';
+import { addSubCategory } from 'store/slices/categoriesSlice.ts';
 
 interface SubcategoryInputProps {
   categoryID: string;
@@ -36,7 +36,7 @@ export const SubcategoryInput: FC<SubcategoryInputProps> = ({
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} onCollapse={() => setIsShowInput(false)} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isShowInput} onCollapse={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputFormBar
           addButtonsLabel="Подкатегория"

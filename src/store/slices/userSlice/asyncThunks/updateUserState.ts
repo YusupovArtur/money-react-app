@@ -2,15 +2,16 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { serverResponseStatusHooks } from 'store/types.ts';
 import { getAuth, updateProfile } from 'firebase/auth';
 import getErrorMessage from 'store/helpers/getErrorMessage.ts';
-import UserSliceStateType from 'store/slices/userSlice/types/UserSliceStateType.ts';
+import { UserSliceStateType } from 'store/slices/userSlice';
 
-const updateUserState = createAsyncThunk<
+export const updateUserState = createAsyncThunk<
   { username: string | null | undefined; photoURL: string | null | undefined },
   serverResponseStatusHooks & { username?: string; photoURL?: string },
   { rejectValue: string }
 >('user/updateUserState', async (props, { rejectWithValue }) => {
   const { username, photoURL } = props;
   const auth = getAuth();
+
   if (auth.currentUser) {
     return await updateProfile(auth.currentUser, { displayName: username, photoURL: photoURL })
       .then(() => {
@@ -37,6 +38,7 @@ export const addUpdateUserExtraReducers = (builder: ActionReducerMapBuilder<User
       if (action.payload.photoURL !== undefined) {
         state.userState.photoURL = action.payload.photoURL;
       }
+
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
       if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
@@ -47,5 +49,3 @@ export const addUpdateUserExtraReducers = (builder: ActionReducerMapBuilder<User
       console.error('Ошибка обновления данных пользователя:', action.payload);
     });
 };
-
-export default updateUserState;

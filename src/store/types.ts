@@ -15,33 +15,6 @@ export type serverResponseStatusHooks = {
   onFulfilled?: () => void;
 };
 
-export type operationType = {
-  sum: number;
-  time: number;
-  type: 'expense' | 'income' | 'transfer';
-  fromWallet: string;
-  toWallet: string;
-  category: string;
-  subcategory: string;
-  description: string;
-};
-
-// Operations types
-export type operationsStateType = {
-  [key: string]: operationType;
-};
-
-export type operationUpdateType = {
-  sum?: number;
-  time?: number;
-  type?: 'expense' | 'income' | 'transfer';
-  fromWallet?: string;
-  toWallet?: string;
-  category?: string;
-  subcategory?: string;
-  description?: string;
-};
-
 // Categories types
 export type categoryType = {
   id: string;

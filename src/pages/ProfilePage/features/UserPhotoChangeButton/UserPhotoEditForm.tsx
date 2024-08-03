@@ -29,7 +29,7 @@ export const UserPhotoEditForm: FC = () => {
     <>
       <ImageFileInput reader={reader} setIsOpened={setIsOpened} />
 
-      <ModalContainer isOpened={isOpened} onCollapse={() => setIsOpened(false)} style={{ margin: 'auto' }}>
+      <ModalContainer isOpened={isOpened} onCollapse={setIsOpened} style={{ margin: 'auto' }}>
         <ModalContainerWrapper>
           <ImageCanvas canvasRef={canvasRef} image={image} />
           <ImageFormControlButtons canvasRef={canvasRef} setIsOpened={setIsOpened} />

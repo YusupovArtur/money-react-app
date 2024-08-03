@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { operationsStateType } from 'store/types';
+import { TransactionsListType } from 'store/slices/transactionsSlice';
 // import { useAppSelector } from 'store/hook';
 
 export const OperationsTable: FC<{
-  operations: operationsStateType;
+  operations: TransactionsListType;
 }> = ({ operations }) => {
   const toStringDate = (date: Date): string => {
     // const seconds = date.getSeconds().toString().padStart(2, '0');

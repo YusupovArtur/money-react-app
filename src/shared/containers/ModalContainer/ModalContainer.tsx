@@ -8,7 +8,7 @@ const ANIMATION_TIMEOUT = 150;
 interface ModalContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   isOpened: boolean;
-  onCollapse?: () => void;
+  onCollapse?: (isOpened: boolean) => void;
   zIndex?: number;
 }
 
@@ -30,7 +30,7 @@ export const ModalContainer: FC<ModalContainerProps> = ({
 
   const handleBackoutMouseUp = (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
     if (isMousePressedDown.current && event.button === 0 && onCollapse) {
-      onCollapse();
+      onCollapse(false);
     }
     isMousePressedDown.current = false;
   };

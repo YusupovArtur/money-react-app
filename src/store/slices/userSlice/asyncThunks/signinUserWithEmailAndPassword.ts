@@ -5,18 +5,17 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
 // Types
-import UserStateType from 'store/slices/userSlice/types/UserStateType.ts';
-import UserSliceStateType from 'store/slices/userSlice/types/UserSliceStateType.ts';
+import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 import { serverResponseStatusHooks } from 'store/types.ts';
 
-const signinUserWithEmailAndPassword = createAsyncThunk<
+export const signinUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,
   serverResponseStatusHooks & { email: string; password: string },
   { rejectValue: string }
 >('user/signinWithEmailAndPassword', async function (props, { rejectWithValue }) {
   const { email, password } = props;
-
   const auth = getAuth();
+
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
@@ -35,6 +34,7 @@ export const addSigninWithEmailAndPasswordExtraReducers = (builder: ActionReduce
     })
     .addCase(signinUserWithEmailAndPassword.fulfilled, (state, action) => {
       state.userState = action.payload;
+
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
       if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
@@ -45,5 +45,3 @@ export const addSigninWithEmailAndPasswordExtraReducers = (builder: ActionReduce
       console.error('Ошибка авторизации с почтой и паролем:', action.payload);
     });
 };
-
-export default signinUserWithEmailAndPassword;

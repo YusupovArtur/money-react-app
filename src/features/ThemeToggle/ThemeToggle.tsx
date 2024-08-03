@@ -11,7 +11,7 @@ import { AutoThemeIcon } from 'features/ThemeToggle/icons/LightThemeIcon';
 import useThemeAutoModeListener from './model/useThemeAutoModeListener';
 
 const ThemeToggle: FC = () => {
-  const themeMode: 'light' | 'dark' | 'auto' = useAppSelector((store) => store.theme.themeMode);
+  const themeMode = useAppSelector((store) => store.theme.themeMode);
   const dispatch = useAppDispatch();
   const iconSize: string = '1.5rem';
 
@@ -21,22 +21,18 @@ const ThemeToggle: FC = () => {
   const setLight = () => {
     dispatch(changeThemeMode('light'));
     dispatch(changeThemeDisplay('light'));
-    document.body.setAttribute('data-bs-theme', 'light');
   };
   const setDark = () => {
     dispatch(changeThemeMode('dark'));
     dispatch(changeThemeDisplay('dark'));
-    document.body.setAttribute('data-bs-theme', 'dark');
   };
 
   const setAuto = () => {
     dispatch(changeThemeMode('auto'));
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       dispatch(changeThemeDisplay('dark'));
-      document.body.setAttribute('data-bs-theme', 'dark');
     } else {
       dispatch(changeThemeDisplay('light'));
-      document.body.setAttribute('data-bs-theme', 'light');
     }
   };
 

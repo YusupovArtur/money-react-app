@@ -1,4 +1,4 @@
-type UserStateType = {
+export type UserStateType = {
   isUserAuthorised: boolean;
   email: string | null;
   username: string | null;
@@ -6,5 +6,3 @@ type UserStateType = {
   isEmailVerified: boolean;
   photoURL: string | null;
 };
-
-export default UserStateType;

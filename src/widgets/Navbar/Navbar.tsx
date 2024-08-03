@@ -8,7 +8,7 @@ import ThemeToggle from 'features/ThemeToggle';
 import UserPhoto from 'entities/UserPhoto';
 
 // TODO: Change links style to more contrast
-const Navbar: FC = () => {
+export const Navbar: FC = () => {
   const location = useLocation();
   const isUserAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
 
@@ -76,5 +76,3 @@ const Navbar: FC = () => {
     </nav>
   );
 };
-
-export default Navbar;

@@ -2,12 +2,11 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { serverResponseStatusHooks } from 'store/types.ts';
 import { getAuth } from 'firebase/auth';
 import getErrorMessage from 'store/helpers/getErrorMessage.ts';
-import UserSliceStateType from 'store/slices/userSlice/types/UserSliceStateType.ts';
+import { updateUserState, UserSliceStateType } from 'store/slices/userSlice';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { storage } from 'app/firebase.ts';
-import { updateUserState } from 'store/slices/userSlice';
 
-const uploadUserPhoto = createAsyncThunk<
+export const uploadUserPhoto = createAsyncThunk<
   void,
   serverResponseStatusHooks & { imageDataURL: string },
   {
@@ -16,9 +15,11 @@ const uploadUserPhoto = createAsyncThunk<
 >('user/uploadUserPhoto', async (props, { dispatch, rejectWithValue }) => {
   const { imageDataURL, setIsLoading, setErrorMessage, onFulfilled } = props;
   const auth = getAuth();
+
   if (auth.currentUser) {
     const userID = auth.currentUser.uid;
     const storageRef = ref(storage, `users_photos/${userID}/profile_photo`);
+
     return await uploadString(storageRef, imageDataURL, 'data_url')
       .then((snapshot) => {
         getDownloadURL(snapshot.ref)
@@ -49,5 +50,3 @@ export const addUpdateUserPhotoExtraReducers = (builder: ActionReducerMapBuilder
       console.error('Ошибка выгрузки фото:', action.payload);
     });
 };
-
-export default uploadUserPhoto;

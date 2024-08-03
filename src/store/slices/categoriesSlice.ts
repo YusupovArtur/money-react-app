@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { doc, getDoc, runTransaction } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { db } from 'app/firebase';
+import { db } from 'app/firebase.ts';
 import {
   CATEGORIES_LIST_LAST_ITEM_ID,
   categoriesStateType,
@@ -13,9 +13,9 @@ import {
   subcategoryAddType,
   subcategoryType,
   subcategoryUpdateType,
-} from 'store/types';
-import { generateID } from 'store/functions';
-import getErrorMessage from 'store/helpers/getErrorMessage';
+} from 'store/types.ts';
+import { generateID } from 'store/functions.ts';
+import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 
 const initialState: categoriesStateType = {
   list: [],
@@ -352,7 +352,7 @@ const categoriesSlice = createSlice({
   initialState,
 
   reducers: {
-    cleareCategories(state) {
+    clearCategories(state) {
       state.list = [];
     },
     setCategories(state, action: PayloadAction<categoriesStateType | undefined>) {
@@ -392,5 +392,5 @@ const categoriesSlice = createSlice({
   },
 });
 
-export const { cleareCategories, setCategories } = categoriesSlice.actions;
+export const { clearCategories, setCategories } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

@@ -1,15 +1,15 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import UserStateType from 'store/slices/userSlice/types/UserStateType.ts';
+import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 import { serverResponseStatusHooks } from 'store/types.ts';
 import { getAuth, signOut } from 'firebase/auth';
 import getUserState from '../helpers/getUserState.ts';
 import getErrorMessage from 'store/helpers/getErrorMessage.ts';
-import UserSliceStateType from 'store/slices/userSlice/types/UserSliceStateType.ts';
 
-const logoutUser = createAsyncThunk<UserStateType, serverResponseStatusHooks, { rejectValue: string }>(
+export const logoutUser = createAsyncThunk<UserStateType, serverResponseStatusHooks, { rejectValue: string }>(
   'user/logoutUser',
   async (_props, { rejectWithValue }) => {
     const auth = getAuth();
+
     return await signOut(auth)
       .then(() => {
         return getUserState(null);
@@ -38,5 +38,3 @@ export const addLogoutUserExtraReducers = (builder: ActionReducerMapBuilder<User
       console.error('Ошибка выхода пользователя:', action.payload);
     });
 };
-
-export default logoutUser;

@@ -6,7 +6,7 @@ import { CategoryForm } from '../../../pages/categories_page/categories_form/Cat
 import { categoryAddType, serverResponseStatusHooks } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { addCategory } from 'store/slices/categoriesSlice';
+import { addCategory } from 'store/slices/categoriesSlice.ts';
 
 export const CategoryInput: FC<{
   isShowInput: boolean;
@@ -27,7 +27,7 @@ export const CategoryInput: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} onCollapse={() => setIsShowInput(false)} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isShowInput} onCollapse={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
         <InputFormBar
           addButtonsLabel="Категория"

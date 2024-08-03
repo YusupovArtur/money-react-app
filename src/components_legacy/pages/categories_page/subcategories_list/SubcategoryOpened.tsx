@@ -7,7 +7,7 @@ import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form
 import { serverResponseStatusHooks, subcategoryAddType, subcategoryType } from 'store/types';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { deleteSubCategory, updateSubCategory } from 'store/slices/categoriesSlice';
+import { deleteSubCategory, updateSubCategory } from 'store/slices/categoriesSlice.ts';
 
 export const SubcategoryOpened: FC<{
   subcategory: subcategoryType;
@@ -55,7 +55,7 @@ export const SubcategoryOpened: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isOpened} onCollapse={isEdit ? undefined : () => setIsOpened(false)} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isOpened} onCollapse={isEdit ? undefined : setIsOpened} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
         <EditFormBar
           onClose={() => setIsOpened(false)}

@@ -10,7 +10,7 @@ import { categoryAddType, categoryType, serverResponseStatusHooks, subcategoryAd
 import { PlusIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 // Store
 import { useAppDispatch } from 'store/hook';
-import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
+import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice.ts';
 import { PageContentWrapper } from 'shared/wrappers';
 import { ButtonWithIcon } from 'shared/ui';
 

@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ThemeDisplayType, ThemeModeType, ThemeStateType } from 'store/slices/themeSlice';
 
-const initialState: {
-  themeMode: 'light' | 'dark' | 'auto';
-  themeDisplay: 'light' | 'dark';
-} = {
+const initialState: ThemeStateType = {
   themeMode: 'auto',
   themeDisplay: 'light',
 };
@@ -12,10 +10,10 @@ const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
-    changeThemeMode(state, action: PayloadAction<'light' | 'dark' | 'auto'>) {
+    changeThemeMode(state, action: PayloadAction<ThemeModeType>) {
       state.themeMode = action.payload;
     },
-    changeThemeDisplay(state, action: PayloadAction<'light' | 'dark'>) {
+    changeThemeDisplay(state, action: PayloadAction<ThemeDisplayType>) {
       state.themeDisplay = action.payload;
     },
   },

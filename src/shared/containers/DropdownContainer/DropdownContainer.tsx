@@ -113,7 +113,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
       {isOpened && deviceType === 'mobile' && (
         <ModalContainer
           isOpened={isOpened}
-          onCollapse={() => setIsOpened(false)}
+          onCollapse={setIsOpened}
           onClick={() => setIsOpened(false)}
           zIndex={zIndex}
           style={{ margin: 'auto' }}
