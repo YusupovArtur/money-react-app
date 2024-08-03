@@ -9,7 +9,7 @@ const DatePickerMonthCell: FC<{
 }> = ({ datePickerMonthCellProps, setCurrentMonth, setDisplayedField }) => {
   return (
     <div
-      className="col p-0 d-flex flex-row align-items-center justify-content-center"
+      className="col p-0 d-flex align-items-center justify-content-center"
       style={{ width: `${(DATE_PICKER_CELL_SIZE * 7) / 3}rem`, height: `${(DATE_PICKER_CELL_SIZE * 7) / 4}rem` }}
     >
       <button

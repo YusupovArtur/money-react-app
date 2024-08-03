@@ -15,23 +15,28 @@ const ThemeToggle: FC = () => {
   const dispatch = useAppDispatch();
   const iconSize: string = '1.5rem';
 
+  // Theme mode change listener
   useThemeAutoModeListener();
 
   const setLight = () => {
     dispatch(changeThemeMode('light'));
     dispatch(changeThemeDisplay('light'));
+    document.body.setAttribute('data-bs-theme', 'light');
   };
   const setDark = () => {
     dispatch(changeThemeMode('dark'));
     dispatch(changeThemeDisplay('dark'));
+    document.body.setAttribute('data-bs-theme', 'dark');
   };
 
   const setAuto = () => {
     dispatch(changeThemeMode('auto'));
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       dispatch(changeThemeDisplay('dark'));
+      document.body.setAttribute('data-bs-theme', 'dark');
     } else {
       dispatch(changeThemeDisplay('light'));
+      document.body.setAttribute('data-bs-theme', 'light');
     }
   };
 

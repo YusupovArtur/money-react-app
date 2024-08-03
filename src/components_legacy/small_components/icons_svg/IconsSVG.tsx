@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const CloudPlusSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const CloudPlusSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +19,7 @@ export const CloudPlusSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ChevronDownIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ChevronDownIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ export const ChevronDownIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ChevronUpIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ChevronUpIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export const ChevronUpIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ChevronLeftIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ChevronLeftIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@ export const ChevronLeftIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ChevronRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ChevronRightIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ export const ChevronRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const TrashFillIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const TrashFillIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +114,7 @@ export const TrashFillIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const PencilSquareIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const PencilSquareIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +133,7 @@ export const PencilSquareIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const CheckIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const CheckIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ export const CheckIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const CrossIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const CrossIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +163,7 @@ export const CrossIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ArrowRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ArrowRightIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +181,7 @@ export const ArrowRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const ArrowLeftRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ArrowLeftRightIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +201,7 @@ export const ArrowLeftRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) =>
   );
 };
 
-export const ArrowDownRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ArrowDownRightIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +221,7 @@ export const ArrowDownRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) =>
   );
 };
 
-export const ArrowUpRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const ArrowUpRightIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -241,7 +241,7 @@ export const ArrowUpRightIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const PlusIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const PlusIconSVG: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +259,7 @@ export const PlusIconSVG: FC<{ iconSize: string }> = ({ iconSize }) => {
   );
 };
 
-export const CalendarIconSvg: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const CalendarIconSvg: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

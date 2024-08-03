@@ -35,7 +35,7 @@ const DatePickerDayCell: FC<{
 
   return (
     <div
-      className={`col p-0 m-0 d-flex flex-row align-items-stretch justify-content-center ${divsClassName}`}
+      className={`col p-0 m-0 d-flex align-items-stretch justify-content-center ${divsClassName}`}
       style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
     >
       <button
@@ -63,7 +63,7 @@ const DatePickerDaysField: FC<{
         {DAY_SHORT_NAMES.map((day) => (
           <div
             key={day}
-            className="col p-0 d-flex flex-row align-items-center justify-content-center"
+            className="col p-0 d-flex align-items-center justify-content-center"
             style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
           >
             <span className="text-body-tertiary">

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const PaymentIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const PaymentIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'FileText':
       return <FileTextIcon iconSize={iconSize} />;

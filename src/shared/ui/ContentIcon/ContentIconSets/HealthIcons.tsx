@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const HealthIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const HealthIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Cross':
       return <MedicineCrossIcon iconSize={iconSize} />;

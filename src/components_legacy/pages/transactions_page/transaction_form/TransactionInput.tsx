@@ -2,13 +2,14 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/hook';
 import { addOperation } from 'store/slices/operationsSlice';
-import { operationType, serverResponseStatusHooks, walletType } from 'store/types';
+import { operationType, serverResponseStatusHooks } from 'store/types';
 // Input components
 import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
 import TransactionForm from '../../../pages/transactions_page/transaction_form/TransactionForm';
 import { dateStateType } from '../../../small_components/date_input/types';
 import { getDateStateFromTimestamp } from '../../../small_components/date_input/functions';
+import { ModalContainerWrapper } from 'shared/wrappers';
 
 const TransactionInput: FC<{
   isShowInput: boolean;
@@ -28,8 +29,6 @@ const TransactionInput: FC<{
     description: '',
   });
   const [dateState, setDateState] = useState<dateStateType>(getDateStateFromTimestamp(new Date().getTime()));
-  const [fromWallet, setFromWallet] = useState<walletType | undefined>(undefined);
-  const [toWallet, setToWallet] = useState<walletType | undefined>(undefined);
 
   const clearFunction = () => {
     setFormData({
@@ -43,8 +42,6 @@ const TransactionInput: FC<{
       description: '',
     });
     setDateState(getDateStateFromTimestamp(new Date().getTime()));
-    setFromWallet(undefined);
-    setToWallet(undefined);
   };
 
   const addFunction = (statusHooks: serverResponseStatusHooks) => {
@@ -53,10 +50,7 @@ const TransactionInput: FC<{
 
   return (
     <ModalContainer isOpened={isShowInput} onCollapse={() => setIsShowInput(false)} style={{ margin: 'auto' }}>
-      <div
-        style={{ maxWidth: '35rem', width: '100vw' }}
-        className="d-flex flex-column align-items-start bg-body-tertiary shadow-sm p-3 rounded-4"
-      >
+      <ModalContainerWrapper style={{ maxWidth: '35rem', width: '100vw' }}>
         <InputFormBar addButtonsLabel="Транзакция" setIsOpened={setIsShowInput} onClear={clearFunction} onAdd={addFunction} />
         <TransactionForm
           formData={formData}
@@ -64,12 +58,8 @@ const TransactionInput: FC<{
           type={type}
           dateState={dateState}
           setDateState={setDateState}
-          fromWallet={fromWallet}
-          setFromWallet={setFromWallet}
-          toWallet={toWallet}
-          setToWallet={setToWallet}
         />
-      </div>
+      </ModalContainerWrapper>
     </ModalContainer>
   );
 };

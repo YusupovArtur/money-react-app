@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const ElectronicIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const ElectronicIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'CPU':
       return <CPUIcon iconSize={iconSize} />;

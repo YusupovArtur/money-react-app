@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const FoodIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const FoodIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'BasketFill':
       return <BasketFillIcon iconSize={iconSize} />;

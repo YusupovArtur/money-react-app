@@ -1,10 +1,9 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { operationType, walletType } from 'store/types';
+import { operationType } from 'store/types';
 // Inputs
 import TransactionTypeToggle from '../../../pages/transactions_page/transaction_form/TransactionTypeToggle';
-import { NumberInput } from 'shared/inputs';
+import { NumberInput, WalletIDInput } from 'shared/inputs';
 import DateInput from '../../../small_components/date_input/DateInput';
-import WalletMenu from '../../../small_components/dropdowns/WalletMenu';
 // Types
 import { dateStateType } from '../../../small_components/date_input/types';
 import { getDateStateFromTimestamp } from '../../../small_components/date_input/functions';
@@ -17,23 +16,9 @@ interface TransactionFormProps {
   type: 'expense' | 'income' | 'transfer' | 'optional';
   dateState: dateStateType;
   setDateState: Dispatch<SetStateAction<dateStateType>>;
-  fromWallet: walletType | undefined;
-  setFromWallet: Dispatch<SetStateAction<walletType | undefined>>;
-  toWallet: walletType | undefined;
-  setToWallet: Dispatch<SetStateAction<walletType | undefined>>;
 }
 
-const TransactionForm: FC<TransactionFormProps> = ({
-  formData,
-  setFormData,
-  type,
-  dateState,
-  setDateState,
-  fromWallet,
-  setFromWallet,
-  toWallet,
-  setToWallet,
-}) => {
+const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type, dateState, setDateState }) => {
   return (
     <>
       <div className="d-flex flex-column">
@@ -53,8 +38,6 @@ const TransactionForm: FC<TransactionFormProps> = ({
                 description: '',
               }));
               setDateState(getDateStateFromTimestamp(new Date().getTime()));
-              setFromWallet(undefined);
-              setToWallet(undefined);
             }}
           ></TransactionTypeToggle>
         )}
@@ -78,22 +61,20 @@ const TransactionForm: FC<TransactionFormProps> = ({
           {formData.type === 'expense' ? 'Счет расхода' : formData.type === 'income' ? 'Счет дохода' : 'Счета перевода'}
         </span>
       </div>
-      <div className="d-flex flex-row justify-content-center align-items-center">
+      <div className="d-flex justify-content-center align-items-center">
         {(formData.type === 'expense' || formData.type === 'transfer') && (
-          <WalletMenu
-            wallet={fromWallet}
-            setWallet={setFromWallet}
-            setWalletIDFunction={(walletID: string) => setFormData((state) => ({ ...state, fromWallet: walletID }))}
-          ></WalletMenu>
+          <WalletIDInput
+            walletID={formData.fromWallet}
+            setWalletID={(walletID: string) => setFormData((state) => ({ ...state, fromWallet: walletID }))}
+          ></WalletIDInput>
         )}
         {formData.type === 'transfer' && <ArrowRightIconSVG iconSize="1.5rem" />}
         {(formData.type === 'income' || formData.type === 'transfer') && (
-          <WalletMenu
-            wallet={toWallet}
-            setWallet={setToWallet}
-            setWalletIDFunction={(walletID: string) => setFormData((state) => ({ ...state, toWallet: walletID }))}
-            selectedWallet={fromWallet}
-          ></WalletMenu>
+          <WalletIDInput
+            walletID={formData.toWallet}
+            setWalletID={(walletID: string) => setFormData((state) => ({ ...state, toWallet: walletID }))}
+            firstSelectedWalletID={formData.fromWallet}
+          ></WalletIDInput>
         )}
       </div>
     </>

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const BuildingIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const BuildingIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'House':
       return <HouseIcon iconSize={iconSize} />;

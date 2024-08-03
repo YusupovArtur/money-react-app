@@ -6,7 +6,7 @@ import { DropdownMenuWrapper } from 'shared/wrappers';
 interface ColorInputProps {
   colorHex: string;
   setColorHex: (colorHex: string) => void;
-  iconSize?: string;
+  iconSize?: `${number}rem`;
 }
 
 export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, iconSize = '2rem' }) => {
@@ -30,14 +30,14 @@ export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, icon
       }
       DropdownMenu={
         <DropdownMenuWrapper>
-          {COLOR_HEX_OPTIONS.map((colorsRow) => (
-            <div className="d-flex" key={colorsRow.join('')}>
-              {colorsRow.map((color) => (
+          {COLOR_HEX_OPTIONS.map((colorOptionsRow) => (
+            <div className="d-flex" key={colorOptionsRow.join('')}>
+              {colorOptionsRow.map((colorOption) => (
                 <div
-                  key={color}
-                  onClick={() => setColorHex(color)}
-                  style={{ backgroundColor: color, width: optionColorSize, height: optionColorSize }}
-                  className={`hover-scale-10 bordered rounded m-1 ${color === colorHex ? 'selected bordered-strong' : ''}`}
+                  key={colorOption}
+                  onClick={() => setColorHex(colorOption)}
+                  style={{ backgroundColor: colorOption, width: optionColorSize, height: optionColorSize }}
+                  className={`hover-scale-10 bordered rounded m-1 ${colorOption === colorHex ? 'selected bordered-strong' : ''}`}
                 ></div>
               ))}
             </div>

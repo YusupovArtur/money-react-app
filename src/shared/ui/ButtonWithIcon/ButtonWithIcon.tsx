@@ -9,7 +9,11 @@ export const ButtonWithIcon: FC<ButtonWithIconProps> = ({ children, caption, cla
   return (
     <button type="button" className={`${className} btn d-flex justify-content-center align-items-center`} {...props}>
       {children}
-      {caption && <span className="ms-1">{caption}</span>}
+      {caption && (
+        <span className={`${children ? 'ms-1' : ''}`} style={{ flexShrink: 0 }}>
+          {caption}
+        </span>
+      )}
     </button>
   );
 };

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const FinanceIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const FinanceIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Cash':
       return <CashIcon iconSize={iconSize} />;

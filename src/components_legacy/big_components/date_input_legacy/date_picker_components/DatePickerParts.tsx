@@ -30,8 +30,8 @@ export const DatePickerCalendarButtons: FC<DatePickerCalendarButtonsProps> = ({
   setDisplayedField,
 }) => {
   return (
-    <div className="d-flex flex-row justify-content-between">
-      <div className="d-flex flex-row justify-content-center align-items-stretch text-body-emphasis">
+    <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-center align-items-stretch text-body-emphasis">
         <button
           onClick={() => (displayedField === 'month' ? setDisplayedField('day') : setDisplayedField('month'))}
           className=" btn btn-body px-2 rounded"
@@ -45,7 +45,7 @@ export const DatePickerCalendarButtons: FC<DatePickerCalendarButtonsProps> = ({
           <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{currentYear}</span>
         </button>
       </div>
-      <div className="d-flex flex-row align-items-center justify-content-center">
+      <div className="d-flex align-items-center justify-content-center">
         <button
           onClick={() => decrementCalendar(displayedField, currentMonth, currentYear, setCurrentMonth, setCurrentYear)}
           style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}

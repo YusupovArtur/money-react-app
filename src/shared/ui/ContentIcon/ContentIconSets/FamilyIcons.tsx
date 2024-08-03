@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const FamilyIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const FamilyIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Family':
       return <FamilyIcon iconSize={iconSize} />;

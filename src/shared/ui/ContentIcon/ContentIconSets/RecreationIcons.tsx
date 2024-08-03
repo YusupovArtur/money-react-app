@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const RecreationIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const RecreationIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'MusicNote':
       return <MusicNoteIcon iconSize={iconSize} />;

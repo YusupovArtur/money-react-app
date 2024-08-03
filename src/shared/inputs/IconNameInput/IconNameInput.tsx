@@ -12,7 +12,7 @@ interface IconNameInputProps {
   iconName: string;
   setIconName: (iconName: string) => void;
   iconOptions: string[][];
-  iconSize?: string;
+  iconSize?: `${number}rem`;
   rowLength?: number;
   isDivider?: boolean;
 }
@@ -46,18 +46,20 @@ export const IconNameInput: FC<IconNameInputProps> = ({
       }
       DropdownMenu={
         <DropdownMenuWrapper style={{ maxHeight: '15rem', overflowY: 'auto' }}>
-          {leveledIconNameOptions.map((iconsGroup, index) => (
-            <div key={getIconGroupID(iconsGroup)}>
-              {iconsGroup.map((iconsRow) => (
-                <div key={getIconRowID(iconsRow)} className="d-flex">
-                  {iconsRow.map((icon) => (
+          {leveledIconNameOptions.map((iconOptionsGroup, index) => (
+            <div key={getIconGroupID(iconOptionsGroup)}>
+              {iconOptionsGroup.map((iconOptionsRow) => (
+                <div key={getIconRowID(iconOptionsRow)} className="d-flex">
+                  {iconOptionsRow.map((iconNameOption) => (
                     <ButtonWithIcon
-                      key={icon}
-                      onClick={() => setIconName(icon)}
-                      style={{ padding: iconName === icon ? '0.4rem' : undefined }}
-                      className={`hover-scale-10 btn-body p-0 m-1 ${iconName === icon ? 'selected bordered-strong' : ''}`}
+                      key={iconNameOption}
+                      onClick={() => setIconName(iconNameOption)}
+                      style={{ padding: iconName === iconNameOption ? '0.4rem' : undefined }}
+                      className={`hover-scale-10 btn-body p-0 m-1 ${
+                        iconName === iconNameOption ? 'selected bordered-strong' : ''
+                      }`}
                     >
-                      <ContentIcon iconName={icon} iconSize={optionIconSize} />
+                      <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
                     </ButtonWithIcon>
                   ))}
                 </div>
