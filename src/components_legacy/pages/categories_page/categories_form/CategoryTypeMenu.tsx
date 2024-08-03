@@ -25,7 +25,7 @@ const CategoryTypeMenu: FC<{
               if (setType) setType('debit');
               if (setFormData) setFormData((state) => ({ ...state, type: 'expense' }));
             }}
-            className={`dropdown-item ${categoryType === 'expense' && 'active'}`}
+            className={`dropdown-item ${categoryType === 'expense' ? 'active' : ''}`}
           >
             {getCategoryTypeName('expense')}
           </button>
@@ -36,7 +36,7 @@ const CategoryTypeMenu: FC<{
               if (setType) setType('investment');
               if (setFormData) setFormData((state) => ({ ...state, type: 'income' }));
             }}
-            className={`dropdown-item ${categoryType === 'income' && 'active'}`}
+            className={`dropdown-item ${categoryType === 'income' ? 'active' : ''}`}
           >
             {getCategoryTypeName('income')}
           </button>
@@ -47,7 +47,7 @@ const CategoryTypeMenu: FC<{
               if (setType) setType('credit');
               if (setFormData) setFormData((state) => ({ ...state, type: 'transfer' }));
             }}
-            className={`dropdown-item ${categoryType === 'transfer' && 'active'}`}
+            className={`dropdown-item ${categoryType === 'transfer' ? 'active' : ''}`}
           >
             {getCategoryTypeName('transfer')}
           </button>

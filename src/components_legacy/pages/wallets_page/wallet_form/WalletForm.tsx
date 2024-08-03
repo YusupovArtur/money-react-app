@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Menus imports
 // Number input
-import { ColorInput, IconInput, NumberInput, WALLET_ICON_OPTIONS } from 'shared/inputs';
+import { ColorHexInput, IconNameInput, NumberInput, WALLET_ICON_OPTIONS } from 'shared/inputs';
 import WalletTypeMenu from '../../../pages/wallets_page/wallet_form/WalletTypeMenu';
 import { walletAddType } from 'store/types';
 
@@ -29,17 +29,17 @@ const WalletForm: FC<WalletFormProps> = ({ formData, setFormData }) => {
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка и цвет</span>
       <div className="d-flex align-items-center">
-        <IconInput
+        <IconNameInput
           iconName={formData.iconName}
-          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
+          setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconOptions={WALLET_ICON_OPTIONS}
           rowLength={6}
           isDivider={false}
-        ></IconInput>
-        <ColorInput
-          color={formData.color}
-          setColor={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
-        ></ColorInput>
+        ></IconNameInput>
+        <ColorHexInput
+          colorHex={formData.color}
+          setColorHex={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
+        ></ColorHexInput>
       </div>
 
       <span className="text-body-tertiary mt-2 mb-0">Сумма на счете</span>

@@ -5,7 +5,7 @@ import DateInputLegacy from '../../big_components/date_input_legacy/DateInput';
 import DateInput from '../../small_components/date_input/DateInput';
 import { dateStateType } from '../../small_components/date_input/types';
 import { DropdownContainer, ModalWindowContainer } from 'shared/containers';
-import { ColorInput, NumberInput } from 'shared/inputs';
+import { ColorHexInput, NumberInput } from 'shared/inputs';
 import { PageContentWrapper } from 'shared/wrappers';
 import { ButtonWithIconAndSpinner } from 'shared/ui';
 import { CheckIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
@@ -238,7 +238,7 @@ const MainPage: FC = () => {
         ></DropdownContainer>
       </div>
       <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
-      <ColorInput color={color} setColor={setColor} />
+      <ColorHexInput colorHex={color} setColorHex={setColor} />
       <ButtonWithIconAndSpinner
         caption="Submit"
         onClick={() => {

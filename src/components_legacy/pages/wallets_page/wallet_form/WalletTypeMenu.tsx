@@ -25,7 +25,7 @@ const WalletTypeMenu: FC<{
               if (setType) setType('debit');
               if (setFormData) setFormData((state) => ({ ...state, type: 'debit' }));
             }}
-            className={`dropdown-item ${walletType === 'debit' && 'active'}`}
+            className={`dropdown-item ${walletType === 'debit' ? 'active' : ''}`}
           >
             {getWalletTypeName('debit')}
           </button>
@@ -36,7 +36,7 @@ const WalletTypeMenu: FC<{
               if (setType) setType('investment');
               if (setFormData) setFormData((state) => ({ ...state, type: 'investment' }));
             }}
-            className={`dropdown-item ${walletType === 'investment' && 'active'}`}
+            className={`dropdown-item ${walletType === 'investment' ? 'active' : ''}`}
           >
             {getWalletTypeName('investment')}
           </button>
@@ -47,7 +47,7 @@ const WalletTypeMenu: FC<{
               if (setType) setType('credit');
               if (setFormData) setFormData((state) => ({ ...state, type: 'credit' }));
             }}
-            className={`dropdown-item ${walletType === 'credit' && 'active'}`}
+            className={`dropdown-item ${walletType === 'credit' ? 'active' : ''}`}
           >
             {getWalletTypeName('credit')}
           </button>

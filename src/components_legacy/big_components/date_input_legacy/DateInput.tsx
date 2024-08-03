@@ -34,7 +34,7 @@ const DateInput: FC<{
         onClick={() => {
           setIsShowDatePicker((isShowDatePicker) => !isShowDatePicker);
         }}
-        className={`input-group-text btn-body-primary-unbordered dropdown-toggle ${isShowDatePicker && 'bg-primary-active'}`}
+        className={`input-group-text btn-body-primary-unbordered dropdown-toggle ${isShowDatePicker ? 'bg-primary-active' : ''}`}
         data-bs-auto-close="false"
         data-bs-toggle="dropdown"
         aria-expanded="false"

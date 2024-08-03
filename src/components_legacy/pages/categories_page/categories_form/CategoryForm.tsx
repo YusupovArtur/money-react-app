@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Import menus
 import CategoryTypeMenu from '../../../pages/categories_page/categories_form/CategoryTypeMenu';
-import { CATEGORY_ICON_OPTIONS, ColorInput, IconInput } from 'shared/inputs';
+import { CATEGORY_ICON_OPTIONS, ColorHexInput, IconNameInput } from 'shared/inputs';
 import { categoryAddType } from 'store/types';
 
 export const CategoryForm: FC<{
@@ -26,17 +26,17 @@ export const CategoryForm: FC<{
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка и цвет</span>
       <div className="d-flex align-items-center">
-        <IconInput
+        <IconNameInput
           iconName={formData.iconName}
-          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
+          setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconOptions={CATEGORY_ICON_OPTIONS}
           rowLength={7}
           isDivider={true}
-        ></IconInput>
-        <ColorInput
-          color={formData.color}
-          setColor={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
-        ></ColorInput>
+        ></IconNameInput>
+        <ColorHexInput
+          colorHex={formData.color}
+          setColorHex={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
+        ></ColorHexInput>
       </div>
 
       <span className="text-body-tertiary mt-2 mb-0">Описание</span>

@@ -1,4 +1,4 @@
-export const getLeveledIconsOptions = (iconOptions: string[][], rowLength: number): string[][][] => {
+export const getLeveledIconNameOptions = (iconOptions: string[][], rowLength: number): string[][][] => {
   const leveledIconOptions: string[][][] = [];
 
   iconOptions.forEach((row) => {

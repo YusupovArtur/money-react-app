@@ -46,7 +46,7 @@ const ThemeToggle: FC = () => {
   };
 
   return (
-    <ButtonWithIcon onClick={handleToggleClick} className="btn-body">
+    <ButtonWithIcon onClick={handleToggleClick} className="btn-body" style={{ padding: '0.375rem' }}>
       {themeMode === 'light' ? (
         <LightThemeIcon iconSize={iconSize} />
       ) : themeMode === 'dark' ? (

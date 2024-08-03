@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { CATEGORY_ICON_OPTIONS, IconInput } from 'shared/inputs';
+import { CATEGORY_ICON_OPTIONS, IconNameInput } from 'shared/inputs';
 import { subcategoryAddType } from 'store/types';
 
 export const SubcategoryForm: FC<{
@@ -21,13 +21,13 @@ export const SubcategoryForm: FC<{
 
       <span className="text-body-tertiary mt-2 mb-0">Иконка</span>
       <div className="d-flex align-items-center">
-        <IconInput
+        <IconNameInput
           iconName={formData.iconName}
-          setIcon={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
+          setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconOptions={CATEGORY_ICON_OPTIONS}
           rowLength={7}
           isDivider={true}
-        ></IconInput>
+        ></IconNameInput>
       </div>
 
       <span className="text-body-tertiary mt-2 mb-0">Описание</span>
