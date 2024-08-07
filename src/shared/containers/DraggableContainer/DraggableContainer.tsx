@@ -1,5 +1,5 @@
-import { Dispatch, DragEvent, FC, ReactNode, SetStateAction } from 'react';
-import useDragEnter from '../../small_components/dragable/useDragEnter';
+import { Dispatch, FC, ReactNode, SetStateAction } from 'react';
+import useDragEnter from 'shared/containers/DraggableContainer/useDragEnter.ts';
 
 interface DraggableItemProps {
   children?: ReactNode;
@@ -9,11 +9,12 @@ interface DraggableItemProps {
   setDragStartID: Dispatch<SetStateAction<string>>;
   dragOverID: string;
   setDragOverID: Dispatch<SetStateAction<string>>;
-  itemID: string;
+  id: string;
   itemIDAbove: string;
 }
 
-const DraggableItem: FC<DraggableItemProps> = ({
+export const DraggableContainer: FC<DraggableItemProps> = ({
+  id,
   children,
   isDraggable,
   onDrop,
@@ -21,46 +22,38 @@ const DraggableItem: FC<DraggableItemProps> = ({
   setDragStartID,
   dragOverID,
   setDragOverID,
-  itemID,
   itemIDAbove,
 }) => {
   const dragClassName = useDragEnter({
+    id,
     dragStartID,
     dragOverID,
-    itemID,
     itemIDAbove,
     openClassName: 'move-open-animation-28',
     closeClassName: 'move-close-animation-28',
   });
 
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    const targetElement = event.target as HTMLDivElement;
-    if (targetElement.id && dragOverID !== targetElement.id) setDragOverID(targetElement.id);
-  };
-
   const handleDrop = () => {
-    onDrop(itemID);
+    onDrop(id);
     setDragStartID('');
     setDragOverID('');
   };
 
   return (
     <div
-      id={itemID}
+      id={id}
       draggable={isDraggable}
-      onDragStart={() => setDragStartID(itemID)}
-      onDragEnter={handleDragOver}
+      onDragStart={() => setDragStartID(id)}
+      onDragEnter={() => setDragOverID(id)}
       onDragEnd={() => {
         setDragStartID('');
         setDragOverID('');
       }}
-      onDrop={() => handleDrop()}
+      onDrop={handleDrop}
       className={isDraggable ? undefined : 'pb-3'}
     >
-      <div id={itemID} className={dragClassName}></div>
-      {children}
+      <div id={id} className={dragClassName}></div>
+      {id === dragStartID ? <div style={{ height: '3rem' }}></div> : children}
     </div>
   );
 };
-
-export default DraggableItem;

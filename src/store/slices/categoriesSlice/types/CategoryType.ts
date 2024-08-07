@@ -1,4 +1,4 @@
-import { SubcategoriesOrderedListType } from './SubcategoriesOrderedListType.ts';
+import { SubcategoriesOrderedListType } from 'store/slices/categoriesSlice';
 
 export type CategoryType = {
   name: string;

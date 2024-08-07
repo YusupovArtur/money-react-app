@@ -7,7 +7,7 @@ import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 import { CATEGORIES_LIST_LAST_ITEM_ID, CategoriesStateType } from 'store/slices/categoriesSlice';
 
 export const shiftCategory = createAsyncThunk<
-  { order: string[] },
+  { order: string[] } | void,
   { categoryID1: string; categoryID2: string } & ResponseHooksType,
   { rejectValue: string }
 >('categories/shiftCategory', async (props, { rejectWithValue }) => {
@@ -19,7 +19,7 @@ export const shiftCategory = createAsyncThunk<
     const orderRef = doc(db, 'users_data', user.uid, 'categories', 'order');
 
     if (id1 === id2) {
-      return rejectWithValue('id1 === id2');
+      return;
     }
 
     return await runTransaction(db, async (transaction) => {
@@ -62,7 +62,7 @@ export const addShiftCategoryExtraReducers = (builder: ActionReducerMapBuilder<C
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(shiftCategory.fulfilled, (state, action) => {
-      state.order = action.payload.order;
+      if (action.payload) state.order = action.payload.order;
 
       if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');

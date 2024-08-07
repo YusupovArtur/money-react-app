@@ -12,15 +12,15 @@ interface CategoryItemProps {
 export const CategoryItem: FC<CategoryItemProps> = ({ id, category, setOpenedCategoryID }) => {
   const typeIcon =
     category.type === 'expense' ? (
-      <div id={id} style={{ color: '#dc3545' }}>
+      <div style={{ color: '#dc3545' }}>
         <ArrowDownRightIconSVG iconSize="1.4rem" />
       </div>
     ) : category.type === 'income' ? (
-      <div id={id} style={{ color: '#198754' }}>
+      <div style={{ color: '#198754' }}>
         <ArrowUpRightIconSVG iconSize="1.4rem" />
       </div>
     ) : (
-      <div id={id} style={{ color: '#0d6efd' }}>
+      <div style={{ color: '#0d6efd' }}>
         <ArrowLeftRightIconSVG iconSize="1.4rem" />
       </div>
     );
@@ -28,19 +28,17 @@ export const CategoryItem: FC<CategoryItemProps> = ({ id, category, setOpenedCat
   const iconSize: number = 1.5;
   return (
     <div
-      id={id}
       onClick={() => setOpenedCategoryID(id)}
       className="hover-scale-1 d-flex justify-content-between align-items-center rounded shadow-sm px-3 py-2 mt-2"
     >
-      <div id={id} className="d-flex align-items-center">
+      <div className="d-flex align-items-center">
         <div
-          id={id}
           className="d-flex justify-content-center align-items-center rounded-circle"
           style={{ backgroundColor: category.color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
         >
           <ContentIcon iconName={category.iconName} iconSize={`${iconSize}rem`} />
         </div>
-        <span id={id} className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
+        <span className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
           {category.name}
         </span>
       </div>

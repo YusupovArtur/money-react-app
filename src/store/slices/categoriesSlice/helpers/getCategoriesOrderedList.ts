@@ -1,7 +1,7 @@
-import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { QuerySnapshot } from 'firebase/firestore';
 import { CategoriesListType, CategoriesOrderedListType, CategoryType } from 'store/slices/categoriesSlice';
 
-export const getCategoriesOrderedList = (querySnapshot: QuerySnapshot<DocumentData, DocumentData>): CategoriesOrderedListType => {
+export const getCategoriesOrderedList = (querySnapshot: QuerySnapshot): CategoriesOrderedListType => {
   const list: CategoriesListType = {};
   let order: string[] = [];
 

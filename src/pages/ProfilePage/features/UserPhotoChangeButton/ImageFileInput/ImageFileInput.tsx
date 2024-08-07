@@ -9,7 +9,7 @@ interface ImageInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const ImageFileInput: FC<ImageInputProps> = ({ reader, setIsOpened, iconSize = '1.5rem', ...props }) => {
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileInputClick = () => {
     if (fileInputRef.current) {

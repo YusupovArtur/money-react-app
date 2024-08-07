@@ -6,7 +6,7 @@ import { db } from 'app/firebase.ts';
 import { CategoriesStateType, CategoryType, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/slices/categoriesSlice';
 
 export const shiftSubCategory = createAsyncThunk<
-  { categoryID: string; order: string[] },
+  { categoryID: string; order: string[] } | void,
   { categoryID: string; subcategoryID1: string; subcategoryID2: string } & ResponseHooksType,
   { rejectValue: string }
 >('categories/shiftSubCategory', async (props, { rejectWithValue }) => {
@@ -18,7 +18,7 @@ export const shiftSubCategory = createAsyncThunk<
     const categoryRef = doc(db, 'users_data', user.uid, 'categories', categoryID);
 
     if (id1 === id2) {
-      return rejectWithValue('id1 === id2');
+      return;
     }
 
     return await runTransaction(db, async (transaction) => {
@@ -59,7 +59,7 @@ export const addShiftSubCategoryExtraReducers = (builder: ActionReducerMapBuilde
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(shiftSubCategory.fulfilled, (state, action) => {
-      state.list[action.payload.categoryID].subcategories.order = action.payload.order;
+      if (action.payload) state.list[action.payload.categoryID].subcategories.order = action.payload.order;
 
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);

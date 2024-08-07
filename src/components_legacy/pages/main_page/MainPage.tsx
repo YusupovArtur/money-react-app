@@ -4,11 +4,12 @@ import { getAuth } from 'firebase/auth';
 import DateInputLegacy from '../../big_components/date_input_legacy/DateInput';
 import DateInput from '../../small_components/date_input/DateInput';
 import { dateStateType } from '../../small_components/date_input/types';
-import { DropdownContainer, ModalWindowContainer } from 'shared/containers';
+import { DropdownContainer } from 'shared/containers';
 import { ColorHexInput, NumberInput } from 'shared/inputs';
 import { PageContentWrapper } from 'shared/wrappers';
 import { ButtonWithIconAndSpinner } from 'shared/ui';
 import { CheckIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
 
 const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
@@ -25,6 +26,7 @@ const MainPage: FC = () => {
   const categories = useAppSelector((state) => state.categories.list);
 
   const handleTestButton = async () => {
+    setIsOpened((state) => !state);
     // dispatch(deleteOperation({ id: 'VmMbG8FaTkM4lLKQC8cg' }));
     // dispatch(
     //   addOperation({
@@ -171,13 +173,10 @@ const MainPage: FC = () => {
     // }
   };
 
-  const [isOpened, setIsOpened] = useState<boolean>(true);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   return (
-    <PageContentWrapper style={{ margin: 'auto', maxWidth: '30rem' }}>
-      <p>Main</p>
-      <p>{`Username state: ${userState.username}`}</p>
-      <p>{`Username firebase: ${user?.email}`}</p>
+    <PageContentWrapper style={{ margin: '0 auto', maxWidth: '30rem' }}>
       <button className="btn btn-primary" onClick={handleTestButton}>
         Test button
       </button>
@@ -252,56 +251,59 @@ const MainPage: FC = () => {
       >
         <CheckIconSVG iconSize="1.5rem" />
       </ButtonWithIconAndSpinner>
+      <OpenableContainer isOpened={isOpened} style1={{ height: 0 }} style2={{ height: 300 }} duration={4000}>
+        <div style={{ backgroundColor: 'red' }}></div>
+      </OpenableContainer>
 
-      <ModalWindowContainer isOpened={isOpened} onClose={() => setIsOpened(false)} style={{ margin: 'auto' }}>
-        <ul style={{ backgroundColor: 'red' }} className="m-0">
-          <li>
-            <a className="dropdown-item" href="#">
-              Action big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Another action big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Action big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Another action big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Action big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Another action big big big big big
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here big big big big big
-            </a>
-          </li>
-        </ul>
-      </ModalWindowContainer>
+      {/*<ModalWindowContainer isOpened={isOpened} onClose={() => setIsOpened(false)} style={{ margin: 'auto' }}>*/}
+      {/*  <ul style={{ backgroundColor: 'red' }} className="m-0">*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Action big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Another action big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Something else here big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Action big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Another action big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Something else here big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Action big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Another action big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <a className="dropdown-item" href="#">*/}
+      {/*        Something else here big big big big big*/}
+      {/*      </a>*/}
+      {/*    </li>*/}
+      {/*  </ul>*/}
+      {/*</ModalWindowContainer>*/}
     </PageContentWrapper>
   );
 };

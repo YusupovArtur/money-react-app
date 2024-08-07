@@ -17,19 +17,17 @@ export const SubcategoryItem: FC<{
   return (
     <>
       <div
-        id={subcategoryID}
         onClick={() => setIsOpened(true)}
         className="hover-scale-1 d-flex justify-content-between align-items-center rounded shadow-sm px-3 py-2 mt-2"
       >
-        <div id={subcategoryID} className="d-flex align-items-center">
+        <div className="d-flex align-items-center">
           <div
-            id={subcategoryID}
             className="d-flex justify-content-center align-items-center rounded-circle"
             style={{ backgroundColor: color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}
           >
             <ContentIcon iconName={subcategory.iconName} iconSize={`${iconSize}rem`} />
           </div>
-          <span id={subcategoryID} className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
+          <span className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
             {subcategory.name}
           </span>
         </div>

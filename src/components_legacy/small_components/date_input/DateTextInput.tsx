@@ -16,7 +16,7 @@ const DateTextInput: FC<{
   deviseType?: 'desktop' | 'mobile';
 }> = ({ dateState, setDateState, setTimestampFunction, deviseType }) => {
   // For text field
-  const dateInputRef = useRef<HTMLInputElement | null>(null);
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const selectedPartRef = useRef<'day' | 'month' | 'year'>('day');
   const isDeviceMobile = deviseType === 'mobile' ? true : deviseType === undefined ? getDeviceType() === 'mobile' : false;
 

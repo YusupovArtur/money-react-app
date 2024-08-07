@@ -35,7 +35,7 @@ const DatepickerYearsField: FC<{
   setDisplayedField: Dispatch<SetStateAction<'day' | 'month' | 'year'>>;
   currentYear: number;
 }> = ({ setCurrentYear, setDisplayedField, currentYear }) => {
-  const datePickerYearsFieldRef = useRef<HTMLInputElement | null>(null);
+  const datePickerYearsFieldRef = useRef<HTMLInputElement>(null);
   const datepickerYearsField: datePickerYearCellPropsType[][] = [];
 
   useEffect(() => {

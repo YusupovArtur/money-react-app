@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface useDragEnterProps {
+  id: string;
   dragStartID: string;
   dragOverID: string;
-  itemID: string;
   itemIDAbove: string;
   openClassName: string;
   closeClassName: string;
@@ -11,7 +11,7 @@ interface useDragEnterProps {
 
 const useDragEnter = (props: useDragEnterProps) => {
   const ANIMATION_TIME = 60;
-  const { dragStartID, dragOverID, itemID, itemIDAbove, openClassName, closeClassName } = props;
+  const { dragStartID, dragOverID, id, itemIDAbove, openClassName, closeClassName } = props;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [dragClassName, setDragClassName] = useState<string>('');
@@ -28,7 +28,7 @@ const useDragEnter = (props: useDragEnterProps) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (dragStartID && dragOverID === itemID && dragStartID !== itemID && dragStartID !== itemIDAbove) {
+    if (dragStartID && dragOverID === id && dragStartID !== id && dragStartID !== itemIDAbove) {
       setIsOpen(true);
     } else {
       setIsOpen(false);

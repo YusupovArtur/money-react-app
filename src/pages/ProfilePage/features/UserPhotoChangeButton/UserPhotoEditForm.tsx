@@ -13,7 +13,7 @@ export const UserPhotoEditForm: FC = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const image = useRef<HTMLImageElement>(new Image());
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const reader = new FileReader();
   reader.onload = (event) => {

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID } from 'store/slices/walletsSlice';
 // Components
 import WalletItem from '../../../pages/wallets_page/wallets_list/WalletItem';
-import DraggableItem from '../../../small_components/dragable/DraggableItem';
+import { DraggableContainer } from 'shared/containers';
 
 const WalletsList: FC = () => {
   const wallets = useAppSelector((state) => state.wallets.list);
@@ -22,7 +22,7 @@ const WalletsList: FC = () => {
   return (
     <>
       {walletsOrder.map((id, index) => (
-        <DraggableItem
+        <DraggableContainer
           key={id}
           onDrop={dropFunction}
           isDraggable={true}
@@ -30,20 +30,20 @@ const WalletsList: FC = () => {
           setDragStartID={setDragStartID}
           dragOverID={dragOverID}
           setDragOverID={setDragOverID}
-          itemID={id}
+          id={id}
           itemIDAbove={index === 0 ? 'no-above-item' : walletsOrder[index - 1]}
         >
           <WalletItem id={id} wallet={wallets[id]} />
-        </DraggableItem>
+        </DraggableContainer>
       ))}
-      <DraggableItem
+      <DraggableContainer
         onDrop={dropFunction}
         isDraggable={false}
         dragStartID={dragStartID}
         setDragStartID={setDragStartID}
         dragOverID={dragOverID}
         setDragOverID={setDragOverID}
-        itemID={WALLETS_LIST_LAST_ITEM_ID}
+        id={WALLETS_LIST_LAST_ITEM_ID}
         itemIDAbove={walletsOrder[walletsOrder.length - 1] ? walletsOrder[walletsOrder.length - 1] : ''}
       />
     </>

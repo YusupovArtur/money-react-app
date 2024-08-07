@@ -4,7 +4,7 @@ import { useAppDispatch } from 'store';
 import { CategoryType, shiftSubCategory, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/slices/categoriesSlice';
 // Subcategories imports
 import { SubcategoryItem } from '../../../pages/categories_page/subcategories_list/SubcategoryItem';
-import DraggableItem from '../../../small_components/dragable/DraggableItem';
+import { DraggableContainer } from 'shared/containers';
 
 export const SubcategoriesList: FC<{
   categoryID: string;
@@ -21,7 +21,7 @@ export const SubcategoriesList: FC<{
   return (
     <>
       {category.subcategories.order.map((id, index) => (
-        <DraggableItem
+        <DraggableContainer
           key={id}
           onDrop={dropFunction}
           isDraggable={true}
@@ -29,7 +29,7 @@ export const SubcategoriesList: FC<{
           setDragStartID={setDragStartID}
           dragOverID={dragOverID}
           setDragOverID={setDragOverID}
-          itemID={id}
+          id={id}
           itemIDAbove={index === 0 ? 'no-above-item' : category.subcategories.order[index - 1]}
         >
           <SubcategoryItem
@@ -38,17 +38,17 @@ export const SubcategoriesList: FC<{
             categoryID={categoryID}
             color={category.color}
           />
-        </DraggableItem>
+        </DraggableContainer>
       ))}
 
-      <DraggableItem
+      <DraggableContainer
         onDrop={dropFunction}
         isDraggable={false}
         dragStartID={dragStartID}
         setDragStartID={setDragStartID}
         dragOverID={dragOverID}
         setDragOverID={setDragOverID}
-        itemID={SUBCATEGORIES_LIST_LAST_ITEM_ID}
+        id={SUBCATEGORIES_LIST_LAST_ITEM_ID}
         itemIDAbove={
           category.subcategories.order[category.subcategories.order.length - 1]
             ? category.subcategories.order[category.subcategories.order.length - 1]

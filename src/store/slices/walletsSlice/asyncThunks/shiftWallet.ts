@@ -7,7 +7,7 @@ import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 import { WALLETS_LIST_LAST_ITEM_ID, WalletsStateType } from 'store/slices/walletsSlice';
 
 export const shiftWallet = createAsyncThunk<
-  { order: string[] },
+  { order: string[] } | void,
   ResponseHooksType & { walletID1: string; walletID2: string },
   { rejectValue: string }
 >('wallets/shiftWallet', async (props, { rejectWithValue }) => {
@@ -19,7 +19,7 @@ export const shiftWallet = createAsyncThunk<
     const orderRef = doc(db, 'users_data', user.uid, 'wallets', 'order');
 
     if (id1 === id2) {
-      return rejectWithValue('id1 === id2');
+      return;
     }
 
     return await runTransaction(db, async (transaction) => {
@@ -63,7 +63,7 @@ export const addShiftWalletExtraReducers = (builder: ActionReducerMapBuilder<Wal
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(shiftWallet.fulfilled, (state, action) => {
-      state.order = action.payload.order;
+      if (action.payload) state.order = action.payload.order;
 
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');

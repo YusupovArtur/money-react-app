@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { CATEGORIES_LIST_LAST_ITEM_ID, shiftCategory } from 'store/slices/categoriesSlice';
 // Category imports
 import { CategoryItem } from '../../../pages/categories_page/categories_list/CategoryItem';
-import DraggableItem from '../../../small_components/dragable/DraggableItem';
+import { DraggableContainer } from 'shared/containers';
 
 interface CategoriesListProps {
   categoriesOrder: string[];
@@ -23,11 +23,11 @@ export const CategoriesList: FC<CategoriesListProps> = ({ categoriesOrder, setOp
   return (
     <div>
       {categoriesOrder.map((id, index) => (
-        <DraggableItem
+        <DraggableContainer
           key={id}
           isDraggable={true}
           onDrop={dropFunction}
-          itemID={id}
+          id={id}
           itemIDAbove={index === 0 ? 'no-above-item' : id[index - 1]}
           dragStartID={dragStartID}
           setDragStartID={setDragStartID}
@@ -35,13 +35,13 @@ export const CategoriesList: FC<CategoriesListProps> = ({ categoriesOrder, setOp
           setDragOverID={setDragOverID}
         >
           <CategoryItem id={id} category={categories[id]} setOpenedCategoryID={setOpenedCategoryID} />
-        </DraggableItem>
+        </DraggableContainer>
       ))}
 
-      <DraggableItem
+      <DraggableContainer
         isDraggable={false}
         onDrop={dropFunction}
-        itemID={CATEGORIES_LIST_LAST_ITEM_ID}
+        id={CATEGORIES_LIST_LAST_ITEM_ID}
         itemIDAbove={categoriesOrder[categoriesOrder.length - 1] ? categoriesOrder[categoriesOrder.length - 1] : ''}
         dragStartID={dragStartID}
         setDragStartID={setDragStartID}
