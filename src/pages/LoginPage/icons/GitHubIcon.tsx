@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-const GitHubIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const GitHubIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,5 +14,3 @@ const GitHubIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
     </svg>
   );
 };
-
-export default GitHubIcon;

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { ContentIcon } from 'shared/ui';
 import { getCategoryTypeName } from '../../../pages/categories_page/functions';
-import { categoryType } from 'store/types';
+import { CategoryType } from 'store/slices/categoriesSlice';
 
-export const CategoryOpenedInfo: FC<{ category: categoryType }> = ({ category }) => {
+export const CategoryOpenedInfo: FC<{ category: CategoryType }> = ({ category }) => {
   const iconSize: number = 2.5;
 
   return (

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-const GoogleIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const GoogleIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,8 +14,6 @@ const GoogleIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
     </svg>
   );
 };
-
-export default GoogleIcon;
 
 // const GoogleIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
 //   return (

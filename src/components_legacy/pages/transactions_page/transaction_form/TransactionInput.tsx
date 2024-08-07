@@ -1,9 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { addTransaction } from 'store/slices/transactionsSlice';
-import { serverResponseStatusHooks } from 'store/types';
-import { TransactionType } from 'store/slices/transactionsSlice';
+import { ResponseHooksType, useAppDispatch } from 'store';
+import { addTransaction, TransactionType } from 'store/slices/transactionsSlice';
 // Input components
 import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
@@ -45,7 +43,7 @@ const TransactionInput: FC<{
     setDateState(getDateStateFromTimestamp(new Date().getTime()));
   };
 
-  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+  const addFunction = (statusHooks: ResponseHooksType) => {
     dispatch(addTransaction({ operation: formData, ...statusHooks }));
   };
 

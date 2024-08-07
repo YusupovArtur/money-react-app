@@ -5,7 +5,7 @@ interface HasPasswords {
   password2: string;
 }
 
-const password2Validator = <T extends HasPasswords>(formData: T): validatorsReturnType => {
+export const password2Validator = <T extends HasPasswords>(formData: T): validatorsReturnType => {
   const password1 = formData.password;
   const password2 = formData.password2;
 
@@ -17,5 +17,3 @@ const password2Validator = <T extends HasPasswords>(formData: T): validatorsRetu
   }
   return { isValid: true };
 };
-
-export default password2Validator;

@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store imports
-import { serverResponseStatusHooks } from 'store/types';
+import { ResponseHooksType } from 'store';
 // UI imports
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
 import {
@@ -13,8 +13,8 @@ import {
 interface EditFormBarProps {
   onClose: () => void;
   onClear: () => void;
-  onUpdate: (statusHooks: serverResponseStatusHooks) => void;
-  onDelete: (statusHooks: serverResponseStatusHooks) => void;
+  onUpdate: (statusHooks: ResponseHooksType) => void;
+  onDelete: (statusHooks: ResponseHooksType) => void;
   itemType: string;
   itemName: string;
   isEdit: boolean;

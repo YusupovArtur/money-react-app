@@ -1,6 +1,6 @@
 import { FC } from 'react';
 // Store
-import { useAppSelector } from 'store/hook';
+import { useAppSelector } from 'store';
 // Router
 import { Navigate } from 'react-router-dom';
 // Features

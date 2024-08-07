@@ -3,11 +3,11 @@ import { Dispatch, FC, SetStateAction } from 'react';
 // Number input
 import { ColorHexInput, IconNameInput, NumberInput, WALLET_ICON_OPTIONS } from 'shared/inputs';
 import WalletTypeMenu from '../../../pages/wallets_page/wallet_form/WalletTypeMenu';
-import { walletAddType } from 'store/types';
+import { WalletType } from 'store/slices/walletsSlice';
 
 interface WalletFormProps {
-  formData: walletAddType;
-  setFormData: Dispatch<SetStateAction<walletAddType>>;
+  formData: WalletType;
+  setFormData: Dispatch<SetStateAction<WalletType>>;
 }
 
 const WalletForm: FC<WalletFormProps> = ({ formData, setFormData }) => {

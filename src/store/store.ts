@@ -1,11 +1,13 @@
+// Redux
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-// import slices
+// Slices
 import userSlice from 'store/slices/userSlice/userSlice';
 import transactionsSlice from 'store/slices/transactionsSlice/transactionsSlice.ts';
-import walletsSlice from 'store/slices/walletsSlice';
-import categoriesSlice from 'store/slices/categoriesSlice.ts';
+import walletsSlice from 'store/slices/walletsSlice/walletsSlice.ts';
+import categoriesSlice from 'store/slices/categoriesSlice/categoriesSlice.ts';
 import themeSlice from 'store/slices/themeSlice/themeSlice.ts';
 
 const rootReducer = combineReducers({
@@ -35,7 +37,9 @@ const store = configureStore({
     }),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const persistor = persistStore(store);
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<ReturnType<typeof store.getState>> = useSelector;
+
+export const persist = persistStore(store);
 export default store;

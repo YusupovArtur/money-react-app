@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { ContentIcon } from 'shared/ui';
 import { getStringSum, getWalletTypeName } from '../../../pages/wallets_page/functions';
-import { walletType } from 'store/types';
+import { WalletType } from 'store/slices/walletsSlice';
 
-const WalletInfo: FC<{ wallet: walletType }> = ({ wallet }) => {
+const WalletInfo: FC<{ wallet: WalletType }> = ({ wallet }) => {
   const iconSize: number = 2.5;
 
   return (

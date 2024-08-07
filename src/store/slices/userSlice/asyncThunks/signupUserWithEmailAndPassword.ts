@@ -4,13 +4,12 @@ import { updateUserState, UserSliceStateType, UserStateType } from 'store/slices
 // Firebase
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // Helpers
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
+import { getErrorMessage, ResponseHooksType } from 'store';
 import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
-import { serverResponseStatusHooks } from 'store/types.ts';
 
 export const signupUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,
-  serverResponseStatusHooks & { email: string; password: string; username?: string },
+  ResponseHooksType & { email: string; password: string; username?: string },
   { rejectValue: string }
 >('user/signupUserWithEmailAndPassword', async (props, { dispatch, rejectWithValue }) => {
   const { email, password, username } = props;

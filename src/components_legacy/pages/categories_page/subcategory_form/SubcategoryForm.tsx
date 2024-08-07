@@ -1,10 +1,10 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { CATEGORY_ICON_OPTIONS, IconNameInput } from 'shared/inputs';
-import { subcategoryAddType } from 'store/types';
+import { SubcategoryType } from 'store/slices/categoriesSlice';
 
 export const SubcategoryForm: FC<{
-  formData: subcategoryAddType;
-  setFormData: Dispatch<SetStateAction<subcategoryAddType>>;
+  formData: SubcategoryType;
+  setFormData: Dispatch<SetStateAction<SubcategoryType>>;
 }> = ({ formData, setFormData }) => {
   return (
     <div className="d-flex flex-column">

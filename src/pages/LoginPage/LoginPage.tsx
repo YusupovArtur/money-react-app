@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store';
 import { signinUserWithEmailAndPassword, signupUserWithEmailAndPassword } from 'store/slices/userSlice';
 // Router
 import { Navigate } from 'react-router-dom';

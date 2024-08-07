@@ -3,12 +3,11 @@ import { TransactionsStateType, TransactionUpdateType } from 'store/slices/trans
 import { db } from 'app/firebase.ts';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { serverResponseStatusHooks } from 'store/types.ts';
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
+import { getErrorMessage, ResponseHooksType } from 'store';
 
 export const updateTransaction = createAsyncThunk<
   { id: string; operation: TransactionUpdateType },
-  serverResponseStatusHooks & { id: string; operation: TransactionUpdateType },
+  ResponseHooksType & { id: string; operation: TransactionUpdateType },
   { rejectValue: string }
 >('transactions/updateTransaction', async (props, { rejectWithValue }) => {
   const { id, operation } = props;

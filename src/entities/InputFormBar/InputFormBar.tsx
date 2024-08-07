@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store imports
-import { serverResponseStatusHooks } from 'store/types';
+import { ResponseHooksType } from 'store';
 // UI imports
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
 import { CrossIconSVG, PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG';
@@ -8,7 +8,7 @@ import { CrossIconSVG, PlusIconSVG } from 'components_legacy/small_components/ic
 interface InputFormBarProps {
   addButtonsLabel: string;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
-  onAdd: (statusHooks: serverResponseStatusHooks) => void;
+  onAdd: (statusHooks: ResponseHooksType) => void;
   onClear: () => void;
 }
 

@@ -1,4 +1,4 @@
-const getErrorMessage = (errorCode: any): string => {
+export const getErrorMessage = (errorCode: any): string => {
   switch (errorCode) {
     case 'auth/email-already-in-use':
       return 'Электронная почта уже используется';
@@ -16,11 +16,11 @@ const getErrorMessage = (errorCode: any): string => {
       return 'Всплывающее окно заблокировано';
     case 'auth/popup-closed-by-user':
       return 'Всплывающее окно закрыто';
-    case typeof errorCode === 'string':
-      return errorCode;
     default:
-      return `Неизвестная ошибка ${errorCode.toString()}`;
+      if (typeof errorCode === 'string') {
+        return errorCode;
+      } else {
+        return `Неизвестная ошибка ${errorCode.toString()}`;
+      }
   }
 };
-
-export default getErrorMessage;

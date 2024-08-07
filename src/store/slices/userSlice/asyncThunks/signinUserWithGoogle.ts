@@ -2,13 +2,12 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 // Firebase
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 // Helpers
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
+import { getErrorMessage, ResponseHooksType } from 'store';
 import getUserState from '../helpers/getUserState.ts';
 // Types
 import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
-import { serverResponseStatusHooks } from 'store/types.ts';
 
-export const signinUserWithGoogle = createAsyncThunk<UserStateType, serverResponseStatusHooks, { rejectValue: string }>(
+export const signinUserWithGoogle = createAsyncThunk<UserStateType, ResponseHooksType, { rejectValue: string }>(
   'user/signinWithGoogle',
   async (_props, { rejectWithValue }) => {
     const auth = getAuth();

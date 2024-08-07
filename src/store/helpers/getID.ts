@@ -1,4 +1,4 @@
-export const generateID = (length: number): string => {
+export const getID = (length: number): string => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let id = '';
   for (let i = 0; i < length; i++) {

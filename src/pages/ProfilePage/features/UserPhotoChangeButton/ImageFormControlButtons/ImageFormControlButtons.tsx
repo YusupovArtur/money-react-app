@@ -1,6 +1,6 @@
 import { Dispatch, FC, MutableRefObject, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store';
 import { uploadUserPhoto } from 'store/slices/userSlice';
 // UI
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';

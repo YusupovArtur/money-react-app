@@ -3,12 +3,11 @@ import { TransactionsStateType, TransactionType } from 'store/slices/transaction
 import { db } from 'app/firebase.ts';
 import { addDoc, collection } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
-import { serverResponseStatusHooks } from 'store/types.ts';
+import { getErrorMessage, ResponseHooksType } from 'store';
 
 export const addTransaction = createAsyncThunk<
   { id: string; operation: TransactionType },
-  serverResponseStatusHooks & { operation: TransactionType },
+  ResponseHooksType & { operation: TransactionType },
   {
     rejectValue: string;
   }

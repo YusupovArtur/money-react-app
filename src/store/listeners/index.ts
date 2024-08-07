@@ -1,3 +1,3 @@
-export { TransactionsDatabaseListener } from './TransactionsDatabaseListener.ts';
-export { WalletsDatabaseListener } from './WalletsDatabaseListener.ts';
+export { TransactionsFirestoreListener } from './TransactionsFirestoreListener.ts';
+export { WalletsFirestoreListener } from './WalletsFirestoreListener.ts';
 export { CategoriesDatabaseListener } from './CategoriesDatabaseListener.ts';

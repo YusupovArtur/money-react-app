@@ -1,11 +1,11 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store';
 import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { emailValidator, passwordValidator, usernameValidator } from 'shared/helpers/validators';
-import password2Validator from 'pages/LoginPage/forms/SignupForm/helpers/password2Validator.ts';
+import { password2Validator } from 'pages/LoginPage/forms/SignupForm/helpers/password2Validator.ts';
 import { SignupFormDataType } from 'pages/LoginPage/types/SignupFormDataType.ts';
 // UI
 import { FormValidationFeedback } from 'shared/ui';

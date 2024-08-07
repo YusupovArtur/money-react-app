@@ -5,19 +5,21 @@ import EditFormBar from 'entities/EditFormBar';
 import WalletForm from '../../../pages/wallets_page/wallet_form/WalletForm';
 import WalletInfo from '../../../pages/wallets_page/wallets_list/WalletInfo';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { deleteWallet, updateWallet } from 'store/slices/walletsSlice';
-import { serverResponseStatusHooks, walletAddType, walletType } from 'store/types';
+import { ResponseHooksType, useAppDispatch } from 'store';
+import { deleteWallet, updateWallet, WalletType } from 'store/slices/walletsSlice';
 
-const WalletOpened: FC<{
-  wallet: walletType;
+interface WalletOpenedProps {
+  id: string;
+  wallet: WalletType;
   isOpened: boolean;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
-}> = ({ wallet, isOpened, setIsOpened }) => {
+}
+
+const WalletOpened: FC<WalletOpenedProps> = ({ id, wallet, isOpened, setIsOpened }) => {
   const dispatch = useAppDispatch();
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState<walletAddType>({
+  const [formData, setFormData] = useState<WalletType>({
     name: wallet.name,
     balance: wallet.balance,
     iconName: wallet.iconName,
@@ -37,18 +39,18 @@ const WalletOpened: FC<{
     });
   };
 
-  const updateFunction = (statusHooks: serverResponseStatusHooks) => {
+  const updateFunction = (statusHooks: ResponseHooksType) => {
     dispatch(
       updateWallet({
-        walletID: wallet.id,
-        newProps: formData,
+        id,
+        walletProps: formData,
         ...statusHooks,
       }),
     );
   };
 
-  const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
-    dispatch(deleteWallet({ walletID: wallet.id, ...statusHooks }));
+  const deleteFunction = (statusHooks: ResponseHooksType) => {
+    dispatch(deleteWallet({ id, ...statusHooks }));
   };
 
   return (

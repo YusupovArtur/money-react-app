@@ -3,7 +3,7 @@ export { addTransaction } from './asyncThunks/addTransaction.ts';
 export { updateTransaction } from './asyncThunks/updateTransaction.ts';
 export { deleteTransaction } from './asyncThunks/deleteTransaction.ts';
 
-export { clearTransactions, setTransactions } from './transactionsSlice.ts';
+export { clearTransactions, setTransactions, setTransactionsResponseState } from './transactionsSlice.ts';
 
 export type { TransactionType } from './types/TransactionType.ts';
 export type { TransactionUpdateType } from './types/TransactionUpdateType.ts';

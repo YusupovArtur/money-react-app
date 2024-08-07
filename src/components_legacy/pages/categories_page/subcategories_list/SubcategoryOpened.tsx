@@ -4,22 +4,23 @@ import { ModalContainer } from 'shared/containers';
 import EditFormBar from 'entities/EditFormBar';
 import { SubcategoryOpenedInfo } from '../../../pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
 import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
-import { serverResponseStatusHooks, subcategoryAddType, subcategoryType } from 'store/types';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { deleteSubCategory, updateSubCategory } from 'store/slices/categoriesSlice.ts';
+import { useAppDispatch } from 'store';
+import { deleteSubCategory, SubcategoryType, updateSubCategory } from 'store/slices/categoriesSlice';
+import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 
 export const SubcategoryOpened: FC<{
-  subcategory: subcategoryType;
+  subcategory: SubcategoryType;
   categoryID: string;
+  subcategoryID: string;
   color: string;
   isOpened: boolean;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
-}> = ({ subcategory, categoryID, color, isOpened, setIsOpened }) => {
+}> = ({ subcategory, categoryID, subcategoryID, color, isOpened, setIsOpened }) => {
   const dispatch = useAppDispatch();
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState<subcategoryAddType>({
+  const [formData, setFormData] = useState<SubcategoryType>({
     name: subcategory.name,
     iconName: subcategory.iconName,
     description: subcategory.description,
@@ -33,22 +34,22 @@ export const SubcategoryOpened: FC<{
     });
   };
 
-  const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
+  const deleteFunction = (statusHooks: ResponseHooksType) => {
     dispatch(
       deleteSubCategory({
         categoryID,
-        subcategoryID: subcategory.id,
+        subcategoryID: subcategoryID,
         ...statusHooks,
       }),
     );
   };
 
-  const updateFunction = (statusHooks: serverResponseStatusHooks) => {
+  const updateFunction = (statusHooks: ResponseHooksType) => {
     dispatch(
       updateSubCategory({
         categoryID,
-        subcategoryID: subcategory.id,
-        newProps: formData,
+        subcategoryID: subcategoryID,
+        subcategoryProps: formData,
         ...statusHooks,
       }),
     );

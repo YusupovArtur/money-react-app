@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store';
 import { updateUserState } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import UsernameEditFormDataType from 'pages/ProfilePage/types/UsernameEditFormStateType';
+import { UsernameEditFormDataType } from 'pages/ProfilePage/types/UsernameEditFormStateType.ts';
 import { usernameValidator } from 'shared/helpers/validators';
 // UI
 import { TextInput } from 'shared/inputs';

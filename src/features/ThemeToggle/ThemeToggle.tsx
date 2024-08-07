@@ -1,6 +1,6 @@
 import { FC } from 'react';
 // Store imports
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store';
 import { changeThemeDisplay, changeThemeMode } from 'store/slices/themeSlice';
 // UI imports
 import { ButtonWithIcon } from 'shared/ui';

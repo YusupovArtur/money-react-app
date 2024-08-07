@@ -1,5 +1,3 @@
-interface UsernameEditFormDataType {
+export interface UsernameEditFormDataType {
   username: string;
 }
-
-export default UsernameEditFormDataType;

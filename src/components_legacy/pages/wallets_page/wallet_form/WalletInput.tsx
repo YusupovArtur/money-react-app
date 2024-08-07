@@ -1,8 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { addWallet } from 'store/slices/walletsSlice';
-import { serverResponseStatusHooks, walletAddType } from 'store/types';
+import { addWallet, WalletType } from 'store/slices/walletsSlice';
+import { ResponseHooksType, useAppDispatch } from 'store';
 // Input components
 import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
@@ -14,7 +13,7 @@ const WalletInput: FC<{
 }> = ({ isShowInput, setIsShowInput }) => {
   const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState<walletAddType>({
+  const [formData, setFormData] = useState<WalletType>({
     name: '',
     balance: 0,
     iconName: 'Card',
@@ -29,7 +28,7 @@ const WalletInput: FC<{
     setStringNumber('0');
   };
 
-  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+  const addFunction = (statusHooks: ResponseHooksType) => {
     dispatch(addWallet({ wallet: formData, ...statusHooks }));
   };
 

@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react';
-import { useAppSelector } from 'store/hook';
+import { FC, useState } from 'react';
+import { useAppSelector } from 'store';
 
 import { CategoryInput } from '../../pages/categories_page/categories_form/CategoryInput';
 import { CategoriesList } from '../../pages/categories_page/categories_list/CategoriesList';
@@ -7,54 +7,21 @@ import { CategoryOpened } from '../../pages/categories_page/categories_list/Cate
 
 import { CategoriesFilter } from '../../pages/categories_page/CategoriesFilter';
 import { PlusIconSVG } from '../../small_components/icons_svg/IconsSVG';
-import { categoryType } from 'store/types';
 import { PageContentWrapper } from 'shared/wrappers';
 import { ButtonWithIcon } from 'shared/ui';
 
 const CategoriesPage: FC = () => {
   const categories = useAppSelector((state) => state.categories.list);
+  const categoriesOrder = useAppSelector((state) => state.categories.order);
 
   const [filter, setFilter] = useState<'all' | 'expense' | 'income' | 'transfer'>('all');
-  const categoriesFiltered = categories.filter((category) => (filter === 'all' ? true : category.type === filter));
+  const categoriesOrderFiltered = categoriesOrder.filter((id) => (filter === 'all' ? true : categories[id].type === filter));
 
   const [isShowInput, setIsShowInput] = useState<boolean>(false);
 
-  const [openedCategory, setOpenedCategory] = useState<{ category: categoryType; isOpened: boolean }>({
-    isOpened: false,
-    category: {
-      id: '',
-      name: '',
-      iconName: '',
-      color: '',
-      type: 'expense',
-      description: '',
-      subcategories: [],
-    },
-  });
+  const [openedCategoryID, setOpenedCategoryID] = useState('');
 
-  useEffect(() => {
-    if (openedCategory.category.id && openedCategory.isOpened) {
-      const openedCategoryIndex = categories.findIndex((category) => category.id === openedCategory.category.id);
-      if (openedCategoryIndex > -1) {
-        setOpenedCategory((state) => ({ ...state, category: categories[openedCategoryIndex] }));
-      } else {
-        setOpenedCategory({
-          isOpened: false,
-          category: {
-            id: '',
-            name: '',
-            iconName: '',
-            color: '',
-            type: 'expense',
-            description: '',
-            subcategories: [],
-          },
-        });
-      }
-    }
-  }, [categories]);
-
-  if (openedCategory.isOpened) return <CategoryOpened openedCategory={openedCategory} setOpenedCategory={setOpenedCategory} />;
+  if (categories[openedCategoryID]) return <CategoryOpened id={openedCategoryID} setID={setOpenedCategoryID} />;
 
   return (
     <>
@@ -65,7 +32,7 @@ const CategoriesPage: FC = () => {
             <PlusIconSVG iconSize="1.5rem" />
           </ButtonWithIcon>
         </div>
-        <CategoriesList categories={categoriesFiltered} setOpenedCategory={setOpenedCategory} />
+        <CategoriesList categoriesOrder={categoriesOrderFiltered} setOpenedCategoryID={setOpenedCategoryID} />
       </PageContentWrapper>
 
       <CategoryInput isShowInput={isShowInput} setIsShowInput={setIsShowInput} />

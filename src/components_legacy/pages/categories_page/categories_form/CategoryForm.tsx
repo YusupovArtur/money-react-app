@@ -2,11 +2,11 @@ import { Dispatch, FC, SetStateAction } from 'react';
 // Import menus
 import CategoryTypeMenu from '../../../pages/categories_page/categories_form/CategoryTypeMenu';
 import { CATEGORY_ICON_OPTIONS, ColorHexInput, IconNameInput } from 'shared/inputs';
-import { categoryAddType } from 'store/types';
+import { CategoryAddType } from 'store/slices/categoriesSlice';
 
 export const CategoryForm: FC<{
-  formData: categoryAddType;
-  setFormData: Dispatch<SetStateAction<categoryAddType>>;
+  formData: CategoryAddType;
+  setFormData: Dispatch<SetStateAction<CategoryAddType>>;
 }> = ({ formData, setFormData }) => {
   return (
     <div className="d-flex flex-column">

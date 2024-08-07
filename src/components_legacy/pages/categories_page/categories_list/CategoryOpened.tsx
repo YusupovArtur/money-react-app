@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 // Categories imports
 import EditFormBar from 'entities/EditFormBar';
 import { CategoryForm } from '../../../pages/categories_page/categories_form/CategoryForm';
@@ -6,24 +6,27 @@ import { CategoryOpenedInfo } from '../../../pages/categories_page/categories_li
 // Subcategories imports
 import { SubcategoriesList } from '../../../pages/categories_page/subcategories_list/SubcategoriesList';
 import { SubcategoryInput } from '../../../pages/categories_page/subcategory_form/SubcategoryInput';
-import { categoryAddType, categoryType, serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 import { PlusIconSVG } from '../../../small_components/icons_svg/IconsSVG';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { deleteCategory, updateCategory } from 'store/slices/categoriesSlice.ts';
+import { useAppDispatch, useAppSelector } from 'store';
+import { CategoryAddType, deleteCategory, SubcategoryType, updateCategory } from 'store/slices/categoriesSlice';
 import { PageContentWrapper } from 'shared/wrappers';
+import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { ButtonWithIcon } from 'shared/ui';
 
-export const CategoryOpened: FC<{
-  openedCategory: { category: categoryType; isOpened: boolean };
-  setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
-}> = ({ openedCategory, setOpenedCategory }) => {
+interface CategoryOpenedProps {
+  id: string;
+  setID: (id: string) => void;
+}
+
+export const CategoryOpened: FC<CategoryOpenedProps> = ({ id, setID }) => {
   const dispatch = useAppDispatch();
+  const categories = useAppSelector((state) => state.categories.list);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isShowInput, setIsShowInput] = useState<boolean>(false);
 
-  const [formData, setFormData] = useState<categoryAddType>({
+  const [formData, setFormData] = useState<CategoryAddType>({
     name: '',
     iconName: 'Card',
     color: '',
@@ -31,7 +34,7 @@ export const CategoryOpened: FC<{
     description: '',
   });
 
-  const [subcategoryFormData, setSubcategoryFormData] = useState<subcategoryAddType>({
+  const [subcategoryFormData, setSubcategoryFormData] = useState<SubcategoryType>({
     name: '',
     iconName: 'Card',
     description: '',
@@ -39,45 +42,37 @@ export const CategoryOpened: FC<{
 
   useEffect(() => {
     setFormData({
-      name: openedCategory.category.name,
-      iconName: openedCategory.category.iconName,
-      color: openedCategory.category.color,
-      type: openedCategory.category.type,
-      description: openedCategory.category.description,
+      name: categories[id].name,
+      iconName: categories[id].iconName,
+      color: categories[id].color,
+      type: categories[id].type,
+      description: categories[id].description,
     });
-  }, [openedCategory, isEdit]);
+  }, [id, isEdit]);
 
   const closeFunction = () => {
-    setOpenedCategory({
-      isOpened: false,
-      category: { id: '', name: '', iconName: '', color: '', type: 'expense', description: '', subcategories: [] },
-    });
+    setID('');
   };
 
   const clearFunction = () => {
     setFormData({
-      name: openedCategory.category.name,
-      iconName: openedCategory.category.iconName,
-      color: openedCategory.category.color,
-      type: openedCategory.category.type,
-      description: openedCategory.category.description,
+      name: categories[id].name,
+      iconName: categories[id].iconName,
+      color: categories[id].color,
+      type: categories[id].type,
+      description: categories[id].description,
     });
   };
 
-  const deleteFunction = (statusHooks: serverResponseStatusHooks) => {
-    dispatch(
-      deleteCategory({
-        categoryID: openedCategory.category.id,
-        ...statusHooks,
-      }),
-    );
+  const deleteFunction = (statusHooks: ResponseHooksType) => {
+    dispatch(deleteCategory({ categoryID: id, ...statusHooks }));
   };
 
-  const updateFunction = (statusHooks: serverResponseStatusHooks) => {
+  const updateFunction = (statusHooks: ResponseHooksType) => {
     dispatch(
       updateCategory({
-        categoryID: openedCategory.category.id,
-        newProps: formData,
+        categoryID: id,
+        categoryProps: formData,
         ...statusHooks,
       }),
     );
@@ -93,7 +88,7 @@ export const CategoryOpened: FC<{
         isEdit={isEdit}
         setIsEdit={setIsEdit}
         itemType="категорию"
-        itemName={openedCategory.category.name}
+        itemName={categories[id].name}
       />
       {isEdit ? (
         <>
@@ -102,7 +97,7 @@ export const CategoryOpened: FC<{
         </>
       ) : (
         <>
-          <CategoryOpenedInfo category={openedCategory.category} />
+          <CategoryOpenedInfo category={categories[id]} />
           <ButtonWithIcon
             onClick={() => setIsShowInput(true)}
             caption="Подкатегория"
@@ -110,12 +105,12 @@ export const CategoryOpened: FC<{
           >
             <PlusIconSVG iconSize="1.2rem" />
           </ButtonWithIcon>
-          <SubcategoriesList category={openedCategory.category} />
+          <SubcategoriesList categoryID={id} category={categories[id]} />
         </>
       )}
 
       <SubcategoryInput
-        categoryID={openedCategory.category.id}
+        categoryID={id}
         isShowInput={isShowInput}
         setIsShowInput={setIsShowInput}
         formData={subcategoryFormData}

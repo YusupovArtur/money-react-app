@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAuth, sendEmailVerification } from 'firebase/auth';
 // Helpers
-import getErrorMessage from 'store/helpers/getErrorMessage';
+import { getErrorMessage, ResponseHooksType } from 'store';
 import getUserState from 'store/slices/userSlice/helpers/getUserState';
 // Types
 import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
-import { serverResponseStatusHooks } from 'store/types';
 // Async Thunks
 import { addSigninWithEmailAndPasswordExtraReducers } from './asyncThunks/signinUserWithEmailAndPassword';
 import { addSignupWithEmailAndPasswordExtraReducers } from './asyncThunks/signupUserWithEmailAndPassword';
@@ -15,7 +14,7 @@ import { addLogoutUserExtraReducers } from './asyncThunks/logoutUser';
 import { addUpdateUserExtraReducers } from './asyncThunks/updateUserState';
 import { addUpdateUserPhotoExtraReducers } from './asyncThunks/uploadUserPhoto.ts';
 
-export const verifyEmail = createAsyncThunk<void, serverResponseStatusHooks>('user/verifyEmail', async (props) => {
+export const verifyEmail = createAsyncThunk<void, ResponseHooksType>('user/verifyEmail', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;
   if (setErrorMessage) setErrorMessage('');
   if (setIsLoading) setIsLoading(true);

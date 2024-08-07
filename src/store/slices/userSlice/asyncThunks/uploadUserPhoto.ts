@@ -1,14 +1,13 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { serverResponseStatusHooks } from 'store/types.ts';
-import { getAuth } from 'firebase/auth';
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
-import { updateUserState, UserSliceStateType } from 'store/slices/userSlice';
-import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { storage } from 'app/firebase.ts';
+import { getAuth } from 'firebase/auth';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { updateUserState, UserSliceStateType } from 'store/slices/userSlice';
+import { getErrorMessage, ResponseHooksType } from 'store';
 
 export const uploadUserPhoto = createAsyncThunk<
   void,
-  serverResponseStatusHooks & { imageDataURL: string },
+  ResponseHooksType & { imageDataURL: string },
   {
     rejectValue: string;
   }

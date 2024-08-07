@@ -1,5 +1,5 @@
 import { FC, HTMLAttributes, useState } from 'react';
-import { useAppSelector } from 'store/hook';
+import { useAppSelector } from 'store';
 import DefaultUserIcon from 'entities/UserPhoto/icons/DefaultUserIcon';
 
 interface UserPhotoProps extends HTMLAttributes<HTMLSpanElement> {

@@ -3,17 +3,17 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
 import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
-import { serverResponseStatusHooks, subcategoryAddType } from 'store/types';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { addSubCategory } from 'store/slices/categoriesSlice.ts';
+import { useAppDispatch } from 'store';
+import { addSubCategory, SubcategoryType } from 'store/slices/categoriesSlice';
+import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 
 interface SubcategoryInputProps {
   categoryID: string;
   isShowInput: boolean;
   setIsShowInput: Dispatch<SetStateAction<boolean>>;
-  formData: subcategoryAddType;
-  setFormData: Dispatch<SetStateAction<subcategoryAddType>>;
+  formData: SubcategoryType;
+  setFormData: Dispatch<SetStateAction<SubcategoryType>>;
 }
 
 export const SubcategoryInput: FC<SubcategoryInputProps> = ({
@@ -25,7 +25,7 @@ export const SubcategoryInput: FC<SubcategoryInputProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+  const addFunction = (statusHooks: ResponseHooksType) => {
     dispatch(
       addSubCategory({
         categoryID,

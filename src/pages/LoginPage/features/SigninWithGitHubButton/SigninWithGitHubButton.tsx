@@ -1,10 +1,10 @@
 import { ButtonHTMLAttributes, Dispatch, FC, SetStateAction } from 'react';
 // Store
-import { useAppDispatch } from 'store/hook';
+import { useAppDispatch } from 'store';
 import { signinUserWithGitHub } from 'store/slices/userSlice';
 // UI
 import { ButtonWithIcon } from 'shared/ui';
-import GitHubIcon from 'pages/LoginPage/icons/GitHubIcon';
+import { GitHubIcon } from 'pages/LoginPage/icons/GitHubIcon.tsx';
 
 interface SigninWithGitHubButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;

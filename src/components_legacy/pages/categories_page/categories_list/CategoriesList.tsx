@@ -1,37 +1,40 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { FC, useState } from 'react';
 // Store imports
-import { useAppDispatch } from 'store/hook';
-import { shiftCategory } from 'store/slices/categoriesSlice.ts';
-import { CATEGORIES_LIST_LAST_ITEM_ID, categoryType } from 'store/types';
+import { useAppDispatch, useAppSelector } from 'store';
+import { CATEGORIES_LIST_LAST_ITEM_ID, shiftCategory } from 'store/slices/categoriesSlice';
 // Category imports
 import { CategoryItem } from '../../../pages/categories_page/categories_list/CategoryItem';
 import DraggableItem from '../../../small_components/dragable/DraggableItem';
 
-export const CategoriesList: FC<{
-  categories: categoryType[];
-  setOpenedCategory: Dispatch<SetStateAction<{ category: categoryType; isOpened: boolean }>>;
-}> = ({ categories, setOpenedCategory }) => {
+interface CategoriesListProps {
+  categoriesOrder: string[];
+  setOpenedCategoryID: (id: string) => void;
+}
+
+export const CategoriesList: FC<CategoriesListProps> = ({ categoriesOrder, setOpenedCategoryID }) => {
+  const categories = useAppSelector((state) => state.categories.list);
+
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
   const dispatch = useAppDispatch();
-  const dropFunction = (dropID: string) => dispatch(shiftCategory({ categoryID: dragStartID, newIndexID: dropID }));
+  const dropFunction = (dropID: string) => dispatch(shiftCategory({ categoryID1: dragStartID, categoryID2: dropID }));
 
   return (
     <div>
-      {categories.map((category, index) => (
+      {categoriesOrder.map((id, index) => (
         <DraggableItem
-          key={category.id}
+          key={id}
           isDraggable={true}
           onDrop={dropFunction}
-          itemID={category.id}
-          itemIDAbove={index === 0 ? 'no-above-item' : categories[index - 1].id}
+          itemID={id}
+          itemIDAbove={index === 0 ? 'no-above-item' : id[index - 1]}
           dragStartID={dragStartID}
           setDragStartID={setDragStartID}
           dragOverID={dragOverID}
           setDragOverID={setDragOverID}
         >
-          <CategoryItem category={category} setOpenedCategory={setOpenedCategory} />
+          <CategoryItem id={id} category={categories[id]} setOpenedCategoryID={setOpenedCategoryID} />
         </DraggableItem>
       ))}
 
@@ -39,7 +42,7 @@ export const CategoriesList: FC<{
         isDraggable={false}
         onDrop={dropFunction}
         itemID={CATEGORIES_LIST_LAST_ITEM_ID}
-        itemIDAbove={categories[categories.length - 1] ? categories[categories.length - 1].id : ''}
+        itemIDAbove={categoriesOrder[categoriesOrder.length - 1] ? categoriesOrder[categoriesOrder.length - 1] : ''}
         dragStartID={dragStartID}
         setDragStartID={setDragStartID}
         dragOverID={dragOverID}

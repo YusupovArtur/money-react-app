@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useAppSelector } from 'store/hook.ts';
+import { useAppSelector } from 'store';
 import { ButtonWithIcon, EntityIcon } from 'shared/ui';
 import { DropdownContainer } from 'shared/containers';
 import { DropdownMenuWrapper } from 'shared/wrappers';
@@ -11,7 +11,8 @@ export const WalletIDInput: FC<{
   firstSelectedWalletID?: string;
 }> = ({ walletID, setWalletID, firstSelectedWalletID }) => {
   const wallets = useAppSelector((state) => state.wallets.list);
-  const wallet = wallets.find((wallet) => wallet.id === walletID);
+  const walletsOrder = useAppSelector((state) => state.wallets.order);
+  const wallet = walletID ? wallets[walletID] : undefined;
 
   const selectedIconSize = '2rem';
   const optionIconSize = '2rem';
@@ -35,18 +36,22 @@ export const WalletIDInput: FC<{
       }
       DropdownMenu={
         <DropdownMenuWrapper className="px-0">
-          {wallets
-            .filter((wallet) => wallet.id !== firstSelectedWalletID)
-            .map((walletOption) => (
+          {walletsOrder
+            .filter((optionWalletID) => optionWalletID !== firstSelectedWalletID)
+            .map((optionWalletID) => (
               <button
-                key={walletOption.id}
+                key={optionWalletID}
                 onClick={() => {
-                  setWalletID(walletOption.id);
+                  setWalletID(optionWalletID);
                 }}
-                className={`dropdown-option-item ${walletOption.id === walletID ? 'active' : ''}`}
+                className={`dropdown-option-item ${optionWalletID === walletID ? 'active' : ''}`}
               >
-                <EntityIcon iconName={walletOption.iconName} iconBackgroundColor={walletOption.color} iconSize={optionIconSize} />
-                <span className="ms-1">{walletOption.name}</span>
+                <EntityIcon
+                  iconName={wallets[optionWalletID].iconName}
+                  iconBackgroundColor={wallets[optionWalletID].color}
+                  iconSize={optionIconSize}
+                />
+                <span className="ms-1">{wallets[optionWalletID].name}</span>
               </button>
             ))}
         </DropdownMenuWrapper>

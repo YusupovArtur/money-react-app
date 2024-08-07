@@ -2,15 +2,14 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 // Firebase
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 // Helpers
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
+import { getErrorMessage, ResponseHooksType } from 'store';
 import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
 // Types
 import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
-import { serverResponseStatusHooks } from 'store/types.ts';
 
 export const signinUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,
-  serverResponseStatusHooks & { email: string; password: string },
+  ResponseHooksType & { email: string; password: string },
   { rejectValue: string }
 >('user/signinWithEmailAndPassword', async function (props, { rejectWithValue }) {
   const { email, password } = props;

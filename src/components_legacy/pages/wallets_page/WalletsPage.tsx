@@ -1,6 +1,4 @@
 import { FC, useState } from 'react';
-import { useAppSelector } from 'store/hook';
-import { walletType } from 'store/types';
 // Wallet components_legacy
 import { ArrowLeftRightIconSVG, PlusIconSVG } from '../../small_components/icons_svg/IconsSVG';
 import WalletInput from '../../pages/wallets_page/wallet_form/WalletInput';
@@ -10,7 +8,6 @@ import TransactionInput from '../../pages/transactions_page/transaction_form/Tra
 import { PageContentWrapper } from 'shared/wrappers';
 
 const WalletsPage: FC = () => {
-  const wallets: walletType[] = useAppSelector((state) => state.wallets.list);
   const [isShowWalletInput, setIsShowWalletInput] = useState<boolean>(false);
   const [isShowTransactionInput, setIsShowTransactionInput] = useState<boolean>(false);
 
@@ -33,7 +30,7 @@ const WalletsPage: FC = () => {
             <span className="ms-1">Счет</span>
           </button>
         </div>
-        <WalletsList wallets={wallets} />
+        <WalletsList />
       </PageContentWrapper>
 
       <WalletInput isShowInput={isShowWalletInput} setIsShowInput={setIsShowWalletInput} />

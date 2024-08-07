@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector } from 'store';
 import { getAuth } from 'firebase/auth';
 import DateInputLegacy from '../../big_components/date_input_legacy/DateInput';
 import DateInput from '../../small_components/date_input/DateInput';

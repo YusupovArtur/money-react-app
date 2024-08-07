@@ -3,10 +3,9 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { ModalContainer } from 'shared/containers';
 import InputFormBar from 'entities/InputFormBar';
 import { CategoryForm } from '../../../pages/categories_page/categories_form/CategoryForm';
-import { categoryAddType, serverResponseStatusHooks } from 'store/types';
 // Store
-import { useAppDispatch } from 'store/hook';
-import { addCategory } from 'store/slices/categoriesSlice.ts';
+import { ResponseHooksType, useAppDispatch } from 'store';
+import { addCategory, CategoryAddType } from 'store/slices/categoriesSlice';
 
 export const CategoryInput: FC<{
   isShowInput: boolean;
@@ -14,7 +13,7 @@ export const CategoryInput: FC<{
 }> = ({ isShowInput, setIsShowInput }) => {
   const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState<categoryAddType>({
+  const [formData, setFormData] = useState<CategoryAddType>({
     name: '',
     iconName: 'Card',
     color: '#ced4da',
@@ -22,7 +21,7 @@ export const CategoryInput: FC<{
     description: '',
   });
 
-  const addFunction = (statusHooks: serverResponseStatusHooks) => {
+  const addFunction = (statusHooks: ResponseHooksType) => {
     dispatch(addCategory({ ...statusHooks, category: formData }));
   };
 

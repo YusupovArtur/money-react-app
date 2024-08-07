@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { ContentIcon } from 'shared/ui';
-import { subcategoryType } from 'store/types';
+import { SubcategoryType } from 'store/slices/categoriesSlice';
 
-export const SubcategoryOpenedInfo: FC<{ subcategory: subcategoryType; color: string }> = ({ subcategory, color }) => {
+export const SubcategoryOpenedInfo: FC<{ subcategory: SubcategoryType; color: string }> = ({ subcategory, color }) => {
   const iconSize: number = 2.5;
 
   return (

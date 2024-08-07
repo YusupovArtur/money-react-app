@@ -1,12 +1,11 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { serverResponseStatusHooks } from 'store/types.ts';
+import { getErrorMessage, ResponseHooksType } from 'store';
 import { getAuth, updateProfile } from 'firebase/auth';
-import getErrorMessage from 'store/helpers/getErrorMessage.ts';
 import { UserSliceStateType } from 'store/slices/userSlice';
 
 export const updateUserState = createAsyncThunk<
   { username: string | null | undefined; photoURL: string | null | undefined },
-  serverResponseStatusHooks & { username?: string; photoURL?: string },
+  ResponseHooksType & { username?: string; photoURL?: string },
   { rejectValue: string }
 >('user/updateUserState', async (props, { rejectWithValue }) => {
   const { username, photoURL } = props;

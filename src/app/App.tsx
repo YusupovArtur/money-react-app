@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Navbar } from 'widgets/Navbar';
 import { PageLoadingSpinner } from 'shared/ui';
 import { AppWrapper } from 'app/AppWrapper';
-import { useFirebaseEventListener } from 'app/useFirebaseEventListener.ts';
+import { useFirestoreChangesListener } from 'app/useFirestoreChangesListener.ts';
 // Pages
 const MainPage = lazy(() => import('components_legacy/pages/main_page/MainPage.tsx'));
 const TransactionsPage = lazy(() => import('components_legacy/pages/transactions_page/TransactionsPage.tsx'));
@@ -15,7 +15,7 @@ const LoginPage = lazy(() => import('pages/LoginPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
 const App: FC = () => {
-  useFirebaseEventListener();
+  useFirestoreChangesListener();
 
   return (
     <AppWrapper>

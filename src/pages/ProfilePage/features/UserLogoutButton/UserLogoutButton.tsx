@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 // Store
-import { useAppDispatch } from 'store/hook';
+import { useAppDispatch } from 'store';
 import { logoutUser } from 'store/slices/userSlice';
 // UI
 import { ButtonWithIcon } from 'shared/ui';
