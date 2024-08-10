@@ -1,0 +1,1 @@
+export type SizeType = `${number}rem` | number;

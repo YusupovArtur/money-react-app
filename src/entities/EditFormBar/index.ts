@@ -1,1 +1,1 @@
-export { default } from './EditFromBar';
+export { EditFromControl } from './EditFromControl.tsx';

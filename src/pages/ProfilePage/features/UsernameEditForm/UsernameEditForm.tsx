@@ -5,7 +5,7 @@ import { updateUserState } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { UsernameEditFormDataType } from 'pages/ProfilePage/types/UsernameEditFormStateType.ts';
-import { usernameValidator } from 'shared/helpers/validators';
+import { usernameValidator } from 'shared/hooks/useFormValidation/validators';
 // UI
 import { TextInput } from 'shared/inputs';
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner, FormValidationFeedback } from 'shared/ui';
@@ -74,7 +74,7 @@ const UsernameEditForm: FC = () => {
         <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
           Имя
         </label>
-        <div className="d-flex align-items-stretch">
+        <div className="d-flex">
           <TextInput
             value={formData.username}
             onChange={(event) => setFormData({ username: event.target.value })}

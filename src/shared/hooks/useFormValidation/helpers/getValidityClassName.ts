@@ -6,7 +6,7 @@ const getValidityClassName = (
   if (validity !== undefined) {
     return validity ? validClassName : invalidClassName;
   }
-  return undefined;
+  return '';
 };
 
 export default getValidityClassName;

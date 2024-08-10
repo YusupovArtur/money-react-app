@@ -25,28 +25,28 @@ export const CategoriesList: FC<CategoriesListProps> = ({ categoriesOrder, setOp
       {categoriesOrder.map((id, index) => (
         <DraggableContainer
           key={id}
-          isDraggable={true}
+          draggable={true}
           onDrop={dropFunction}
           id={id}
-          itemIDAbove={index === 0 ? 'no-above-item' : id[index - 1]}
-          dragStartID={dragStartID}
-          setDragStartID={setDragStartID}
-          dragOverID={dragOverID}
-          setDragOverID={setDragOverID}
+          aboveID={index === 0 ? 'no-above-item' : id[index - 1]}
+          startID={dragStartID}
+          setStartID={setDragStartID}
+          overID={dragOverID}
+          setOverID={setDragOverID}
         >
           <CategoryItem id={id} category={categories[id]} setOpenedCategoryID={setOpenedCategoryID} />
         </DraggableContainer>
       ))}
 
       <DraggableContainer
-        isDraggable={false}
+        draggable={false}
         onDrop={dropFunction}
         id={CATEGORIES_LIST_LAST_ITEM_ID}
-        itemIDAbove={categoriesOrder[categoriesOrder.length - 1] ? categoriesOrder[categoriesOrder.length - 1] : ''}
-        dragStartID={dragStartID}
-        setDragStartID={setDragStartID}
-        dragOverID={dragOverID}
-        setDragOverID={setDragOverID}
+        aboveID={categoriesOrder[categoriesOrder.length - 1] ? categoriesOrder[categoriesOrder.length - 1] : ''}
+        startID={dragStartID}
+        setStartID={setDragStartID}
+        overID={dragOverID}
+        setOverID={setDragOverID}
       />
     </div>
   );

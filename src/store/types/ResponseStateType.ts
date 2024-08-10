@@ -1,4 +1,4 @@
 export type ResponseStateType = {
-  isLoading: boolean;
+  isLoading: boolean | undefined;
   errorMessage: string;
 };

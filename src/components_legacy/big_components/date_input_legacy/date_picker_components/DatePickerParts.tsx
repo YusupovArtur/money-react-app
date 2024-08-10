@@ -31,7 +31,7 @@ export const DatePickerCalendarButtons: FC<DatePickerCalendarButtonsProps> = ({
 }) => {
   return (
     <div className="d-flex justify-content-between">
-      <div className="d-flex justify-content-center align-items-stretch text-body-emphasis">
+      <div className="d-flex justify-content-center text-body-emphasis">
         <button
           onClick={() => (displayedField === 'month' ? setDisplayedField('day') : setDisplayedField('month'))}
           className=" btn btn-body px-2 rounded"

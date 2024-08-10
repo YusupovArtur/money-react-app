@@ -1,10 +1,10 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
+import { FC, HTMLProps, ReactNode, useEffect, useRef, useState } from 'react';
+import { AnimationStyleType } from './types/AnimationStyleType.ts';
 import { getAnimationStyleNumberState } from './helpers/getAnimationStyleNumberState.ts';
-import { AnimationStyleState } from './types/AnimationStateTypes.ts';
-import { getAnimationStyleStateFrame } from 'shared/containers/DraggableContainer/OpenableContainer/helpers/getAnimationStyleStateFrame.ts';
+import { getAnimationStyleStateFrame } from './helpers/getAnimationStyleStateFrame.ts';
 
-interface OpenableContainerProps<T extends AnimationStyleState = AnimationStyleState> {
-  children: ReactNode;
+interface OpenableContainerProps<T extends AnimationStyleType = AnimationStyleType> extends HTMLProps<HTMLDivElement> {
+  children?: ReactNode;
   isOpened: boolean;
   duration: number;
   style1: T;
@@ -17,10 +17,12 @@ export const OpenableContainer: FC<OpenableContainerProps> = ({
   duration,
   style1: styleString1,
   style2: styleString2,
+  style: outerStyle,
+  ...props
 }) => {
   const style1 = getAnimationStyleNumberState(styleString1);
   const style2 = getAnimationStyleNumberState(styleString2);
-  const [style, setStyle] = useState<AnimationStyleState>(isOpened ? style2 : style1);
+  const [style, setStyle] = useState<AnimationStyleType>(isOpened ? style2 : style1);
 
   const animationRef = useRef<number | null>(null);
   const timeRef = useRef<number | null>(null);
@@ -33,7 +35,6 @@ export const OpenableContainer: FC<OpenableContainerProps> = ({
       setStyle(newStyleFrame);
     }
     timeRef.current = time;
-    console.log(ratio.current);
 
     if ((isOpened && ratio.current < 1) || (!isOpened && ratio.current > 0)) {
       animationRef.current = requestAnimationFrame(animate);
@@ -57,5 +58,9 @@ export const OpenableContainer: FC<OpenableContainerProps> = ({
     };
   }, [isOpened]);
 
-  return <div style={style}>{children}</div>;
+  return (
+    <div style={{ ...outerStyle, ...style }} {...props}>
+      {children}
+    </div>
+  );
 };

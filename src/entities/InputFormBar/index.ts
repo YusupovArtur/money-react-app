@@ -1,1 +1,1 @@
-export { default } from './InputFormBar';
+export { InputFormControl } from './InputFormControl.tsx';

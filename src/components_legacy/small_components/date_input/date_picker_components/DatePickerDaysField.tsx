@@ -31,7 +31,7 @@ const DatePickerDayCell: FC<{
 
   return (
     <div
-      className={`col p-0 m-0 d-flex align-items-stretch justify-content-center`}
+      className={`col p-0 m-0 d-flex justify-content-center`}
       // ${divsClassName}
       style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
     >

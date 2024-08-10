@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import { CategoryType } from 'store/slices/categoriesSlice';
 import { ContentIcon } from 'shared/ui';
 import { ArrowDownRightIconSVG, ArrowLeftRightIconSVG, ArrowUpRightIconSVG } from '../../../small_components/icons_svg/IconsSVG';
@@ -7,9 +7,10 @@ interface CategoryItemProps {
   id: string;
   category: CategoryType;
   setOpenedCategoryID: (id: string) => void;
+  style?: CSSProperties;
 }
 
-export const CategoryItem: FC<CategoryItemProps> = ({ id, category, setOpenedCategoryID }) => {
+export const CategoryItem: FC<CategoryItemProps> = ({ id, category, setOpenedCategoryID, style }) => {
   const typeIcon =
     category.type === 'expense' ? (
       <div style={{ color: '#dc3545' }}>
@@ -29,6 +30,7 @@ export const CategoryItem: FC<CategoryItemProps> = ({ id, category, setOpenedCat
   return (
     <div
       onClick={() => setOpenedCategoryID(id)}
+      style={style}
       className="hover-scale-1 d-flex justify-content-between align-items-center rounded shadow-sm px-3 py-2 mt-2"
     >
       <div className="d-flex align-items-center">

@@ -24,13 +24,13 @@ export const SubcategoriesList: FC<{
         <DraggableContainer
           key={id}
           onDrop={dropFunction}
-          isDraggable={true}
-          dragStartID={dragStartID}
-          setDragStartID={setDragStartID}
-          dragOverID={dragOverID}
-          setDragOverID={setDragOverID}
+          draggable={true}
+          startID={dragStartID}
+          setStartID={setDragStartID}
+          overID={dragOverID}
+          setOverID={setDragOverID}
           id={id}
-          itemIDAbove={index === 0 ? 'no-above-item' : category.subcategories.order[index - 1]}
+          aboveID={index === 0 ? 'no-above-item' : category.subcategories.order[index - 1]}
         >
           <SubcategoryItem
             subcategory={category.subcategories.list[id]}
@@ -43,13 +43,13 @@ export const SubcategoriesList: FC<{
 
       <DraggableContainer
         onDrop={dropFunction}
-        isDraggable={false}
-        dragStartID={dragStartID}
-        setDragStartID={setDragStartID}
-        dragOverID={dragOverID}
-        setDragOverID={setDragOverID}
+        draggable={false}
+        startID={dragStartID}
+        setStartID={setDragStartID}
+        overID={dragOverID}
+        setOverID={setDragOverID}
         id={SUBCATEGORIES_LIST_LAST_ITEM_ID}
-        itemIDAbove={
+        aboveID={
           category.subcategories.order[category.subcategories.order.length - 1]
             ? category.subcategories.order[category.subcategories.order.length - 1]
             : ''

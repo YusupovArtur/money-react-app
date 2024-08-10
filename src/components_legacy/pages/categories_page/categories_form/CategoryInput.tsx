@@ -1,16 +1,18 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Input components
 import { ModalContainer } from 'shared/containers';
-import InputFormBar from 'entities/InputFormBar';
+import { InputFormControl } from 'entities/InputFormBar';
 import { CategoryForm } from '../../../pages/categories_page/categories_form/CategoryForm';
 // Store
 import { ResponseHooksType, useAppDispatch } from 'store';
 import { addCategory, CategoryAddType } from 'store/slices/categoriesSlice';
 
-export const CategoryInput: FC<{
-  isShowInput: boolean;
-  setIsShowInput: Dispatch<SetStateAction<boolean>>;
-}> = ({ isShowInput, setIsShowInput }) => {
+interface CategoryInputProps {
+  isOpened: boolean;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+}
+
+export const CategoryInput: FC<CategoryInputProps> = ({ isOpened, setIsOpened }) => {
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState<CategoryAddType>({
@@ -26,11 +28,11 @@ export const CategoryInput: FC<{
   };
 
   return (
-    <ModalContainer isOpened={isShowInput} onCollapse={setIsShowInput} style={{ margin: 'auto' }}>
+    <ModalContainer isOpened={isOpened} onCollapse={setIsOpened} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
-        <InputFormBar
-          addButtonsLabel="Категория"
-          setIsOpened={setIsShowInput}
+        <InputFormControl
+          caption="Категория"
+          setIsOpened={setIsOpened}
           onClear={() =>
             setFormData({
               name: '',
@@ -41,7 +43,7 @@ export const CategoryInput: FC<{
             })
           }
           onAdd={addFunction}
-        ></InputFormBar>
+        ></InputFormControl>
         <CategoryForm formData={formData} setFormData={setFormData} />
       </div>
     </ModalContainer>

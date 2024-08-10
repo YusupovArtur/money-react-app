@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Subcategory components_legacy
 import { ModalContainer } from 'shared/containers';
-import EditFormBar from 'entities/EditFormBar';
+import { EditFromControl } from 'entities/EditFormBar';
 import { SubcategoryOpenedInfo } from '../../../pages/categories_page/subcategories_list/SubcategoryOpenedInfo';
 import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 // Store
@@ -58,16 +58,14 @@ export const SubcategoryOpened: FC<{
   return (
     <ModalContainer isOpened={isOpened} onCollapse={isEdit ? undefined : setIsOpened} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '40rem', width: '100vw' }} className="d-flex flex-column bg-body-tertiary shadow-sm p-3 rounded-4">
-        <EditFormBar
-          onClose={() => setIsOpened(false)}
+        <EditFromControl
           onClear={clearFunction}
           onDelete={deleteFunction}
           onUpdate={updateFunction}
-          itemType="подкатегорию"
-          itemName={subcategory.name}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
-        ></EditFormBar>
+          captions={{ itemType: 'подкатегорию', itemName: subcategory.name }}
+        ></EditFromControl>
         {isEdit ? (
           <SubcategoryForm formData={formData} setFormData={setFormData} />
         ) : (

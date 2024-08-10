@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import useMounted from './hooks/useMounted';
 import './style/animations.scss';
 
-const ANIMATION_TIMEOUT = 150;
+export const MODAL_CONTAINER_ANIMATION_DURATION = 150;
 
 interface ModalContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -21,7 +21,7 @@ export const ModalContainer: FC<ModalContainerProps> = ({
   ...props
 }) => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
-  const isMounted = useMounted({ isOpened, animationTimeout: ANIMATION_TIMEOUT });
+  const isMounted = useMounted({ isOpened, duration: MODAL_CONTAINER_ANIMATION_DURATION });
   const isMousePressedDown = useRef<boolean>(false);
 
   const handleBackoutMouseDown = (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {

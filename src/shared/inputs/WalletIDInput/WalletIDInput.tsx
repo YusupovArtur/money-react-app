@@ -26,7 +26,7 @@ export const WalletIDInput: FC<{
   return (
     <DropdownContainer
       menuAlignment={{ x: 'right', y: 'bottom' }}
-      modalForMobileDevice={{ isEnable: true }}
+      modalForMobileDevice={true}
       DropdownToggle={
         <ButtonWithIcon caption={wallet ? wallet.name : 'Счет не выбран'} className="btn-body dropdown-toggle">
           {wallet ? (

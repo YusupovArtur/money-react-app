@@ -10,7 +10,7 @@ import { UserPhotoEditForm } from 'pages/ProfilePage/features/UserPhotoChangeBut
 import UserPhoto from 'entities/UserPhoto';
 import { PageContentWrapper } from 'shared/wrappers';
 
-const ProfilePage: FC = () => {
+export const ProfilePage: FC = () => {
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
 
   if (!isAuthorised) {
@@ -26,5 +26,3 @@ const ProfilePage: FC = () => {
     </PageContentWrapper>
   );
 };
-
-export default ProfilePage;

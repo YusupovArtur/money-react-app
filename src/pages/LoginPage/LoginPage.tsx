@@ -15,7 +15,7 @@ import { AlertMessage, PageLoadingSpinner } from 'shared/ui';
 import { PageContentWrapper } from 'shared/wrappers';
 import { SignupFormDataType } from './types/SignupFormDataType';
 
-const LoginPage: FC = () => {
+export const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
 
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
@@ -90,4 +90,3 @@ const LoginPage: FC = () => {
     </PageContentWrapper>
   );
 };
-export default LoginPage;

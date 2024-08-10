@@ -11,7 +11,7 @@ import { addDeleteTransactionExtraReducers } from 'store/slices/transactionsSlic
 const initialState: TransactionsStateType = {
   list: {},
   responseState: {
-    isLoading: false,
+    isLoading: undefined,
     errorMessage: '',
   },
 };

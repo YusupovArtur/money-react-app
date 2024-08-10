@@ -12,18 +12,18 @@ interface IconNameInputProps {
   iconName: string;
   setIconName: (iconName: string) => void;
   iconOptions: string[][];
+  id?: string;
   iconSize?: `${number}rem`;
-  rowLength?: number;
-  isDivider?: boolean;
+  optionsStyle?: { rowLength?: number; isDivider?: boolean };
 }
 
 export const IconNameInput: FC<IconNameInputProps> = ({
   iconName,
   setIconName,
   iconOptions,
+  id,
   iconSize = '2rem',
-  rowLength = 7,
-  isDivider = false,
+  optionsStyle: { rowLength = 7, isDivider = false } = {},
 }) => {
   const leveledIconNameOptions = getLeveledIconNameOptions(iconOptions, rowLength);
   const optionIconSize = '2.2rem';
@@ -36,39 +36,43 @@ export const IconNameInput: FC<IconNameInputProps> = ({
   };
 
   return (
-    <DropdownContainer
-      modalForMobileDevice={{ isEnable: true }}
-      menuAlignment={{ x: 'right', y: 'bottom' }}
-      DropdownToggle={
-        <ButtonWithIcon className="dropdown-toggle btn-body">
-          <ContentIcon iconName={iconName} iconSize={iconSize} />
-        </ButtonWithIcon>
-      }
-      DropdownMenu={
-        <DropdownMenuWrapper style={{ maxHeight: '15rem', overflowY: 'auto' }}>
-          {leveledIconNameOptions.map((iconOptionsGroup, index) => (
-            <div key={getIconGroupID(iconOptionsGroup)}>
-              {iconOptionsGroup.map((iconOptionsRow) => (
-                <div key={getIconRowID(iconOptionsRow)} className="d-flex">
-                  {iconOptionsRow.map((iconNameOption) => (
-                    <ButtonWithIcon
-                      key={iconNameOption}
-                      onClick={() => setIconName(iconNameOption)}
-                      style={{ padding: iconName === iconNameOption ? '0.4rem' : undefined }}
-                      className={`hover-scale-10 btn-body p-0 m-1 ${
-                        iconName === iconNameOption ? 'selected bordered-strong' : ''
-                      }`}
-                    >
-                      <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
-                    </ButtonWithIcon>
-                  ))}
-                </div>
-              ))}
-              {isDivider && index < iconOptions.length - 1 && <IconOptionsDivider />}
-            </div>
-          ))}
-        </DropdownMenuWrapper>
-      }
-    />
+    <>
+      <input id={id} type="text" value={iconName || ''} readOnly={true} style={{ display: 'none' }} />
+
+      <DropdownContainer
+        modalForMobileDevice={true}
+        menuAlignment={{ x: 'right', y: 'bottom' }}
+        DropdownToggle={
+          <ButtonWithIcon className="dropdown-toggle btn-body">
+            <ContentIcon iconName={iconName} iconSize={iconSize} />
+          </ButtonWithIcon>
+        }
+        DropdownMenu={
+          <DropdownMenuWrapper style={{ maxHeight: '15rem', overflowY: 'auto' }}>
+            {leveledIconNameOptions.map((iconOptionsGroup, index) => (
+              <div key={getIconGroupID(iconOptionsGroup)}>
+                {iconOptionsGroup.map((iconOptionsRow) => (
+                  <div key={getIconRowID(iconOptionsRow)} className="d-flex">
+                    {iconOptionsRow.map((iconNameOption) => (
+                      <ButtonWithIcon
+                        key={iconNameOption}
+                        onClick={() => setIconName(iconNameOption)}
+                        style={{ padding: iconName === iconNameOption ? '0.4rem' : undefined }}
+                        className={`hover-scale-10 btn-body p-0 m-1 ${
+                          iconName === iconNameOption ? 'selected bordered-strong' : ''
+                        }`}
+                      >
+                        <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
+                      </ButtonWithIcon>
+                    ))}
+                  </div>
+                ))}
+                {isDivider && index < iconOptions.length - 1 && <IconOptionsDivider />}
+              </div>
+            ))}
+          </DropdownMenuWrapper>
+        }
+      />
+    </>
   );
 };

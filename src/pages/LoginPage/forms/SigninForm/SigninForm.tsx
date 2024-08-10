@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import { emailValidator, passwordValidator } from 'shared/helpers/validators';
+import { emailValidator, passwordValidator } from 'shared/hooks/useFormValidation/validators';
 import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType';
 // UI
 import { FormValidationFeedback } from 'shared/ui';
@@ -99,9 +99,15 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
           Запомнить меня
         </label>
       </div>
-      <button disabled={!isValid} className="btn btn-primary align-self-stretch">
-        Войти
-      </button>
+      <div
+        onClick={() => setIsValidate({ email: true, password: true })}
+        style={{ cursor: 'pointer' }}
+        className="d-flex flex-column align-self-stretch"
+      >
+        <button disabled={!isValid} className="btn btn-primary align-self-stretch">
+          Войти
+        </button>
+      </div>
     </form>
   );
 };

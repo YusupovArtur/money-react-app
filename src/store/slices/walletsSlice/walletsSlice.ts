@@ -11,7 +11,7 @@ const initialState: WalletsStateType = {
   list: {},
   order: [],
   responseState: {
-    isLoading: false,
+    isLoading: undefined,
     errorMessage: '',
   },
 };

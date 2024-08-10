@@ -35,7 +35,7 @@ const CategoriesPage: FC = () => {
         <CategoriesList categoriesOrder={categoriesOrderFiltered} setOpenedCategoryID={setOpenedCategoryID} />
       </PageContentWrapper>
 
-      <CategoryInput isShowInput={isShowInput} setIsShowInput={setIsShowInput} />
+      <CategoryInput isOpened={isShowInput} setIsOpened={setIsShowInput} />
     </>
   );
 };

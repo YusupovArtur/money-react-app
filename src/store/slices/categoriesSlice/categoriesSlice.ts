@@ -17,7 +17,7 @@ const initialState: CategoriesStateType = {
   list: {},
   order: [],
   responseState: {
-    isLoading: false,
+    isLoading: undefined,
     errorMessage: '',
   },
 };

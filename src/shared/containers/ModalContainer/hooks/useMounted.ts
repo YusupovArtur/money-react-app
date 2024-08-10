@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useMounted = (props: { isOpened: boolean; animationTimeout: number }) => {
-  const { isOpened, animationTimeout } = props;
+const useMounted = (props: { isOpened: boolean; duration: number }) => {
+  const { isOpened, duration } = props;
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -15,7 +15,7 @@ const useMounted = (props: { isOpened: boolean; animationTimeout: number }) => {
       setTimeout(() => {
         timeoutRef.current = null;
         setIsMounted(false);
-      }, animationTimeout);
+      }, duration);
     }
 
     return () => {

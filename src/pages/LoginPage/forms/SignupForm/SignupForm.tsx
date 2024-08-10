@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'store';
 import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import { emailValidator, passwordValidator, usernameValidator } from 'shared/helpers/validators';
+import { emailValidator, passwordValidator, usernameValidator } from 'shared/hooks/useFormValidation/validators';
 import { password2Validator } from 'pages/LoginPage/forms/SignupForm/helpers/password2Validator.ts';
 import { SignupFormDataType } from 'pages/LoginPage/types/SignupFormDataType.ts';
 // UI
@@ -41,6 +41,7 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
   return (
     <form
       onSubmit={(event) => {
+        console.log('submit');
         event.preventDefault();
         if (onSubmit && isValid) onSubmit();
       }}
@@ -78,10 +79,10 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
           value={formData.username}
           onChange={(event) => {
             setFormData((state) => ({ ...state, username: event.target.value }));
-            setIsValidate((state) => ({ ...state, username: true }));
+            setIsValidate((state) => ({ ...state, name: true }));
           }}
           onFocus={() => {
-            setIsValidate((state) => ({ ...state, username: true }));
+            setIsValidate((state) => ({ ...state, name: true }));
           }}
           className={getValidityClassName(fieldValidities.username)}
           id="signupUsername"
@@ -147,9 +148,15 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
           Запомнить меня
         </label>
       </div>
-      <button disabled={!isValid} className="btn btn-primary align-self-stretch">
-        Зарегистрироваться
-      </button>
+      <div
+        onClick={() => setIsValidate({ email: true, username: true, password: true, password2: true })}
+        style={{ cursor: 'pointer' }}
+        className="d-flex flex-column align-self-stretch"
+      >
+        <button disabled={!isValid} className="btn btn-primary align-self-stretch">
+          Зарегистрироваться
+        </button>
+      </div>
     </form>
   );
 };

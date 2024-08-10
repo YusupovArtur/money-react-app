@@ -25,8 +25,7 @@ export const SubcategoryForm: FC<{
           iconName={formData.iconName}
           setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconOptions={CATEGORY_ICON_OPTIONS}
-          rowLength={7}
-          isDivider={true}
+          optionsStyle={{ rowLength: 7, isDivider: true }}
         ></IconNameInput>
       </div>
 

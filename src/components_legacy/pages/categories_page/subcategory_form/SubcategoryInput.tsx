@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Input components
 import { ModalContainer } from 'shared/containers';
-import InputFormBar from 'entities/InputFormBar';
+import { InputFormControl } from 'entities/InputFormBar';
 import { SubcategoryForm } from '../../../pages/categories_page/subcategory_form/SubcategoryForm';
 // Store
 import { useAppDispatch } from 'store';
@@ -38,12 +38,12 @@ export const SubcategoryInput: FC<SubcategoryInputProps> = ({
   return (
     <ModalContainer isOpened={isShowInput} onCollapse={setIsShowInput} style={{ margin: 'auto' }}>
       <div style={{ maxWidth: '35rem', width: '100vw' }} className="bg-body-tertiary shadow-sm p-3 rounded-4">
-        <InputFormBar
-          addButtonsLabel="Подкатегория"
+        <InputFormControl
+          caption="Подкатегория"
           setIsOpened={setIsShowInput}
           onClear={() => setFormData({ name: '', iconName: 'Card', description: '' })}
           onAdd={addFunction}
-        ></InputFormBar>
+        ></InputFormControl>
         <SubcategoryForm formData={formData} setFormData={setFormData} />
       </div>
     </ModalContainer>

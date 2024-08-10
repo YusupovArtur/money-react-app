@@ -15,7 +15,7 @@ export const SubcategoryOpenedInfo: FC<{ subcategory: SubcategoryType; color: st
 
       {/* Иконка подкатегории */}
       <span className="text-body-tertiary mt-2">Иконка</span>
-      <div className="d-flex justify-content-start align-items-center">
+      <div className="d-flex align-items-center">
         <div
           className="d-flex justify-content-center align-items-center rounded-circle"
           style={{ backgroundColor: color, width: `${1.415 * iconSize}rem`, height: `${1.415 * iconSize}rem` }}

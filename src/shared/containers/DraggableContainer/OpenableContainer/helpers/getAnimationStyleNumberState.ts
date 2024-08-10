@@ -1,14 +1,16 @@
-import { AnimationStyleNumberState, AnimationStyleState, Size } from '../types/AnimationStateTypes.ts';
+import { SizeType } from '../types/SizeType.ts';
+import { AnimationStyleType } from '../types/AnimationStyleType.ts';
+import { AnimationStyleNumberType } from '../types/AnimationStyleNumberType.ts';
 
-export const getAnimationStyleNumberState = (style: AnimationStyleState): AnimationStyleNumberState => {
-  const numberStyle: AnimationStyleNumberState = {};
+export const getAnimationStyleNumberState = (style: AnimationStyleType): AnimationStyleNumberType => {
+  const numberStyle: AnimationStyleNumberType = {};
   for (const key in style) {
-    if (style[key as keyof AnimationStyleState] !== undefined) {
-      const field = style[key as keyof AnimationStyleState] as Size;
+    if (style[key as keyof AnimationStyleType] !== undefined) {
+      const field = style[key as keyof AnimationStyleType] as SizeType;
       if (typeof field === 'number') {
-        numberStyle[key as keyof AnimationStyleState] = field;
+        numberStyle[key as keyof AnimationStyleType] = field;
       } else {
-        numberStyle[key as keyof AnimationStyleState] = parseFloat(field) * (field.includes('rem') ? 16 : 1);
+        numberStyle[key as keyof AnimationStyleType] = parseFloat(field) * (field.includes('rem') ? 16 : 1);
       }
     }
   }

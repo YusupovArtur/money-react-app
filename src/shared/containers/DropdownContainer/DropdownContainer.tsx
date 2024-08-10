@@ -12,10 +12,13 @@ import getDeviceType from './helpers/getDeviceType';
 interface BaseDropdownContainerProps {
   DropdownToggle: ReactNode;
   DropdownMenu: ReactNode;
+
   isInsideClickClose?: boolean;
   isOutsideClickClose?: boolean;
+
   menuAlignment?: MenuAlignmentType;
-  modalForMobileDevice?: { isEnable: boolean; zIndex?: number };
+  zIndex?: number;
+  modalForMobileDevice?: boolean;
 }
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
@@ -33,12 +36,16 @@ type DropdownContainerProps = WithStateDropdownContainerProps | WithoutStateDrop
 export const DropdownContainer: FC<DropdownContainerProps> = ({
   DropdownToggle,
   DropdownMenu,
+
   isOpened: outerIsOpened,
   setIsOpened: outerSetIsOpened,
+
   isInsideClickClose = true,
   isOutsideClickClose = true,
+
   menuAlignment = { y: 'bottom', x: 'right' },
-  modalForMobileDevice: { isEnable = false, zIndex = 3 } = {},
+  zIndex = 3,
+  modalForMobileDevice = false,
 }) => {
   const [isOpened, setIsOpened] =
     outerIsOpened !== undefined && outerSetIsOpened ? [outerIsOpened, outerSetIsOpened] : useState<boolean>(false);
@@ -47,7 +54,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   const menuRef = useRef<HTMLSpanElement>(null);
 
   const [menuAlignmentStyle, setMenuAlignmentStyle] = useState<CSSProperties>(getMenuAlignmentStyle(menuAlignment));
-  const deviceType = isEnable ? getDeviceType() : 'desktop';
+  const deviceType = modalForMobileDevice ? getDeviceType() : 'desktop';
 
   const handleToggleClick = () => {
     setIsOpened(!isOpened);
@@ -104,7 +111,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
         <span
           onClick={handleMenuClick}
           ref={menuRef}
-          style={{ position: 'absolute', display: 'inline-block', ...menuAlignmentStyle }}
+          style={{ position: 'absolute', display: 'inline-block', zIndex, ...menuAlignmentStyle }}
         >
           {DropdownMenu}
         </span>

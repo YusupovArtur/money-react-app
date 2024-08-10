@@ -25,7 +25,7 @@ export const ModalWindowContainer: FC<ModalWindowContainerProps> = ({ children, 
 
   return (
     <ModalContainer onCollapse={onCollapse} {...props}>
-      <ModalContainerWrapper>
+      <ModalContainerWrapper style={{ maxWidth: '35rem', width: '100vw' }}>
         <button type="button" onClick={handleCloseButtonClick} className="btn-close align-self-end" aria-label="Close"></button>
         {children}
       </ModalContainerWrapper>
