@@ -17,7 +17,7 @@ interface SignupFormProps {
   onSubmit?: () => void;
 }
 
-const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) => {
+export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) => {
   const dispatch = useAppDispatch();
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
@@ -160,5 +160,3 @@ const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) =>
     </form>
   );
 };
-
-export default SignupForm;

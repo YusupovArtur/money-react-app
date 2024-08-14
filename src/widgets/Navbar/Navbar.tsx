@@ -4,8 +4,8 @@ import { Link, useLocation } from 'react-router-dom';
 // Store
 import { useAppSelector } from 'store';
 // UI
-import ThemeToggle from 'features/ThemeToggle';
-import UserPhoto from 'entities/UserPhoto';
+import { ThemeToggle } from 'features/ThemeToggle';
+import { UserPhoto } from 'entities/UserPhoto';
 
 // TODO: Change links style to more contrast
 export const Navbar: FC = () => {

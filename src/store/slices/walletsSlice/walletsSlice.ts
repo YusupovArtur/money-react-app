@@ -24,10 +24,12 @@ const walletSlice = createSlice({
     clearWallets(state) {
       state.list = {};
       state.order = [];
+      state.responseState = { isLoading: false, errorMessage: 'Вы не авторизованы' };
     },
     setWallets(state, action: PayloadAction<WalletsOrderedListType>) {
       state.list = action.payload.list;
       state.order = action.payload.order;
+      state.responseState = { isLoading: false, errorMessage: '' };
     },
     setWalletsResponseState(state, action: PayloadAction<ResponseStateType>) {
       state.responseState = action.payload;

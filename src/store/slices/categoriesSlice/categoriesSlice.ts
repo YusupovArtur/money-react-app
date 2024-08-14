@@ -30,10 +30,12 @@ const categoriesSlice = createSlice({
     clearCategories(state) {
       state.list = {};
       state.order = [];
+      state.responseState = { isLoading: false, errorMessage: 'Вы не авторизованы' };
     },
     setCategories(state, action: PayloadAction<CategoriesOrderedListType>) {
       state.list = action.payload.list;
       state.order = action.payload.order;
+      state.responseState = { isLoading: false, errorMessage: '' };
     },
     setCategoriesResponseState(state, action: PayloadAction<ResponseStateType>) {
       state.responseState = action.payload;

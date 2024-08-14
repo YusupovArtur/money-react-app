@@ -3,8 +3,8 @@ import { Dispatch, FC, MutableRefObject, SetStateAction, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'store';
 import { uploadUserPhoto } from 'store/slices/userSlice';
 // UI
-import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
-import { CloudPlusSVG, CrossIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG';
+import { AlertMessage, ButtonWithIconAndSpinner } from 'shared/ui';
+import { CloudPlusIcon } from 'pages/ProfilePage/features/UserPhotoChangeButton/ui/CloudPlusIcon.tsx';
 
 interface ImageFormControlButtonsProps {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;
@@ -30,26 +30,27 @@ export const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canv
 
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center mt-2">
-        <ButtonWithIconAndSpinner
-          onClick={handleUploadPhoto}
-          isLoading={isLoading}
-          caption="Сохранить"
-          className="btn btn-primary d-flex justify-content-center align-items-center me-2"
-        >
-          <CloudPlusSVG iconSize="1.5rem" />
-        </ButtonWithIconAndSpinner>
-        <ButtonWithIcon
-          onClick={() => {
-            setIsOpened(false);
-          }}
-          className="btn-danger"
-          disabled={isLoading}
-        >
-          <CrossIconSVG iconSize="1.5rem" />
-        </ButtonWithIcon>
-        <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2"></AlertMessage>
-      </div>
+      <ButtonWithIconAndSpinner
+        onClick={handleUploadPhoto}
+        isLoading={isLoading}
+        caption="Сохранить"
+        className="btn btn-primary mt-3"
+      >
+        <CloudPlusIcon iconSize="1.5rem" />
+      </ButtonWithIconAndSpinner>
+
+      {/*<ButtonWithIcon*/}
+      {/*  caption="Отмена"*/}
+      {/*  onClick={() => {*/}
+      {/*    setIsOpened(false);*/}
+      {/*  }}*/}
+      {/*  className="btn-secondary"*/}
+      {/*  disabled={isLoading}*/}
+      {/*>*/}
+      {/*  <CrossIconSVG iconSize="1.4rem" />*/}
+      {/*</ButtonWithIcon>*/}
+
+      <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2"></AlertMessage>
     </>
   );
 };

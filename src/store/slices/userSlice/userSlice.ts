@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAuth, sendEmailVerification } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
-import getUserState from 'store/slices/userSlice/helpers/getUserState';
 // Types
-import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 // Async Thunks
 import { addSigninWithEmailAndPasswordExtraReducers } from './asyncThunks/signinUserWithEmailAndPassword';
 import { addSignupWithEmailAndPasswordExtraReducers } from './asyncThunks/signupUserWithEmailAndPassword';

@@ -1,1 +1,1 @@
-export { default } from 'entities/UserPhoto/UserPhoto';
+export { UserPhoto } from './UserPhoto.tsx';

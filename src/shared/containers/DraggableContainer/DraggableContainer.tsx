@@ -5,28 +5,24 @@ import { useThrottledCallback } from 'shared/hooks';
 interface DraggableItemProps {
   id: string;
   children?: ReactElement;
+  isOpened: boolean;
   draggable?: boolean;
   onDrop: (dropID: string) => void;
   startID: string;
-  overID: string;
   setStartID: Dispatch<SetStateAction<string>>;
   setOverID: Dispatch<SetStateAction<string>>;
-  aboveID: string;
 }
 
 export const DraggableContainer: FC<DraggableItemProps> = ({
   id,
   children,
+  isOpened,
   draggable,
   onDrop,
   startID,
   setStartID,
-  overID,
   setOverID,
-  aboveID,
 }) => {
-  const isOpened = id === overID && id !== startID && aboveID !== startID;
-
   const y = useRef<number | null>(null);
   const dy = useRef<number>(0);
 
@@ -34,20 +30,6 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
   const containerPositionRef = useRef<number | null>(null);
   const containerDyRef = useRef<number>(0);
 
-  const duration = 33;
-  const throttledSetDy = useThrottledCallback((dy: number) => setDyState(dy), duration);
-  const throttledGetContainerPosition = useThrottledCallback(() => {
-    if (containerRef.current && containerPositionRef.current !== null) {
-      const rect = containerRef.current.getBoundingClientRect();
-      containerDyRef.current = containerPositionRef.current - rect.top;
-    }
-  }, duration);
-  const throttledGetChildrenPosition = useThrottledCallback((clientY) => {
-    if (y.current !== null) {
-      dy.current += clientY - y.current;
-      y.current = clientY;
-    }
-  }, duration);
   const [dyState, setDyState] = useState<number>(0);
 
   const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
@@ -65,12 +47,18 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
     setStartID(id);
   };
 
-  const handleDrag = (event: DragEvent<HTMLDivElement>) => {
-    throttledGetChildrenPosition(event.clientY);
-    throttledGetContainerPosition();
+  const handleDrag = useThrottledCallback((event: DragEvent<HTMLDivElement>) => {
+    if (y.current !== null) {
+      dy.current += event.clientY - y.current;
+      y.current = event.clientY;
+    }
+    if (containerRef.current && containerPositionRef.current !== null) {
+      const rect = containerRef.current.getBoundingClientRect();
+      containerDyRef.current = containerPositionRef.current - rect.top;
+    }
 
-    throttledSetDy(dy.current + containerDyRef.current);
-  };
+    setDyState(dy.current + containerDyRef.current);
+  }, 17);
 
   const handleDragOver = () => {
     setOverID((state) => {
@@ -106,7 +94,6 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         onDragOver={handleDragOver}
         onDragEnd={resetState}
         onDrop={handleDrop}
-        className={draggable ? undefined : 'pb-3'}
       >
         <OpenableContainer
           className={'bordered-emphasis rounded'}

@@ -71,11 +71,12 @@ const UsernameEditForm: FC = () => {
       className="mt-3"
     >
       <div className="position-relative mb-4">
-        <label htmlFor="signinEmail" className="form-label text-body user-select-none mb-1">
+        <label htmlFor="username" className="form-label text-body user-select-none mb-1">
           Имя
         </label>
         <div className="d-flex">
           <TextInput
+            id="username"
             value={formData.username}
             onChange={(event) => setFormData({ username: event.target.value })}
             onFocus={() => setIsValidate({ username: true })}

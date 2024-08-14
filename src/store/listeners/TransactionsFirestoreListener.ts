@@ -3,7 +3,7 @@ import { db } from 'app/firebase.ts';
 import { User } from 'firebase/auth';
 import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 // Store
-import { AppDispatch } from 'store';
+import { AppDispatch, useAppDispatch } from 'store';
 import {
   setTransactions,
   setTransactionsResponseState,
@@ -16,9 +16,9 @@ export class TransactionsFirestoreListener {
   listener: Unsubscribe | null = null;
   dispatch: AppDispatch;
 
-  constructor(dispatch: AppDispatch) {
+  constructor() {
+    this.dispatch = useAppDispatch();
     this.listener = null;
-    this.dispatch = dispatch;
   }
 
   unsubscribe() {
@@ -44,7 +44,6 @@ export class TransactionsFirestoreListener {
             });
 
             this.dispatch(setTransactions(list));
-            this.dispatch(setTransactionsResponseState({ isLoading: false, errorMessage: '' }));
           }
         },
         (error) => {

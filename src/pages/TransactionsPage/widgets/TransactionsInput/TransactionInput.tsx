@@ -4,7 +4,7 @@ import { ResponseHooksType, useAppDispatch } from 'store/index.ts';
 import { addTransaction, TransactionType } from 'store/slices/transactionsSlice';
 // Input components
 import { ModalContainer } from 'shared/containers';
-import { InputFormControl } from 'entities/InputFormBar';
+import { InputFormControl } from 'entities/InputFormControl';
 import TransactionForm from '../../forms/TransactionForm.tsx';
 import { dateStateType } from 'components_legacy/small_components/date_input/types.ts';
 import { getDateStateFromTimestamp } from 'components_legacy/small_components/date_input/functions.ts';

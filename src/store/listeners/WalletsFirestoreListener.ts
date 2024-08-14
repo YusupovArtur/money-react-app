@@ -3,7 +3,7 @@ import { db } from 'app/firebase.ts';
 import { User } from 'firebase/auth';
 import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 // Store
-import { AppDispatch } from 'store';
+import { AppDispatch, useAppDispatch } from 'store';
 import { getWalletsOrderedList, setWallets, setWalletsResponseState } from 'store/slices/walletsSlice';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
@@ -11,9 +11,9 @@ export class WalletsFirestoreListener {
   listener: Unsubscribe | null = null;
   dispatch: AppDispatch;
 
-  constructor(dispatch: AppDispatch) {
+  constructor() {
+    this.dispatch = useAppDispatch();
     this.listener = null;
-    this.dispatch = dispatch;
   }
 
   unsubscribe() {
@@ -37,13 +37,14 @@ export class WalletsFirestoreListener {
             const orderedList = getWalletsOrderedList(querySnapshot);
 
             this.dispatch(setWallets(orderedList));
-            this.dispatch(setWalletsResponseState({ isLoading: false, errorMessage: '' }));
           }
         },
         (error) => {
           this.dispatch(setWalletsResponseState({ isLoading: false, errorMessage: getErrorMessage(error.message) }));
         },
       );
+    } else {
+      this.dispatch(setWalletsResponseState({ isLoading: false, errorMessage: 'Вы не авторизованы' }));
     }
   }
 }

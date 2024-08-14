@@ -1,8 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 import { getErrorMessage, ResponseHooksType } from 'store';
 import { getAuth, signOut } from 'firebase/auth';
-import getUserState from '../helpers/getUserState.ts';
 
 export const logoutUser = createAsyncThunk<UserStateType, ResponseHooksType, { rejectValue: string }>(
   'user/logoutUser',

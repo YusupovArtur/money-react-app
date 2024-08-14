@@ -16,7 +16,7 @@ interface SigninFormProps {
   onSubmit?: () => void;
 }
 
-const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) => {
+export const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) => {
   const dispatch = useAppDispatch();
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
@@ -111,5 +111,3 @@ const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) =>
     </form>
   );
 };
-
-export default SigninForm;

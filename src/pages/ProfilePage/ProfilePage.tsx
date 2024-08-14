@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 import { UserLogoutButton } from 'pages/ProfilePage/features/UserLogoutButton/UserLogoutButton';
 import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm/UsernameEditForm';
 import { UserPhotoEditForm } from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoEditForm.tsx';
-import UserPhoto from 'entities/UserPhoto';
+import { UserPhoto } from 'entities/UserPhoto';
 import { PageContentWrapper } from 'shared/wrappers';
 
 export const ProfilePage: FC = () => {

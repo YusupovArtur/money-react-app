@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store
 import { useAppDispatch, useAppSelector } from 'store';
-import { CategoriesDatabaseListener, TransactionsFirestoreListener, WalletsFirestoreListener } from 'store/listeners';
+import { CategoriesFirestoreListener, TransactionsFirestoreListener, WalletsFirestoreListener } from 'store/listeners';
 import { clearUserState, getUserState, logoutUser, setUserState } from 'store/slices/userSlice';
 import { clearTransactions } from 'store/slices/transactionsSlice';
 import { clearWallets } from 'store/slices/walletsSlice';
@@ -15,9 +15,9 @@ export const useFirestoreChangesListener = () => {
   const auth = getAuth();
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
-  const TransactionsListener = new TransactionsFirestoreListener(dispatch);
-  const WalletsListener = new WalletsFirestoreListener(dispatch);
-  const CategoriesListener = new CategoriesDatabaseListener(dispatch);
+  const TransactionsListener = new TransactionsFirestoreListener();
+  const WalletsListener = new WalletsFirestoreListener();
+  const CategoriesListener = new CategoriesFirestoreListener();
 
   useEffect(() => {
     return () => {

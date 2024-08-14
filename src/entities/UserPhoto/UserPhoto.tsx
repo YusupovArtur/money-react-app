@@ -1,32 +1,27 @@
 import { FC, HTMLAttributes, useState } from 'react';
 import { useAppSelector } from 'store';
-import DefaultUserIcon from 'entities/UserPhoto/icons/DefaultUserIcon';
 
 interface UserPhotoProps extends HTMLAttributes<HTMLSpanElement> {
   iconSize?: string;
 }
 
-const UserPhoto: FC<UserPhotoProps> = ({ iconSize = '1.5rem', ...props }) => {
+export const UserPhoto: FC<UserPhotoProps> = ({ iconSize = '1.5rem', ...props }) => {
   const photoURL = useAppSelector((state) => state.user.userState.photoURL);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [url, setUrl] = useState(photoURL ? photoURL : '/images/person-circle.svg');
 
   return (
     <span {...props}>
       <img
-        src={photoURL ? photoURL : undefined}
-        style={{ width: iconSize, height: iconSize, objectFit: 'contain', display: isLoaded ? 'block' : 'none' }}
+        src={url}
+        style={{ width: iconSize, height: iconSize, objectFit: 'contain', display: 'block' }}
         className="rounded-circle"
-        onLoad={() => {
-          setIsLoaded(true);
-        }}
         onError={() => {
-          setIsLoaded(false);
+          setUrl('/images/person-circle.svg');
+          console.log('error');
         }}
         alt="Нет фото"
       />
-      {!isLoaded && <DefaultUserIcon iconSize={iconSize} />}
+      {/*{!isLoaded && <DefaultUserIcon iconSize={iconSize} />}*/}
     </span>
   );
 };
-
-export default UserPhoto;

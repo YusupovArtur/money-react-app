@@ -1,9 +1,10 @@
 import { CSSProperties, FC } from 'react';
-// Wallet components_legacy
-import { EntityIcon } from 'shared/ui';
-import { getStringBalance } from '../../helpers/getStringBalance.ts';
+// Store
 import { useAppSelector } from 'store/store.ts';
 import { useSearchParams } from 'react-router-dom';
+import { EntityIcon } from 'shared/ui';
+import { getStringBalance } from 'pages/WalletsPage/helpers/getStringBalance.ts';
+import { WalletTypeIcon } from 'pages/WalletsPage/ui/WalletTypeIcon.tsx';
 
 interface WalletItemProps {
   id: string;
@@ -15,7 +16,7 @@ const WalletsListItem: FC<WalletItemProps> = ({ id, style }) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const handleSetId = () => {
-    searchParams.set('id', id);
+    searchParams.set('walletID', id);
     setSearchParams(searchParams);
   };
 
@@ -31,14 +32,16 @@ const WalletsListItem: FC<WalletItemProps> = ({ id, style }) => {
     >
       <div className="d-flex align-items-center">
         <EntityIcon iconName={wallet.iconName} iconBackgroundColor={wallet.color} iconSize="2.2rem" />
-        <span className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
+        <span className="ms-2 text-body" style={{ fontSize: '1.05rem' }}>
           {wallet.name}
         </span>
       </div>
+
       <div className="d-flex align-items-center">
-        <span className="mx-2 text-body" style={{ fontSize: '1.05rem', fontWeight: 500 }}>
+        <span className="me-2 text-body" style={{ fontSize: '1.05rem', fontWeight: 500 }}>
           {getStringBalance(wallet.balance)} ₽
         </span>
+        <WalletTypeIcon type={wallet.type} />
       </div>
     </div>
   );

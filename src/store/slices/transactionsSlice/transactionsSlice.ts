@@ -23,9 +23,11 @@ const transactionsSlice = createSlice({
   reducers: {
     clearTransactions(state) {
       state.list = {};
+      state.responseState = { isLoading: false, errorMessage: 'Вы не авторизованы' };
     },
     setTransactions(state, action: PayloadAction<TransactionsListType>) {
       state.list = action.payload;
+      state.responseState = { isLoading: false, errorMessage: '' };
     },
     setTransactionsResponseState(state, action: PayloadAction<ResponseStateType>) {
       state.responseState = action.payload;

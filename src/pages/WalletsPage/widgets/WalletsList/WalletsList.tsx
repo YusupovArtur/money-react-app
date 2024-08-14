@@ -1,49 +1,71 @@
 import { FC, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
-import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID } from 'store/slices/walletsSlice';
+import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID, WalletType } from 'store/slices/walletsSlice';
 // Components
 import WalletsListItem from 'pages/WalletsPage/widgets/WalletsList/WalletsListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
+import { AlertMessage } from 'shared/ui';
 
-const WalletsList: FC = () => {
-  const walletsOrder = useAppSelector((state) => state.wallets.order);
+interface WalletsListProps {
+  filter?: WalletType['type'] | null;
+}
+
+const WalletsList: FC<WalletsListProps> = ({ filter }) => {
+  const wallets = useAppSelector((state) => state.wallets.list);
+  const order = useAppSelector((state) => state.wallets.order).filter((id) => (!filter ? true : filter === wallets[id].type));
+
+  const errorMessage = useAppSelector((state) => state.wallets.responseState.errorMessage);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
   const dispatch = useAppDispatch();
   const dropFunction = (dropID: string) => {
-    dispatch(shiftWallet({ walletID1: dragStartID, walletID2: dropID }));
+    dispatch(shiftWallet({ walletID1: dragStartID, walletID2: dropID, setIsLoading }));
   };
+
+  if (errorMessage) {
+    return <AlertMessage alertMessage={errorMessage} className="alert-danger my-3" />;
+  }
 
   return (
     <>
-      {walletsOrder.map((id, index) => (
-        <DraggableContainer
-          key={id}
-          onDrop={dropFunction}
-          draggable={true}
-          startID={dragStartID}
-          setStartID={setDragStartID}
-          overID={dragOverID}
-          setOverID={setDragOverID}
-          id={id}
-          aboveID={index === 0 ? 'no-above-item' : walletsOrder[index - 1]}
-        >
-          <WalletsListItem id={id} />
-        </DraggableContainer>
-      ))}
+      {order.map((id, index) => {
+        const aboveID = index === 0 ? undefined : order[index - 1];
+        const isOpened = id === dragOverID && id !== dragStartID && aboveID !== dragStartID;
+        return (
+          <DraggableContainer
+            key={id}
+            id={id}
+            draggable={!isLoading}
+            isOpened={isOpened}
+            onDrop={dropFunction}
+            startID={dragStartID}
+            setStartID={setDragStartID}
+            setOverID={setDragOverID}
+          >
+            <WalletsListItem id={id} />
+          </DraggableContainer>
+        );
+      })}
+
       <DraggableContainer
-        onDrop={dropFunction}
+        id={WALLETS_LIST_LAST_ITEM_ID}
         draggable={false}
+        isOpened={
+          WALLETS_LIST_LAST_ITEM_ID === dragOverID &&
+          WALLETS_LIST_LAST_ITEM_ID !== dragStartID &&
+          (order[order.length - 1] ? order[order.length - 1] : undefined) !== dragStartID
+        }
+        onDrop={dropFunction}
         startID={dragStartID}
         setStartID={setDragStartID}
-        overID={dragOverID}
         setOverID={setDragOverID}
-        id={WALLETS_LIST_LAST_ITEM_ID}
-        aboveID={walletsOrder[walletsOrder.length - 1] ? walletsOrder[walletsOrder.length - 1] : ''}
-      />
+      >
+        <div className="mb-3"></div>
+      </DraggableContainer>
     </>
   );
 };

@@ -3,9 +3,8 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
-import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
 // Types
-import { UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 
 export const signinUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,

@@ -3,7 +3,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { addWallet, WalletType } from 'store/slices/walletsSlice';
 import { ResponseHooksType, useAppDispatch } from 'store/index.ts';
 // Input components
-import { InputFormControl } from 'entities/InputFormBar';
+import { InputFormControl } from 'entities/InputFormControl';
 import { ModalWindowContainer } from 'shared/containers';
 import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
 import { useFormValidation } from 'shared/hooks';
@@ -30,13 +30,13 @@ const WalletInput: FC<{
     dispatch(addWallet({ wallet: formData, ...statusHooks }));
   };
 
-  const clearFunction = () => {
+  const onClear = () => {
     setIsValidate({ name: Boolean(formData.name), type: Boolean(formData.type), balance: !isNaN(formData.balance) });
     setFormData({ name: '', balance: 0, iconName: 'Card', color: '#ced4da', type: 'debit', description: '' });
   };
   const onClose = (isOpened: boolean) => {
     setIsOpened(isOpened);
-    clearFunction();
+    onClear();
   };
 
   // Validation
@@ -64,10 +64,10 @@ const WalletInput: FC<{
       <InputFormControl
         caption="Добавить счет"
         disabled={!validation.isValid}
-        setIsValidate={setValidateFields}
+        setValidate={setValidateFields}
         setIsOpened={setIsOpened}
-        onClear={clearFunction}
         onAdd={addFunction}
+        onClear={onClear}
       />
     </ModalWindowContainer>
   );

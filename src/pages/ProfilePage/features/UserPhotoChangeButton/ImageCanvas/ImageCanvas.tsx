@@ -1,5 +1,6 @@
 import { FC, MouseEvent, MutableRefObject, useRef, WheelEvent } from 'react';
 // Helpers
+import { useThrottledCallback } from 'shared/hooks';
 import { drawCanvasImage } from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage.ts';
 import { moveCanvasImageCoordinates } from './helpers/moveCanvasImageCoordiates.ts';
 
@@ -15,18 +16,22 @@ export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize
   const scale = useRef<number>(1);
   const isMousePressed = useRef<boolean>(false);
 
+  const throttledDrawImage = useThrottledCallback(() => {
+    drawCanvasImage(canvasRef.current, image.current, image_dx.current, image_dy.current, scale.current);
+  }, 17);
+
   const handleWheel = (event: WheelEvent<HTMLCanvasElement>) => {
     const d_scale_rescale = (scale.current * 0.1 * event.deltaY) / Math.abs(event.deltaY);
     scale.current = Math.min(Math.max(scale.current + d_scale_rescale, 0.2), 1);
 
     moveCanvasImageCoordinates(canvasRef.current, image.current, image_dx, image_dy, scale, event.movementX, event.movementY);
-    drawCanvasImage(canvasRef.current, image.current, image_dx.current, image_dy.current, scale.current);
+    throttledDrawImage();
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLCanvasElement, globalThis.MouseEvent>) => {
     if (isMousePressed.current) {
       moveCanvasImageCoordinates(canvasRef.current, image.current, image_dx, image_dy, scale, event.movementX, event.movementY);
-      drawCanvasImage(canvasRef.current, image.current, image_dx.current, image_dy.current, scale.current);
+      throttledDrawImage();
     }
   };
 

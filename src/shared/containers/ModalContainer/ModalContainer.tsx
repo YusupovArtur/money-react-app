@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode, useRef } from 'react';
+import { FC, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useMounted from './hooks/useMounted';
 import './style/animations.scss';
@@ -23,6 +23,21 @@ export const ModalContainer: FC<ModalContainerProps> = ({
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const isMounted = useMounted({ isOpened, duration: MODAL_CONTAINER_ANIMATION_DURATION });
   const isMousePressedDown = useRef<boolean>(false);
+
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && onCollapse) {
+        onCollapse(false);
+      }
+    };
+
+    if (isOpened) {
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isOpened, onCollapse]);
 
   const handleBackoutMouseDown = (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
     isMousePressedDown.current = event.button === 0;

@@ -10,7 +10,7 @@ import { AutoThemeIcon } from 'features/ThemeToggle/icons/LightThemeIcon';
 // Model
 import useThemeAutoModeListener from './model/useThemeAutoModeListener';
 
-const ThemeToggle: FC = () => {
+export const ThemeToggle: FC = () => {
   const themeMode = useAppSelector((store) => store.theme.themeMode);
   const dispatch = useAppDispatch();
   const iconSize: string = '1.5rem';
@@ -58,5 +58,3 @@ const ThemeToggle: FC = () => {
     </ButtonWithIcon>
   );
 };
-
-export default ThemeToggle;

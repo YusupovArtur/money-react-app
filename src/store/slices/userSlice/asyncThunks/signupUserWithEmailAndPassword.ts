@@ -1,11 +1,10 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 // Types
-import { updateUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, updateUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
 // Firebase
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
-import getUserState from 'store/slices/userSlice/helpers/getUserState.ts';
 
 export const signupUserWithEmailAndPassword = createAsyncThunk<
   UserStateType,

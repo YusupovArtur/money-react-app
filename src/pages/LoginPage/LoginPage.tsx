@@ -5,8 +5,8 @@ import { signinUserWithEmailAndPassword, signupUserWithEmailAndPassword } from '
 // Router
 import { Navigate } from 'react-router-dom';
 // Forms
-import SigninForm from './forms/SigninForm/SigninForm';
-import SignupForm from './forms/SignupForm/SignupForm';
+import { SigninForm } from './forms/SigninForm/SigninForm';
+import { SignupForm } from './forms/SignupForm/SignupForm';
 import SigninFormDataType from './types/SigninFormDataType';
 // Features
 import SigninWithPopupButtons from './features/SigninWithPopupButtons/SigninWithPopupButtons';

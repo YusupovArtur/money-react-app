@@ -175,6 +175,8 @@ export const MainPage: FC = () => {
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
+  // return <PagePlaceholder />;
+
   return (
     <PageContentWrapper style={{ margin: '0 auto', maxWidth: '30rem' }}>
       <button className="btn btn-primary" onClick={handleTestButton}>

@@ -1,11 +1,12 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Inputs
+import { WalletTypeInput } from './WalletTypeInput.tsx';
 import { ColorHexInput, IconNameInput, NumberInput, TextInput, WALLET_ICON_OPTIONS } from 'shared/inputs';
-import { WalletTypeInput } from './ui/WalletTypeInput.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import { FormValidationFeedback } from 'shared/ui';
 // Store
 import { WalletType } from 'store/slices/walletsSlice';
+// UI
+import { FormLabel, FormValidationFeedback } from 'shared/ui';
 
 interface WalletFormProps {
   formData: WalletType;
@@ -20,23 +21,21 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
   return (
     <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column mb-3">
       {/*Type*/}
-      <div className="d-flex flex-column position-relative mb-3 align-items-start">
-        <label htmlFor="type" className="form-label text-body user-select-none mb-1">
+      <div className="position-relative mb-3">
+        <FormLabel htmlFor="type" style={{ display: 'block' }}>
           Тип счета
-        </label>
+        </FormLabel>
         <WalletTypeInput
           id="type"
           type={formData.type}
           setType={(type: WalletType['type']) => setFormData((state) => ({ ...state, type: type }))}
         />
-        <FormValidationFeedback feedbackMessage={fieldFeedbacks.type} />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.type} className="align-items-start" />
       </div>
 
       {/*Name*/}
       <div className="position-relative mb-3">
-        <label htmlFor="name" className="form-label text-body user-select-none mb-1">
-          Имя счета
-        </label>
+        <FormLabel htmlFor="name">Имя счета</FormLabel>
         <TextInput
           id="name"
           value={formData.name}
@@ -54,9 +53,7 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Icon*/}
       <div className="position-relative mb-3">
-        <label htmlFor="iconName" className="form-label text-body user-select-none mb-1">
-          Иконка и цвет
-        </label>
+        <FormLabel htmlFor="iconName">Иконка и цвет</FormLabel>
         <div className="d-flex align-items-center">
           <IconNameInput
             id="iconName"
@@ -75,9 +72,7 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Balance*/}
       <div className="position-relative mb-3">
-        <label htmlFor="balance" className="form-label text-body user-select-none mb-1">
-          Сумма на счете
-        </label>
+        <FormLabel htmlFor="balance">Сумма на счете</FormLabel>
         <NumberInput
           id="balance"
           number={formData.balance}
@@ -95,9 +90,7 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Description*/}
       <div className="position-relative mb-3">
-        <label htmlFor="description" className="form-label text-body user-select-none mb-1">
-          Описание
-        </label>
+        <FormLabel htmlFor="description">Описание</FormLabel>
         <TextInput
           id="description"
           value={formData.description}

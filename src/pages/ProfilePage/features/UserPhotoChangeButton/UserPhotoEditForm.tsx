@@ -5,8 +5,7 @@ import { ImageCanvas } from 'pages/ProfilePage/features/UserPhotoChangeButton/Im
 // Helpers
 import { drawCanvasImage } from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage';
 // UI
-import { ModalContainer } from 'shared/containers';
-import { ModalContainerWrapper } from 'shared/wrappers';
+import { ModalWindowContainer } from 'shared/containers';
 import { ImageFormControlButtons } from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFormControlButtons/ImageFormControlButtons';
 
 export const UserPhotoEditForm: FC = () => {
@@ -29,12 +28,10 @@ export const UserPhotoEditForm: FC = () => {
     <>
       <ImageFileInput reader={reader} setIsOpened={setIsOpened} />
 
-      <ModalContainer isOpened={isOpened} onCollapse={setIsOpened} style={{ margin: 'auto' }}>
-        <ModalContainerWrapper>
-          <ImageCanvas canvasRef={canvasRef} image={image} />
-          <ImageFormControlButtons canvasRef={canvasRef} setIsOpened={setIsOpened} />
-        </ModalContainerWrapper>
-      </ModalContainer>
+      <ModalWindowContainer isOpened={isOpened} onClose={setIsOpened} onCollapse={setIsOpened} style={{ margin: 'auto' }}>
+        <ImageCanvas canvasRef={canvasRef} image={image} />
+        <ImageFormControlButtons canvasRef={canvasRef} setIsOpened={setIsOpened} />
+      </ModalWindowContainer>
     </>
   );
 };
