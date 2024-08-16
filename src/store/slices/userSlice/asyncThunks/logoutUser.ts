@@ -1,9 +1,9 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserStateType, UserType } from 'store/slices/userSlice';
 import { getErrorMessage, ResponseHooksType } from 'store';
 import { getAuth, signOut } from 'firebase/auth';
 
-export const logoutUser = createAsyncThunk<UserStateType, ResponseHooksType, { rejectValue: string }>(
+export const logoutUser = createAsyncThunk<UserType, ResponseHooksType, { rejectValue: string }>(
   'user/logoutUser',
   async (_props, { rejectWithValue }) => {
     const auth = getAuth();
@@ -18,7 +18,7 @@ export const logoutUser = createAsyncThunk<UserStateType, ResponseHooksType, { r
   },
 );
 
-export const addLogoutUserExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addLogoutUserExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(logoutUser.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);

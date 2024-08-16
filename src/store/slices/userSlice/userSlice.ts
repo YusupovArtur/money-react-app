@@ -3,7 +3,7 @@ import { getAuth, sendEmailVerification } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
 // Types
-import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserStateType, UserType } from 'store/slices/userSlice';
 // Async Thunks
 import { addSigninWithEmailAndPasswordExtraReducers } from './asyncThunks/signinUserWithEmailAndPassword';
 import { addSignupWithEmailAndPasswordExtraReducers } from './asyncThunks/signupUserWithEmailAndPassword';
@@ -12,6 +12,7 @@ import { addSigninUserWithGitHubExtraReducers } from './asyncThunks/signinUserWi
 import { addLogoutUserExtraReducers } from './asyncThunks/logoutUser';
 import { addUpdateUserExtraReducers } from './asyncThunks/updateUserState';
 import { addUpdateUserPhotoExtraReducers } from './asyncThunks/uploadUserPhoto.ts';
+import { addFetchPhotoDataURLExtraReducers } from 'store/slices/userSlice/asyncThunks/fetchPhotoDataURL.ts';
 
 export const verifyEmail = createAsyncThunk<void, ResponseHooksType>('user/verifyEmail', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;
@@ -35,9 +36,17 @@ export const verifyEmail = createAsyncThunk<void, ResponseHooksType>('user/verif
   }
 });
 
-const initialState: UserSliceStateType = {
-  userState: { isUserAuthorised: false, email: null, username: null, id: null, isEmailVerified: false, photoURL: null },
+const initialState: UserStateType = {
+  userState: {
+    isUserAuthorised: false,
+    email: null,
+    username: null,
+    id: null,
+    isEmailVerified: false,
+    photoURL: null,
+  },
   isShouldRemember: false,
+  photoDataURL: null,
 };
 
 const userSlice = createSlice({
@@ -48,11 +57,14 @@ const userSlice = createSlice({
     setIsRemember(state, action: PayloadAction<boolean>) {
       state.isShouldRemember = action.payload;
     },
-    setUserState(state, action: PayloadAction<UserStateType>) {
+    setUserState(state, action: PayloadAction<UserType>) {
       state.userState = action.payload;
     },
     clearUserState(state) {
       state.userState = getUserState(null);
+    },
+    setPhotoDataURL(state, action: PayloadAction<UserStateType['photoDataURL']>) {
+      state.photoDataURL = action.payload;
     },
   },
 
@@ -64,8 +76,9 @@ const userSlice = createSlice({
     addLogoutUserExtraReducers(builder);
     addUpdateUserExtraReducers(builder);
     addUpdateUserPhotoExtraReducers(builder);
+    addFetchPhotoDataURLExtraReducers(builder);
   },
 });
 
-export const { setUserState, clearUserState, setIsRemember } = userSlice.actions;
+export const { setUserState, clearUserState, setIsRemember, setPhotoDataURL } = userSlice.actions;
 export default userSlice.reducer;

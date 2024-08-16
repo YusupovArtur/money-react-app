@@ -4,10 +4,10 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
 // Types
-import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserStateType, UserType } from 'store/slices/userSlice';
 
 export const signinUserWithEmailAndPassword = createAsyncThunk<
-  UserStateType,
+  UserType,
   ResponseHooksType & { email: string; password: string },
   { rejectValue: string }
 >('user/signinWithEmailAndPassword', async function (props, { rejectWithValue }) {
@@ -24,7 +24,7 @@ export const signinUserWithEmailAndPassword = createAsyncThunk<
     });
 });
 
-export const addSigninWithEmailAndPasswordExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addSigninWithEmailAndPasswordExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(signinUserWithEmailAndPassword.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);

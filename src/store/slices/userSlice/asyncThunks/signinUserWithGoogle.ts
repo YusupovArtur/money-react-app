@@ -4,9 +4,9 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
 // Types
-import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserStateType, UserType } from 'store/slices/userSlice';
 
-export const signinUserWithGoogle = createAsyncThunk<UserStateType, ResponseHooksType, { rejectValue: string }>(
+export const signinUserWithGoogle = createAsyncThunk<UserType, ResponseHooksType, { rejectValue: string }>(
   'user/signinWithGoogle',
   async (_props, { rejectWithValue }) => {
     const auth = getAuth();
@@ -23,7 +23,7 @@ export const signinUserWithGoogle = createAsyncThunk<UserStateType, ResponseHook
   },
 );
 
-export const addSigninUserWithGoogleExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addSigninUserWithGoogleExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(signinUserWithGoogle.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);

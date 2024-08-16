@@ -1,9 +1,9 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { getUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, UserStateType, UserType } from 'store/slices/userSlice';
 import { getErrorMessage, ResponseHooksType } from 'store';
 import { getAuth, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 
-export const signinUserWithGitHub = createAsyncThunk<UserStateType, ResponseHooksType, { rejectValue: string }>(
+export const signinUserWithGitHub = createAsyncThunk<UserType, ResponseHooksType, { rejectValue: string }>(
   'user/signinWithGitHub',
   async (_props, { rejectWithValue }) => {
     const auth = getAuth();
@@ -20,7 +20,7 @@ export const signinUserWithGitHub = createAsyncThunk<UserStateType, ResponseHook
   },
 );
 
-export const addSigninUserWithGitHubExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addSigninUserWithGitHubExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(signinUserWithGitHub.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);

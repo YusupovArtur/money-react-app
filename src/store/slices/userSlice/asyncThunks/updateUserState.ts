@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { getErrorMessage, ResponseHooksType } from 'store';
 import { getAuth, updateProfile } from 'firebase/auth';
-import { UserSliceStateType } from 'store/slices/userSlice';
+import { UserStateType } from 'store/slices/userSlice';
 
 export const updateUserState = createAsyncThunk<
   { username: string | null | undefined; photoURL: string | null | undefined },
@@ -24,7 +24,7 @@ export const updateUserState = createAsyncThunk<
   }
 });
 
-export const addUpdateUserExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addUpdateUserExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(updateUserState.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);

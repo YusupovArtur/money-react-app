@@ -1,6 +1,5 @@
 import { cloneElement, Dispatch, DragEvent, FC, ReactElement, SetStateAction, useRef, useState } from 'react';
 import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
-import { useThrottledCallback } from 'shared/hooks';
 
 interface DraggableItemProps {
   id: string;
@@ -47,7 +46,7 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
     setStartID(id);
   };
 
-  const handleDrag = useThrottledCallback((event: DragEvent<HTMLDivElement>) => {
+  const handleDrag = (event: DragEvent<HTMLDivElement>) => {
     if (y.current !== null) {
       dy.current += event.clientY - y.current;
       y.current = event.clientY;
@@ -58,7 +57,10 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
     }
 
     setDyState(dy.current + containerDyRef.current);
-  }, 17);
+  };
+  const requestAnimationFrameHandleDrag = (event: DragEvent<HTMLDivElement>) => {
+    requestAnimationFrame(() => handleDrag(event));
+  };
 
   const handleDragOver = () => {
     setOverID((state) => {
@@ -90,7 +92,7 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         ref={containerRef}
         draggable={draggable}
         onDragStart={handleDragStart}
-        onDrag={handleDrag}
+        onDrag={requestAnimationFrameHandleDrag}
         onDragOver={handleDragOver}
         onDragEnd={resetState}
         onDrop={handleDrop}

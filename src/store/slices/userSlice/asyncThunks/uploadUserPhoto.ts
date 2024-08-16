@@ -2,28 +2,33 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { storage } from 'app/firebase.ts';
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
-import { updateUserState, UserSliceStateType } from 'store/slices/userSlice';
+import { setPhotoDataURL, updateUserState, UserStateType } from 'store/slices/userSlice';
 import { getErrorMessage, ResponseHooksType } from 'store';
 
 export const uploadUserPhoto = createAsyncThunk<
   void,
-  ResponseHooksType & { imageDataURL: string },
+  ResponseHooksType & { photoDataURL: string },
   {
     rejectValue: string;
   }
 >('user/uploadUserPhoto', async (props, { dispatch, rejectWithValue }) => {
-  const { imageDataURL, setIsLoading, setErrorMessage, onFulfilled } = props;
+  const { photoDataURL, ...responseHooks } = props;
   const auth = getAuth();
 
   if (auth.currentUser) {
     const userID = auth.currentUser.uid;
     const storageRef = ref(storage, `users_photos/${userID}/profile_photo`);
 
-    return await uploadString(storageRef, imageDataURL, 'data_url')
+    return await uploadString(storageRef, photoDataURL, 'data_url')
       .then((snapshot) => {
         getDownloadURL(snapshot.ref)
           .then((url) => {
-            dispatch(updateUserState({ photoURL: url, setIsLoading, setErrorMessage, onFulfilled }));
+            return dispatch(updateUserState({ photoURL: url, ...responseHooks }));
+          })
+          .then((result) => {
+            if (updateUserState.fulfilled.match(result)) {
+              dispatch(setPhotoDataURL(photoDataURL));
+            }
           })
           .catch((error) => {
             return rejectWithValue(getErrorMessage(error.code));
@@ -37,12 +42,15 @@ export const uploadUserPhoto = createAsyncThunk<
   }
 });
 
-export const addUpdateUserPhotoExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addUpdateUserPhotoExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(uploadUserPhoto.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
+    // .addCase(uploadUserPhoto.fulfilled, (state, action) => {
+    //   state.photoDataURL = action.meta.arg.photoDataURL;
+    // })
     .addCase(uploadUserPhoto.rejected, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage && action.payload !== undefined) action.meta.arg.setErrorMessage(action.payload);

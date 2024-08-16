@@ -16,7 +16,7 @@ export const Navbar: FC = () => {
     <nav className="sticky-top z-1 navbar navbar-expand-sm bg-body-tertiary shadow-sm">
       <div className="container-fluid">
         <Link className="navbar-brand d-flex justify-content-center" to={'/'}>
-          <img style={{ width: '1.7rem', height: '1.7rem' }} src="/images/icon_chart.png" alt="2Money" />
+          <img style={{ width: '1.7rem', height: '1.7rem' }} src="/images/chart-icon.png" alt="2Money" />
         </Link>
 
         <button

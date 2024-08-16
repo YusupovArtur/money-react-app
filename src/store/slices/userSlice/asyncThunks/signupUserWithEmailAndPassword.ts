@@ -1,13 +1,13 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 // Types
-import { getUserState, updateUserState, UserSliceStateType, UserStateType } from 'store/slices/userSlice';
+import { getUserState, updateUserState, UserStateType, UserType } from 'store/slices/userSlice';
 // Firebase
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // Helpers
 import { getErrorMessage, ResponseHooksType } from 'store';
 
 export const signupUserWithEmailAndPassword = createAsyncThunk<
-  UserStateType,
+  UserType,
   ResponseHooksType & { email: string; password: string; username?: string },
   { rejectValue: string }
 >('user/signupUserWithEmailAndPassword', async (props, { dispatch, rejectWithValue }) => {
@@ -27,7 +27,7 @@ export const signupUserWithEmailAndPassword = createAsyncThunk<
     });
 });
 
-export const addSignupWithEmailAndPasswordExtraReducers = (builder: ActionReducerMapBuilder<UserSliceStateType>) => {
+export const addSignupWithEmailAndPasswordExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(signupUserWithEmailAndPassword.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);

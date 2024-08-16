@@ -8,6 +8,7 @@ import { clearUserState, getUserState, logoutUser, setUserState } from 'store/sl
 import { clearTransactions } from 'store/slices/transactionsSlice';
 import { clearWallets } from 'store/slices/walletsSlice';
 import { clearCategories } from 'store/slices/categoriesSlice';
+import { fetchPhotoDataURL } from 'store/slices/userSlice/asyncThunks/fetchPhotoDataURL.ts';
 
 export const useFirestoreChangesListener = () => {
   const dispatch = useAppDispatch();
@@ -39,6 +40,7 @@ export const useFirestoreChangesListener = () => {
       WalletsListener.subscribe(user);
       CategoriesListener.subscribe(user);
       dispatch(setUserState(getUserState(user)));
+      dispatch(fetchPhotoDataURL({}));
     } else {
       TransactionsListener.unsubscribe();
       WalletsListener.unsubscribe();

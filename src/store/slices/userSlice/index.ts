@@ -1,5 +1,5 @@
 export { default } from './userSlice.ts';
-export { setUserState, clearUserState, setIsRemember } from './userSlice.ts';
+export { setUserState, clearUserState, setIsRemember, setPhotoDataURL } from './userSlice.ts';
 export { getUserState } from './helpers/getUserState.ts';
 
 export { logoutUser } from './asyncThunks/logoutUser.ts';
@@ -10,5 +10,5 @@ export { signinUserWithGitHub } from './asyncThunks/signinUserWithGitHub';
 export { signinUserWithGoogle } from './asyncThunks/signinUserWithGoogle';
 export { uploadUserPhoto } from './asyncThunks/uploadUserPhoto.ts';
 
+export type { UserType } from './types/UserType.ts';
 export type { UserStateType } from './types/UserStateType.ts';
-export type { UserSliceStateType } from './types/UserSliceStateType.ts';

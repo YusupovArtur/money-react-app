@@ -24,7 +24,7 @@ export const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canv
   const handleUploadPhoto = () => {
     if (canvasRef.current && userID) {
       const imageDataURL = canvasRef.current.toDataURL();
-      dispatch(uploadUserPhoto({ imageDataURL, setErrorMessage, setIsLoading, onFulfilled }));
+      dispatch(uploadUserPhoto({ photoDataURL: imageDataURL, setErrorMessage, setIsLoading, onFulfilled }));
     }
   };
 

@@ -1,8 +1,7 @@
+import { UserType } from './UserType.ts';
+
 export type UserStateType = {
-  isUserAuthorised: boolean;
-  email: string | null;
-  username: string | null;
-  id: string | null;
-  isEmailVerified: boolean;
-  photoURL: string | null;
+  userState: UserType;
+  isShouldRemember: boolean;
+  photoDataURL: string | null;
 };

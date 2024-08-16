@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth';
-import { UserStateType } from 'store/slices/userSlice';
+import { UserType } from 'store/slices/userSlice';
 
-export const getUserState = (user: User | null): UserStateType => {
+export const getUserState = (user: User | null): UserType => {
   if (user) {
     return {
       isUserAuthorised: true,
