@@ -1,6 +1,7 @@
 import { FC } from 'react';
+import { ContentIconSetProps } from 'shared/ui/ContentIcon/ContentIconSets/types/ContentIconSetProps.ts';
 
-export const TransportIcons: FC<{ iconName: string; iconSize: string }> = ({ iconName, iconSize }) => {
+export const TransportIcons: FC<ContentIconSetProps> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Car':
       return <CarIcon iconSize={iconSize} />;

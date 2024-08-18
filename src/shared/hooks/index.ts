@@ -1,6 +1,6 @@
-export { default as useClickOutside } from './useClickOutside/useClickOutside';
+export { useClickOutside } from './useClickOutside/useClickOutside.tsx';
 
-export { default as useFormValidation } from './useFormValidation/useFormValidation';
-export { default as getValidityClassName } from './useFormValidation/helpers/getValidityClassName';
+export { useFormValidation } from './useFormValidation/useFormValidation.tsx';
+export { getValidityClassName } from './useFormValidation/helpers/getValidityClassName.ts';
 
-export { default as useThrottledCallback } from './useThrottledCallback/useThrottledCallback';
+export { useThrottledCallback } from './useThrottledCallback/useThrottledCallback.tsx';

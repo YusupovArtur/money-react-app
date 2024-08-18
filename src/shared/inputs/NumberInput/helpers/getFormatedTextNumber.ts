@@ -1,4 +1,4 @@
-const getFormatedTextNumber = (numberText: string): string => {
+export const getFormatedTextNumber = (numberText: string): string => {
   let numberTextValid: string = numberText.replace(/[^-.,\d]/g, '').replace(/,/g, '.');
 
   numberTextValid =
@@ -13,10 +13,4 @@ const getFormatedTextNumber = (numberText: string): string => {
       : numberTextValid;
 
   return numberTextValid;
-  // const [numberSign, numberIntegerPart, numberFloatPart] = getDividedTextNumber(numberTextValid);
-
-  // return `${numberSign}${!numberIntegerPart && numberFloatPart ? '0' : numberIntegerPart}${numberFloatPart}`;
-  // return `${numberSign}${numberIntegerPart}${numberFloatPart}`;
 };
-
-export default getFormatedTextNumber;

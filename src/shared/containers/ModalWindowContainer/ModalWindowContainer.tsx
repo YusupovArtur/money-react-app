@@ -1,6 +1,6 @@
 import { FC, HTMLAttributes, ReactNode } from 'react';
 import { ModalContainer } from 'shared/containers';
-import { ModalContainerWrapper } from 'shared/wrappers';
+import { ModalContainerWrapper } from 'shared/ui';
 
 /**
  * @param {onClose} props.onClose Callback for closing when close button clicked

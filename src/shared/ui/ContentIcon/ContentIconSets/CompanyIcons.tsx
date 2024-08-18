@@ -1,6 +1,7 @@
 import { FC } from 'react';
+import { ContentIconSetProps } from 'shared/ui/ContentIcon/ContentIconSets/types/ContentIconSetProps.ts';
 
-export const CompanyIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
+export const CompanyIcons: FC<ContentIconSetProps> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'Sberbank':
       return <SberbankIcon iconSize={iconSize} />;

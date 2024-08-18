@@ -1,44 +1,39 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
 // Inputs
-import TransactionTypeToggle from './ui/TransactionTypeToggle.tsx';
-import { NumberInput, WalletIDInput } from 'shared/inputs';
-import DateInput from 'components_legacy/small_components/date_input/DateInput.tsx';
-// Types
-import { dateStateType } from 'components_legacy/small_components/date_input/types.ts';
-import { getDateStateFromTimestamp } from 'components_legacy/small_components/date_input/functions.ts';
+import { TransactionTypeToggle } from './ui/TransactionTypeToggle.tsx';
+import { DateInput, NumberInput, WalletIDInput } from 'shared/inputs';
 // Icons
-import { ArrowRightIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { ArrowRightIcon } from './ui/ArrowRight.tsx';
 
 interface TransactionFormProps {
   formData: TransactionType;
   setFormData: Dispatch<SetStateAction<TransactionType>>;
-  type: 'expense' | 'income' | 'transfer' | 'optional';
-  dateState: dateStateType;
-  setDateState: Dispatch<SetStateAction<dateStateType>>;
+  type: TransactionType['type'] | 'optional';
 }
 
-const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type, dateState, setDateState }) => {
+export const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type }) => {
+  const onClear = () => {
+    setFormData((state) => ({
+      ...state,
+      sum: 0,
+      time: new Date().getTime(),
+      fromWallet: '',
+      toWallet: '',
+      category: '',
+      subcategory: '',
+      description: '',
+    }));
+  };
+
   return (
     <>
       <div className="d-flex flex-column">
         {type && (
           <TransactionTypeToggle
             type={formData.type}
-            setType={(type: 'expense' | 'income' | 'transfer') => setFormData((state) => ({ ...state, type }))}
-            clearFunction={() => {
-              setFormData((state) => ({
-                ...state,
-                sum: 0,
-                time: new Date().getTime(),
-                fromWallet: '',
-                toWallet: '',
-                category: '',
-                subcategory: '',
-                description: '',
-              }));
-              setDateState(getDateStateFromTimestamp(new Date().getTime()));
-            }}
+            setType={(type: TransactionType['type']) => setFormData((state) => ({ ...state, type }))}
+            onClear={onClear}
           ></TransactionTypeToggle>
         )}
 
@@ -52,9 +47,9 @@ const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type
 
         <span className="text-body-tertiary mt-2">Дата операции</span>
         <DateInput
-          dateState={dateState}
-          setDateState={setDateState}
-          setTimestampFunction={(timestamp: number) => setFormData((state) => ({ ...state, time: timestamp }))}
+          timestamp={formData.time}
+          setTimestamp={(timestamp: number) => setFormData((state) => ({ ...state, time: timestamp }))}
+          isModalForMobileDevice={true}
         ></DateInput>
 
         <span className="text-body-tertiary mt-2">
@@ -68,7 +63,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type
             setWalletID={(walletID: string) => setFormData((state) => ({ ...state, fromWallet: walletID }))}
           ></WalletIDInput>
         )}
-        {formData.type === 'transfer' && <ArrowRightIconSVG iconSize="1.5rem" />}
+        {formData.type === 'transfer' && <ArrowRightIcon iconSize="1.5rem" />}
         {(formData.type === 'income' || formData.type === 'transfer') && (
           <WalletIDInput
             walletID={formData.toWallet}
@@ -80,5 +75,3 @@ const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type
     </>
   );
 };
-
-export default TransactionForm;

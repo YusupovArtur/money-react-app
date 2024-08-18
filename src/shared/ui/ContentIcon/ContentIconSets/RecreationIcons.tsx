@@ -1,6 +1,7 @@
 import { FC } from 'react';
+import { ContentIconSetProps } from 'shared/ui/ContentIcon/ContentIconSets/types/ContentIconSetProps.ts';
 
-export const RecreationIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
+export const RecreationIcons: FC<ContentIconSetProps> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'MusicNote':
       return <MusicNoteIcon iconSize={iconSize} />;

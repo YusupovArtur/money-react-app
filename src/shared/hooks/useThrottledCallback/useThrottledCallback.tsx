@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-const useThrottledCallback = <T extends (...args: any[]) => void>(callback: T, delay: number): T => {
+export const useThrottledCallback = <T extends (...args: any[]) => void>(callback: T, delay: number): T => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastCallRef = useRef<number>(0);
 
@@ -32,5 +32,3 @@ const useThrottledCallback = <T extends (...args: any[]) => void>(callback: T, d
 
   return throttledFunction as T;
 };
-
-export default useThrottledCallback;

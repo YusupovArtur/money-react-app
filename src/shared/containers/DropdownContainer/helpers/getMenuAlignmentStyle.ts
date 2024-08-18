@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
-import MenuAlignmentType from '../types/MenuAlignmentType';
+import { MenuAlignmentType } from '../types/MenuAlignmentType';
 
-const getMenuAlignmentStyle = (props: MenuAlignmentType): CSSProperties => {
+export const getMenuAlignmentStyle = (props: MenuAlignmentType): CSSProperties => {
   const { x, y } = props;
 
   const style: CSSProperties = {};
@@ -19,19 +19,4 @@ const getMenuAlignmentStyle = (props: MenuAlignmentType): CSSProperties => {
   }
 
   return style;
-  // if (alignmentY === 'bottom') {
-  //   if (alignmentX === 'left') {
-  //     return { top: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
-  //   } else {
-  //     return { top: '100%', right: '0%', position: 'absolute', display: 'inline-block' };
-  //   }
-  // } else {
-  //   if (alignmentX === 'left') {
-  //     return { bottom: '100%', left: '0%', position: 'absolute', display: 'inline-block' };
-  //   } else {
-  //     return { bottom: '100%', right: '0%', position: 'absolute', display: 'inline-block' };
-  //   }
-  // }
 };
-
-export default getMenuAlignmentStyle;

@@ -1,6 +1,7 @@
 import { FC } from 'react';
+import { ContentIconSetProps } from 'shared/ui/ContentIcon/ContentIconSets/types/ContentIconSetProps.ts';
 
-export const ElectronicIcons: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
+export const ElectronicIcons: FC<ContentIconSetProps> = ({ iconName, iconSize }) => {
   switch (iconName) {
     case 'CPU':
       return <CPUIcon iconSize={iconSize} />;

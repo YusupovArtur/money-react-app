@@ -1,19 +1,14 @@
 import { FC, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { getAuth } from 'firebase/auth';
-import DateInputLegacy from 'components_legacy/big_components/date_input_legacy/DateInput.tsx';
-import DateInput from 'components_legacy/small_components/date_input/DateInput.tsx';
-import { dateStateType } from 'components_legacy/small_components/date_input/types.ts';
+import { ColorHexInput, DateInput, NumberInput } from 'shared/inputs';
 import { DropdownContainer } from 'shared/containers';
-import { ColorHexInput, NumberInput } from 'shared/inputs';
-import { PageContentWrapper } from 'shared/wrappers';
-import { ButtonWithIconAndSpinner } from 'shared/ui';
-import { CheckIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { ButtonWithIconAndSpinner, PageContentWrapper } from 'shared/ui';
 import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
+import { CheckIcon } from 'shared/icons';
 
 export const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
-  const [dateState, setDateState] = useState<dateStateType>({ day: 1, month: 7, year: 2024 });
   const [value, setValue] = useState(0);
   const [color, setColor] = useState<string>('#000000');
   const [isLoading, setIsLoading] = useState(false);
@@ -174,7 +169,7 @@ export const MainPage: FC = () => {
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
-
+  const [timestamp, setTimestamp] = useState<number>(new Date().getTime());
   // return <PagePlaceholder />;
 
   return (
@@ -183,8 +178,7 @@ export const MainPage: FC = () => {
         Test button
       </button>
       <div className="container">
-        <DateInputLegacy dateInputValue={dateInputValue} setDateInputValue={setDateInputValue} isPeriod={true} />
-        <DateInput dateState={dateState} setDateState={setDateState} />
+        <DateInput timestamp={timestamp} setTimestamp={setTimestamp} />
         <DropdownContainer
           DropdownToggle={<button className="btn btn-primary">Open</button>}
           DropdownMenu={
@@ -251,7 +245,7 @@ export const MainPage: FC = () => {
         className="btn-primary align-self-start"
         isLoading={isLoading}
       >
-        <CheckIconSVG iconSize="1.5rem" />
+        <CheckIcon iconSize="1.5rem" />
       </ButtonWithIconAndSpinner>
       <OpenableContainer
         isOpened={isOpened}

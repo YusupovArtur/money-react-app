@@ -1,4 +1,4 @@
-const colorsNamesHex: { [key: string]: string } = {
+export const colorsNamesHex: { [key: string]: string } = {
   white: '#ffffff',
   'gray-100': '#f8f9fa',
   'gray-400': '#ced4da',
@@ -34,5 +34,3 @@ const colorsNamesHex: { [key: string]: string } = {
   'orange-500': '#fd7e14',
   'orange-700': '#984c0c',
 };
-
-export default colorsNamesHex;

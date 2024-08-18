@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useId } from 'react';
 import { CategoryType } from 'store/slices/categoriesSlice';
 import { getCategoryTypeName } from 'pages/CategoriesPage/helpers/getCategoryTypeName.ts';
 
@@ -9,6 +9,10 @@ interface CategoryTypeInputProps {
 }
 
 export const CategoryTypeInput: FC<CategoryTypeInputProps> = ({ type, setType, id }) => {
+  const optionID1 = useId();
+  const optionID2 = useId();
+  const optionID3 = useId();
+
   return (
     <>
       <input id={id} type="text" value={type || ''} readOnly={true} style={{ display: 'none' }} />
@@ -19,11 +23,11 @@ export const CategoryTypeInput: FC<CategoryTypeInputProps> = ({ type, setType, i
           onChange={() => setType('expense')}
           className="btn-check"
           name="btnradio"
-          id="typeOption1"
+          id={optionID1}
           autoComplete="off"
           checked={type === 'expense'}
         />
-        <label className="btn btn-outline-danger" htmlFor="typeOption1">
+        <label className="btn btn-outline-danger" htmlFor={optionID1}>
           {getCategoryTypeName('expense')}
         </label>
 
@@ -32,11 +36,11 @@ export const CategoryTypeInput: FC<CategoryTypeInputProps> = ({ type, setType, i
           onChange={() => setType('income')}
           className="btn-check"
           name="btnradio"
-          id="typeOption2"
+          id={optionID2}
           autoComplete="off"
           checked={type === 'income'}
         />
-        <label className="btn btn-outline-success" htmlFor="typeOption2">
+        <label className="btn btn-outline-success" htmlFor={optionID2}>
           {getCategoryTypeName('expense')}
         </label>
 
@@ -45,11 +49,11 @@ export const CategoryTypeInput: FC<CategoryTypeInputProps> = ({ type, setType, i
           onChange={() => setType('transfer')}
           className="btn-check"
           name="btnradio"
-          id="typeOption3"
+          id={optionID3}
           autoComplete="off"
           checked={type === 'transfer'}
         />
-        <label className="btn btn-outline-primary" htmlFor="typeOption3">
+        <label className="btn btn-outline-primary" htmlFor={optionID3}>
           {getCategoryTypeName('transfer')}
         </label>
       </div>

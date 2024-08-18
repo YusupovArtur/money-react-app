@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { PageContentWrapper } from 'shared/wrappers';
+import { PageContentWrapper } from 'shared/ui';
 
 export const CategoryEditPlaceholder: FC = ({}) => {
   return (

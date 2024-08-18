@@ -1,20 +1,22 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-// Components
-import { ModalWindowContainer } from 'shared/containers';
-import { EditFromControl } from 'entities/EditFormControl';
-import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
-import { WalletEditInfo } from 'pages/WalletsPage/widgets/WalletEdit/ui/WalletEditInfo.tsx';
 // Store
-import { ResponseHooksType, useAppDispatch, useAppSelector } from 'store/index.ts';
+import { ResponseHooksType, useAppDispatch, useAppSelector } from 'store';
 import { deleteWallet, updateWallet, WalletType } from 'store/slices/walletsSlice';
-import { MODAL_CONTAINER_ANIMATION_DURATION } from 'shared/containers/ModalContainer/ModalContainer.tsx';
+// Components
+import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
+import { EditFromControl } from 'entities/EditFormControl';
+import { WalletEditInfo } from 'pages/WalletsPage/widgets/WalletEdit/ui/WalletEditInfo.tsx';
+// Form
 import { useFormValidation } from 'shared/hooks';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
 import { typeValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/typeValidator.ts';
 import { balanceValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/balanceValidator.ts';
+import { nameValidator } from 'shared/hooks/useFormValidation/validators';
+// UI
+import { ModalWindowContainer } from 'shared/containers';
+import { MODAL_CONTAINER_ANIMATION_DURATION } from 'shared/containers/ModalContainer/ModalContainer.tsx';
 
-const WalletEdit: FC = () => {
+export const WalletEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get('walletID');
 
@@ -144,5 +146,3 @@ const WalletEdit: FC = () => {
     </ModalWindowContainer>
   );
 };
-
-export default WalletEdit;

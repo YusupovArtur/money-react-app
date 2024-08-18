@@ -7,12 +7,11 @@ import { Navigate } from 'react-router-dom';
 // Forms
 import { SigninForm } from './forms/SigninForm/SigninForm';
 import { SignupForm } from './forms/SignupForm/SignupForm';
-import SigninFormDataType from './types/SigninFormDataType';
+import { SigninFormDataType } from './types/SigninFormDataType';
 // Features
-import SigninWithPopupButtons from './features/SigninWithPopupButtons/SigninWithPopupButtons';
+import { SigninWithPopupButtons } from './features/SigninWithPopupButtons/SigninWithPopupButtons';
 // UI
-import { AlertMessage, PageLoadingSpinner } from 'shared/ui';
-import { PageContentWrapper } from 'shared/wrappers';
+import { AlertMessage, PageContentWrapper, PageLoadingSpinner } from 'shared/ui';
 import { SignupFormDataType } from './types/SignupFormDataType';
 
 export const LoginPage: FC = () => {

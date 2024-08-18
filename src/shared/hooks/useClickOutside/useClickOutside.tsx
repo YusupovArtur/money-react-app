@@ -7,7 +7,7 @@ interface useClickOutsideProps {
   onClickOutside: () => void;
 }
 
-const useClickOutside = ({ elementRef, onClickOutside }: useClickOutsideProps) => {
+export const useClickOutside = ({ elementRef, onClickOutside }: useClickOutsideProps) => {
   const mouseDownRef = useRef<EventTarget | null>(null);
 
   useEffect(() => {
@@ -45,5 +45,3 @@ const useClickOutside = ({ elementRef, onClickOutside }: useClickOutsideProps) =
     onClickOutside,
   ]);
 };
-
-export default useClickOutside;

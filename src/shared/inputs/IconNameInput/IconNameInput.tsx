@@ -1,11 +1,10 @@
 import { FC } from 'react';
 // Dropdown
 import { DropdownContainer } from 'shared/containers';
-import { DropdownMenuWrapper } from 'shared/wrappers';
 // Helpers
 import { getLeveledIconNameOptions } from './helpers/getLeveledIconNameOptions.ts';
 // UI
-import { ButtonWithIcon, ContentIcon } from 'shared/ui';
+import { ButtonWithIcon, ContentIcon, DropdownMenuWrapper } from 'shared/ui';
 import { IconOptionsDivider } from './ui/IconOptionsDivider.tsx';
 
 interface IconNameInputProps {
@@ -40,10 +39,10 @@ export const IconNameInput: FC<IconNameInputProps> = ({
       <input id={id} type="text" value={iconName || ''} readOnly={true} style={{ display: 'none' }} />
 
       <DropdownContainer
-        modalForMobileDevice={true}
+        isModalForMobileDevice={true}
         menuAlignment={{ x: 'right', y: 'bottom' }}
         DropdownToggle={
-          <ButtonWithIcon className="dropdown-toggle btn-body">
+          <ButtonWithIcon className="dropdown-toggle btn-body-tertiary">
             <ContentIcon iconName={iconName} iconSize={iconSize} />
           </ButtonWithIcon>
         }
@@ -58,7 +57,7 @@ export const IconNameInput: FC<IconNameInputProps> = ({
                         key={iconNameOption}
                         onClick={() => setIconName(iconNameOption)}
                         style={{ padding: iconName === iconNameOption ? '0.4rem' : undefined }}
-                        className={`hover-scale-10 btn-body p-0 m-1 ${
+                        className={`hover-scale-10 btn-body-tertiary p-0 m-1 ${
                           iconName === iconNameOption ? 'selected bordered-strong' : ''
                         }`}
                       >

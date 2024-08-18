@@ -9,9 +9,9 @@ import { usernameValidator } from 'shared/hooks/useFormValidation/validators';
 // UI
 import { TextInput } from 'shared/inputs';
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner, FormValidationFeedback } from 'shared/ui';
-import { CheckIconSVG, CrossIconSVG, PencilSquareIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG';
+import { CheckIcon, CrossIcon, PencilSquareIcon } from 'shared/icons';
 
-const UsernameEditForm: FC = () => {
+export const UsernameEditForm: FC = () => {
   const dispatch = useAppDispatch();
   const usernameState = useAppSelector((state) => state.user.userState.username);
 
@@ -90,12 +90,12 @@ const UsernameEditForm: FC = () => {
             isLoading={isLoading}
             className="btn-primary ms-1"
           >
-            {isEdit ? <CheckIconSVG iconSize="1.5rem" /> : <PencilSquareIconSVG iconSize="1.5rem" />}
+            {isEdit ? <CheckIcon iconSize="1.5rem" /> : <PencilSquareIcon iconSize="1.5rem" />}
           </ButtonWithIconAndSpinner>
 
           {isEdit && (
             <ButtonWithIcon onClick={handleClearButtonClick} disabled={isLoading} className="btn-danger ms-1">
-              <CrossIconSVG iconSize="1.5rem" />
+              <CrossIcon iconSize="1.4rem" />
             </ButtonWithIcon>
           )}
         </div>
@@ -105,5 +105,3 @@ const UsernameEditForm: FC = () => {
     </form>
   );
 };
-
-export default UsernameEditForm;

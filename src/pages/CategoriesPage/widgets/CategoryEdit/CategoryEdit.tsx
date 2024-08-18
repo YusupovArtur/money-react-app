@@ -1,24 +1,24 @@
 import { FC, useEffect, useState } from 'react';
-// Categories imports
-import { EditFromControl } from 'entities/EditFormControl';
-import { CategoryForm } from 'pages/CategoriesPage/forms/CategoryForm.tsx';
-import { CategoryEditInfo } from 'pages/CategoriesPage/widgets/CategoryEdit/ui/CategoryEditInfo.tsx';
-// Subcategories imports
-import { SubcategoriesList } from 'pages/CategoriesPage/widgets/SubcategoriesList/SubcategoriesList.tsx';
-import { PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { useSearchParams } from 'react-router-dom';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { CategoryAddType, deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
-import { PageContentWrapper } from 'shared/wrappers';
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
-import { ButtonWithIcon, EditWindowPlaceholder } from 'shared/ui';
-import { useSearchParams } from 'react-router-dom';
+// Forms
+import { EditFromControl } from 'entities/EditFormControl';
 import { useFormValidation } from 'shared/hooks';
 import { nameValidator } from 'shared/hooks/useFormValidation/validators';
-import { typeValidator } from 'pages/CategoriesPage/forms/helpers/typeValidator.ts';
-import { SubcategoryInput } from 'pages/CategoriesPage/widgets/SubcategoryInput/SubcategoryInput.tsx';
-import { CategoryEditPlaceholder } from 'pages/CategoriesPage/widgets/CategoryEdit/ui/CategoryEditPlaceholder.tsx';
-import { SubcategoryEdit } from 'pages/CategoriesPage/widgets/SubcategoriesEdit/SubcategoryEdit.tsx';
+import { typeValidator } from '../../forms/helpers/typeValidator.ts';
+// Components
+import { CategoryForm } from '../../forms/CategoryForm.tsx';
+import { CategoryEditInfo } from './ui/CategoryEditInfo.tsx';
+import { SubcategoryInput } from '../SubcategoryInput/SubcategoryInput.tsx';
+import { SubcategoriesList } from '../SubcategoriesList/SubcategoriesList.tsx';
+import { SubcategoryEdit } from '../SubcategoriesEdit/SubcategoryEdit.tsx';
+// UI
+import { CategoryEditPlaceholder } from './ui/CategoryEditPlaceholder.tsx';
+import { ButtonWithIcon, EditWindowPlaceholder, PageContentWrapper } from 'shared/ui';
+import { PlusIcon } from 'shared/icons';
 
 export const CategoryEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -133,7 +133,7 @@ export const CategoryEdit: FC = () => {
               caption="Подкатегория"
               className="btn-primary align-self-start"
             >
-              <PlusIconSVG iconSize="1.2rem" />
+              <PlusIcon iconSize="1.2rem" />
             </ButtonWithIcon>
             <button type="button" onClick={onClose} className="btn-close"></button>
           </div>

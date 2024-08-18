@@ -1,8 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useAppSelector } from 'store';
-import { ButtonWithIcon, EntityIcon } from 'shared/ui';
+import { ButtonWithIcon, DropdownMenuWrapper, EntityIcon } from 'shared/ui';
 import { DropdownContainer } from 'shared/containers';
-import { DropdownMenuWrapper } from 'shared/wrappers';
 import './style/dropdown_option_item_style.scss';
 
 export const WalletIDInput: FC<{
@@ -26,9 +25,9 @@ export const WalletIDInput: FC<{
   return (
     <DropdownContainer
       menuAlignment={{ x: 'right', y: 'bottom' }}
-      modalForMobileDevice={true}
+      isModalForMobileDevice={true}
       DropdownToggle={
-        <ButtonWithIcon caption={wallet ? wallet.name : 'Счет не выбран'} className="btn-body dropdown-toggle">
+        <ButtonWithIcon caption={wallet ? wallet.name : 'Счет не выбран'} className="btn-body-tertiary dropdown-toggle">
           {wallet ? (
             <EntityIcon iconName={wallet.iconName} iconBackgroundColor={wallet.color} iconSize={selectedIconSize} />
           ) : null}

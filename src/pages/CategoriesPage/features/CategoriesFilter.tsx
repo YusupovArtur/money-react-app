@@ -1,10 +1,15 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useId } from 'react';
 import { CategoryType } from 'store/slices/categoriesSlice';
 
 export const CategoriesFilter: FC<{
   filter: CategoryType['type'] | null;
   setFilter: Dispatch<SetStateAction<CategoryType['type'] | null>>;
 }> = ({ filter, setFilter }) => {
+  const optionID1 = useId();
+  const optionID2 = useId();
+  const optionID3 = useId();
+  const optionID4 = useId();
+
   return (
     <div className="btn-group" role="group">
       <input
@@ -12,11 +17,11 @@ export const CategoriesFilter: FC<{
         onChange={() => setFilter(null)}
         className="btn-check"
         name="btnradio"
-        id="typeOption1"
+        id={optionID1}
         autoComplete="off"
         checked={filter === null}
       />
-      <label className="btn btn-outline-primary" htmlFor="typeOption1">
+      <label className="btn btn-outline-primary" htmlFor={optionID1}>
         Все
       </label>
 
@@ -25,11 +30,11 @@ export const CategoriesFilter: FC<{
         onChange={() => setFilter('expense')}
         className="btn-check"
         name="btnradio"
-        id="typeOption2"
+        id={optionID2}
         autoComplete="off"
         checked={filter === 'expense'}
       />
-      <label className="btn btn-outline-danger" htmlFor="typeOption2">
+      <label className="btn btn-outline-danger" htmlFor={optionID2}>
         Расходы
       </label>
 
@@ -38,11 +43,11 @@ export const CategoriesFilter: FC<{
         onChange={() => setFilter('income')}
         className="btn-check"
         name="btnradio"
-        id="typeOption3"
+        id={optionID3}
         autoComplete="off"
         checked={filter === 'income'}
       />
-      <label className="btn btn-outline-success" htmlFor="typeOption3">
+      <label className="btn btn-outline-success" htmlFor={optionID3}>
         Доходы
       </label>
 
@@ -51,11 +56,11 @@ export const CategoriesFilter: FC<{
         onChange={() => setFilter('transfer')}
         className="btn-check"
         name="btnradio"
-        id="typeOption4"
+        id={optionID4}
         autoComplete="off"
         checked={filter === 'transfer'}
       />
-      <label className="btn btn-outline-primary" htmlFor="typeOption4">
+      <label className="btn btn-outline-primary" htmlFor={optionID4}>
         Переводы
       </label>
     </div>

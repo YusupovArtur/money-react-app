@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import COLOR_HEX_OPTIONS from './constants/COLOR_HEX_OPTIONS.ts';
 import { DropdownContainer } from 'shared/containers';
-import { DropdownMenuWrapper } from 'shared/wrappers';
+import { DropdownMenuWrapper } from 'shared/ui';
+import { COLOR_HEX_OPTIONS } from './constants/COLOR_HEX_OPTIONS.ts';
 
 interface ColorInputProps {
   colorHex: string;
@@ -19,11 +19,11 @@ export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, id, 
 
       <DropdownContainer
         menuAlignment={{ x: 'right', y: 'bottom' }}
-        modalForMobileDevice={true}
+        isModalForMobileDevice={true}
         DropdownToggle={
           <button
             type="button"
-            className="dropdown-toggle btn btn-body d-flex justify-content-center align-items-center"
+            className="dropdown-toggle btn btn-body-tertiary d-flex justify-content-center align-items-center"
             aria-expanded="false"
           >
             <div

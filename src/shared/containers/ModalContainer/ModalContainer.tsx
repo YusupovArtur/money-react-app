@@ -1,6 +1,6 @@
 import { FC, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import useMounted from './hooks/useMounted';
+import { useMounted } from './hooks/useMounted';
 import './style/animations.scss';
 
 export const MODAL_CONTAINER_ANIMATION_DURATION = 150;

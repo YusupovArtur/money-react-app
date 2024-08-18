@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useId } from 'react';
 import { WalletType } from 'store/slices/walletsSlice';
 
 interface WalletsFilterProps {
@@ -7,6 +7,11 @@ interface WalletsFilterProps {
 }
 
 export const WalletsFilter: FC<WalletsFilterProps> = ({ filter, setFilter }) => {
+  const optionID1 = useId();
+  const optionID2 = useId();
+  const optionID3 = useId();
+  const optionID4 = useId();
+
   return (
     <div className="btn-group" role="group">
       <input
@@ -14,11 +19,11 @@ export const WalletsFilter: FC<WalletsFilterProps> = ({ filter, setFilter }) => 
         onChange={() => setFilter(null)}
         className="btn-check"
         name="btnradio"
-        id="typeOption1"
+        id={optionID1}
         autoComplete="off"
         checked={filter === null}
       />
-      <label className="btn btn-outline-primary" htmlFor="typeOption1">
+      <label className="btn btn-outline-primary" htmlFor={optionID1}>
         Все
       </label>
 
@@ -27,11 +32,11 @@ export const WalletsFilter: FC<WalletsFilterProps> = ({ filter, setFilter }) => 
         onChange={() => setFilter('debit')}
         className="btn-check"
         name="btnradio"
-        id="typeOption2"
+        id={optionID2}
         autoComplete="off"
         checked={filter === 'debit'}
       />
-      <label className="btn btn-outline-primary" htmlFor="typeOption2">
+      <label className="btn btn-outline-primary" htmlFor={optionID2}>
         Дебет.
       </label>
 
@@ -40,11 +45,11 @@ export const WalletsFilter: FC<WalletsFilterProps> = ({ filter, setFilter }) => 
         onChange={() => setFilter('credit')}
         className="btn-check"
         name="btnradio"
-        id="typeOption3"
+        id={optionID3}
         autoComplete="off"
         checked={filter === 'credit'}
       />
-      <label className="btn btn-outline-danger" htmlFor="typeOption3">
+      <label className="btn btn-outline-danger" htmlFor={optionID3}>
         Кредит.
       </label>
 
@@ -53,11 +58,11 @@ export const WalletsFilter: FC<WalletsFilterProps> = ({ filter, setFilter }) => 
         onChange={() => setFilter('investment')}
         className="btn-check"
         name="btnradio"
-        id="typeOption4"
+        id={optionID4}
         autoComplete="off"
         checked={filter === 'investment'}
       />
-      <label className="btn btn-outline-success" htmlFor="typeOption4">
+      <label className="btn btn-outline-success" htmlFor={optionID4}>
         Инвест.
       </label>
     </div>

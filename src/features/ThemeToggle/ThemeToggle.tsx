@@ -8,7 +8,7 @@ import { LightThemeIcon } from 'features/ThemeToggle/icons/AutoThemeIcon';
 import { DarkThemeIcon } from 'features/ThemeToggle/icons/DarkThemeIcon';
 import { AutoThemeIcon } from 'features/ThemeToggle/icons/LightThemeIcon';
 // Model
-import useThemeAutoModeListener from './model/useThemeAutoModeListener';
+import { useThemeAutoModeListener } from './model/useThemeAutoModeListener';
 
 export const ThemeToggle: FC = () => {
   const themeMode = useAppSelector((store) => store.theme.themeMode);
@@ -47,7 +47,7 @@ export const ThemeToggle: FC = () => {
   };
 
   return (
-    <ButtonWithIcon onClick={handleToggleClick} className="btn-body" style={{ padding: '0.375rem' }}>
+    <ButtonWithIcon onClick={handleToggleClick} className="btn-body-tertiary" style={{ padding: '0.375rem' }}>
       {themeMode === 'light' ? (
         <LightThemeIcon iconSize={iconSize} />
       ) : themeMode === 'dark' ? (

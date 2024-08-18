@@ -4,11 +4,11 @@ import { useAppSelector } from 'store';
 // Router
 import { Navigate } from 'react-router-dom';
 // Features
-import { UserLogoutButton } from 'pages/ProfilePage/features/UserLogoutButton/UserLogoutButton';
-import UsernameEditForm from 'pages/ProfilePage/features/UsernameEditForm/UsernameEditForm';
-import { UserPhotoEditForm } from 'pages/ProfilePage/features/UserPhotoChangeButton/UserPhotoEditForm.tsx';
+import { UserLogoutButton } from './features/UserLogoutButton/UserLogoutButton';
+import { UsernameEditForm } from './features/UsernameEditForm/UsernameEditForm';
+import { UserPhotoEditForm } from './features/UserPhotoChangeButton/UserPhotoEditForm.tsx';
 import { UserPhoto } from 'entities/UserPhoto';
-import { PageContentWrapper } from 'shared/wrappers';
+import { PageContentWrapper } from 'shared/ui';
 
 export const ProfilePage: FC = () => {
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);

@@ -15,7 +15,12 @@ import { RecreationIcons } from './ContentIconSets/RecreationIcons.tsx';
 import { SportIcons } from './ContentIconSets/SportIcons.tsx';
 import { TransportIcons } from './ContentIconSets/TransportIcons.tsx';
 
-export const ContentIcon: FC<{ iconName: string; iconSize: `${number}rem` }> = ({ iconName, iconSize }) => {
+interface ContentIconProps {
+  iconName: string;
+  iconSize: `${number}rem`;
+}
+
+export const ContentIcon: FC<ContentIconProps> = ({ iconName, iconSize }) => {
   let icon = BeautyIcons({ iconName, iconSize });
   if (icon) return icon;
 

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useId } from 'react';
 // Inputs
 import { CATEGORY_ICON_OPTIONS, IconNameInput, TextInput } from 'shared/inputs';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
@@ -17,13 +17,17 @@ interface SubcategoryFormProps {
 export const SubcategoryForm: FC<SubcategoryFormProps> = ({ formData, setFormData, validation, setIsValidate }) => {
   const { fieldValidities, fieldFeedbacks } = validation;
 
+  const nameInputID = useId();
+  const iconNameInputID = useId();
+  const descriptionInputID = useId();
+
   return (
     <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column mb-3">
       {/*Name*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="name">Имя подкатегории</FormLabel>
+        <FormLabel htmlFor={nameInputID}>Имя подкатегории</FormLabel>
         <TextInput
-          id="name"
+          id={nameInputID}
           value={formData.name}
           onChange={(event) => {
             setFormData((state) => ({ ...state, name: event.target.value }));
@@ -39,9 +43,9 @@ export const SubcategoryForm: FC<SubcategoryFormProps> = ({ formData, setFormDat
 
       {/*Icon*/}
       <div className="position-relative d-flex flex-column mb-3">
-        <FormLabel htmlFor="iconName">Иконка</FormLabel>
+        <FormLabel htmlFor={iconNameInputID}>Иконка</FormLabel>
         <IconNameInput
-          id="iconName"
+          id={iconNameInputID}
           iconName={formData.iconName}
           setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
           iconOptions={CATEGORY_ICON_OPTIONS}
@@ -51,9 +55,9 @@ export const SubcategoryForm: FC<SubcategoryFormProps> = ({ formData, setFormDat
 
       {/*Description*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="description">Описаниие</FormLabel>
+        <FormLabel htmlFor={descriptionInputID}>Описаниие</FormLabel>
         <TextInput
-          id="description"
+          id={descriptionInputID}
           value={formData.description}
           onChange={(event) => setFormData((state) => ({ ...state, description: event.target.value }))}
         />

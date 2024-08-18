@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { PageContentWrapper } from 'shared/wrappers';
-import { PageContentPlaceholder } from 'shared/ui';
+import { PageContentPlaceholder, PageContentWrapper } from 'shared/ui';
 
 export const CategoriesPagePlaceholder: FC = () => {
   return (

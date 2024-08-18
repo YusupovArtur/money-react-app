@@ -1,11 +1,13 @@
 import { MutableRefObject } from 'react';
-import MenuAlignmentType from '../types/MenuAlignmentType';
+import { MenuAlignmentType } from '../types/MenuAlignmentType';
 
-const getPositionedMenuAlignment = (props: {
+interface getPositionedMenuAlignmentProps {
   toggleRef: MutableRefObject<HTMLSpanElement | null>;
   menuRef: MutableRefObject<HTMLSpanElement | null>;
   menuAlignment: MenuAlignmentType;
-}): MenuAlignmentType => {
+}
+
+export const getPositionedMenuAlignment = (props: getPositionedMenuAlignmentProps): MenuAlignmentType => {
   const { toggleRef, menuRef, menuAlignment } = props;
   if (toggleRef.current && menuRef.current && window.visualViewport) {
     const alignment: MenuAlignmentType = { ...menuAlignment };
@@ -48,5 +50,3 @@ const getPositionedMenuAlignment = (props: {
 
   return menuAlignment;
 };
-
-export default getPositionedMenuAlignment;

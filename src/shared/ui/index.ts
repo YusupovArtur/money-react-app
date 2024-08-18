@@ -7,11 +7,18 @@ export { ButtonWithIconAndSpinner } from './ButtonWithIconAndSpinner/ButtonWithI
 export { ContentIcon } from './ContentIcon/ContentIcon.tsx';
 export { EntityIcon } from './EntityIcon/EntityIcon.tsx';
 
-export { PageLoadingSpinner } from './Placeholders/PageLoadingSpinner.tsx';
-export { PageContentPlaceholder } from './Placeholders/PageContentPlaceholder.tsx';
-export { PagePlaceholder } from './Placeholders/PagePlaceholder.tsx';
-export { EditWindowPlaceholder } from './Placeholders/EditWindowPlaceholder.tsx';
+// placeholders
+export { PageLoadingSpinner } from './placeholders/PageLoadingSpinner.tsx';
+export { PageContentPlaceholder } from './placeholders/PageContentPlaceholder.tsx';
+export { PagePlaceholder } from './placeholders/PagePlaceholder.tsx';
+export { EditWindowPlaceholder } from './placeholders/EditWindowPlaceholder.tsx';
 
-export { FormLabel } from './Labels/FormLabel.tsx';
-export { EntityFieldLabel } from './Labels/EntityFieldLabel.tsx';
-export { EntityFieldValue } from './Labels/EntityFieldValue.tsx';
+// labels
+export { FormLabel } from './labels/FormLabel.tsx';
+export { EntityFieldLabel } from './labels/EntityFieldLabel.tsx';
+export { EntityFieldValue } from './labels/EntityFieldValue.tsx';
+
+// wrappers
+export { DropdownMenuWrapper } from './wrappers/DropdownMenuWrapper.tsx';
+export { ModalContainerWrapper } from './wrappers/ModalContainerWrapper.tsx';
+export { PageContentWrapper } from './wrappers/PageContentWrapper.tsx';

@@ -8,11 +8,10 @@ import { CategoryEdit } from 'pages/CategoriesPage/widgets/CategoryEdit/Category
 import { CategoryInput } from 'pages/CategoriesPage/widgets/CategoryInput/CategoryInput.tsx';
 import { CategoriesFilter } from 'pages/CategoriesPage/features/CategoriesFilter.tsx';
 // UI
-import { PageContentWrapper } from 'shared/wrappers';
-import { ButtonWithIcon } from 'shared/ui';
-import { PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
+import { ButtonWithIcon, PageContentWrapper } from 'shared/ui';
 import { CategoryType } from 'store/slices/categoriesSlice';
 import { CategoriesPagePlaceholder } from 'pages/CategoriesPage/ui/CategoriesPagePlaceholder.tsx';
+import { PlusIcon } from 'shared/icons/PlusIcon.tsx';
 
 export const CategoriesPage: FC = () => {
   const [filter, setFilter] = useState<CategoryType['type'] | null>(null);
@@ -39,7 +38,7 @@ export const CategoriesPage: FC = () => {
           </div>
 
           <ButtonWithIcon caption="Категории" onClick={() => setIsOpenedCategoryInput(true)} className="btn-body-primary mb-2">
-            <PlusIconSVG iconSize="1.5rem" />
+            <PlusIcon iconSize="1.5rem" />
           </ButtonWithIcon>
         </div>
 

@@ -1,20 +1,24 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
+import { ResponseHooksType, useAppDispatch } from 'store';
 import { addWallet, WalletType } from 'store/slices/walletsSlice';
-import { ResponseHooksType, useAppDispatch } from 'store/index.ts';
 // Input components
-import { InputFormControl } from 'entities/InputFormControl';
-import { ModalWindowContainer } from 'shared/containers';
 import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
+import { InputFormControl } from 'entities/InputFormControl';
+// Form
 import { useFormValidation } from 'shared/hooks';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
 import { typeValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/typeValidator.ts';
 import { balanceValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/balanceValidator.ts';
+import { nameValidator } from 'shared/hooks/useFormValidation/validators';
+// UI
+import { ModalWindowContainer } from 'shared/containers';
 
-const WalletInput: FC<{
+interface WalletInputProps {
   isOpened: boolean;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
-}> = ({ isOpened, setIsOpened }) => {
+}
+
+export const WalletInput: FC<WalletInputProps> = ({ isOpened, setIsOpened }) => {
   const [formData, setFormData] = useState<WalletType>({
     name: '',
     balance: 0,
@@ -72,5 +76,3 @@ const WalletInput: FC<{
     </ModalWindowContainer>
   );
 };
-
-export default WalletInput;

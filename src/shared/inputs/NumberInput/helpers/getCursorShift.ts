@@ -1,4 +1,4 @@
-const getCursorShift = (oldString: string, newString: string, selectionStart: number | null): number => {
+export const getCursorShift = (oldString: string, newString: string, selectionStart: number | null): number => {
   oldString = oldString.replace(/,/g, '.');
   let shift: number = 0;
   let j: number = 0;
@@ -23,5 +23,3 @@ const getCursorShift = (oldString: string, newString: string, selectionStart: nu
 
   return shift;
 };
-
-export default getCursorShift;

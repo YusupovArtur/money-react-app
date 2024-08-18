@@ -11,7 +11,7 @@ interface WalletItemProps {
   style?: CSSProperties;
 }
 
-const WalletsListItem: FC<WalletItemProps> = ({ id, style }) => {
+export const WalletsListItem: FC<WalletItemProps> = ({ id, style }) => {
   const wallet = useAppSelector((state) => state.wallets.list[id]);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -46,5 +46,3 @@ const WalletsListItem: FC<WalletItemProps> = ({ id, style }) => {
     </div>
   );
 };
-
-export default WalletsListItem;

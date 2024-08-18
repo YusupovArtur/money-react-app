@@ -1,16 +1,33 @@
 .btn-body {
-  background-color: var(--bs-tertiary-bg) !important;
-  border-color: var(--bs-tertiary-bg) !important;
-  color: var(--text-color-body) !important;
-  fill: var(--text-color-body) !important;
+  background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
+  border-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
+  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+  fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 
   &:hover {
-    background-color: var(--bg-color-body-hover) !important;
+    background-color: var(--background-color-body-hover) !important;
     border-color: var(--border-color-body-hover) !important;
   }
 
   &:active {
-    background-color: var(--bg-color-body-active) !important;
+    background-color: var(--background-color-body-active) !important;
+    border-color: var(--border-color-body-active) !important;
+  }
+}
+
+.btn-body-tertiary {
+  background-color: var(--bs-tertiary-bg) !important;
+  border-color: var(--bs-tertiary-bg) !important;
+  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+  fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+
+  &:hover {
+    background-color: var(--background-color-body-hover) !important;
+    border-color: var(--border-color-body-hover) !important;
+  }
+
+  &:active {
+    background-color: var(--background-color-body-active) !important;
     border-color: var(--border-color-body-active) !important;
   }
 }
@@ -33,31 +50,17 @@
 }
 
 .btn-body-primary-soft {
-  background-color: var(--bg-color-primary-15);
-  border-color: var(--bg-color-primary-15);
+  background-color: var(--background-color-primary-15);
+  border-color: var(--background-color-primary-15);
 
   &:hover {
-    background-color: var(--bg-color-primary-soft-25) !important;
-    border-color: var(--bg-color-primary-soft-35) !important;
+    background-color: var(--background-color-primary-soft-25) !important;
+    border-color: var(--background-color-primary-soft-35) !important;
 
   }
 
   &:active {
-    background-color: var(--bg-color-primary-soft-35) !important;
-    border-color: var(--bg-color-primary-soft-45) !important;
-  }
-}
-
-.btn-body-primary-unbordered {
-  background-color: #0d6efd !important;
-  color: #fff !important;
-  fill: #fff !important;
-
-  &:hover {
-    background-color: #0b5ed7 !important;
-  }
-
-  &:active {
-    background-color: #0a58ca !important;
+    background-color: var(--background-color-primary-soft-35) !important;
+    border-color: var(--background-color-primary-soft-45) !important;
   }
 }

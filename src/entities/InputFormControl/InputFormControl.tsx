@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { ResponseHooksType } from 'store';
 // UI imports
 import { AlertMessage, ButtonWithIconAndSpinner } from 'shared/ui';
-import { PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG';
+import { PlusIcon } from 'shared/icons';
 
 interface InputFormControlProps {
   caption: string;
@@ -44,7 +44,7 @@ export const InputFormControl: FC<InputFormControlProps> = ({ caption, disabled,
           disabled={disabled || isLoading}
           className="btn-primary"
         >
-          <PlusIconSVG iconSize="1.5rem" />
+          <PlusIcon iconSize="1.5rem" />
         </ButtonWithIconAndSpinner>
       </div>
 

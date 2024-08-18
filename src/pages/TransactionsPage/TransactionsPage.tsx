@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useAppSelector } from 'store/index.ts';
 import { TransactionsTable } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTable.tsx';
-import { PageContentWrapper } from 'shared/wrappers';
+import { PageContentWrapper } from 'shared/ui';
 
 export const TransactionsPage: FC = () => {
   const operations = useAppSelector((state) => state.transactions.list);

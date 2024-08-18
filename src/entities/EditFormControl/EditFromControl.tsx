@@ -1,14 +1,10 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
-// Store imports
+// Store
 import { ResponseHooksType } from 'store';
-// UI imports
+// UI
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
-import {
-  CheckIconSVG,
-  CrossIconSVG,
-  PencilSquareIconSVG,
-  TrashFillIconSVG,
-} from 'components_legacy/small_components/icons_svg/IconsSVG';
+import { CheckIcon, CrossIcon, PencilSquareIcon } from 'shared/icons';
+import { TrashFillIcon } from './ui/TrashFillIcon.tsx';
 
 interface EditFormControlProps {
   disabled?: boolean;
@@ -69,7 +65,7 @@ export const EditFromControl: FC<EditFormControlProps> = ({
             onClick={handleUpdate}
             className="btn-primary flex-grow-1"
           >
-            {isEdit ? <CheckIconSVG iconSize="1.5rem" /> : <PencilSquareIconSVG iconSize="1.4rem" />}
+            {isEdit ? <CheckIcon iconSize="1.5rem" /> : <PencilSquareIcon iconSize="1.4rem" />}
           </ButtonWithIconAndSpinner>
         </div>
 
@@ -83,13 +79,13 @@ export const EditFromControl: FC<EditFormControlProps> = ({
             }}
             className="btn-secondary ms-2"
           >
-            <CrossIconSVG iconSize="1.4rem" />
+            <CrossIcon iconSize="1.3rem" />
           </ButtonWithIcon>
         )}
 
         {!isEdit && (
           <ButtonWithIcon caption={'Удалить'} onClick={handleDelete} className="btn-danger ms-2">
-            <TrashFillIconSVG iconSize="1.3rem" />
+            <TrashFillIcon iconSize="1.3rem" />
           </ButtonWithIcon>
         )}
       </div>

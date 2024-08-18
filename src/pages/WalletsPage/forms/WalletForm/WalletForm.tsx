@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useId } from 'react';
 // Inputs
 import { WalletTypeInput } from './WalletTypeInput.tsx';
 import { ColorHexInput, IconNameInput, NumberInput, TextInput, WALLET_ICON_OPTIONS } from 'shared/inputs';
@@ -18,15 +18,22 @@ interface WalletFormProps {
 export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validation, setIsValidate }) => {
   const { fieldValidities, fieldFeedbacks } = validation;
 
+  const typeInputID = useId();
+  const nameInputID = useId();
+  const colorHEXInputID = useId();
+  const iconNameInputID = useId();
+  const balanceNameInputID = useId();
+  const descriptionInputID = useId();
+
   return (
     <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column mb-3">
       {/*Type*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="type" style={{ display: 'block' }}>
+        <FormLabel htmlFor={typeInputID} style={{ display: 'block' }}>
           Тип счета
         </FormLabel>
         <WalletTypeInput
-          id="type"
+          id={typeInputID}
           type={formData.type}
           setType={(type: WalletType['type']) => setFormData((state) => ({ ...state, type: type }))}
         />
@@ -35,9 +42,9 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Name*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="name">Имя счета</FormLabel>
+        <FormLabel htmlFor={nameInputID}>Имя счета</FormLabel>
         <TextInput
-          id="name"
+          id={nameInputID}
           value={formData.name}
           onChange={(event) => {
             setFormData((state) => ({ ...state, name: event.target.value }));
@@ -53,17 +60,17 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Icon*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="iconName">Иконка и цвет</FormLabel>
+        <FormLabel htmlFor={iconNameInputID}>Иконка и цвет</FormLabel>
         <div className="d-flex align-items-center">
           <IconNameInput
-            id="iconName"
+            id={iconNameInputID}
             iconName={formData.iconName}
             setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
             iconOptions={WALLET_ICON_OPTIONS}
             optionsStyle={{ rowLength: 6, isDivider: false }}
           />
           <ColorHexInput
-            id="colorHex"
+            id={colorHEXInputID}
             colorHex={formData.color}
             setColorHex={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
           />
@@ -72,9 +79,9 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Balance*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="balance">Сумма на счете</FormLabel>
+        <FormLabel htmlFor={balanceNameInputID}>Сумма на счете</FormLabel>
         <NumberInput
-          id="balance"
+          id={balanceNameInputID}
           number={formData.balance}
           setNumber={(number: number) => {
             setFormData((state) => ({ ...state, balance: number }));
@@ -90,9 +97,9 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
 
       {/*Description*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="description">Описание</FormLabel>
+        <FormLabel htmlFor={descriptionInputID}>Описание</FormLabel>
         <TextInput
-          id="description"
+          id={descriptionInputID}
           value={formData.description}
           onChange={(event) => setFormData((state) => ({ ...state, description: event.target.value }))}
         />

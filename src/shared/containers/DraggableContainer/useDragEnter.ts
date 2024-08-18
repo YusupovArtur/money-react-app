@@ -9,7 +9,7 @@ interface useDragEnterProps {
   closeClassName: string;
 }
 
-const useDragEnter = (props: useDragEnterProps) => {
+export const useDragEnter = (props: useDragEnterProps) => {
   const ANIMATION_TIME = 60;
   const { dragStartID, dragOverID, id, itemIDAbove, openClassName, closeClassName } = props;
 
@@ -37,5 +37,3 @@ const useDragEnter = (props: useDragEnterProps) => {
 
   return dragClassName;
 };
-
-export default useDragEnter;

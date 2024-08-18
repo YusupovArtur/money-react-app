@@ -5,8 +5,6 @@ import { CategoryType } from 'store/slices/categoriesSlice';
 import { CategoryTypeIcon } from 'pages/CategoriesPage/ui/CategoryTypeIcon.tsx';
 
 export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) => {
-  const iconSize: number = 2.5;
-
   return (
     <div className="d-flex flex-column mx-2 mb-4">
       {/*Type*/}

@@ -6,14 +6,14 @@ import { signinUserWithGitHub } from 'store/slices/userSlice';
 import { ButtonWithIcon } from 'shared/ui';
 import { GitHubIcon } from 'pages/LoginPage/icons/GitHubIcon.tsx';
 
-interface SigninWithGitHubButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface SigninWithGitHubButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
   onFulfilled?: () => void;
   iconSize?: string;
 }
 
-const SigninWithGitHubButton: FC<SigninWithGitHubButtonProps> = ({
+export const SigninWithGitHubButton: FC<SigninWithGitHubButtonProps> = ({
   setIsLoading,
   setErrorMessage,
   onFulfilled,
@@ -32,5 +32,3 @@ const SigninWithGitHubButton: FC<SigninWithGitHubButtonProps> = ({
     </ButtonWithIcon>
   );
 };
-
-export default SigninWithGitHubButton;

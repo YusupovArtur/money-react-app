@@ -39,17 +39,6 @@ export const ImageFormControlButtons: FC<ImageFormControlButtonsProps> = ({ canv
         <CloudPlusIcon iconSize="1.5rem" />
       </ButtonWithIconAndSpinner>
 
-      {/*<ButtonWithIcon*/}
-      {/*  caption="Отмена"*/}
-      {/*  onClick={() => {*/}
-      {/*    setIsOpened(false);*/}
-      {/*  }}*/}
-      {/*  className="btn-secondary"*/}
-      {/*  disabled={isLoading}*/}
-      {/*>*/}
-      {/*  <CrossIconSVG iconSize="1.4rem" />*/}
-      {/*</ButtonWithIcon>*/}
-
       <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2"></AlertMessage>
     </>
   );

@@ -3,6 +3,7 @@ import { AnimationStyleType } from './types/AnimationStyleType.ts';
 import { getAnimationStyleNumberState } from './helpers/getAnimationStyleNumberState.ts';
 import { getAnimationStyleStateFrame } from './helpers/getAnimationStyleStateFrame.ts';
 
+// TODO: type that style1 === style2 in props
 interface OpenableContainerProps<T extends AnimationStyleType = AnimationStyleType> extends HTMLProps<HTMLDivElement> {
   children?: ReactNode;
   isOpened: boolean;

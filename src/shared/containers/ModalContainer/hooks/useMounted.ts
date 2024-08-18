@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useMounted = (props: { isOpened: boolean; duration: number }) => {
+export const useMounted = (props: { isOpened: boolean; duration: number }) => {
   const { isOpened, duration } = props;
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -26,5 +26,3 @@ const useMounted = (props: { isOpened: boolean; duration: number }) => {
   }, [isOpened]);
   return isMounted;
 };
-
-export default useMounted;

@@ -4,10 +4,10 @@ import { ModalContainer } from 'shared/containers';
 // Hooks
 import { useClickOutside, useThrottledCallback } from 'shared/hooks';
 // Helpers
-import MenuAlignmentType from './types/MenuAlignmentType';
-import getMenuAlignmentStyle from './helpers/getMenuAlignmentStyle';
-import getPositionedMenuAlignment from './helpers/getPositionedMenuAlignment';
-import getDeviceType from './helpers/getDeviceType';
+import { MenuAlignmentType } from './types/MenuAlignmentType';
+import { getMenuAlignmentStyle } from './helpers/getMenuAlignmentStyle';
+import { getPositionedMenuAlignment } from './helpers/getPositionedMenuAlignment';
+import { getDeviceType } from 'shared/helpers';
 
 interface BaseDropdownContainerProps {
   DropdownToggle: ReactNode;
@@ -18,7 +18,7 @@ interface BaseDropdownContainerProps {
 
   menuAlignment?: MenuAlignmentType;
   zIndex?: number;
-  modalForMobileDevice?: boolean;
+  isModalForMobileDevice?: boolean;
 }
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
@@ -45,16 +45,16 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   menuAlignment = { y: 'bottom', x: 'right' },
   zIndex = 3,
-  modalForMobileDevice = false,
+  isModalForMobileDevice = false,
 }) => {
   const [isOpened, setIsOpened] =
     outerIsOpened !== undefined && outerSetIsOpened ? [outerIsOpened, outerSetIsOpened] : useState<boolean>(false);
 
-  const toggleRef = useRef<HTMLSpanElement>(null);
-  const menuRef = useRef<HTMLSpanElement>(null);
+  const toggleRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const [menuAlignmentStyle, setMenuAlignmentStyle] = useState<CSSProperties>(getMenuAlignmentStyle(menuAlignment));
-  const deviceType = modalForMobileDevice ? getDeviceType() : 'desktop';
+  const deviceType = isModalForMobileDevice ? getDeviceType() : 'desktop';
 
   const handleToggleClick = () => {
     setIsOpened(!isOpened);
@@ -102,26 +102,22 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   }, []);
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-      <span ref={toggleRef} onClick={handleToggleClick} style={{ display: 'inline-block' }}>
+    <div style={{ position: 'relative' }}>
+      <div ref={toggleRef} onClick={handleToggleClick} style={{ width: '100%', height: '100%' }}>
         {DropdownToggle}
-      </span>
+      </div>
 
       {isOpened && deviceType === 'desktop' && (
-        <span
-          onClick={handleMenuClick}
-          ref={menuRef}
-          style={{ position: 'absolute', display: 'inline-block', zIndex, ...menuAlignmentStyle }}
-        >
+        <div ref={menuRef} onClick={handleMenuClick} style={{ position: 'absolute', zIndex, ...menuAlignmentStyle }}>
           {DropdownMenu}
-        </span>
+        </div>
       )}
 
       {isOpened && deviceType === 'mobile' && (
         <ModalContainer
           isOpened={isOpened}
-          onCollapse={setIsOpened}
-          onClick={() => setIsOpened(false)}
+          onCollapse={isOutsideClickClose ? setIsOpened : undefined}
+          onClick={handleMenuClick}
           zIndex={zIndex}
           style={{ margin: 'auto' }}
         >

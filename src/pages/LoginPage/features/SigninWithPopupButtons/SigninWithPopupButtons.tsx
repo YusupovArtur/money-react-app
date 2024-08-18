@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import SigninWithGoogleButton from 'pages/LoginPage/features/SigninWIthGoogleButton/SigninWithGoogleButton';
-import SigninWithGitHubButton from 'pages/LoginPage/features/SigninWithGitHubButton/SigninWithGitHubButton';
+import { SigninWithGitHubButton } from '../SigninWithGitHubButton/SigninWithGitHubButton.tsx';
+import { SigninWithGoogleButton } from '../SigninWIthGoogleButton/SigninWithGoogleButton.tsx';
 
 interface SigninWithPopupButtonsProps {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
@@ -9,20 +9,25 @@ interface SigninWithPopupButtonsProps {
   iconSize?: string;
 }
 
-const SigninWithPopupButtons: FC<SigninWithPopupButtonsProps> = ({ setIsLoading, setErrorMessage, onFulfilled, iconSize }) => {
+export const SigninWithPopupButtons: FC<SigninWithPopupButtonsProps> = ({
+  setIsLoading,
+  setErrorMessage,
+  onFulfilled,
+  iconSize,
+}) => {
   return (
     <div className="mt-3">
       <p className="form-label text-body user-select-none mb-1">Войти с помощью:</p>
       <div className="d-flex justify-content-evenly">
         <SigninWithGoogleButton
-          className="btn-body"
+          className="btn-body-tertiary"
           setIsLoading={setIsLoading}
           setErrorMessage={setErrorMessage}
           onFulfilled={onFulfilled}
           iconSize={iconSize}
         />
         <SigninWithGitHubButton
-          className="btn-body"
+          className="btn-body-tertiary"
           setIsLoading={setIsLoading}
           setErrorMessage={setErrorMessage}
           onFulfilled={onFulfilled}
@@ -32,5 +37,3 @@ const SigninWithPopupButtons: FC<SigninWithPopupButtonsProps> = ({ setIsLoading,
     </div>
   );
 };
-
-export default SigninWithPopupButtons;

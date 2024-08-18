@@ -1,4 +1,4 @@
-const getDividedTextNumber = (numberText: string): [string, string, string] => {
+export const getDividedTextNumber = (numberText: string): [string, string, string] => {
   const getDividedAbsNumber = (s: string, divider: string): [string, string] => {
     const dividerPosition = s.indexOf(divider);
     if (dividerPosition === -1) {
@@ -14,5 +14,3 @@ const getDividedTextNumber = (numberText: string): [string, string, string] => {
 
   return [numberSign, numberIntegerPart, numberFloatPart];
 };
-
-export default getDividedTextNumber;

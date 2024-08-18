@@ -1,19 +1,9 @@
-.bg-body-subtle {
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  background-color: var(--bg-color-body-subtle);
-}
-
 .bg-body-backout {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  background-color: var(--bg-color-backout);
+  background-color: var(--background-color-backout);
 }
 
 .bg-primary-soft {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  background-color: var(--bg-color-primary-15);
-}
-
-.bg-primary-active {
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  background-color: #0a58ca !important;
+  background-color: var(--background-color-primary-15);
 }

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useId } from 'react';
 // Import menus
 import { CategoryTypeInput } from 'pages/CategoriesPage/forms/ui/CategoryTypeInput.tsx';
 import { CATEGORY_ICON_OPTIONS, ColorHexInput, IconNameInput, TextInput } from 'shared/inputs';
@@ -16,6 +16,12 @@ interface CategoryFormProps {
 export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, validation, setIsValidate }) => {
   const { fieldValidities, fieldFeedbacks } = validation;
 
+  const typeInputID = useId();
+  const nameInputID = useId();
+  const colorHEXInputID = useId();
+  const iconNameInputID = useId();
+  const descriptionInputID = useId();
+
   return (
     <form
       onSubmit={(event) => {
@@ -25,11 +31,11 @@ export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, val
     >
       {/*Type*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="type" style={{ display: 'block' }}>
+        <FormLabel htmlFor={typeInputID} style={{ display: 'block' }}>
           Тип категории
         </FormLabel>
         <CategoryTypeInput
-          id="type"
+          id={typeInputID}
           type={formData.type}
           setType={(type: CategoryType['type']) => setFormData((state) => ({ ...state, type }))}
         />
@@ -38,9 +44,9 @@ export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, val
 
       {/*Name*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="name">Имя категории</FormLabel>
+        <FormLabel htmlFor={nameInputID}>Имя категории</FormLabel>
         <TextInput
-          id="name"
+          id={nameInputID}
           value={formData.name}
           onChange={(event) => {
             setFormData((state) => ({ ...state, name: event.target.value }));
@@ -56,17 +62,17 @@ export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, val
 
       {/*Icon*/}
       <div className="d-flex flex-column position-relative mb-3 align-items-start">
-        <FormLabel htmlFor="iconName">Иконка и цвет</FormLabel>
+        <FormLabel htmlFor={iconNameInputID}>Иконка и цвет</FormLabel>
         <div className="d-flex align-items-center">
           <IconNameInput
-            id="iconName"
+            id={iconNameInputID}
             iconName={formData.iconName}
             setIconName={(iconName: string) => setFormData((state) => ({ ...state, iconName }))}
             iconOptions={CATEGORY_ICON_OPTIONS}
             optionsStyle={{ rowLength: 7, isDivider: true }}
           ></IconNameInput>
           <ColorHexInput
-            id="colorHex"
+            id={colorHEXInputID}
             colorHex={formData.color}
             setColorHex={(colorHex: string) => setFormData((state) => ({ ...state, color: colorHex }))}
           ></ColorHexInput>
@@ -75,9 +81,9 @@ export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, val
 
       {/*Description*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor="description">Описаниие</FormLabel>
+        <FormLabel htmlFor={descriptionInputID}>Описаниие</FormLabel>
         <TextInput
-          id="description"
+          id={descriptionInputID}
           value={formData.description}
           onChange={(event) => setFormData((state) => ({ ...state, description: event.target.value }))}
         />

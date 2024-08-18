@@ -17,7 +17,7 @@ type IsValidateType<T> = {
   [K in keyof T]?: boolean;
 };
 
-const useFormValidation = <T,>(
+export const useFormValidation = <T,>(
   formData: FormDataType<T>,
   validators: ValidatorsType<T>,
   isValidate: IsValidateType<T>,
@@ -56,4 +56,3 @@ const useFormValidation = <T,>(
   const isValid = Object.values(fieldValidities).every(Boolean);
   return { isValid, fieldValidities, fieldFeedbacks };
 };
-export default useFormValidation;

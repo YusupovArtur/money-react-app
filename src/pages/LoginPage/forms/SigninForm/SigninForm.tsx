@@ -5,7 +5,7 @@ import { setIsRemember } from 'store/slices/userSlice';
 // Hooks
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { emailValidator, passwordValidator } from 'shared/hooks/useFormValidation/validators';
-import SigninFormDataType from 'pages/LoginPage/types/SigninFormDataType';
+import { SigninFormDataType } from 'pages/LoginPage/types/SigninFormDataType';
 // UI
 import { FormValidationFeedback } from 'shared/ui';
 import { TextInput } from 'shared/inputs';

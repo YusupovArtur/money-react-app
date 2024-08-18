@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID, WalletType } from 'store/slices/walletsSlice';
 // Components
-import WalletsListItem from 'pages/WalletsPage/widgets/WalletsList/WalletsListItem.tsx';
+import { WalletsListItem } from './WalletsListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
 import { AlertMessage } from 'shared/ui';
 
@@ -11,7 +11,7 @@ interface WalletsListProps {
   filter?: WalletType['type'] | null;
 }
 
-const WalletsList: FC<WalletsListProps> = ({ filter }) => {
+export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
   const wallets = useAppSelector((state) => state.wallets.list);
   const order = useAppSelector((state) => state.wallets.order).filter((id) => (!filter ? true : filter === wallets[id].type));
 
@@ -69,5 +69,3 @@ const WalletsList: FC<WalletsListProps> = ({ filter }) => {
     </>
   );
 };
-
-export default WalletsList;

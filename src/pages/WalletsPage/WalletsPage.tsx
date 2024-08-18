@@ -1,18 +1,19 @@
 import { FC, useState } from 'react';
-// Wallet components
-import { ArrowLeftRightIcon, PlusIconSVG } from 'components_legacy/small_components/icons_svg/IconsSVG.tsx';
-import WalletInput from 'pages/WalletsPage/widgets/WalletInput/WalletInput.tsx';
-import WalletsList from 'pages/WalletsPage/widgets/WalletsList/WalletsList.tsx';
-// Transaction components
-import TransactionInput from 'pages/TransactionsPage/widgets/TransactionsInput/TransactionInput.tsx';
-import { PageContentWrapper } from 'shared/wrappers';
-import { ButtonWithIcon, EditWindowPlaceholder } from 'shared/ui';
-import WalletEdit from 'pages/WalletsPage/widgets/WalletEdit/WalletEdit.tsx';
 import { useSearchParams } from 'react-router-dom';
-import { WalletType } from 'store/slices/walletsSlice';
-import { WalletsFilter } from 'pages/WalletsPage/features/WalletsFilter.tsx';
+// Store
 import { useAppSelector } from 'store/store.ts';
+import { WalletType } from 'store/slices/walletsSlice';
+// Wallet
+import { WalletEdit } from './widgets/WalletEdit/WalletEdit.tsx';
+import { WalletInput } from './widgets/WalletInput/WalletInput.tsx';
+import { WalletsList } from './widgets/WalletsList/WalletsList.tsx';
+import { WalletsFilter } from './features/WalletsFilter.tsx';
+// Transaction
+import { TransactionInput } from 'pages/TransactionsPage';
+// UI
+import { ButtonWithIcon, EditWindowPlaceholder, PageContentWrapper } from 'shared/ui';
 import { WalletsPagePlaceholder } from 'pages/WalletsPage/ui/WalletsPagePlaceholder.tsx';
+import { ArrowLeftRightIcon, PlusIcon } from 'shared/icons';
 
 export const WalletsPage: FC = () => {
   const [filter, setFilter] = useState<WalletType['type'] | null>(null);
@@ -46,7 +47,7 @@ export const WalletsPage: FC = () => {
             <ArrowLeftRightIcon iconSize="1.2rem" />
           </ButtonWithIcon>
           <ButtonWithIcon caption="Счет" onClick={() => setIsOpenedWalletInput(true)} className="btn-primary">
-            <PlusIconSVG iconSize="1.4rem" />
+            <PlusIcon iconSize="1.4rem" />
           </ButtonWithIcon>
         </div>
         <div className="mb-2">

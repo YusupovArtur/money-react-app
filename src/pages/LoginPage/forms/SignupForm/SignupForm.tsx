@@ -41,7 +41,6 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
   return (
     <form
       onSubmit={(event) => {
-        console.log('submit');
         event.preventDefault();
         if (onSubmit && isValid) onSubmit();
       }}

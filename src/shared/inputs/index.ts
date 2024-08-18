@@ -1,5 +1,6 @@
 export { TextInput } from './TextInput/TextInput.tsx';
 export { NumberInput } from './NumberInput/NumberInput.tsx';
+export { DateInput } from './DateInput/DateInput.tsx';
 
 export { ColorHexInput } from './ColorHexInput/ColorHexInput.tsx';
 export { IconNameInput } from './IconNameInput/IconNameInput.tsx';

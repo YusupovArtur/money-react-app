@@ -13,7 +13,7 @@ interface SigninWithGoogleButtonProps extends ButtonHTMLAttributes<HTMLButtonEle
   iconSize?: string;
 }
 
-const SigninWithGoogleButton: FC<SigninWithGoogleButtonProps> = ({
+export const SigninWithGoogleButton: FC<SigninWithGoogleButtonProps> = ({
   setIsLoading,
   setErrorMessage,
   onFulfilled,
@@ -32,5 +32,3 @@ const SigninWithGoogleButton: FC<SigninWithGoogleButtonProps> = ({
     </ButtonWithIcon>
   );
 };
-
-export default SigninWithGoogleButton;

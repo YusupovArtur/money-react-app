@@ -1,15 +1,18 @@
 import { FC, useState } from 'react';
-// Store imports
+// Store
 import { useAppDispatch } from 'store/index.ts';
 import { CategoryType, shiftSubCategory, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/slices/categoriesSlice';
-// Subcategories imports
+// Subcategories
 import { SubcategoriesListItem } from 'pages/CategoriesPage/widgets/SubcategoriesList/SubcategoriesListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
+import { EntityFieldLabel } from 'shared/ui';
 
-export const SubcategoriesList: FC<{
+interface SubcategoriesListProps {
   categoryID: string;
   category: CategoryType;
-}> = ({ categoryID, category }) => {
+}
+
+export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, category }) => {
   const order = category.subcategories.order;
   const list = category.subcategories.list;
 
@@ -23,7 +26,7 @@ export const SubcategoriesList: FC<{
 
   return (
     <>
-      <label className="form-label text-body user-select-none mb-1">Подкатегории</label>
+      <EntityFieldLabel>Подкатегории</EntityFieldLabel>
 
       {order.map((id, index) => {
         const aboveID = index === 0 ? undefined : order[index - 1];

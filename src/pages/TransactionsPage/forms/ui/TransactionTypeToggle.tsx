@@ -1,17 +1,20 @@
 import { FC } from 'react';
+import { TransactionType } from 'store/slices/transactionsSlice';
 
-const TransactionTypeToggle: FC<{
-  type: 'expense' | 'income' | 'transfer';
-  setType: (type: 'expense' | 'income' | 'transfer') => void;
-  clearFunction: (type: 'expense' | 'income' | 'transfer') => void;
-}> = ({ type, setType, clearFunction }) => {
+interface TransactionTypeToggleProps {
+  type: TransactionType['type'];
+  setType: (type: TransactionType['type']) => void;
+  onClear: (type: TransactionType['type']) => void;
+}
+
+export const TransactionTypeToggle: FC<TransactionTypeToggleProps> = ({ type, setType, onClear }) => {
   return (
     <div className="d-flex mt-3">
       <input
         type="radio"
         onChange={() => {
           setType('expense');
-          clearFunction('expense');
+          onClear('expense');
         }}
         checked={type === 'expense'}
         className="btn-check"
@@ -26,7 +29,7 @@ const TransactionTypeToggle: FC<{
         type="radio"
         onChange={() => {
           setType('income');
-          clearFunction('income');
+          onClear('income');
         }}
         checked={type === 'income'}
         className="btn-check"
@@ -41,7 +44,7 @@ const TransactionTypeToggle: FC<{
         type="radio"
         onChange={() => {
           setType('transfer');
-          clearFunction('transfer');
+          onClear('transfer');
         }}
         checked={type === 'transfer'}
         className="btn-check"
@@ -54,5 +57,3 @@ const TransactionTypeToggle: FC<{
     </div>
   );
 };
-
-export default TransactionTypeToggle;

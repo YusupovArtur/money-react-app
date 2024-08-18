@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { changeThemeDisplay } from 'store/slices/themeSlice/themeSlice.ts';
 import { useAppDispatch, useAppSelector } from 'store';
 
-const useThemeAutoModeListener = () => {
+export const useThemeAutoModeListener = () => {
   const dispatch = useAppDispatch();
   const themeMode = useAppSelector((state) => state.theme.themeMode);
   const themeDisplay = useAppSelector((state) => state.theme.themeDisplay);
@@ -28,5 +28,3 @@ const useThemeAutoModeListener = () => {
     document.body.setAttribute('data-bs-theme', themeDisplay);
   }, [themeDisplay]);
 };
-
-export default useThemeAutoModeListener;

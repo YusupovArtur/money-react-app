@@ -2,9 +2,9 @@ import { ChangeEvent, FC, InputHTMLAttributes, useEffect, useRef, useState } fro
 // UI
 import { TextInput } from 'shared/inputs';
 // Helpers
-import getFormatedTextNumber from './helpers/getFormatedTextNumber';
-import getNumberFromText from './helpers/getNumberFromText';
-import getCursorShift from 'shared/inputs/NumberInput/helpers/getCursorShift';
+import { getFormatedTextNumber } from './helpers/getFormatedTextNumber';
+import { getNumberFromText } from './helpers/getNumberFromText';
+import { getCursorShift } from 'shared/inputs/NumberInput/helpers/getCursorShift';
 
 interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value'> {
   number: number;
