@@ -14,7 +14,7 @@ import { TextInput } from 'shared/inputs';
 interface SignupFormProps {
   formData: SignupFormDataType;
   setFormData: Dispatch<SetStateAction<SignupFormDataType>>;
-  onSubmit?: () => void;
+  onSubmit?: () => any;
 }
 
 export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmit }) => {

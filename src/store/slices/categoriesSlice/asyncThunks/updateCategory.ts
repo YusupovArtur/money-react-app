@@ -23,7 +23,7 @@ export const updateCategory = createAsyncThunk<
         return { categoryID, categoryProps };
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');

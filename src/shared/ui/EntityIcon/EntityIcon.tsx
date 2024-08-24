@@ -7,6 +7,7 @@ interface EntityIconProps {
   iconSize: `${number}rem`;
 }
 
+// TODO: set color as dependency from background-color
 export const EntityIcon: FC<EntityIconProps> = ({ iconName, iconBackgroundColor, iconSize }) => {
   const numberRemSize = parseFloat(iconSize) ? parseFloat(iconSize) : 0;
 

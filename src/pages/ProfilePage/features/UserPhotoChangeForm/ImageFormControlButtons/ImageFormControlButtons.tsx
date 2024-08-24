@@ -1,10 +1,10 @@
 import { Dispatch, FC, MutableRefObject, SetStateAction, useState } from 'react';
 // Store
-import { useAppDispatch, useAppSelector } from 'store';
+import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { uploadUserPhoto } from 'store/slices/userSlice';
 // UI
 import { AlertMessage, ButtonWithIconAndSpinner } from 'shared/ui';
-import { CloudPlusIcon } from 'pages/ProfilePage/features/UserPhotoChangeButton/ui/CloudPlusIcon.tsx';
+import { CloudPlusIcon } from './ui/CloudPlusIcon.tsx';
 
 interface ImageFormControlButtonsProps {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;

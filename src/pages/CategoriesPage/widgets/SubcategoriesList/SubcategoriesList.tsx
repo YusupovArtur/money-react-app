@@ -5,7 +5,7 @@ import { CategoryType, shiftSubCategory, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 
 // Subcategories
 import { SubcategoriesListItem } from 'pages/CategoriesPage/widgets/SubcategoriesList/SubcategoriesListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
-import { EntityFieldLabel } from 'shared/ui';
+import { AlertMessage, EntityFieldLabel } from 'shared/ui';
 
 interface SubcategoriesListProps {
   categoryID: string;
@@ -19,18 +19,33 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
+  const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
+  const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
+
   const dispatch = useAppDispatch();
   const dropFunction = (dropID: string) => {
-    dispatch(shiftSubCategory({ categoryID: categoryID, subcategoryID1: dragStartID, subcategoryID2: dropID }));
+    dispatch(
+      shiftSubCategory({
+        categoryID: categoryID,
+        subcategoryID1: dragStartID,
+        subcategoryID2: dropID,
+        setIsLoading: setShiftIsLoading,
+        setErrorMessage: setShiftErrorMessage,
+      }),
+    );
   };
 
   return (
     <>
       <EntityFieldLabel>Подкатегории</EntityFieldLabel>
 
+      <AlertMessage alertMessage={shiftErrorMessage} className="alert-danger mt-1" />
+
       {order.map((id, index) => {
         const aboveID = index === 0 ? undefined : order[index - 1];
         const isOpened = id === dragOverID && id !== dragStartID && aboveID !== dragStartID;
+        const disabled = shiftIsLoading || (Boolean(dragStartID) && id !== dragStartID);
+
         return (
           <DraggableContainer
             key={id}
@@ -42,7 +57,13 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
             setStartID={setDragStartID}
             setOverID={setDragOverID}
           >
-            <SubcategoriesListItem subcategory={list[id]} subcategoryID={id} color={category.color} />
+            <SubcategoriesListItem
+              id={id}
+              subcategory={list[id]}
+              disabled={disabled}
+              loading={shiftIsLoading}
+              color={category.color}
+            />
           </DraggableContainer>
         );
       })}

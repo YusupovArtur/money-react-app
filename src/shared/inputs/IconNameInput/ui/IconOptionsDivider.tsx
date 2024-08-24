@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import 'shared/inputs/IconNameInput/style/icon_options_diviter_style.scss';
+import 'shared/inputs/IconNameInput/style/icon-options-divider.scss';
 
 interface IconOptionsDividerProps {}
 
 export const IconOptionsDivider: FC<IconOptionsDividerProps> = ({}) => {
-  return <hr className="options-divider" />;
+  return <hr className="icon-options-divider" />;
 };

@@ -8,11 +8,11 @@ import { PlusIcon } from 'shared/icons';
 interface InputFormControlProps {
   caption: string;
   disabled?: boolean;
-  setValidate?: () => void;
+  setValidate?: () => any;
 
-  setIsOpened: (isOpened: boolean) => void;
-  onAdd: (statusHooks: ResponseHooksType) => void;
-  onClear: () => void;
+  setIsOpened: (isOpened: boolean) => any;
+  onAdd: (statusHooks: ResponseHooksType) => any;
+  onClear: () => any;
 }
 
 export const InputFormControl: FC<InputFormControlProps> = ({ caption, disabled, setValidate, setIsOpened, onClear, onAdd }) => {

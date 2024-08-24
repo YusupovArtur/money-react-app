@@ -30,7 +30,7 @@ export const updateSubCategory = createAsyncThunk<
         return { categoryID, subcategoryID, subcategoryProps };
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');

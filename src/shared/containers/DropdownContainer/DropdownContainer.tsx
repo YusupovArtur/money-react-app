@@ -23,7 +23,7 @@ interface BaseDropdownContainerProps {
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
   isOpened: boolean;
-  setIsOpened: (isOpened: boolean) => void;
+  setIsOpened: (isOpened: boolean) => any;
 }
 
 interface WithoutStateDropdownContainerProps extends BaseDropdownContainerProps {

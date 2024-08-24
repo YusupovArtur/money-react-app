@@ -24,7 +24,7 @@ export const addTransaction = createAsyncThunk<
         return { id: querySnapshot.id, operation };
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');

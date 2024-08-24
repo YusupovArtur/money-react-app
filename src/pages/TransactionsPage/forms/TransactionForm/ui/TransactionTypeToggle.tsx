@@ -3,8 +3,8 @@ import { TransactionType } from 'store/slices/transactionsSlice';
 
 interface TransactionTypeToggleProps {
   type: TransactionType['type'];
-  setType: (type: TransactionType['type']) => void;
-  onClear: (type: TransactionType['type']) => void;
+  setType: (type: TransactionType['type']) => any;
+  onClear: (type: TransactionType['type']) => any;
 }
 
 export const TransactionTypeToggle: FC<TransactionTypeToggleProps> = ({ type, setType, onClear }) => {

@@ -11,8 +11,9 @@ import { addSigninUserWithGoogleExtraReducers } from './asyncThunks/signinUserWi
 import { addSigninUserWithGitHubExtraReducers } from './asyncThunks/signinUserWithGitHub';
 import { addLogoutUserExtraReducers } from './asyncThunks/logoutUser';
 import { addUpdateUserExtraReducers } from './asyncThunks/updateUserState';
-import { addUpdateUserPhotoExtraReducers } from './asyncThunks/uploadUserPhoto.ts';
+import { addUploadUserPhotoExtraReducers } from './asyncThunks/uploadUserPhoto.ts';
 import { addFetchPhotoDataURLExtraReducers } from 'store/slices/userSlice/asyncThunks/fetchPhotoDataURL.ts';
+import { addDeleteUserPhotoExtraReducers } from 'store/slices/userSlice/asyncThunks/deleteUserPhoto.ts';
 
 export const verifyEmail = createAsyncThunk<void, ResponseHooksType>('user/verifyEmail', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;
@@ -75,8 +76,9 @@ const userSlice = createSlice({
     addSigninUserWithGitHubExtraReducers(builder);
     addLogoutUserExtraReducers(builder);
     addUpdateUserExtraReducers(builder);
-    addUpdateUserPhotoExtraReducers(builder);
+    addUploadUserPhotoExtraReducers(builder);
     addFetchPhotoDataURLExtraReducers(builder);
+    addDeleteUserPhotoExtraReducers(builder);
   },
 });
 

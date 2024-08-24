@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useDeferredValue, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID, WalletType } from 'store/slices/walletsSlice';
@@ -12,18 +12,29 @@ interface WalletsListProps {
 }
 
 export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
+  const deferredFilter = useDeferredValue(filter);
   const wallets = useAppSelector((state) => state.wallets.list);
-  const order = useAppSelector((state) => state.wallets.order).filter((id) => (!filter ? true : filter === wallets[id].type));
+  const order = useAppSelector((state) => state.wallets.order).filter((id) =>
+    !deferredFilter ? true : deferredFilter === wallets[id].type,
+  );
 
   const errorMessage = useAppSelector((state) => state.wallets.responseState.errorMessage);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
+  const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
   const dispatch = useAppDispatch();
   const dropFunction = (dropID: string) => {
-    dispatch(shiftWallet({ walletID1: dragStartID, walletID2: dropID, setIsLoading }));
+    dispatch(
+      shiftWallet({
+        walletID1: dragStartID,
+        walletID2: dropID,
+        setIsLoading: setShiftIsLoading,
+        setErrorMessage: setShiftErrorMessage,
+      }),
+    );
   };
 
   if (errorMessage) {
@@ -32,21 +43,25 @@ export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
 
   return (
     <>
+      <AlertMessage alertMessage={shiftErrorMessage} className="alert-danger mt-1" />
+
       {order.map((id, index) => {
         const aboveID = index === 0 ? undefined : order[index - 1];
         const isOpened = id === dragOverID && id !== dragStartID && aboveID !== dragStartID;
+        const disabled = shiftIsLoading || (Boolean(dragStartID) && id !== dragStartID);
+
         return (
           <DraggableContainer
             key={id}
             id={id}
-            draggable={!isLoading}
+            draggable={!shiftIsLoading}
             isOpened={isOpened}
             onDrop={dropFunction}
             startID={dragStartID}
             setStartID={setDragStartID}
             setOverID={setDragOverID}
           >
-            <WalletsListItem id={id} />
+            <WalletsListItem id={id} disabled={disabled} loading={shiftIsLoading} />
           </DraggableContainer>
         );
       })}

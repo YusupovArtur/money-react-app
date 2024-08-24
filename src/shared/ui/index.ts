@@ -22,3 +22,4 @@ export { EntityFieldValue } from './labels/EntityFieldValue.tsx';
 export { DropdownMenuWrapper } from './wrappers/DropdownMenuWrapper.tsx';
 export { ModalContainerWrapper } from './wrappers/ModalContainerWrapper.tsx';
 export { PageContentWrapper } from './wrappers/PageContentWrapper.tsx';
+export { ListItemWrapper } from './wrappers/LisItemWrapper/ListItemWrapper.tsx';

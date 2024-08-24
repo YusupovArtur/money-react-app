@@ -4,7 +4,7 @@ type itemOrNonEmptyArray<T> = T | [T, T, ...T[]];
 
 interface useClickOutsideProps {
   elementRef: itemOrNonEmptyArray<RefObject<HTMLElement>>;
-  onClickOutside: () => void;
+  onClickOutside: () => any;
 }
 
 export const useClickOutside = ({ elementRef, onClickOutside }: useClickOutsideProps) => {

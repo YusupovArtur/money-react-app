@@ -4,7 +4,7 @@ import { getWalletTypeName } from 'pages/WalletsPage/helpers/getWalletTypeName.t
 
 interface WalletTypeInputProps {
   type: WalletType['type'];
-  setType: (type: WalletType['type']) => void;
+  setType: (type: WalletType['type']) => any;
   id?: string;
 }
 

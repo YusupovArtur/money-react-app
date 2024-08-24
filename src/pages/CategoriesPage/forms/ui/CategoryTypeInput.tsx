@@ -4,7 +4,7 @@ import { getCategoryTypeName } from 'pages/CategoriesPage/helpers/getCategoryTyp
 
 interface CategoryTypeInputProps {
   type: CategoryType['type'];
-  setType: (type: CategoryType['type']) => void;
+  setType: (type: CategoryType['type']) => any;
   id?: string;
 }
 

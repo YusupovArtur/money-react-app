@@ -49,7 +49,7 @@ export const shiftWallet = createAsyncThunk<
         return rejectWithValue('Not find id1');
       }
     }).catch((error) => {
-      return rejectWithValue(getErrorMessage(error.code));
+      return rejectWithValue(getErrorMessage(error));
     });
   } else {
     return rejectWithValue('Вы не авторизованы');

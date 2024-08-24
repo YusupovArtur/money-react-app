@@ -20,7 +20,7 @@ export const signinUserWithEmailAndPassword = createAsyncThunk<
       return getUserState(user);
     })
     .catch((error) => {
-      return rejectWithValue(getErrorMessage(error.code));
+      return rejectWithValue(getErrorMessage(error));
     });
 });
 

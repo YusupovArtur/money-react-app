@@ -1,6 +1,6 @@
 import { FC, MouseEvent, MutableRefObject, useRef, WheelEvent } from 'react';
 // Helpers
-import { drawCanvasImage } from 'pages/ProfilePage/features/UserPhotoChangeButton/helpers/drawCanvasImage.ts';
+import { drawCanvasImage } from '../helpers/drawCanvasImage.ts';
 import { moveCanvasImageCoordinates } from './helpers/moveCanvasImageCoordiates.ts';
 
 interface ImageCanvasProps {

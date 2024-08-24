@@ -12,12 +12,13 @@ export const updateUserState = createAsyncThunk<
   const auth = getAuth();
 
   if (auth.currentUser) {
+    console.log(photoURL);
     return await updateProfile(auth.currentUser, { displayName: username, photoURL: photoURL })
       .then(() => {
         return { username, photoURL };
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');

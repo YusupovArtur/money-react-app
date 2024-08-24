@@ -9,7 +9,7 @@ import { IconOptionsDivider } from './ui/IconOptionsDivider.tsx';
 
 interface IconNameInputProps {
   iconName: string;
-  setIconName: (iconName: string) => void;
+  setIconName: (iconName: string) => any;
   iconOptions: string[][];
   id?: string;
   iconSize?: `${number}rem`;
@@ -56,10 +56,7 @@ export const IconNameInput: FC<IconNameInputProps> = ({
                       <ButtonWithIcon
                         key={iconNameOption}
                         onClick={() => setIconName(iconNameOption)}
-                        style={{ padding: iconName === iconNameOption ? '0.4rem' : undefined }}
-                        className={`hover-scale-10 btn-body-tertiary p-0 m-1 ${
-                          iconName === iconNameOption ? 'selected bordered-strong' : ''
-                        }`}
+                        className={`dropdown-option-item btn-body m-1 ${iconName === iconNameOption ? 'selected' : ''}`}
                       >
                         <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
                       </ButtonWithIcon>

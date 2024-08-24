@@ -9,7 +9,7 @@ import { GitHubIcon } from 'pages/LoginPage/icons/GitHubIcon.tsx';
 export interface SigninWithGitHubButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
-  onFulfilled?: () => void;
+  onFulfilled?: () => any;
   iconSize?: string;
 }
 

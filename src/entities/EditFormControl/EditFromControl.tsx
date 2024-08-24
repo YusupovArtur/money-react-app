@@ -3,17 +3,16 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { ResponseHooksType } from 'store';
 // UI
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
-import { CheckIcon, CrossIcon, PencilSquareIcon } from 'shared/icons';
-import { TrashFillIcon } from './ui/TrashFillIcon.tsx';
+import { CheckIcon, CrossIcon, PencilSquareIcon, TrashFillIcon } from 'shared/icons';
 
 interface EditFormControlProps {
   disabled?: boolean;
-  onClear: () => void;
-  onUpdate: (statusHooks: ResponseHooksType) => void;
-  onDelete: (statusHooks: ResponseHooksType) => void;
-  onUpdateFulfilled: () => void;
-  onDeleteFulfilled: () => void;
-  setValidateFields?: () => void;
+  onClear: () => any;
+  onUpdate: (statusHooks: ResponseHooksType) => any;
+  onDelete: (statusHooks: ResponseHooksType) => any;
+  onUpdateFulfilled: () => any;
+  onDeleteFulfilled: () => any;
+  setValidateFields?: () => any;
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   captions: { itemType: string; itemName: string };
@@ -31,8 +30,11 @@ export const EditFromControl: FC<EditFormControlProps> = ({
   setIsEdit,
   captions: { itemType, itemName },
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
+  const [updateErrorMessage, setUpdateErrorMessage] = useState<string>('');
+
+  const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
+  const [deleteErrorMessage, setDeleteErrorMessage] = useState<string>('');
 
   const handleSetIsValidate = () => {
     if (setValidateFields) {
@@ -42,13 +44,21 @@ export const EditFromControl: FC<EditFormControlProps> = ({
 
   const handleDelete = () => {
     if (confirm(`Вы уверены что хотите удалить ${itemType}: ${itemName}`)) {
-      onDelete({ setIsLoading, setErrorMessage, onFulfilled: onDeleteFulfilled });
+      onDelete({
+        setIsLoading: setDeleteIsLoading,
+        setErrorMessage: setDeleteErrorMessage,
+        onFulfilled: onDeleteFulfilled,
+      });
     }
   };
 
   const handleUpdate = () => {
     if (isEdit) {
-      onUpdate({ setIsLoading, setErrorMessage, onFulfilled: onUpdateFulfilled });
+      onUpdate({
+        setIsLoading: setIsUpdateLoading,
+        setErrorMessage: setUpdateErrorMessage,
+        onFulfilled: onUpdateFulfilled,
+      });
     } else {
       setIsEdit(true);
     }
@@ -60,20 +70,20 @@ export const EditFromControl: FC<EditFormControlProps> = ({
         <div onClick={handleSetIsValidate} style={{ cursor: 'pointer' }} className="d-flex flex-grow-1">
           <ButtonWithIconAndSpinner
             caption={isEdit ? 'Сохранить' : 'Редактировать'}
-            isLoading={isLoading}
-            disabled={isEdit && (disabled || isLoading)}
+            isLoading={isUpdateLoading}
+            disabled={isEdit && (disabled || isUpdateLoading)}
             onClick={handleUpdate}
             className="btn-primary flex-grow-1"
           >
-            {isEdit ? <CheckIcon iconSize="1.5rem" /> : <PencilSquareIcon iconSize="1.4rem" />}
+            {isEdit ? <CheckIcon iconSize="1.5rem" /> : <PencilSquareIcon iconSize="1.5rem" />}
           </ButtonWithIconAndSpinner>
         </div>
 
         {isEdit && (
           <ButtonWithIcon
-            caption={'Отмена'}
+            caption="Отмена"
             onClick={() => {
-              setErrorMessage('');
+              setUpdateErrorMessage('');
               setIsEdit(false);
               onClear();
             }}
@@ -84,13 +94,19 @@ export const EditFromControl: FC<EditFormControlProps> = ({
         )}
 
         {!isEdit && (
-          <ButtonWithIcon caption={'Удалить'} onClick={handleDelete} className="btn-danger ms-2">
-            <TrashFillIcon iconSize="1.3rem" />
-          </ButtonWithIcon>
+          <ButtonWithIconAndSpinner
+            caption="Удалить"
+            isLoading={deleteIsLoading}
+            onClick={handleDelete}
+            className="btn-danger ms-2"
+          >
+            <TrashFillIcon iconSize="1.5rem" />
+          </ButtonWithIconAndSpinner>
         )}
       </div>
 
-      <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2" />
+      <AlertMessage alertMessage={deleteErrorMessage} className="alert-danger mt-2" />
+      <AlertMessage alertMessage={updateErrorMessage} className="alert-danger mt-2" />
     </>
   );
 };

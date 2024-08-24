@@ -13,7 +13,7 @@ export const logoutUser = createAsyncThunk<UserType, ResponseHooksType, { reject
         return getUserState(null);
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   },
 );

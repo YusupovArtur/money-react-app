@@ -1,10 +1,10 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
 // Inputs
-import { TransactionTypeToggle } from './ui/TransactionTypeToggle.tsx';
+import { TransactionTypeToggle } from 'pages/TransactionsPage/forms/TransactionForm/ui/TransactionTypeToggle.tsx';
 import { DateInput, NumberInput, WalletIDInput } from 'shared/inputs';
 // Icons
-import { ArrowRightIcon } from './ui/ArrowRight.tsx';
+import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
 
 interface TransactionFormProps {
   formData: TransactionType;

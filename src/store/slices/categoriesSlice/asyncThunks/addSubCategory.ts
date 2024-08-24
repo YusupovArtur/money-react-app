@@ -24,7 +24,7 @@ export const addSubCategory = createAsyncThunk<
       transaction.update(docRef, { [`subcategories.list.${subcategoryID}`]: subcategory });
       return { categoryID: categoryID, subcategoryID: subcategoryID, subcategory };
     }).catch((error) => {
-      return rejectWithValue(getErrorMessage(error.code));
+      return rejectWithValue(getErrorMessage(error));
     });
   } else {
     return rejectWithValue('Вы не авторизованы');

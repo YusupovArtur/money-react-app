@@ -8,7 +8,7 @@ import { getCursorShift } from 'shared/inputs/NumberInput/helpers/getCursorShift
 
 interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value'> {
   number: number;
-  setNumber: (number: number) => void;
+  setNumber: (number: number) => any;
 }
 
 export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, ...props }) => {

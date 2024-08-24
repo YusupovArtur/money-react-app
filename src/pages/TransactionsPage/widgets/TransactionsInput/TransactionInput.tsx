@@ -3,10 +3,9 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { ResponseHooksType, useAppDispatch } from 'store/index.ts';
 import { addTransaction, TransactionType } from 'store/slices/transactionsSlice';
 // Input components
-import { ModalContainer } from 'shared/containers';
+import { ModalWindowContainer } from 'shared/containers';
 import { InputFormControl } from 'entities/InputFormControl';
-import { TransactionForm } from '../../forms/TransactionForm.tsx';
-import { ModalContainerWrapper } from 'shared/ui';
+import { TransactionForm } from '../../forms/TransactionForm/TransactionForm.tsx';
 
 interface TransactionInputProps {
   isOpened: boolean;
@@ -43,13 +42,15 @@ export const TransactionInput: FC<TransactionInputProps> = ({ isOpened, setIsOpe
       description: '',
     });
   };
+  const onClose = (isOpened: boolean) => {
+    setIsOpened(isOpened);
+    onClear();
+  };
 
   return (
-    <ModalContainer isOpened={isOpened} onCollapse={setIsOpened} style={{ margin: 'auto' }}>
-      <ModalContainerWrapper style={{ maxWidth: '35rem', width: '100vw' }}>
-        <InputFormControl caption="Транзакция" setIsOpened={setIsOpened} onClear={onClear} onAdd={onAdd} />
-        <TransactionForm type={type} formData={formData} setFormData={setFormData} />
-      </ModalContainerWrapper>
-    </ModalContainer>
+    <ModalWindowContainer isOpened={isOpened} onCollapse={setIsOpened} onClose={onClose} style={{ margin: 'auto' }}>
+      <TransactionForm type={type} formData={formData} setFormData={setFormData} />
+      <InputFormControl caption="Транзакция" setIsOpened={setIsOpened} onClear={onClear} onAdd={onAdd} />
+    </ModalWindowContainer>
   );
 };

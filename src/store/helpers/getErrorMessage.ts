@@ -1,5 +1,5 @@
-export const getErrorMessage = (errorCode: any): string => {
-  switch (errorCode) {
+const getErrorCodesRussianDetalization = (code: any): string => {
+  switch (code) {
     case 'auth/email-already-in-use':
       return 'Электронная почта уже используется';
     case 'auth/invalid-email':
@@ -16,11 +16,20 @@ export const getErrorMessage = (errorCode: any): string => {
       return 'Всплывающее окно заблокировано';
     case 'auth/popup-closed-by-user':
       return 'Всплывающее окно закрыто';
+    case typeof code === 'string':
+      return code;
     default:
-      if (typeof errorCode === 'string') {
-        return errorCode;
-      } else {
-        return `Неизвестная ошибка ${errorCode.toString()}`;
-      }
+      return `Неизвестная ошибка ${code.toString()}`;
+  }
+};
+
+export const getErrorMessage = (error: any): string => {
+  switch (error) {
+    case typeof error !== 'object':
+      return getErrorCodesRussianDetalization(error);
+    case error && typeof error === 'object' && 'code' in error:
+      return getErrorCodesRussianDetalization(error.code);
+    default:
+      return getErrorCodesRussianDetalization(undefined);
   }
 };

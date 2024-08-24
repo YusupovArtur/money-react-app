@@ -1,21 +1,22 @@
-import { CSSProperties, FC } from 'react';
+import { FC } from 'react';
 // Store
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'store/store.ts';
 // Icons
-import { EntityIcon } from 'shared/ui';
+import { EntityIcon, ListItemWrapper } from 'shared/ui';
 import { CategoryTypeIcon } from 'pages/CategoriesPage/ui/CategoryTypeIcon.tsx';
 
 interface CategoryItemProps {
   id: string;
-  style?: CSSProperties;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
-export const CategoryListItem: FC<CategoryItemProps> = ({ id, style }) => {
+export const CategoryListItem: FC<CategoryItemProps> = ({ id, disabled, loading }) => {
   const category = useAppSelector((state) => state.categories.list[id]);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const setID = () => {
+  const handleSetID = () => {
     searchParams.set('categoryID', id);
     setSearchParams(searchParams);
   };
@@ -25,11 +26,7 @@ export const CategoryListItem: FC<CategoryItemProps> = ({ id, style }) => {
   }
 
   return (
-    <div
-      onClick={setID}
-      style={style}
-      className="hover-scale-1 d-flex justify-content-between align-items-center rounded shadow-sm px-3 py-2 mt-1"
-    >
+    <ListItemWrapper onClick={handleSetID} disabled={disabled} loading={loading}>
       <div className="d-flex align-items-center">
         <EntityIcon iconName={category.iconName} iconBackgroundColor={category.color} iconSize="2.2rem" />
         <span className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
@@ -37,6 +34,6 @@ export const CategoryListItem: FC<CategoryItemProps> = ({ id, style }) => {
         </span>
       </div>
       <CategoryTypeIcon type={category.type} />
-    </div>
+    </ListItemWrapper>
   );
 };

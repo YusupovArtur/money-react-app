@@ -24,7 +24,7 @@ export const downloadWallets = createAsyncThunk<
         return getWalletsOrderedList(querySnapshot);
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');

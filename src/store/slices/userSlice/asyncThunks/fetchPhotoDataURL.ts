@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { getAuth } from 'firebase/auth';
 import { UserStateType } from 'store/slices/userSlice';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
 
 const convertBlobToDataUrl = (blob: Blob) => {
   return new Promise<string>((resolve, reject) => {
@@ -48,7 +48,7 @@ export const fetchPhotoDataURL = createAsyncThunk<
       if (user.photoURL !== null && !isFetchDefaultIcon) {
         dispatch(fetchPhotoDataURL({ isFetchDefaultIcon: true, ...responseHooks }));
       }
-      return rejectWithValue(getErrorMessage('Неизвестная ошибка'));
+      return rejectWithValue('Неизвестная ошибка');
     }
   } else {
     return rejectWithValue('Вы не авторизованы');

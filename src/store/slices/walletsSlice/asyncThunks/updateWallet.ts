@@ -22,7 +22,7 @@ export const updateWallet = createAsyncThunk<
         return { id, walletProps };
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');

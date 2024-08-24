@@ -4,11 +4,10 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store
 import { useAppDispatch, useAppSelector } from 'store';
 import { CategoriesFirestoreListener, TransactionsFirestoreListener, WalletsFirestoreListener } from 'store/listeners';
-import { clearUserState, getUserState, logoutUser, setUserState } from 'store/slices/userSlice';
+import { clearUserState, fetchPhotoDataURL, getUserState, logoutUser, setUserState } from 'store/slices/userSlice';
 import { clearTransactions } from 'store/slices/transactionsSlice';
 import { clearWallets } from 'store/slices/walletsSlice';
 import { clearCategories } from 'store/slices/categoriesSlice';
-import { fetchPhotoDataURL } from 'store/slices/userSlice/asyncThunks/fetchPhotoDataURL.ts';
 
 export const useFirestoreChangesListener = () => {
   const dispatch = useAppDispatch();

@@ -10,9 +10,9 @@ interface ModalWindowContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   isOpened: boolean;
   /** Callback for closing when close button clicked */
-  onClose?: (isOpened: boolean) => void;
+  onClose?: (isOpened: boolean) => any;
   /** Callback for close when outside clicked */
-  onCollapse?: (isOpened: boolean) => void;
+  onCollapse?: (isOpened: boolean) => any;
   zIndex?: number;
 }
 

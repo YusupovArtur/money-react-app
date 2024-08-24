@@ -32,7 +32,7 @@ export const addCategory = createAsyncThunk<
 
       return { id, category: categoryToAdd };
     }).catch((error) => {
-      return rejectWithValue(getErrorMessage(error.code));
+      return rejectWithValue(getErrorMessage(error));
     });
   } else {
     return rejectWithValue('Вы не авторизованы');

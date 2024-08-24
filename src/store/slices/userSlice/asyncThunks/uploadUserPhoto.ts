@@ -12,45 +12,50 @@ export const uploadUserPhoto = createAsyncThunk<
     rejectValue: string;
   }
 >('user/uploadUserPhoto', async (props, { dispatch, rejectWithValue }) => {
-  const { photoDataURL, ...responseHooks } = props;
+  const { photoDataURL } = props;
   const auth = getAuth();
 
   if (auth.currentUser) {
     const userID = auth.currentUser.uid;
-    const storageRef = ref(storage, `users_photos/${userID}/profile_photo`);
+    const photoRef = ref(storage, `users_photos/${userID}/profile_photo`);
 
-    return await uploadString(storageRef, photoDataURL, 'data_url')
+    return await uploadString(photoRef, photoDataURL, 'data_url')
       .then((snapshot) => {
-        getDownloadURL(snapshot.ref)
-          .then((url) => {
-            return dispatch(updateUserState({ photoURL: url, ...responseHooks }));
-          })
-          .then((result) => {
-            if (updateUserState.fulfilled.match(result)) {
-              dispatch(setPhotoDataURL(photoDataURL));
-            }
-          })
-          .catch((error) => {
-            return rejectWithValue(getErrorMessage(error.code));
-          });
+        return getDownloadURL(snapshot.ref);
+      })
+      .then((url) => {
+        return dispatch(updateUserState({ photoURL: url }));
+      })
+      .then((result) => {
+        if (updateUserState.fulfilled.match(result)) {
+          return;
+        }
+        if (updateUserState.rejected.match(result)) {
+          return rejectWithValue(getErrorMessage(result.payload));
+        }
+      })
+      .then(() => {
+        dispatch(setPhotoDataURL(photoDataURL));
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   } else {
     return rejectWithValue('Вы не авторизованы');
   }
 });
 
-export const addUpdateUserPhotoExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
+export const addUploadUserPhotoExtraReducers = (builder: ActionReducerMapBuilder<UserStateType>) => {
   builder
     .addCase(uploadUserPhoto.pending, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(true);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
-    // .addCase(uploadUserPhoto.fulfilled, (state, action) => {
-    //   state.photoDataURL = action.meta.arg.photoDataURL;
-    // })
+    .addCase(uploadUserPhoto.fulfilled, (_state, action) => {
+      if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
+      if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
+      if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
+    })
     .addCase(uploadUserPhoto.rejected, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage && action.payload !== undefined) action.meta.arg.setErrorMessage(action.payload);

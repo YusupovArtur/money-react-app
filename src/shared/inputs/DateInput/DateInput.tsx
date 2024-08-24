@@ -15,7 +15,7 @@ import { CalendarIcon } from 'shared/inputs/DateInput/ui/CalendarIcon.tsx';
 
 interface DateInputProps {
   timestamp: number;
-  setTimestamp: (timestamp: number) => void;
+  setTimestamp: (timestamp: number) => any;
   isModalForMobileDevice?: boolean;
 }
 

@@ -1,14 +1,15 @@
-import { ButtonHTMLAttributes, ChangeEvent, Dispatch, FC, SetStateAction, useRef } from 'react';
+import { ChangeEvent, Dispatch, FC, SetStateAction, useRef } from 'react';
 import { ButtonWithIcon } from 'shared/ui';
-import { ImageIcon } from 'pages/ProfilePage/features/UserPhotoChangeButton/ImageFileInput/icons/ImageIcon';
+import { ImageIcon } from './icons/ImageIcon.tsx';
 
-interface ImageInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ImageInputProps {
   reader: FileReader;
+  disabled?: boolean;
   setIsOpened?: Dispatch<SetStateAction<boolean>>;
   iconSize?: string;
 }
 
-export const ImageFileInput: FC<ImageInputProps> = ({ reader, setIsOpened, iconSize = '1.5rem', ...props }) => {
+export const ImageFileInput: FC<ImageInputProps> = ({ reader, disabled, setIsOpened, iconSize = '1.5rem' }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileInputClick = () => {
@@ -34,11 +35,12 @@ export const ImageFileInput: FC<ImageInputProps> = ({ reader, setIsOpened, iconS
         ref={fileInputRef}
         style={{ display: 'none' }}
       ></input>
+
       <ButtonWithIcon
         caption="Выбрать фото"
         onClick={handleFileInputClick}
-        className="btn-primary align-self-center mt-1"
-        {...props}
+        disabled={disabled}
+        className="btn-primary flex-grow-1"
       >
         <ImageIcon iconSize={iconSize}></ImageIcon>
       </ButtonWithIcon>

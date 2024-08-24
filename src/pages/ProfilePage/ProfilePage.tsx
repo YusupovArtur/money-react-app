@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 // Features
 import { UserLogoutButton } from './features/UserLogoutButton/UserLogoutButton';
 import { UsernameEditForm } from './features/UsernameEditForm/UsernameEditForm';
-import { UserPhotoEditForm } from './features/UserPhotoChangeButton/UserPhotoEditForm.tsx';
+import { UserPhotoChangeForm } from './features/UserPhotoChangeForm/UserPhotoChangeForm.tsx';
 import { UserPhoto } from 'entities/UserPhoto';
 import { PageContentWrapper } from 'shared/ui';
 
@@ -19,10 +19,10 @@ export const ProfilePage: FC = () => {
 
   return (
     <PageContentWrapper style={{ margin: 'auto', maxWidth: '25rem' }}>
-      <UserPhoto iconSize="12rem" className="align-self-center" />
-      <UserPhotoEditForm />
+      <UserPhoto iconSize="18rem" className="align-self-center" />
+      <UserPhotoChangeForm />
       <UsernameEditForm />
-      <UserLogoutButton className="btn-danger align-self-center" iconSize="1.5rem" />
+      <UserLogoutButton className="btn-danger align-self-stretch" iconSize="1.5rem" />
     </PageContentWrapper>
   );
 };

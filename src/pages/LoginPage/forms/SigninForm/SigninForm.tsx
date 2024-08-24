@@ -13,7 +13,7 @@ import { TextInput } from 'shared/inputs';
 interface SigninFormProps {
   formData: SigninFormDataType;
   setFormData: Dispatch<SetStateAction<SigninFormDataType>>;
-  onSubmit?: () => void;
+  onSubmit?: () => any;
 }
 
 export const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmit }) => {

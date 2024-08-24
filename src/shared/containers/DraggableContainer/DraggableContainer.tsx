@@ -1,12 +1,14 @@
-import { cloneElement, Dispatch, DragEvent, FC, ReactElement, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, DragEvent, FC, ReactElement, SetStateAction, useRef, useState } from 'react';
 import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
+import { useContainerPositionAnimation } from './hooks/useContainerPositionAnimation.ts';
+import { dragStartPreventDefault } from './helpers/dragStartPreventDefault.ts';
 
 interface DraggableItemProps {
   id: string;
   children?: ReactElement;
   isOpened: boolean;
   draggable?: boolean;
-  onDrop: (dropID: string) => void;
+  onDrop: (dropID: string) => any;
   startID: string;
   setStartID: Dispatch<SetStateAction<string>>;
   setOverID: Dispatch<SetStateAction<string>>;
@@ -22,68 +24,42 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
   setStartID,
   setOverID,
 }) => {
-  const y = useRef<number | null>(null);
+  const y = useRef<number>(0);
   const dy = useRef<number>(0);
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const containerPositionRef = useRef<number | null>(null);
-  const containerDyRef = useRef<number>(0);
-
   const [dyState, setDyState] = useState<number>(0);
+  const [zIndex, setZIndex] = useState(1);
 
   const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
-    const img = new Image();
-    img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>';
-    event.dataTransfer.setDragImage(img, 0, 0);
-    event.dataTransfer.clearData();
-
+    dragStartPreventDefault(event);
     y.current = event.clientY;
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      containerPositionRef.current = rect.top;
-    }
-
     setStartID(id);
+    setZIndex(2);
   };
+
+  // Container position animation
+  useContainerPositionAnimation({ startID, id, dy, setDyState, containerRef });
 
   const handleDrag = (event: DragEvent<HTMLDivElement>) => {
-    if (y.current !== null) {
-      dy.current += event.clientY - y.current;
-      y.current = event.clientY;
-    }
-    if (containerRef.current && containerPositionRef.current !== null) {
-      const rect = containerRef.current.getBoundingClientRect();
-      containerDyRef.current = containerPositionRef.current - rect.top;
-    }
-
-    setDyState(dy.current + containerDyRef.current);
-  };
-  const requestAnimationFrameHandleDrag = (event: DragEvent<HTMLDivElement>) => {
-    requestAnimationFrame(() => handleDrag(event));
+    dy.current += event.clientY - y.current;
+    y.current = event.clientY;
   };
 
   const handleDragOver = () => {
-    setOverID((state) => {
-      if (state === id) {
-        return state;
-      } else {
-        return id;
-      }
-    });
+    setOverID((state) => (state === id ? state : id));
+  };
+
+  const handleDrop = () => {
+    onDrop(id);
+    resetState();
   };
 
   const resetState = () => {
     setStartID('');
     setOverID('');
     setDyState(0);
+    setZIndex(1);
     dy.current = 0;
-    y.current = null;
-    containerPositionRef.current = null;
-  };
-
-  const handleDrop = () => {
-    onDrop(id);
-    resetState();
   };
 
   return (
@@ -92,27 +68,29 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         ref={containerRef}
         draggable={draggable}
         onDragStart={handleDragStart}
-        onDrag={requestAnimationFrameHandleDrag}
+        onDrag={handleDrag}
         onDragOver={handleDragOver}
         onDragEnd={resetState}
         onDrop={handleDrop}
+        style={{ zIndex: zIndex }}
       >
         <OpenableContainer
-          className={'bordered-emphasis rounded'}
+          className="bordered-emphasis rounded"
           style={{ borderStyle: 'dashed' }}
           isOpened={isOpened}
           style1={{ height: 0, marginTop: 0, borderWidth: 0 }}
           style2={{ height: 55, marginTop: 4, borderWidth: 2 }}
           duration={250}
         />
-        {children
-          ? cloneElement(children, {
-              style: {
-                transform: `translateY(${dyState}px)`,
-                pointerEvents: startID === id ? 'none' : undefined,
-              },
-            })
-          : undefined}
+
+        <div
+          style={{
+            transform: `translateY(${dyState}px)`,
+            pointerEvents: startID === id ? 'none' : undefined,
+          }}
+        >
+          {children}
+        </div>
       </div>
     </>
   );

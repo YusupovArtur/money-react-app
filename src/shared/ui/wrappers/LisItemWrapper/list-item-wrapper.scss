@@ -1,0 +1,29 @@
+.list-item-wrapper {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity));
+  cursor: pointer;
+  box-shadow: var(--bs-box-shadow-sm);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: box-shadow 0.2s ease-in-out, transform 0.12s;
+
+  &:not(.disabled, .loading) {
+    &:hover {
+      box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.175);
+      transform: scale(1.012);
+    }
+
+    &:active {
+      transform: scale(1.006);
+    }
+  }
+
+  &.loading {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity)) !important;
+    box-shadow: none;
+  }
+}

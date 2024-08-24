@@ -9,7 +9,7 @@ import { GoogleIcon } from 'pages/LoginPage/icons/GoogleIcon.tsx';
 interface SigninWithGoogleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
-  onFulfilled?: () => void;
+  onFulfilled?: () => any;
   iconSize?: string;
 }
 

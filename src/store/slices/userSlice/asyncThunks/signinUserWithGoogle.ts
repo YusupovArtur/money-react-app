@@ -18,7 +18,7 @@ export const signinUserWithGoogle = createAsyncThunk<UserType, ResponseHooksType
         return getUserState(user);
       })
       .catch((error) => {
-        return rejectWithValue(getErrorMessage(error.code));
+        return rejectWithValue(getErrorMessage(error));
       });
   },
 );

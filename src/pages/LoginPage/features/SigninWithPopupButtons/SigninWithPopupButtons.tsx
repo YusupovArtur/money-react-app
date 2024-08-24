@@ -5,7 +5,7 @@ import { SigninWithGoogleButton } from '../SigninWIthGoogleButton/SigninWithGoog
 interface SigninWithPopupButtonsProps {
   setIsLoading?: Dispatch<SetStateAction<boolean>>;
   setErrorMessage?: Dispatch<SetStateAction<string>>;
-  onFulfilled?: () => void;
+  onFulfilled?: () => any;
   iconSize?: string;
 }
 

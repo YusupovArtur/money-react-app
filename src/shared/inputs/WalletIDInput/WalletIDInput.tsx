@@ -2,11 +2,11 @@ import { FC, useEffect } from 'react';
 import { useAppSelector } from 'store';
 import { ButtonWithIcon, DropdownMenuWrapper, EntityIcon } from 'shared/ui';
 import { DropdownContainer } from 'shared/containers';
-import './style/dropdown_option_item_style.scss';
+import './style/dropdown-option-item.scss';
 
 export const WalletIDInput: FC<{
   walletID: string | undefined;
-  setWalletID: (walletID: string) => void;
+  setWalletID: (walletID: string) => any;
   firstSelectedWalletID?: string;
 }> = ({ walletID, setWalletID, firstSelectedWalletID }) => {
   const wallets = useAppSelector((state) => state.wallets.list);

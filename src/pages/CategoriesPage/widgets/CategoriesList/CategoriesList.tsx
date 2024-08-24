@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useDeferredValue, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { CATEGORIES_LIST_LAST_ITEM_ID, CategoryType, shiftCategory } from 'store/slices/categoriesSlice';
@@ -12,13 +12,15 @@ interface CategoriesListProps {
 }
 
 export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
+  const deferredFilter = useDeferredValue(filter);
   const categories = useAppSelector((state) => state.categories.list);
   const order = useAppSelector((state) => state.categories.order).filter((id) =>
-    !filter ? true : filter === categories[id].type,
+    !deferredFilter ? true : deferredFilter === categories[id].type,
   );
 
   const errorMessage = useAppSelector((state) => state.categories.responseState.errorMessage);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
+  const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
@@ -29,7 +31,8 @@ export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
       shiftCategory({
         categoryID1: dragStartID,
         categoryID2: dropID,
-        setIsLoading,
+        setIsLoading: setShiftIsLoading,
+        setErrorMessage: setShiftErrorMessage,
       }),
     );
 
@@ -39,21 +42,25 @@ export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
 
   return (
     <>
+      <AlertMessage alertMessage={shiftErrorMessage} className="alert-danger mt-1" />
+
       {order.map((id, index) => {
         const aboveID = index === 0 ? undefined : order[index - 1];
         const isOpened = id === dragOverID && id !== dragStartID && aboveID !== dragStartID;
+        const disabled = shiftIsLoading || (Boolean(dragStartID) && id !== dragStartID);
+
         return (
           <DraggableContainer
             key={id}
             id={id}
-            draggable={!isLoading}
+            draggable={!shiftIsLoading}
             isOpened={isOpened}
             onDrop={dropFunction}
             startID={dragStartID}
             setStartID={setDragStartID}
             setOverID={setDragOverID}
           >
-            <CategoryListItem id={id} />
+            <CategoryListItem id={id} disabled={disabled} loading={shiftIsLoading} />
           </DraggableContainer>
         );
       })}

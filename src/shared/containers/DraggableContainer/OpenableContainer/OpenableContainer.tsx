@@ -2,6 +2,7 @@ import { FC, HTMLProps, ReactNode, useEffect, useRef, useState } from 'react';
 import { AnimationStyleType } from './types/AnimationStyleType.ts';
 import { getAnimationStyleNumberState } from './helpers/getAnimationStyleNumberState.ts';
 import { getAnimationStyleStateFrame } from './helpers/getAnimationStyleStateFrame.ts';
+import { canselAnimation } from 'shared/containers/DraggableContainer/helpers/cancelAnimation.ts';
 
 // TODO: type that style1 === style2 in props
 interface OpenableContainerProps<T extends AnimationStyleType = AnimationStyleType> extends HTMLProps<HTMLDivElement> {
@@ -41,21 +42,15 @@ export const OpenableContainer: FC<OpenableContainerProps> = ({
       animationRef.current = requestAnimationFrame(animate);
     } else {
       timeRef.current = null;
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      canselAnimation(animationRef.current);
     }
   };
 
   useEffect(() => {
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
+    canselAnimation(animationRef.current);
     animationRef.current = requestAnimationFrame(animate);
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      canselAnimation(animationRef.current);
     };
   }, [isOpened]);
 

@@ -5,7 +5,7 @@ import { COLOR_HEX_OPTIONS } from './constants/COLOR_HEX_OPTIONS.ts';
 
 interface ColorInputProps {
   colorHex: string;
-  setColorHex: (colorHex: string) => void;
+  setColorHex: (colorHex: string) => any;
   id?: string;
   iconSize?: `${number}rem`;
 }
@@ -41,9 +41,7 @@ export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, id, 
                     key={colorOption}
                     onClick={() => setColorHex(colorOption)}
                     style={{ backgroundColor: colorOption, width: optionColorSize, height: optionColorSize }}
-                    className={`hover-scale-10 bordered rounded m-1 ${
-                      colorOption === colorHex ? 'selected bordered-strong' : ''
-                    }`}
+                    className={`dropdown-option-item bordered rounded m-1 ${colorOption === colorHex ? 'selected' : ''}`}
                   ></div>
                 ))}
               </div>
