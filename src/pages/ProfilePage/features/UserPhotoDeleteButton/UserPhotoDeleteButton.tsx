@@ -24,7 +24,7 @@ export const UserPhotoDeleteButton: FC<UserPhotoDeleteButtonProps> = ({ isLoadin
       onClick={handleClick}
       disabled={!photoURL || isLoading}
       isLoading={isLoading}
-      className="btn btn-danger ms-2"
+      className="btn btn-danger"
     >
       <TrashFillIcon iconSize="1.5rem" />
     </ButtonWithIconAndSpinner>

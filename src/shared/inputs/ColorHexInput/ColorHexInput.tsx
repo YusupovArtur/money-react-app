@@ -41,7 +41,7 @@ export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, id, 
                     key={colorOption}
                     onClick={() => setColorHex(colorOption)}
                     style={{ backgroundColor: colorOption, width: optionColorSize, height: optionColorSize }}
-                    className={`dropdown-option-item bordered rounded m-1 ${colorOption === colorHex ? 'selected' : ''}`}
+                    className={`dropdown-option-set-item bordered rounded m-1 ${colorOption === colorHex ? 'selected' : ''}`}
                   ></div>
                 ))}
               </div>

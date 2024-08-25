@@ -11,7 +11,7 @@ interface DatePickerYearOptionsProps {
   setDisplayedOption: Dispatch<SetStateAction<Omit<DateStateType, 'day'>>>;
 }
 
-const DatePickerYearOptions: FC<DatePickerYearOptionsProps> = ({
+export const DatePickerYearOptions: FC<DatePickerYearOptionsProps> = ({
   setDisplayedOptionType,
   displayedOption,
   setDisplayedOption,
@@ -54,5 +54,3 @@ const DatePickerYearOptions: FC<DatePickerYearOptionsProps> = ({
     </div>
   );
 };
-
-export default DatePickerYearOptions;

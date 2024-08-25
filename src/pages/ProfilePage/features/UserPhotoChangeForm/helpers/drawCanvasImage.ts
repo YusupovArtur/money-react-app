@@ -1,10 +1,12 @@
-export const drawCanvasImage = (
-  canvas: HTMLCanvasElement | null,
-  image: HTMLImageElement,
-  x: number,
-  y: number,
-  scale: number,
-) => {
+export const drawCanvasImage = (props: {
+  canvas: HTMLCanvasElement | null;
+  image: HTMLImageElement;
+  x: number;
+  y: number;
+  scale: number;
+}) => {
+  const { canvas, image, x, y, scale } = props;
+
   if (canvas) {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;

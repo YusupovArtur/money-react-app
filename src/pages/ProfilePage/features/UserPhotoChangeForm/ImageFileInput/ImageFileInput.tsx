@@ -1,15 +1,15 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction, useRef } from 'react';
+import { ChangeEvent, FC, useRef } from 'react';
 import { ButtonWithIcon } from 'shared/ui';
 import { ImageIcon } from './icons/ImageIcon.tsx';
 
 interface ImageInputProps {
   reader: FileReader;
   disabled?: boolean;
-  setIsOpened?: Dispatch<SetStateAction<boolean>>;
+  className?: string;
   iconSize?: string;
 }
 
-export const ImageFileInput: FC<ImageInputProps> = ({ reader, disabled, setIsOpened, iconSize = '1.5rem' }) => {
+export const ImageFileInput: FC<ImageInputProps> = ({ reader, disabled, className, iconSize = '1.5rem' }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileInputClick = () => {
@@ -21,7 +21,7 @@ export const ImageFileInput: FC<ImageInputProps> = ({ reader, disabled, setIsOpe
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(event.target.files[0]);
-      if (setIsOpened) setIsOpened(true);
+      // if (setIsOpened) setIsOpened(true);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
@@ -36,12 +36,7 @@ export const ImageFileInput: FC<ImageInputProps> = ({ reader, disabled, setIsOpe
         style={{ display: 'none' }}
       ></input>
 
-      <ButtonWithIcon
-        caption="Выбрать фото"
-        onClick={handleFileInputClick}
-        disabled={disabled}
-        className="btn-primary flex-grow-1"
-      >
+      <ButtonWithIcon caption="Выбрать фото" onClick={handleFileInputClick} disabled={disabled} className={className}>
         <ImageIcon iconSize={iconSize}></ImageIcon>
       </ButtonWithIcon>
     </>

@@ -22,8 +22,9 @@ export const UserPhotoChangeForm: FC = () => {
   const reader = new FileReader();
   reader.onload = (event) => {
     if (event.target && typeof event.target.result === 'string') {
+      setIsOpened(true);
       image.current.onload = () => {
-        drawCanvasImage(canvasRef.current, image.current, 0, 0, 1);
+        drawCanvasImage({ canvas: canvasRef.current, image: image.current, x: 0, y: 0, scale: 1 });
       };
       image.current.src = event.target.result;
     }
@@ -32,7 +33,7 @@ export const UserPhotoChangeForm: FC = () => {
   return (
     <>
       <div className="d-flex mt-2">
-        <ImageFileInput reader={reader} disabled={deleteIsLoading} setIsOpened={setIsOpened} />
+        <ImageFileInput reader={reader} disabled={deleteIsLoading} className="btn-primary flex-grow-1 me-2" />
         <UserPhotoDeleteButton
           isLoading={deleteIsLoading}
           setIsLoading={setDeleteIsLoading}
@@ -43,7 +44,7 @@ export const UserPhotoChangeForm: FC = () => {
 
       <ModalWindowContainer isOpened={isOpened} onClose={setIsOpened} onCollapse={setIsOpened} style={{ margin: 'auto' }}>
         <ImageCanvas canvasRef={canvasRef} image={image} />
-        <ImageFormControlButtons canvasRef={canvasRef} setIsOpened={setIsOpened} />
+        <ImageFormControlButtons reader={reader} canvasRef={canvasRef} setIsOpened={setIsOpened} />
       </ModalWindowContainer>
     </>
   );

@@ -56,7 +56,7 @@ export const IconNameInput: FC<IconNameInputProps> = ({
                       <ButtonWithIcon
                         key={iconNameOption}
                         onClick={() => setIconName(iconNameOption)}
-                        className={`dropdown-option-item btn-body m-1 ${iconName === iconNameOption ? 'selected' : ''}`}
+                        className={`dropdown-option-set-item btn-body m-1 ${iconName === iconNameOption ? 'selected' : ''}`}
                       >
                         <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
                       </ButtonWithIcon>

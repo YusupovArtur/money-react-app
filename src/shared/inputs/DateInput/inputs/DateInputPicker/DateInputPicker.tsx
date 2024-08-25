@@ -4,7 +4,7 @@ import { DatePickerLabel } from './components/DatePickerModalLabel.tsx';
 import { DatePickerControlButtons } from './components/DatePickerControlButtons.tsx';
 import { DatePickerDayOptions } from './components/DatePickerDayOptions/DatePickerDayOptions.tsx';
 import { DatePickerMonthOptions } from './components/DatePickerMonthOptions/DatePickerMonthOptions.tsx';
-import DatePickerYearsField from 'shared/inputs/DateInput/inputs/DateInputPicker/components/DatePickerYearOptions/DatePickerYearOptions.tsx';
+import { DatePickerYearOptions } from './components/DatePickerYearOptions/DatePickerYearOptions.tsx';
 import { DatePickerModalControlButtons } from './components/DatePickerModalControlButtons.tsx';
 // Helpers
 import { decrementDisplayedOption } from './helpers/decrementDisplayedOption.ts';
@@ -33,20 +33,20 @@ export const DateInputPicker: FC<DateInputDatePickerProps> = ({
   });
   const [displayedOptionType, setDisplayedOptionType] = useState<DateFieldName>('day');
 
-  const x = useRef<number | null>(null);
-  const y = useRef<number | null>(null);
+  const x = useRef<number>(0);
+  const y = useRef<number>(0);
 
   const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-    if (isMobile && displayedOptionType !== 'year') {
-      x.current = event.changedTouches[0].clientX;
-      y.current = event.changedTouches[0].clientY;
+    if (isMobile && displayedOptionType !== 'year' && event.touches.length === 1) {
+      x.current = event.touches[0].clientX;
+      y.current = event.touches[0].clientY;
     }
   };
 
   const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-    if (isMobile && displayedOptionType !== 'year' && x.current !== null && y.current !== null) {
-      const dx: number = event.changedTouches[0].clientX - x.current;
-      const dy: number = event.changedTouches[0].clientY - y.current;
+    if (isMobile && displayedOptionType !== 'year' && event.touches.length === 1) {
+      const dx: number = event.touches[0].clientX - x.current;
+      const dy: number = event.touches[0].clientY - y.current;
 
       if (Math.abs(dx) > 1.5 * Math.abs(dy) && Math.abs(dx) > 70) {
         if (dx > 0) {
@@ -72,14 +72,7 @@ export const DateInputPicker: FC<DateInputDatePickerProps> = ({
       />
 
       {/* Options */}
-      <div
-        onTouchStart={(event) => {
-          if (isMobile && displayedOptionType !== 'year') handleTouchStart(event);
-        }}
-        onTouchEnd={(event) => {
-          if (isMobile && displayedOptionType !== 'year') handleTouchEnd(event);
-        }}
-      >
+      <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
         {displayedOptionType === 'day' ? (
           <DatePickerDayOptions dateState={dateState} setDateState={setDateState} displayedOption={displayedOption} />
         ) : displayedOptionType === 'month' ? (
@@ -90,7 +83,7 @@ export const DateInputPicker: FC<DateInputDatePickerProps> = ({
           />
         ) : (
           displayedOptionType === 'year' && (
-            <DatePickerYearsField
+            <DatePickerYearOptions
               setDisplayedOptionType={setDisplayedOptionType}
               displayedOption={displayedOption}
               setDisplayedOption={setDisplayedOption}

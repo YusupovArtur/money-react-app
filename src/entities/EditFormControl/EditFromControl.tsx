@@ -30,7 +30,7 @@ export const EditFromControl: FC<EditFormControlProps> = ({
   setIsEdit,
   captions: { itemType, itemName },
 }) => {
-  const [isUpdateLoading, setIsUpdateLoading] = useState<boolean>(false);
+  const [updateIsLoading, setUpdateIsLoading] = useState<boolean>(false);
   const [updateErrorMessage, setUpdateErrorMessage] = useState<string>('');
 
   const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
@@ -55,7 +55,7 @@ export const EditFromControl: FC<EditFormControlProps> = ({
   const handleUpdate = () => {
     if (isEdit) {
       onUpdate({
-        setIsLoading: setIsUpdateLoading,
+        setIsLoading: setUpdateIsLoading,
         setErrorMessage: setUpdateErrorMessage,
         onFulfilled: onUpdateFulfilled,
       });
@@ -70,8 +70,8 @@ export const EditFromControl: FC<EditFormControlProps> = ({
         <div onClick={handleSetIsValidate} style={{ cursor: 'pointer' }} className="d-flex flex-grow-1">
           <ButtonWithIconAndSpinner
             caption={isEdit ? 'Сохранить' : 'Редактировать'}
-            isLoading={isUpdateLoading}
-            disabled={isEdit && (disabled || isUpdateLoading)}
+            isLoading={updateIsLoading}
+            disabled={(isEdit && disabled) || updateIsLoading || deleteIsLoading}
             onClick={handleUpdate}
             className="btn-primary flex-grow-1"
           >
@@ -87,6 +87,7 @@ export const EditFromControl: FC<EditFormControlProps> = ({
               setIsEdit(false);
               onClear();
             }}
+            disabled={updateIsLoading}
             className="btn-secondary ms-2"
           >
             <CrossIcon iconSize="1.3rem" />

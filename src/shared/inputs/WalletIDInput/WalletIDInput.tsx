@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 import { useAppSelector } from 'store';
 import { ButtonWithIcon, DropdownMenuWrapper, EntityIcon } from 'shared/ui';
 import { DropdownContainer } from 'shared/containers';
-import './style/dropdown-option-item.scss';
+import './style/dropdown-option-list-item.scss';
 
 export const WalletIDInput: FC<{
   walletID: string | undefined;
@@ -43,7 +43,7 @@ export const WalletIDInput: FC<{
                 onClick={() => {
                   setWalletID(optionWalletID);
                 }}
-                className={`dropdown-option-item ${optionWalletID === walletID ? 'active' : ''}`}
+                className={`dropdown-option-list-item ${optionWalletID === walletID ? 'active' : ''}`}
               >
                 <EntityIcon
                   iconName={wallets[optionWalletID].iconName}
