@@ -1,8 +1,8 @@
 .btn-body {
-  background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
-  border-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
-  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
-  fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+  background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity));
+  border-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity));
+  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+  fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
 
   &:hover {
     background-color: var(--background-color-body-hover) !important;
@@ -16,10 +16,10 @@
 }
 
 .btn-body-tertiary {
-  background-color: var(--bs-tertiary-bg) !important;
-  border-color: var(--bs-tertiary-bg) !important;
-  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
-  fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+  background-color: var(--bs-tertiary-bg);
+  border-color: var(--bs-tertiary-bg);
+  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+  fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
 
   &:hover {
     background-color: var(--background-color-body-hover) !important;

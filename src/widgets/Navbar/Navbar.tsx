@@ -15,7 +15,7 @@ export const Navbar: FC = () => {
   return (
     <nav className="sticky-top z-1 navbar navbar-expand-sm bg-body-tertiary shadow-sm">
       <div className="container-fluid">
-        <Link className="navbar-brand d-flex justify-content-center" to={'/'}>
+        <Link className="navbar-brand d-flex justify-content-center" to="/">
           <img style={{ width: '1.7rem', height: '1.7rem' }} src="/images/chart-icon.png" alt="2Money" />
         </Link>
 
@@ -34,28 +34,28 @@ export const Navbar: FC = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-sm-0">
             <li className="nav-item">
-              <Link to={'/'} className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
+              <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
                 Главная
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={'/transactions'} className={`nav-link ${location.pathname === '/transactions' ? 'active' : ''}`}>
+              <Link to="/transactions" className={`nav-link ${location.pathname === '/transactions' ? 'active' : ''}`}>
                 Транзакции
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={'/wallets'} className={`nav-link ${location.pathname === '/wallets' ? 'active' : ''}`}>
+              <Link to="/wallets" className={`nav-link ${location.pathname === '/wallets' ? 'active' : ''}`}>
                 Счета
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={'/categories'} className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}>
+              <Link to="/categories" className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}>
                 Категории
               </Link>
             </li>
             {isUserAuthorised ? (
               <li className="nav-item">
-                <Link to={'/profile'} className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
+                <Link to="/profile" className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
                   <div className="d-flex align-items-center">
                     <span>Профиль</span>
                     <UserPhoto iconSize="1.5rem" className="text-body p-0 ms-1" />
@@ -64,7 +64,7 @@ export const Navbar: FC = () => {
               </li>
             ) : (
               <li className="nav-item">
-                <Link to={'/login'} className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
+                <Link to="/login" className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
                   Войти
                 </Link>
               </li>

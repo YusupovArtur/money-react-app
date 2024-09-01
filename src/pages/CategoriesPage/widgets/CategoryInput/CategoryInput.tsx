@@ -3,9 +3,7 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { ModalWindowContainer } from 'shared/containers';
 import { InputFormControl } from 'entities/InputFormControl';
 import { CategoryForm } from 'pages/CategoriesPage/forms/CategoryForm.tsx';
-import { useFormValidation } from 'shared/hooks';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
-import { typeValidator } from 'pages/CategoriesPage/forms/helpers/typeValidator.ts';
+import { useGetCategoryFormValidation } from 'pages/CategoriesPage/forms/helpers/useGetCatetegoryFormValidation.ts';
 // Store
 import { ResponseHooksType, useAppDispatch } from 'store/index.ts';
 import { addCategory, CategoryAddType } from 'store/slices/categoriesSlice';
@@ -40,21 +38,7 @@ export const CategoryInput: FC<CategoryInputProps> = ({ isOpened, setIsOpened })
   };
 
   // Validation
-  const [isValidate, setIsValidate] = useState<{ [K in keyof CategoryAddType]?: boolean }>({
-    name: Boolean(formData.name),
-    type: Boolean(formData.type),
-  });
-  const validation = useFormValidation<CategoryAddType>(
-    formData,
-    {
-      name: nameValidator,
-      type: typeValidator,
-    },
-    isValidate,
-  );
-  const setValidateFields = () => {
-    setIsValidate({ name: true, type: true });
-  };
+  const { setIsValidate, validation, setValidateFields } = useGetCategoryFormValidation(formData);
 
   return (
     <ModalWindowContainer isOpened={isOpened} onCollapse={setIsOpened} onClose={onClose} style={{ margin: 'auto' }}>

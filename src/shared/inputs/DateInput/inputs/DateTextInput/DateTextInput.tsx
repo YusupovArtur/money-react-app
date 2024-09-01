@@ -24,12 +24,14 @@ import { getNewDateStateFieldValue } from './helpers/getNewDateStateFieldValue.t
 import { TextInput } from 'shared/inputs';
 
 interface DateTextInputProps {
+  id?: string;
   dateState: DateStateType;
   setDateState: Dispatch<SetStateAction<DateStateType>>;
   isMobile?: boolean;
+  className?: string;
 }
 
-export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState, isMobile = false }) => {
+export const DateTextInput: FC<DateTextInputProps> = ({ id, dateState, setDateState, isMobile = false, className }) => {
   // For text field
   const dateInputRef = useRef<HTMLInputElement>(null);
   const selectedPartRef = useRef<DateFieldName>('day');
@@ -113,13 +115,14 @@ export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState,
 
   return (
     <TextInput
+      id={id}
       ref={dateInputRef}
       value={getStringDateFromDateState(dateState)}
       onKeyDown={handleKeyDown}
       onMouseDown={handleClick}
       onMouseUp={handleClick}
       onBlur={handleBlur}
-      className="rounded-start-0"
+      className={`rounded-start-0 ${className ? className : ''}`}
       readOnly={isMobile}
       onSelect={handlePreventDefault}
       onDoubleClick={handlePreventDefault}

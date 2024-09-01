@@ -6,9 +6,7 @@ import { CategoryAddType, deleteCategory, updateCategory } from 'store/slices/ca
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 // Forms
 import { EditFromControl } from 'entities/EditFormControl';
-import { useFormValidation } from 'shared/hooks';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
-import { typeValidator } from '../../forms/helpers/typeValidator.ts';
+import { useGetCategoryFormValidation } from 'pages/CategoriesPage/forms/helpers/useGetCatetegoryFormValidation.ts';
 // Components
 import { CategoryForm } from '../../forms/CategoryForm.tsx';
 import { CategoryEditInfo } from './ui/CategoryEditInfo.tsx';
@@ -20,6 +18,7 @@ import { CategoryEditPlaceholder } from './ui/CategoryEditPlaceholder.tsx';
 import { ButtonWithIcon, EditWindowPlaceholder, PageContentWrapper } from 'shared/ui';
 import { PlusIcon } from 'shared/icons';
 
+// TODO: Add ESC key for exit
 export const CategoryEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryID = searchParams.get('categoryID');
@@ -87,21 +86,7 @@ export const CategoryEdit: FC = () => {
   };
 
   // Validation
-  const [isValidate, setIsValidate] = useState<{ [K in keyof CategoryAddType]?: boolean }>({
-    name: Boolean(formData.name),
-    type: Boolean(formData.type),
-  });
-  const validation = useFormValidation<CategoryAddType>(
-    formData,
-    {
-      name: nameValidator,
-      type: typeValidator,
-    },
-    isValidate,
-  );
-  const setValidateFields = () => {
-    setIsValidate({ name: true, type: true });
-  };
+  const { setIsValidate, validation, setValidateFields } = useGetCategoryFormValidation(formData);
 
   // Return null if not find id
   if (categoryID === null) {

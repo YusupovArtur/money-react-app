@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction, useId } from 'react';
 // Import menus
-import { CategoryTypeInput } from 'pages/CategoriesPage/forms/ui/CategoryTypeInput.tsx';
+import { CategoryTypeInput } from 'pages/CategoriesPage/forms/inputs/CategoryTypeInput.tsx';
 import { CATEGORY_ICON_OPTIONS, ColorHexInput, IconNameInput, TextInput } from 'shared/inputs';
 import { CategoryAddType, CategoryType } from 'store/slices/categoriesSlice';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
@@ -52,7 +52,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, val
             setFormData((state) => ({ ...state, name: event.target.value }));
             setIsValidate((state) => ({ ...state, name: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, name: true }));
           }}
           className={getValidityClassName(fieldValidities.name)}

@@ -6,6 +6,7 @@ import { CATEGORIES_LIST_LAST_ITEM_ID, CategoryType, shiftCategory } from 'store
 import { CategoryListItem } from 'pages/CategoriesPage/widgets/CategoriesList/CategoryListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
 import { AlertMessage } from 'shared/ui';
+import { getDeviceType } from 'shared/helpers';
 
 interface CategoriesListProps {
   filter?: CategoryType['type'] | null;
@@ -22,6 +23,7 @@ export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
   const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
+  const draggable = getDeviceType() === 'desktop';
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
@@ -53,7 +55,7 @@ export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
           <DraggableContainer
             key={id}
             id={id}
-            draggable={!shiftIsLoading}
+            draggable={draggable && !shiftIsLoading}
             isOpened={isOpened}
             onDrop={dropFunction}
             startID={dragStartID}

@@ -4,9 +4,6 @@ export { FormValidationFeedback } from './FormValidationFeedback/FormValidationF
 export { ButtonWithIcon } from './ButtonWithIcon/ButtonWithIcon.tsx';
 export { ButtonWithIconAndSpinner } from './ButtonWithIconAndSpinner/ButtonWithIconAndSpinner.tsx';
 
-export { ContentIcon } from './ContentIcon/ContentIcon.tsx';
-export { EntityIcon } from './EntityIcon/EntityIcon.tsx';
-
 // placeholders
 export { PageLoadingSpinner } from './placeholders/PageLoadingSpinner.tsx';
 export { PageContentPlaceholder } from './placeholders/PageContentPlaceholder.tsx';
@@ -23,3 +20,4 @@ export { DropdownMenuWrapper } from './wrappers/DropdownMenuWrapper.tsx';
 export { ModalContainerWrapper } from './wrappers/ModalContainerWrapper.tsx';
 export { PageContentWrapper } from './wrappers/PageContentWrapper.tsx';
 export { ListItemWrapper } from './wrappers/LisItemWrapper/ListItemWrapper.tsx';
+export { ListItemLabel } from './labels/ListItemLabel.tsx';

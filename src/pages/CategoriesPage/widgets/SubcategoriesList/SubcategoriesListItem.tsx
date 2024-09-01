@@ -1,9 +1,10 @@
 import { FC } from 'react';
-// Store imports
+// Store
 import { SubcategoryType } from 'store/slices/categoriesSlice';
-// Subcategory components_legacy
-import { EntityIcon, ListItemWrapper } from 'shared/ui';
 import { useSearchParams } from 'react-router-dom';
+// UI
+import { ListItemLabel, ListItemWrapper } from 'shared/ui';
+import { EntityIcon } from 'entities/EntityIcon';
 
 interface SubcategoriesListItemProps {
   id: string;
@@ -23,12 +24,11 @@ export const SubcategoriesListItem: FC<SubcategoriesListItemProps> = ({ id, subc
 
   return (
     <ListItemWrapper onClick={handleSetID} disabled={disabled} loading={loading}>
-      <div className="d-flex align-items-center">
-        <EntityIcon iconName={subcategory.iconName} iconSize="2.2rem" iconBackgroundColor={color}></EntityIcon>
-        <span className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
-          {subcategory.name}
-        </span>
-      </div>
+      <EntityIcon iconName={subcategory.iconName} iconSize="2.2rem" color={color}></EntityIcon>
+
+      <ListItemLabel className="flex-shrink-1 ms-2" style={{ marginRight: 'auto' }}>
+        {subcategory.name}
+      </ListItemLabel>
     </ListItemWrapper>
   );
 };

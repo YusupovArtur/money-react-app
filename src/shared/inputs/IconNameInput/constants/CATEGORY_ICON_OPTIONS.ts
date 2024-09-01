@@ -1,4 +1,5 @@
 export const CATEGORY_ICON_OPTIONS: string[][] = [
+  [''],
   ['BasketFill', 'BasketFill2', 'Cart', 'CartFill', 'FastFood', 'Cafe', 'Cup'],
   ['Cloth', 'Shoes', 'Watch'],
   [

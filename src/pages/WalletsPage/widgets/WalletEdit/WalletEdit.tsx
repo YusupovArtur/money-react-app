@@ -3,15 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 // Store
 import { ResponseHooksType, useAppDispatch, useAppSelector } from 'store';
 import { deleteWallet, updateWallet, WalletType } from 'store/slices/walletsSlice';
-// Components
+// Form
 import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
+import { useGetWalletFormValidation } from 'pages/WalletsPage/forms/WalletForm/helpers/useGetWalletFormValidation.ts';
 import { EditFromControl } from 'entities/EditFormControl';
 import { WalletEditInfo } from 'pages/WalletsPage/widgets/WalletEdit/ui/WalletEditInfo.tsx';
-// Form
-import { useFormValidation } from 'shared/hooks';
-import { typeValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/typeValidator.ts';
-import { balanceValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/balanceValidator.ts';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
 // UI
 import { ModalWindowContainer } from 'shared/containers';
 import { MODAL_CONTAINER_ANIMATION_DURATION } from 'shared/containers/ModalContainer/ModalContainer.tsx';
@@ -95,23 +91,7 @@ export const WalletEdit: FC = () => {
   }, []);
 
   // Form validation
-  const [isValidate, setIsValidate] = useState<{ [K in keyof WalletType]?: boolean }>({
-    name: Boolean(formData.name),
-    type: Boolean(formData.type),
-    balance: !isNaN(formData.balance),
-  });
-  const validation = useFormValidation<WalletType>(
-    formData,
-    {
-      name: nameValidator,
-      type: typeValidator,
-      balance: balanceValidator,
-    },
-    isValidate,
-  );
-  const setValidateFields = () => {
-    setIsValidate({ name: true, type: true, balance: true });
-  };
+  const { setIsValidate, validation, setValidateFields } = useGetWalletFormValidation(formData);
 
   // Return null if not find wallet
   if (id === null || !wallet) {

@@ -2,6 +2,7 @@ import { Dispatch, FC, MouseEvent as ReactMouseEvent, SetStateAction } from 'rea
 import { DatePickerDayOptionsCellPropsType } from 'shared/inputs/DateInput/types/types.ts';
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { DATE_PICKER_CELL_SIZE } from 'shared/inputs/DateInput/constants/constants.ts';
+import './text-color-quaternary.scss';
 
 interface DateInputPickerDayOptionsCellProps {
   datePickerDayCellProps: DatePickerDayOptionsCellPropsType;
@@ -13,8 +14,8 @@ export const DatePickerDayOptionsCell: FC<DateInputPickerDayOptionsCellProps> = 
   setDateState,
 }) => {
   const buttonsClassName = props.isSelected ? 'btn-body-primary' : 'btn-body';
-  const borderClassName = props.isCurrent ? 'bordered' : '';
-  const spanClassName = props.isSelected ? '' : props.isInCurrentMonth ? 'text-body-emphasis' : 'text-body-quaternary';
+  const borderClassName = props.isCurrent ? 'bordered-emphasis' : '';
+  const colorClassName = props.isSelected ? '' : props.isInCurrentMonth ? 'text-body-emphasis' : 'text-body-quaternary';
 
   const handleDatepickerSetDate = () => {
     const cellsDate = new Date(props.timestamp);
@@ -30,9 +31,9 @@ export const DatePickerDayOptionsCell: FC<DateInputPickerDayOptionsCellProps> = 
     <button
       onClick={handlePreventDefault}
       style={{ width: `${DATE_PICKER_CELL_SIZE}rem`, height: `${DATE_PICKER_CELL_SIZE}rem` }}
-      className={`col btn ${buttonsClassName} ${borderClassName} rounded p-0`}
+      className={`col btn ${buttonsClassName} ${borderClassName} ${colorClassName} rounded p-0`}
     >
-      <span className={spanClassName}>{props.date}</span>
+      {props.date}
     </button>
   );
 };

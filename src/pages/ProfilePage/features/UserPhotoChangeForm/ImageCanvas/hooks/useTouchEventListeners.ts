@@ -1,21 +1,21 @@
-import { TouchEvent as ReactTouchEvent, useEffect } from 'react';
+import { MutableRefObject, TouchEvent as ReactTouchEvent, useEffect } from 'react';
 
 export const useTouchEventListeners = (props: {
-  canvas: HTMLCanvasElement | null;
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
   handleTouchStart: (event: ReactTouchEvent<HTMLCanvasElement> | TouchEvent) => void;
   handleTouchMove: (event: ReactTouchEvent<HTMLCanvasElement> | TouchEvent) => void;
 }) => {
-  const { canvas, handleTouchStart, handleTouchMove } = props;
+  const { canvasRef, handleTouchStart, handleTouchMove } = props;
 
   useEffect(() => {
-    if (canvas) {
-      canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-      canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    if (canvasRef.current) {
+      canvasRef.current.addEventListener('touchstart', handleTouchStart, { passive: false });
+      canvasRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
     }
     return () => {
-      if (canvas) {
-        canvas.removeEventListener('touchstart', handleTouchStart);
-        canvas.removeEventListener('touchmove', handleTouchMove);
+      if (canvasRef.current) {
+        canvasRef.current.removeEventListener('touchstart', handleTouchStart);
+        canvasRef.current.removeEventListener('touchmove', handleTouchMove);
       }
     };
   }, []);

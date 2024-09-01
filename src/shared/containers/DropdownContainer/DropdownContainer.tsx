@@ -74,9 +74,9 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   const throttledHandleScroll = useThrottledCallback(() => {
     if (toggleRef && menuRef && toggleRef.current && menuRef.current) {
-      const alignmentPositioned = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
-      const alignmentStyle = getMenuAlignmentStyle(alignmentPositioned);
-      setMenuAlignmentStyle(alignmentStyle);
+      const { alignment, maxHeight } = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
+      const alignmentStyle = getMenuAlignmentStyle(alignment);
+      setMenuAlignmentStyle({ ...alignmentStyle, maxHeight });
     }
   }, 100);
 
@@ -84,11 +84,11 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   useLayoutEffect(() => {
     if (isOpened) {
-      const alignment = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
+      const { alignment, maxHeight } = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
       const alignmentStyle = getMenuAlignmentStyle(alignment);
-      setMenuAlignmentStyle(alignmentStyle);
+      setMenuAlignmentStyle({ ...alignmentStyle, maxHeight });
     }
-  }, [isOpened]);
+  }, [isOpened, DropdownMenu]);
 
   useEffect(() => {
     window.addEventListener('scroll', throttledHandleScroll);
@@ -108,7 +108,11 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
       </div>
 
       {isOpened && deviceType === 'desktop' && (
-        <div ref={menuRef} onClick={handleMenuClick} style={{ position: 'absolute', zIndex, ...menuAlignmentStyle }}>
+        <div
+          ref={menuRef}
+          onClick={handleMenuClick}
+          style={{ position: 'absolute', zIndex, overflowY: 'auto', ...menuAlignmentStyle }}
+        >
           {DropdownMenu}
         </div>
       )}

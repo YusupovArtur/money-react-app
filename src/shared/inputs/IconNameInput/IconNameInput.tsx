@@ -4,7 +4,8 @@ import { DropdownContainer } from 'shared/containers';
 // Helpers
 import { getLeveledIconNameOptions } from './helpers/getLeveledIconNameOptions.ts';
 // UI
-import { ButtonWithIcon, ContentIcon, DropdownMenuWrapper } from 'shared/ui';
+import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
+import { ContentIcon } from 'shared/icons';
 import { IconOptionsDivider } from './ui/IconOptionsDivider.tsx';
 
 interface IconNameInputProps {
@@ -16,6 +17,7 @@ interface IconNameInputProps {
   optionsStyle?: { rowLength?: number; isDivider?: boolean };
 }
 
+// TODO: add without icon
 export const IconNameInput: FC<IconNameInputProps> = ({
   iconName,
   setIconName,
@@ -47,25 +49,29 @@ export const IconNameInput: FC<IconNameInputProps> = ({
           </ButtonWithIcon>
         }
         DropdownMenu={
-          <DropdownMenuWrapper style={{ maxHeight: '15rem', overflowY: 'auto' }}>
-            {leveledIconNameOptions.map((iconOptionsGroup, index) => (
-              <div key={getIconGroupID(iconOptionsGroup)}>
-                {iconOptionsGroup.map((iconOptionsRow) => (
-                  <div key={getIconRowID(iconOptionsRow)} className="d-flex">
-                    {iconOptionsRow.map((iconNameOption) => (
-                      <ButtonWithIcon
-                        key={iconNameOption}
-                        onClick={() => setIconName(iconNameOption)}
-                        className={`dropdown-option-set-item btn-body m-1 ${iconName === iconNameOption ? 'selected' : ''}`}
-                      >
-                        <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
-                      </ButtonWithIcon>
-                    ))}
-                  </div>
-                ))}
-                {isDivider && index < iconOptions.length - 1 && <IconOptionsDivider />}
-              </div>
-            ))}
+          <DropdownMenuWrapper style={{ maxHeight: '15rem' }}>
+            <div style={{ overflowY: 'auto' }}>
+              {leveledIconNameOptions.map((iconOptionsGroup, index) => (
+                <div key={getIconGroupID(iconOptionsGroup)}>
+                  {iconOptionsGroup.map((iconOptionsRow) => (
+                    <div key={getIconRowID(iconOptionsRow)} className="d-flex">
+                      {iconOptionsRow.map((iconNameOption) => (
+                        <ButtonWithIcon
+                          key={iconNameOption}
+                          onClick={() => setIconName(iconNameOption)}
+                          className={`dropdown-option-set-item btn-body m-1 ${iconName === iconNameOption ? 'selected' : ''} ${
+                            iconNameOption === '' ? 'bordered' : ''
+                          }`}
+                        >
+                          <ContentIcon iconName={iconNameOption} iconSize={optionIconSize} />
+                        </ButtonWithIcon>
+                      ))}
+                    </div>
+                  ))}
+                  {isDivider && index < iconOptions.length - 1 && <IconOptionsDivider />}
+                </div>
+              ))}
+            </div>
           </DropdownMenuWrapper>
         }
       />

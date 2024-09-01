@@ -8,19 +8,19 @@ export const WalletTypeIcon: FC<{ type: WalletType['type'] }> = ({ type }) => {
   switch (type) {
     case 'debit':
       return (
-        <div style={{ color: '#0d6efd' }}>
+        <div className="text-primary">
           <CashStackIcon iconSize="1.4rem" />
         </div>
       );
     case 'credit':
       return (
-        <div style={{ color: '#dc3545' }}>
+        <div className="text-danger">
           <PercentIcon iconSize="1.4rem" />
         </div>
       );
     case 'investment':
       return (
-        <div style={{ color: '#198754' }}>
+        <div className="text-success">
           <GraphUpArrowIcon iconSize="1.4rem" />
         </div>
       );

@@ -7,8 +7,7 @@ import { SubcategoryForm } from 'pages/CategoriesPage/forms/SubcategoryForm.tsx'
 import { useAppDispatch } from 'store/index.ts';
 import { addSubCategory, SubcategoryType } from 'store/slices/categoriesSlice';
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
-import { useFormValidation } from 'shared/hooks';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
+import { useGetSubcategoryFormValidation } from 'pages/CategoriesPage/forms/helpers/useGetSubcatetegoryFormValidation.ts';
 
 interface SubcategoryInputProps {
   categoryID: string;
@@ -38,19 +37,7 @@ export const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isOpen
   };
 
   // Validation
-  const [isValidate, setIsValidate] = useState<{ [K in keyof SubcategoryType]?: boolean }>({
-    name: Boolean(formData.name),
-  });
-  const validation = useFormValidation<SubcategoryType>(
-    formData,
-    {
-      name: nameValidator,
-    },
-    isValidate,
-  );
-  const setValidateFields = () => {
-    setIsValidate({ name: true });
-  };
+  const { setIsValidate, validation, setValidateFields } = useGetSubcategoryFormValidation(formData);
 
   return (
     <ModalWindowContainer isOpened={isOpened} onCollapse={setIsOpened} onClose={onClose} style={{ margin: 'auto' }}>

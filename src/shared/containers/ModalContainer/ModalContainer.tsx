@@ -60,7 +60,16 @@ export const ModalContainer: FC<ModalContainerProps> = ({
     <div
       onMouseDown={handleBackoutMouseDown}
       onMouseUp={handleBackoutMouseUp}
-      style={{ position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, zIndex: zIndex }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        zIndex: zIndex,
+        maxHeight: '100vh',
+        overflow: 'auto',
+      }}
       className={`bg-body-backout d-flex ${isOpened ? 'opacity-enter-150' : 'opacity-out-150'}`}
     >
       <div

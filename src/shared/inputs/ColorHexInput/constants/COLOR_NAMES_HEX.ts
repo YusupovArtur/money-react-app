@@ -1,4 +1,7 @@
-export const colorsNamesHex: { [key: string]: string } = {
+// TODO: Rename Hex in project to this hex Names
+export const COLOR_NAMES_HEX: { [key: string]: string } = {
+  'body-tertiary-dark': '#2b3035',
+
   white: '#ffffff',
   'gray-100': '#f8f9fa',
   'gray-400': '#ced4da',

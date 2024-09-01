@@ -6,6 +6,7 @@ import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID, WalletType } from 'store/slices
 import { WalletsListItem } from './WalletsListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
 import { AlertMessage } from 'shared/ui';
+import { getDeviceType } from 'shared/helpers';
 
 interface WalletsListProps {
   filter?: WalletType['type'] | null;
@@ -22,6 +23,7 @@ export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
   const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
+  const draggable = getDeviceType() === 'desktop';
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
@@ -54,7 +56,7 @@ export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
           <DraggableContainer
             key={id}
             id={id}
-            draggable={!shiftIsLoading}
+            draggable={draggable && !shiftIsLoading}
             isOpened={isOpened}
             onDrop={dropFunction}
             startID={dragStartID}

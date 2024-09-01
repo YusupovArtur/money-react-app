@@ -9,9 +9,8 @@ import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { deleteSubCategory, SubcategoryType, updateSubCategory } from 'store/slices/categoriesSlice';
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { useSearchParams } from 'react-router-dom';
-import { useFormValidation } from 'shared/hooks';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
 import { MODAL_CONTAINER_ANIMATION_DURATION } from 'shared/containers/ModalContainer/ModalContainer.tsx';
+import { useGetSubcategoryFormValidation } from 'pages/CategoriesPage/forms/helpers/useGetSubcatetegoryFormValidation.ts';
 
 export const SubcategoryEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -87,19 +86,7 @@ export const SubcategoryEdit: FC = () => {
   }, []);
 
   // Validation
-  const [isValidate, setIsValidate] = useState<{ [K in keyof SubcategoryType]?: boolean }>({
-    name: Boolean(formData.name),
-  });
-  const validation = useFormValidation<SubcategoryType>(
-    formData,
-    {
-      name: nameValidator,
-    },
-    isValidate,
-  );
-  const setValidateFields = () => {
-    setIsValidate({ name: true });
-  };
+  const { setIsValidate, validation, setValidateFields } = useGetSubcategoryFormValidation(formData);
 
   if (!category || !subcategory) {
     return null;

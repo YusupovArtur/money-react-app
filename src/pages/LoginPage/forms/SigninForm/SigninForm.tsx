@@ -24,14 +24,14 @@ export const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmi
     email: Boolean(formData.email),
     password: Boolean(formData.password),
   });
-  const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<SigninFormDataType>(
+  const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<SigninFormDataType>({
     formData,
-    {
+    validators: {
       email: emailValidator,
       password: passwordValidator,
     },
     isValidate,
-  );
+  });
 
   return (
     <form
@@ -53,7 +53,7 @@ export const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmi
             setFormData((state) => ({ ...state, email: event.target.value }));
             setIsValidate((state) => ({ ...state, email: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, email: true }));
           }}
           className={getValidityClassName(fieldValidities.email)}
@@ -75,7 +75,7 @@ export const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmi
             setFormData((state) => ({ ...state, password: event.target.value }));
             setIsValidate((state) => ({ ...state, password: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, password: true }));
           }}
           className={getValidityClassName(fieldValidities.password)}

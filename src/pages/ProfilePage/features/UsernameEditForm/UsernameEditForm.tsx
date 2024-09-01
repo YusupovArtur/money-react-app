@@ -31,13 +31,13 @@ export const UsernameEditForm: FC = () => {
   const [isValidate, setIsValidate] = useState<{ [K in keyof UsernameEditFormDataType]?: boolean }>({
     username: Boolean(formData.username) && isEdit,
   });
-  const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<UsernameEditFormDataType>(
+  const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<UsernameEditFormDataType>({
     formData,
-    {
+    validators: {
       username: usernameValidator,
     },
     isValidate,
-  );
+  });
 
   useEffect(() => {
     if (!isEdit) {
@@ -78,8 +78,11 @@ export const UsernameEditForm: FC = () => {
           <TextInput
             id="username"
             value={formData.username}
-            onChange={(event) => setFormData({ username: event.target.value })}
-            onFocus={() => setIsValidate({ username: true })}
+            onChange={(event) => {
+              setIsValidate({ username: true });
+              setFormData({ username: event.target.value });
+            }}
+            onBlur={() => setIsValidate({ username: true })}
             className={getValidityClassName(fieldValidities.username)}
             disabled={!isEdit}
             placeholder={!formData.username && !isEdit ? 'Нет имени' : undefined}

@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { EntityFieldLabel, EntityFieldValue, EntityIcon } from 'shared/ui';
+import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
 import { getStringBalance } from 'pages/WalletsPage/helpers/getStringBalance.ts';
 import { WalletType } from 'store/slices/walletsSlice';
 import { getWalletTypeName } from 'pages/WalletsPage/helpers/getWalletTypeName.ts';
 import { WalletTypeIcon } from 'pages/WalletsPage/ui/WalletTypeIcon.tsx';
+import { EntityIcon } from 'entities/EntityIcon';
 
 export const WalletEditInfo: FC<{ wallet: WalletType }> = ({ wallet }) => {
   return (
@@ -21,7 +22,7 @@ export const WalletEditInfo: FC<{ wallet: WalletType }> = ({ wallet }) => {
 
       {/* Иконка счета */}
       <EntityFieldLabel className="mt-3">Иконка</EntityFieldLabel>
-      <EntityIcon iconSize="3.5rem" iconName={wallet.iconName} iconBackgroundColor={wallet.color} />
+      <EntityIcon iconSize="3.5rem" iconName={wallet.iconName} color={wallet.color} />
 
       {/* Балланс счета */}
       <EntityFieldLabel className="mt-3">Сумма на счете</EntityFieldLabel>

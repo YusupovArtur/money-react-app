@@ -16,20 +16,24 @@ const getErrorCodesRussianDetalization = (code: any): string => {
       return 'Всплывающее окно заблокировано';
     case 'auth/popup-closed-by-user':
       return 'Всплывающее окно закрыто';
-    case typeof code === 'string':
-      return code;
-    default:
-      return `Неизвестная ошибка ${code.toString()}`;
   }
+
+  if (typeof code === 'string') {
+    return code;
+  }
+
+  return `Неизвестная ошибка ${code.toString()}`;
 };
 
 export const getErrorMessage = (error: any): string => {
-  switch (error) {
-    case typeof error !== 'object':
-      return getErrorCodesRussianDetalization(error);
-    case error && typeof error === 'object' && 'code' in error:
-      return getErrorCodesRussianDetalization(error.code);
-    default:
-      return getErrorCodesRussianDetalization(undefined);
+  console.log(error.message, error.code);
+  console.log(typeof error, 'code' in error);
+
+  if (typeof error !== 'object') {
+    return getErrorCodesRussianDetalization(error);
+  } else if ('code' in error) {
+    return getErrorCodesRussianDetalization(error.code);
+  } else {
+    return getErrorCodesRussianDetalization(undefined);
   }
 };

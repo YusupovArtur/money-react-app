@@ -18,7 +18,7 @@ import { ArrowLeftRightIcon, PlusIcon } from 'shared/icons';
 export const WalletsPage: FC = () => {
   const [filter, setFilter] = useState<WalletType['type'] | null>(null);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const id = searchParams.get('walletID');
 
   const [isOpenedWalletInput, setIsOpenedWalletInput] = useState<boolean>(false);

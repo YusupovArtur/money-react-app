@@ -14,14 +14,15 @@ import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 import { CalendarIcon } from 'shared/inputs/DateInput/ui/CalendarIcon.tsx';
 
 interface DateInputProps {
+  id?: string;
   timestamp: number;
   setTimestamp: (timestamp: number) => any;
   isModalForMobileDevice?: boolean;
+  className?: string;
 }
 
-export const DateInput: FC<DateInputProps> = ({ timestamp, setTimestamp, isModalForMobileDevice = false }) => {
+export const DateInput: FC<DateInputProps> = ({ id, timestamp, setTimestamp, isModalForMobileDevice = false, className }) => {
   const [dateState, setDateState] = useState<DateStateType>(getDateStateFromTimestamp(timestamp));
-  const date = new Date(timestamp);
 
   useEffect(() => {
     setTimestamp(getTimestampFromDateState(dateState));
@@ -31,7 +32,6 @@ export const DateInput: FC<DateInputProps> = ({ timestamp, setTimestamp, isModal
     setDateState((state) => {
       const dateStateTimestamp = getTimestampFromDateState(state);
       if (timestamp !== dateStateTimestamp && !(isNaN(timestamp) && isNaN(dateStateTimestamp))) {
-        console.log('inner date state change', timestamp, getTimestampFromDateState(state), state);
         return getDateStateFromTimestamp(timestamp);
       }
       return state;
@@ -44,36 +44,33 @@ export const DateInput: FC<DateInputProps> = ({ timestamp, setTimestamp, isModal
   const isMobile = !isModalForMobileDevice ? false : getDeviceType() === 'mobile';
 
   return (
-    <>
-      <div className="d-flex">
-        <DropdownContainer
-          isOpened={isOpenedDatePicker}
-          setIsOpened={setIsOpenedDatePicker}
-          menuAlignment={{ x: 'right', y: 'top' }}
-          isInsideClickClose={false}
-          isModalForMobileDevice={isModalForMobileDevice}
-          DropdownToggle={
-            <ButtonWithIcon
-              style={{ width: '100%', height: '100%' }}
-              className={`btn btn-primary rounded-end-0 ${isOpenedDatePicker ? 'active' : ''}`}
-            >
-              <CalendarIcon iconSize="1.3rem" />
-            </ButtonWithIcon>
-          }
-          DropdownMenu={
-            <DropdownMenuWrapper>
-              <DateInputPicker
-                dateState={dateState}
-                setDateState={setDateState}
-                setIsShowDatepicker={setIsOpenedDatePicker}
-                isMobile={isMobile}
-              />
-            </DropdownMenuWrapper>
-          }
-        ></DropdownContainer>
-        <DateTextInput dateState={dateState} setDateState={setDateState} isMobile={isMobile} />
-      </div>
-      {isNaN(timestamp) ? timestamp : `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`}
-    </>
+    <div className="d-flex">
+      <DropdownContainer
+        isOpened={isOpenedDatePicker}
+        setIsOpened={setIsOpenedDatePicker}
+        menuAlignment={{ x: 'right', y: 'top' }}
+        isInsideClickClose={false}
+        isModalForMobileDevice={isModalForMobileDevice}
+        DropdownToggle={
+          <ButtonWithIcon
+            style={{ width: '100%', height: '100%' }}
+            className={`btn btn-primary rounded-end-0 ${isOpenedDatePicker ? 'active' : ''}`}
+          >
+            <CalendarIcon iconSize="1.3rem" />
+          </ButtonWithIcon>
+        }
+        DropdownMenu={
+          <DropdownMenuWrapper>
+            <DateInputPicker
+              dateState={dateState}
+              setDateState={setDateState}
+              setIsShowDatepicker={setIsOpenedDatePicker}
+              isMobile={isMobile}
+            />
+          </DropdownMenuWrapper>
+        }
+      ></DropdownContainer>
+      <DateTextInput id={id} dateState={dateState} setDateState={setDateState} isMobile={isMobile} className={className} />
+    </div>
   );
 };

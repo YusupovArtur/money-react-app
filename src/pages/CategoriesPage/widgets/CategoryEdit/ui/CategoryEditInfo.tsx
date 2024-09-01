@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { EntityFieldLabel, EntityFieldValue, EntityIcon } from 'shared/ui';
-import { getCategoryTypeName } from 'pages/CategoriesPage/helpers/getCategoryTypeName.ts';
+import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
 import { CategoryType } from 'store/slices/categoriesSlice';
-import { CategoryTypeIcon } from 'pages/CategoriesPage/ui/CategoryTypeIcon.tsx';
+import { EntityIcon } from 'entities/EntityIcon';
+import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
 
 export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) => {
   return (
@@ -10,8 +10,8 @@ export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) =
       {/*Type*/}
       <EntityFieldLabel className="mt-3">Тип категории</EntityFieldLabel>
       <div className="d-flex align-items-center">
-        <CategoryTypeIcon type={category.type} />
-        <EntityFieldValue className="ms-2">{getCategoryTypeName(category.type)}</EntityFieldValue>
+        <TransactionEntityTypeIcon type={category.type} />
+        <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(category.type)}</EntityFieldValue>
       </div>
 
       {/*Name*/}
@@ -20,7 +20,7 @@ export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) =
 
       {/*Icon*/}
       <EntityFieldLabel className="mt-3">Иконка</EntityFieldLabel>
-      <EntityIcon iconName={category.iconName} iconSize="3.5rem" iconBackgroundColor={category.color} />
+      <EntityIcon iconName={category.iconName} iconSize="3.5rem" color={category.color} />
 
       {/*Description*/}
       {category.description && (

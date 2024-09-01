@@ -12,7 +12,6 @@ export const updateUserState = createAsyncThunk<
   const auth = getAuth();
 
   if (auth.currentUser) {
-    console.log(photoURL);
     return await updateProfile(auth.currentUser, { displayName: username, photoURL: photoURL })
       .then(() => {
         return { username, photoURL };

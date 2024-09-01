@@ -1,12 +1,4 @@
-import {
-  FC,
-  MouseEvent as ReactMouseEvent,
-  MutableRefObject,
-  TouchEvent as ReactTouchEvent,
-  useRef,
-  useState,
-  WheelEvent,
-} from 'react';
+import { FC, MouseEvent as ReactMouseEvent, MutableRefObject, TouchEvent as ReactTouchEvent, useRef, WheelEvent } from 'react';
 // Helpers
 import { useTouchEventListeners } from './hooks/useTouchEventListeners.ts';
 import { CoordsType } from './types/CoordsType.ts';
@@ -22,8 +14,6 @@ interface ImageCanvasProps {
 }
 
 export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize = '30rem' }) => {
-  const [debugMessage, setDebugMessage] = useState<string>('debug');
-
   const imageX = useRef<number>(0);
   const imageY = useRef<number>(0);
   const scale = useRef<number>(1);
@@ -59,7 +49,7 @@ export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize
   };
 
   const handleWheel = (event: WheelEvent<HTMLCanvasElement>) => {
-    const dScale = (scale.current * 0.1 * event.deltaY) / Math.abs(event.deltaY);
+    const dScale = (scale.current * 0.075 * event.deltaY) / Math.abs(event.deltaY);
     moveCoords({ dx: 0, dy: 0, dScale });
     drawImage();
   };
@@ -93,11 +83,7 @@ export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize
     touch2.current = null;
   };
 
-  useTouchEventListeners({
-    canvas: canvasRef.current,
-    handleTouchStart: handleTouchStart,
-    handleTouchMove: handleTouchMove,
-  });
+  useTouchEventListeners({ canvasRef, handleTouchStart, handleTouchMove });
 
   return (
     <>
@@ -112,8 +98,6 @@ export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize
         style={{ maxWidth: canvasSize, width: '90vmin', maxHeight: canvasSize, height: '90vmin', cursor: 'move' }}
         className="align-self-center rounded-circle"
       ></canvas>
-
-      <span className="text-body align-self-center">{debugMessage}</span>
     </>
   );
 };

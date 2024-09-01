@@ -33,7 +33,7 @@ export const SubcategoryForm: FC<SubcategoryFormProps> = ({ formData, setFormDat
             setFormData((state) => ({ ...state, name: event.target.value }));
             setIsValidate((state) => ({ ...state, name: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, name: true }));
           }}
           className={getValidityClassName(fieldValidities.name)}

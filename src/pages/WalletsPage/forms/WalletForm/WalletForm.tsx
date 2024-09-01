@@ -50,7 +50,7 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
             setFormData((state) => ({ ...state, name: event.target.value }));
             setIsValidate((state) => ({ ...state, name: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, name: true }));
           }}
           className={getValidityClassName(fieldValidities.name)}
@@ -87,7 +87,7 @@ export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validat
             setFormData((state) => ({ ...state, balance: number }));
             setIsValidate((state) => ({ ...state, balance: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, balance: true }));
           }}
           className={getValidityClassName(fieldValidities.balance)}

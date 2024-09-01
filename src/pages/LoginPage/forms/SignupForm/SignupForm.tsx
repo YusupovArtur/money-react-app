@@ -27,16 +27,16 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
     password: Boolean(formData.password),
     password2: Boolean(formData.password2),
   });
-  const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<SignupFormDataType>(
+  const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<SignupFormDataType>({
     formData,
-    {
+    validators: {
       email: emailValidator,
       username: usernameValidator,
       password: passwordValidator,
       password2: password2Validator,
     },
     isValidate,
-  );
+  });
 
   return (
     <form
@@ -58,7 +58,7 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
             setFormData((state) => ({ ...state, email: event.target.value }));
             setIsValidate((state) => ({ ...state, email: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, email: true }));
           }}
           className={getValidityClassName(fieldValidities.email)}
@@ -78,10 +78,10 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
           value={formData.username}
           onChange={(event) => {
             setFormData((state) => ({ ...state, username: event.target.value }));
-            setIsValidate((state) => ({ ...state, name: true }));
+            setIsValidate((state) => ({ ...state, username: true }));
           }}
-          onFocus={() => {
-            setIsValidate((state) => ({ ...state, name: true }));
+          onBlur={() => {
+            setIsValidate((state) => ({ ...state, username: true }));
           }}
           className={getValidityClassName(fieldValidities.username)}
           id="signupUsername"
@@ -101,7 +101,7 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
             setFormData((state) => ({ ...state, password: event.target.value }));
             setIsValidate((state) => ({ ...state, password: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, password: true }));
           }}
           className={getValidityClassName(fieldValidities.password)}
@@ -123,7 +123,7 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
             setFormData((state) => ({ ...state, password2: event.target.value }));
             setIsValidate((state) => ({ ...state, password2: true }));
           }}
-          onFocus={() => {
+          onBlur={() => {
             setIsValidate((state) => ({ ...state, password2: true }));
           }}
           className={getValidityClassName(fieldValidities.password2)}

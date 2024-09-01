@@ -17,15 +17,18 @@ type IsValidateType<T> = {
   [K in keyof T]?: boolean;
 };
 
-export const useFormValidation = <T,>(
-  formData: FormDataType<T>,
-  validators: ValidatorsType<T>,
-  isValidate: IsValidateType<T>,
-): {
+export const useFormValidation = <T,>(props: {
+  formData: FormDataType<T>;
+  validators: ValidatorsType<T>;
+  isValidate: IsValidateType<T>;
+  extraDeps?: ReadonlyArray<any>;
+}): {
   isValid: boolean;
   fieldValidities: { [K in keyof T]?: boolean };
   fieldFeedbacks: { [K in keyof T]?: string };
 } => {
+  const { formData, validators, isValidate, extraDeps = [] } = props;
+
   const [fieldValidities, setFieldValidities] = useState<{ [K in keyof T]?: boolean }>({});
   const [fieldFeedbacks, setFieldFeedbacks] = useState<{ [K in keyof T]?: string }>({});
 
@@ -51,7 +54,7 @@ export const useFormValidation = <T,>(
     });
     setFieldValidities(newFieldValidities);
     setFieldFeedbacks(newFieldFeedbacks);
-  }, [formData, isValidate]);
+  }, [formData, isValidate, ...extraDeps]);
 
   const isValid = Object.values(fieldValidities).every(Boolean);
   return { isValid, fieldValidities, fieldFeedbacks };

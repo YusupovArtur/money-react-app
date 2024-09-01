@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FC, FocusEvent, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 // UI
 import { TextInput } from 'shared/inputs';
 // Helpers
@@ -11,7 +11,7 @@ interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
   setNumber: (number: number) => any;
 }
 
-export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, ...props }) => {
+export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, onFocus, onBlur, ...props }) => {
   const [textNumber, setTextNumber] = useState<string>('0');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -41,17 +41,25 @@ export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, ...props 
     });
   };
 
-  const handleFocus = () => {
+  const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     if (textNumber === '0') {
       setTextNumber('');
     }
+
+    if (onFocus) {
+      onFocus(event);
+    }
   };
 
-  const handleBlur = () => {
+  const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     if (!textNumber) {
       setTextNumber('0');
     } else {
       setTextNumber((state) => getNumberFromText(getFormatedTextNumber(state)).toString());
+    }
+
+    if (onBlur) {
+      onBlur(event);
     }
   };
 

@@ -14,6 +14,7 @@ interface DraggableItemProps {
   setOverID: Dispatch<SetStateAction<string>>;
 }
 
+// TODO: решить проблему с borders
 export const DraggableContainer: FC<DraggableItemProps> = ({
   id,
   children,
@@ -75,7 +76,7 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         style={{ zIndex: zIndex }}
       >
         <OpenableContainer
-          className="bordered-emphasis rounded"
+          className="bordered-strong rounded"
           style={{ borderStyle: 'dashed' }}
           isOpened={isOpened}
           style1={{ height: 0, marginTop: 0, borderWidth: 0 }}

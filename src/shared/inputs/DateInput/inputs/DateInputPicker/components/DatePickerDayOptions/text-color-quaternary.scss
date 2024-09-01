@@ -1,0 +1,13 @@
+:root,
+[data-bs-theme=light] {
+  --text-color-quaternary: rgba(33, 37, 41, 0.285);
+}
+
+[data-bs-theme=dark] {
+  color-scheme: dark;
+  --text-color-quaternary: rgba(222, 226, 230, 0.285)
+}
+
+.text-body-quaternary {
+  color: var(--text-color-quaternary) !important;
+}

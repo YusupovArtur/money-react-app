@@ -6,6 +6,7 @@ import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIconAndSpinner, PageContentWrapper } from 'shared/ui';
 import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
 import { CheckIcon } from 'shared/icons';
+import { getToday } from 'shared/helpers';
 
 export const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
@@ -28,7 +29,7 @@ export const MainPage: FC = () => {
     //     operation: {
     //       type: 'expense',
     //       sum: 10,
-    //       time: new Date().getTime(),
+    //       time: getToday(),
     //       fromWallet: 'test',
     //       toWallet: 'test',
     //       category: 'test',
@@ -169,7 +170,7 @@ export const MainPage: FC = () => {
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [timestamp, setTimestamp] = useState<number>(new Date().getTime());
+  const [timestamp, setTimestamp] = useState<number>(getToday());
   // return <PagePlaceholder />;
 
   return (

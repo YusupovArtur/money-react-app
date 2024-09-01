@@ -1,23 +1,37 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useId } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
 // Inputs
-import { TransactionTypeToggle } from 'pages/TransactionsPage/forms/TransactionForm/ui/TransactionTypeToggle.tsx';
-import { DateInput, NumberInput, WalletIDInput } from 'shared/inputs';
+import { DateInput, NumberInput, TextInput } from 'shared/inputs';
+import { TransactionTypeInput } from 'pages/TransactionsPage/inputs/TransactionTypeInput.tsx';
 // Icons
-import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
+import { EntityFieldValue, FormLabel, FormValidationFeedback } from 'shared/ui';
+import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { WalletsIDForm } from './components/WalletsIDForm.tsx';
+import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
+import { getValidityClassName, useFormValidation } from 'shared/hooks';
+import { getToday } from 'shared/helpers';
 
 interface TransactionFormProps {
+  type: TransactionType['type'] | null;
   formData: TransactionType;
   setFormData: Dispatch<SetStateAction<TransactionType>>;
-  type: TransactionType['type'] | 'optional';
+  validation: ReturnType<typeof useFormValidation<TransactionType>>;
+  setIsValidate: Dispatch<SetStateAction<{ [K in keyof TransactionType]?: boolean }>>;
 }
 
-export const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormData, type }) => {
+export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setFormData, validation, setIsValidate }) => {
+  const { fieldValidities, fieldFeedbacks } = validation;
+
+  const typeInputID = useId();
+  const sumInputID = useId();
+  const dateInputID = useId();
+  const descriptionInputID = useId();
+
   const onClear = () => {
     setFormData((state) => ({
       ...state,
       sum: 0,
-      time: new Date().getTime(),
+      time: getToday(),
       fromWallet: '',
       toWallet: '',
       category: '',
@@ -27,51 +41,102 @@ export const TransactionForm: FC<TransactionFormProps> = ({ formData, setFormDat
   };
 
   return (
-    <>
-      <div className="d-flex flex-column">
-        {type && (
-          <TransactionTypeToggle
+    <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column mb-3">
+      {/*Type*/}
+      <div className="position-relative mb-3">
+        <FormLabel htmlFor={typeInputID} style={{ display: 'block' }}>
+          Тип операции
+        </FormLabel>
+        {type === null ? (
+          <TransactionTypeInput
+            id={typeInputID}
             type={formData.type}
             setType={(type: TransactionType['type']) => setFormData((state) => ({ ...state, type }))}
             onClear={onClear}
-          ></TransactionTypeToggle>
+          ></TransactionTypeInput>
+        ) : (
+          <div className="d-flex align-items-center">
+            <input id={typeInputID} type="text" value={type || ''} readOnly={true} style={{ display: 'none' }} />
+            <TransactionEntityTypeIcon type={formData.type} />
+            <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(formData.type)}</EntityFieldValue>
+          </div>
         )}
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.type} className="align-items-start" />
+      </div>
 
-        <span className="text-body-tertiary mt-2">
+      {/*Sum*/}
+      <div className="position-relative mb-3">
+        <FormLabel htmlFor={sumInputID}>
           {formData.type === 'expense' ? 'Сумма расхода' : formData.type === 'income' ? 'Сумма дохода' : 'Сумма перевода'}
-        </span>
+        </FormLabel>
         <NumberInput
+          id={sumInputID}
           number={formData.sum}
-          setNumber={(number: number) => setFormData((state) => ({ ...state, sum: number }))}
+          setNumber={(number: number) => {
+            setFormData((state) => ({ ...state, sum: number }));
+            setIsValidate((state) => ({ ...state, sum: true }));
+          }}
+          className={getValidityClassName(fieldValidities.sum)}
+          onBlur={() => {
+            setIsValidate((state) => ({ ...state, sum: true }));
+          }}
         ></NumberInput>
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.sum} />
+      </div>
 
-        <span className="text-body-tertiary mt-2">Дата операции</span>
+      {/*Time*/}
+      <div className="position-relative mb-3">
+        <FormLabel htmlFor={dateInputID}>Дата</FormLabel>
         <DateInput
+          id={dateInputID}
           timestamp={formData.time}
           setTimestamp={(timestamp: number) => setFormData((state) => ({ ...state, time: timestamp }))}
           isModalForMobileDevice={true}
+          className={getValidityClassName(fieldValidities.time)}
         ></DateInput>
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.time} />
+      </div>
 
-        <span className="text-body-tertiary mt-2">
-          {formData.type === 'expense' ? 'Счет расхода' : formData.type === 'income' ? 'Счет дохода' : 'Счета перевода'}
-        </span>
+      {/*Wallets*/}
+      <div className="position-relative mb-4">
+        <WalletsIDForm
+          formData={formData}
+          setFormData={setFormData}
+          isValid={fieldValidities.toWallet ? fieldValidities.toWallet : fieldValidities.fromWallet}
+          setIsValidate={setIsValidate}
+        />
+        <FormValidationFeedback
+          feedbackMessage={fieldFeedbacks.fromWallet ? fieldFeedbacks.fromWallet : fieldFeedbacks.toWallet}
+          className="align-items-start ms-1"
+        />
       </div>
-      <div className="d-flex justify-content-center align-items-center">
-        {(formData.type === 'expense' || formData.type === 'transfer') && (
-          <WalletIDInput
-            walletID={formData.fromWallet}
-            setWalletID={(walletID: string) => setFormData((state) => ({ ...state, fromWallet: walletID }))}
-          ></WalletIDInput>
-        )}
-        {formData.type === 'transfer' && <ArrowRightIcon iconSize="1.5rem" />}
-        {(formData.type === 'income' || formData.type === 'transfer') && (
-          <WalletIDInput
-            walletID={formData.toWallet}
-            setWalletID={(walletID: string) => setFormData((state) => ({ ...state, toWallet: walletID }))}
-            firstSelectedWalletID={formData.fromWallet}
-          ></WalletIDInput>
-        )}
+
+      {/*Category*/}
+      <div className="position-relative mb-4">
+        <CategoryAndSubcategoryIDForm
+          formData={formData}
+          setFormData={setFormData}
+          isValidCategory={fieldValidities.category}
+          isValidSubcategory={fieldValidities.subcategory}
+          setIsValidate={setIsValidate}
+        />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.category} className="align-items-start" />
+        <FormValidationFeedback
+          feedbackMessage={fieldFeedbacks.subcategory}
+          className="align-items-start"
+          style={{ paddingLeft: '50%' }}
+        />
       </div>
-    </>
+
+      {/*Description*/}
+      <div className="position-relative mb-3">
+        <FormLabel htmlFor={descriptionInputID}>Описание</FormLabel>
+        <TextInput
+          id={descriptionInputID}
+          value={formData.description}
+          onChange={(event) => setFormData((state) => ({ ...state, description: event.target.value }))}
+        />
+      </div>
+    </form>
   );
 };

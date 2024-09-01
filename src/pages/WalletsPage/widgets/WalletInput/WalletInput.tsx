@@ -2,14 +2,10 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 // Store
 import { ResponseHooksType, useAppDispatch } from 'store';
 import { addWallet, WalletType } from 'store/slices/walletsSlice';
-// Input components
+// Form
 import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
 import { InputFormControl } from 'entities/InputFormControl';
-// Form
-import { useFormValidation } from 'shared/hooks';
-import { typeValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/typeValidator.ts';
-import { balanceValidator } from 'pages/WalletsPage/forms/WalletForm/helpers/balanceValidator.ts';
-import { nameValidator } from 'shared/hooks/useFormValidation/validators';
+import { useGetWalletFormValidation } from 'pages/WalletsPage/forms/WalletForm/helpers/useGetWalletFormValidation.ts';
 // UI
 import { ModalWindowContainer } from 'shared/containers';
 
@@ -44,23 +40,7 @@ export const WalletInput: FC<WalletInputProps> = ({ isOpened, setIsOpened }) => 
   };
 
   // Validation
-  const [isValidate, setIsValidate] = useState<{ [K in keyof WalletType]?: boolean }>({
-    name: Boolean(formData.name),
-    type: Boolean(formData.type),
-    balance: !isNaN(formData.balance),
-  });
-  const validation = useFormValidation<WalletType>(
-    formData,
-    {
-      name: nameValidator,
-      type: typeValidator,
-      balance: balanceValidator,
-    },
-    isValidate,
-  );
-  const setValidateFields = () => {
-    setIsValidate({ name: true, type: true, balance: true });
-  };
+  const { setIsValidate, validation, setValidateFields } = useGetWalletFormValidation(formData);
 
   return (
     <ModalWindowContainer isOpened={isOpened} onCollapse={setIsOpened} onClose={onClose} style={{ margin: 'auto' }}>

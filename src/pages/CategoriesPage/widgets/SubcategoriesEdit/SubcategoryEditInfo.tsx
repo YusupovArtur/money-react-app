@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { EntityFieldLabel, EntityFieldValue, EntityIcon } from 'shared/ui';
+import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
 import { SubcategoryType } from 'store/slices/categoriesSlice';
+import { EntityIcon } from 'entities/EntityIcon';
 
 interface SubcategoryEditInfoProps {
   subcategory: SubcategoryType;
@@ -16,7 +17,7 @@ export const SubcategoryEditInfo: FC<SubcategoryEditInfoProps> = ({ subcategory,
 
       {/* Иконка подкатегории */}
       <EntityFieldLabel className="mt-3">Иконка</EntityFieldLabel>
-      <EntityIcon iconName={subcategory.iconName} iconSize="3.5rem" iconBackgroundColor={color} />
+      <EntityIcon iconName={subcategory.iconName} iconSize="3.5rem" color={color} />
 
       {/* Описание подкатегории */}
       {subcategory.description && (

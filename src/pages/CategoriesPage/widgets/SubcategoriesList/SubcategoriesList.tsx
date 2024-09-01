@@ -6,6 +6,7 @@ import { CategoryType, shiftSubCategory, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 
 import { SubcategoriesListItem } from 'pages/CategoriesPage/widgets/SubcategoriesList/SubcategoriesListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
 import { AlertMessage, EntityFieldLabel } from 'shared/ui';
+import { getDeviceType } from 'shared/helpers';
 
 interface SubcategoriesListProps {
   categoryID: string;
@@ -19,6 +20,7 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
   const [dragOverID, setDragOverID] = useState<string>('');
   const [dragStartID, setDragStartID] = useState<string>('');
 
+  const draggable = getDeviceType() === 'desktop';
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
   const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
@@ -50,7 +52,7 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
           <DraggableContainer
             key={id}
             id={id}
-            draggable={true}
+            draggable={draggable && !shiftIsLoading}
             isOpened={isOpened}
             onDrop={dropFunction}
             startID={dragStartID}

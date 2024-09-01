@@ -11,11 +11,11 @@
 }
 
 .bordered {
-  border: 2px var(--bs-border-style) var(--bs-border-color);
+  border: 2px var(--bs-border-style) var(--bs-border-color) !important;
 }
 
 .bordered-emphasis {
-  border: 2px var(--bs-border-style) var(--border-color-emphasis);
+  border: 2px var(--bs-border-style) var(--border-color-emphasis) !important;
 }
 
 .bordered-strong {

@@ -7,7 +7,12 @@ interface getPositionedMenuAlignmentProps {
   menuAlignment: MenuAlignmentType;
 }
 
-export const getPositionedMenuAlignment = (props: getPositionedMenuAlignmentProps): MenuAlignmentType => {
+export const getPositionedMenuAlignment = (
+  props: getPositionedMenuAlignmentProps,
+): {
+  alignment: MenuAlignmentType;
+  maxHeight?: number;
+} => {
   const { toggleRef, menuRef, menuAlignment } = props;
   if (toggleRef.current && menuRef.current && window.visualViewport) {
     const alignment: MenuAlignmentType = { ...menuAlignment };
@@ -20,6 +25,8 @@ export const getPositionedMenuAlignment = (props: getPositionedMenuAlignmentProp
     const rightSpace = view.width + view.pageLeft - toggleRect.left;
     const topSpace = toggleRect.top - view.pageTop;
     const bottomSpace = view.height + view.pageTop - toggleRect.bottom;
+
+    const maxHeight: number | undefined = Math.max(bottomSpace, topSpace) - 10;
 
     if (
       (menuAlignment.y === 'bottom' && bottomSpace < menuRect.height && topSpace > menuRect.height) ||
@@ -45,8 +52,8 @@ export const getPositionedMenuAlignment = (props: getPositionedMenuAlignmentProp
       alignment.x = 'left';
     }
 
-    return alignment;
+    return { alignment, maxHeight };
   }
 
-  return menuAlignment;
+  return { alignment: menuAlignment };
 };

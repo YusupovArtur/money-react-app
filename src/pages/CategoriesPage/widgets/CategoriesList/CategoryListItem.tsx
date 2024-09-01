@@ -2,9 +2,10 @@ import { FC } from 'react';
 // Store
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'store/store.ts';
-// Icons
-import { EntityIcon, ListItemWrapper } from 'shared/ui';
-import { CategoryTypeIcon } from 'pages/CategoriesPage/ui/CategoryTypeIcon.tsx';
+// UI
+import { ListItemLabel, ListItemWrapper } from 'shared/ui';
+import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { EntityIcon } from 'entities/EntityIcon';
 
 interface CategoryItemProps {
   id: string;
@@ -27,13 +28,13 @@ export const CategoryListItem: FC<CategoryItemProps> = ({ id, disabled, loading 
 
   return (
     <ListItemWrapper onClick={handleSetID} disabled={disabled} loading={loading}>
-      <div className="d-flex align-items-center">
-        <EntityIcon iconName={category.iconName} iconBackgroundColor={category.color} iconSize="2.2rem" />
-        <span className="mx-2 text-body" style={{ fontSize: '1.05rem' }}>
-          {category.name}
-        </span>
-      </div>
-      <CategoryTypeIcon type={category.type} />
+      <EntityIcon iconName={category.iconName} color={category.color} iconSize="2.2rem" />
+
+      <ListItemLabel className="flex-shrink-1 ms-2" style={{ marginRight: 'auto' }}>
+        {category.name}
+      </ListItemLabel>
+
+      <TransactionEntityTypeIcon type={category.type} />
     </ListItemWrapper>
   );
 };

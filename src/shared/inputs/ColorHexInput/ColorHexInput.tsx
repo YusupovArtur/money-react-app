@@ -34,18 +34,20 @@ export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, id, 
         }
         DropdownMenu={
           <DropdownMenuWrapper>
-            {COLOR_HEX_OPTIONS.map((colorOptionsRow) => (
-              <div className="d-flex" key={colorOptionsRow.join('')}>
-                {colorOptionsRow.map((colorOption) => (
-                  <div
-                    key={colorOption}
-                    onClick={() => setColorHex(colorOption)}
-                    style={{ backgroundColor: colorOption, width: optionColorSize, height: optionColorSize }}
-                    className={`dropdown-option-set-item bordered rounded m-1 ${colorOption === colorHex ? 'selected' : ''}`}
-                  ></div>
-                ))}
-              </div>
-            ))}
+            <div style={{ overflowY: 'auto' }}>
+              {COLOR_HEX_OPTIONS.map((colorOptionsRow) => (
+                <div className="d-flex" key={colorOptionsRow.join('')}>
+                  {colorOptionsRow.map((colorOption) => (
+                    <div
+                      key={colorOption}
+                      onClick={() => setColorHex(colorOption)}
+                      style={{ backgroundColor: colorOption, width: optionColorSize, height: optionColorSize }}
+                      className={`dropdown-option-set-item bordered rounded m-1 ${colorOption === colorHex ? 'selected' : ''}`}
+                    ></div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </DropdownMenuWrapper>
         }
       />

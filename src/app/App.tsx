@@ -14,7 +14,7 @@ const CategoriesPage = lazy(() => import('pages/CategoriesPage'));
 const LoginPage = lazy(() => import('pages/LoginPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
-const App: FC = () => {
+export const App: FC = () => {
   useFirestoreChangesListener();
 
   return (
@@ -22,17 +22,14 @@ const App: FC = () => {
       <Navbar />
       <Suspense fallback={<PageLoadingSpinner />}>
         <Routes>
-          <Route path={'/'} Component={MainPage} />
-          <Route path={'/transactions'} Component={TransactionsPage} />
-          <Route path={'/wallets'} Component={WalletsPage} />
-          <Route path={'/wallets/:id'} Component={WalletsPage} />
-          <Route path={'/categories'} Component={CategoriesPage} />
-          <Route path={'/login'} Component={LoginPage} />
-          <Route path={'/profile'} Component={ProfilePage} />
+          <Route path="/" Component={MainPage} />
+          <Route path="/transactions" Component={TransactionsPage} />
+          <Route path="/wallets" Component={WalletsPage} />
+          <Route path="/categories" Component={CategoriesPage} />
+          <Route path="/login" Component={LoginPage} />
+          <Route path="/profile" Component={ProfilePage} />
         </Routes>
       </Suspense>
     </AppWrapper>
   );
 };
-
-export default App;
