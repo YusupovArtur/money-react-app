@@ -6,6 +6,7 @@ import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 import { AppDispatch, useAppDispatch } from 'store/index.ts';
 import { getWalletsOrderedList, setWallets, setWalletsResponseState } from 'store/slices/walletsSlice';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
+import { deepEqual } from 'shared/helpers';
 
 export class WalletsFirestoreListener {
   listener: Unsubscribe | null = null;
@@ -66,10 +67,7 @@ export class WalletsFirestoreListener {
             const orderChange = changes.find((change) => change.type === 'modified' && change.doc.id === 'order');
             if (orderChange) {
               const order = (orderChange.doc.data() as { order: string[] }).order;
-              if (
-                order.length === window.pending.wallets.shift.order.length &&
-                order.every((value, index) => value === window.pending.wallets.shift.order![index])
-              ) {
+              if (deepEqual(order, window.pending.wallets.shift.order)) {
                 window.pending.wallets.shift.order = undefined;
                 return;
               }

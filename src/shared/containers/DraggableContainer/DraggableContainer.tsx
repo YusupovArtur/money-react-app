@@ -28,13 +28,11 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
   const dy = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dyState, setDyState] = useState<number>(0);
-  const [zIndex, setZIndex] = useState(1);
 
   const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
     dragStartPreventDefault(event);
     y.current = event.clientY;
     setStartID(id);
-    setZIndex(2);
   };
 
   // Container position animation
@@ -58,7 +56,6 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
     setStartID('');
     setOverID('');
     setDyState(0);
-    setZIndex(1);
     dy.current = 0;
   };
 
@@ -72,7 +69,7 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         onDragOver={handleDragOver}
         onDragEnd={resetState}
         onDrop={handleDrop}
-        style={{ zIndex: zIndex }}
+        style={{ zIndex: startID === id ? 2 : undefined }}
       >
         <OpenableContainer
           className="bordered-strong rounded"
