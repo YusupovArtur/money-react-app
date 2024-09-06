@@ -18,7 +18,7 @@ export const CategoryEditPlaceholder: FC = ({}) => {
 
       <div className="d-flex mb-5">
         <button className="btn btn-primary disabled placeholder flex-grow-1 me-2"></button>
-        <button className="btn btn-secondary disabled placeholder col-3"></button>
+        <button className="btn btn-danger disabled placeholder col-3"></button>
       </div>
 
       <p className="d-flex flex-column placeholder-wave m-0">

@@ -6,7 +6,7 @@ interface EntityFieldLabelProps extends HTMLAttributes<HTMLSpanElement> {
 
 export const EntityFieldLabel: FC<EntityFieldLabelProps> = ({ children, className, ...props }) => {
   return (
-    <span className={`d-block form-label text-body user-select-none m-0 ${className ? className : ''}`} {...props}>
+    <span className={`d-block form-label text-body user-select-none m-0 ${className || ''}`} {...props}>
       {children}
     </span>
   );

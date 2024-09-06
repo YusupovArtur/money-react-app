@@ -17,14 +17,14 @@ import { DateFieldName } from 'shared/inputs/DateInput/types/DateFieldName.ts';
 interface DateInputDatePickerProps {
   dateState: DateStateType;
   setDateState: Dispatch<SetStateAction<DateStateType>>;
-  setIsShowDatepicker: Dispatch<SetStateAction<boolean>>;
+  setIsOpenedDatepicker: Dispatch<SetStateAction<boolean>>;
   isMobile?: boolean;
 }
 
 export const DateInputPicker: FC<DateInputDatePickerProps> = ({
   dateState,
   setDateState,
-  setIsShowDatepicker,
+  setIsOpenedDatepicker,
   isMobile = false,
 }) => {
   const [displayedOption, setDisplayedOption] = useState<Omit<DateStateType, 'day'>>({
@@ -100,7 +100,7 @@ export const DateInputPicker: FC<DateInputDatePickerProps> = ({
       </div>
 
       {/* Modal control buttons */}
-      {isMobile && <DatePickerModalControlButtons setDateState={setDateState} setIsShowDatepicker={setIsShowDatepicker} />}
+      {isMobile && <DatePickerModalControlButtons setDateState={setDateState} setIsOpenedDatepicker={setIsOpenedDatepicker} />}
     </div>
   );
 };

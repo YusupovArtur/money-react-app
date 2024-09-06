@@ -4,6 +4,7 @@ import { ResponseHooksType } from 'store';
 // UI
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
 import { CheckIcon, CrossIcon, PencilSquareIcon, TrashFillIcon } from 'shared/icons';
+import { useHandleDisabledClick } from 'shared/hooks';
 
 interface EditFormControlProps {
   disabled?: boolean;
@@ -12,7 +13,7 @@ interface EditFormControlProps {
   onDelete: (statusHooks: ResponseHooksType) => any;
   onUpdateFulfilled: () => any;
   onDeleteFulfilled: () => any;
-  setValidateFields?: () => any;
+  setValidate?: () => any;
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
   captions: { itemType: string; itemName: string };
@@ -20,7 +21,7 @@ interface EditFormControlProps {
 
 export const EditFromControl: FC<EditFormControlProps> = ({
   disabled,
-  setValidateFields,
+  setValidate,
   onClear,
   onUpdate,
   onDelete,
@@ -35,12 +36,6 @@ export const EditFromControl: FC<EditFormControlProps> = ({
 
   const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
   const [deleteErrorMessage, setDeleteErrorMessage] = useState<string>('');
-
-  const handleSetIsValidate = () => {
-    if (setValidateFields) {
-      setValidateFields();
-    }
-  };
 
   const handleDelete = () => {
     if (confirm(`Вы уверены что хотите удалить ${itemType}: ${itemName}`)) {
@@ -64,10 +59,18 @@ export const EditFromControl: FC<EditFormControlProps> = ({
     }
   };
 
+  const click = useHandleDisabledClick({ disabled, callback: handleUpdate });
+  const handleSetValidate = () => {
+    if (setValidate && disabled && isEdit) {
+      setValidate();
+      click();
+    }
+  };
+
   return (
     <>
       <div className="d-flex">
-        <div onClick={handleSetIsValidate} style={{ cursor: 'pointer' }} className="d-flex flex-grow-1">
+        <div onClick={handleSetValidate} style={{ cursor: 'pointer' }} className="d-flex flex-grow-1">
           <ButtonWithIconAndSpinner
             caption={isEdit ? 'Сохранить' : 'Редактировать'}
             isLoading={updateIsLoading}

@@ -33,7 +33,7 @@ export const RadioButtonGroup = <T extends Primitive>({
   return (
     <div
       style={{ maxWidth: '100%', display: 'inline-flex', ...style }}
-      className={`btn-group ${className ? className : ''}`}
+      className={`btn-group ${className || ''}`}
       role="group"
       {...props}
     >

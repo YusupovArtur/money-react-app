@@ -25,7 +25,7 @@ export const UsernameEditForm: FC = () => {
   const onFulfilled = () => {
     setIsEdit(false);
     setIsValidate({ username: false });
-    setFormData({ username: usernameState !== null ? usernameState : '' });
+    setFormData({ username: usernameState || '' });
   };
 
   const [isValidate, setIsValidate] = useState<{ [K in keyof UsernameEditFormDataType]?: boolean }>({
@@ -59,7 +59,7 @@ export const UsernameEditForm: FC = () => {
     setErrorMessage('');
     setIsValidate({ username: false });
     setFormData({
-      username: usernameState ? usernameState : '',
+      username: usernameState || '',
     });
   };
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 // Subcategory components_legacy
 import { ModalWindowContainer } from 'shared/containers';
 import { EditFromControl } from 'entities/EditFormControl';
@@ -6,20 +6,32 @@ import { SubcategoryEditInfo } from 'pages/CategoriesPage/widgets/SubcategoriesE
 import { SubcategoryForm } from 'pages/CategoriesPage/forms/SubcategoryForm.tsx';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
-import { deleteSubCategory, SubcategoryType, updateSubCategory } from 'store/slices/categoriesSlice';
+import {
+  deleteSubCategory,
+  selectCategory,
+  selectSubcategory,
+  SubcategoryType,
+  updateSubCategory,
+} from 'store/slices/categoriesSlice';
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { useSearchParams } from 'react-router-dom';
 import { MODAL_CONTAINER_ANIMATION_DURATION } from 'shared/containers/ModalContainer/ModalContainer.tsx';
 import { useGetSubcategoryFormValidation } from 'pages/CategoriesPage/forms/helpers/useGetSubcatetegoryFormValidation.ts';
+import { useTimeoutRefWithClear } from 'shared/hooks';
 
 export const SubcategoryEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryID = searchParams.get('categoryID');
   const subcategoryID = searchParams.get('subcategoryID');
 
-  const category = categoryID !== null ? useAppSelector((state) => state.categories.list[categoryID]) : undefined;
-  const subcategory = category ? (subcategoryID !== null ? category.subcategories.list[subcategoryID] : undefined) : undefined;
+  const category = useAppSelector(selectCategory(categoryID));
+  const subcategory = useAppSelector(selectSubcategory({ categoryID, subcategoryID }));
   const isLoading = useAppSelector((state) => state.categories.responseState.isLoading);
+  const defaultValue: SubcategoryType = {
+    name: subcategory?.name || '',
+    iconName: subcategory?.iconName || '',
+    description: subcategory?.description || '',
+  };
 
   useEffect(() => {
     if (isLoading === false && subcategoryID !== null && !subcategory) {
@@ -31,27 +43,21 @@ export const SubcategoryEdit: FC = () => {
   }, [isLoading, subcategoryID, subcategory]);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState<SubcategoryType>({
-    name: subcategory?.name || '',
-    iconName: subcategory?.iconName || '',
-    description: subcategory?.description || '',
-  });
+  const [formData, setFormData] = useState<SubcategoryType>(defaultValue);
+  const [isOpened, setIsOpened] = useState<boolean>(true);
+  const timeoutRef = useTimeoutRefWithClear();
 
   // Callbacks
   const handleClose = () => {
     setIsOpened(false);
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       searchParams.delete('subcategoryID');
       setSearchParams(searchParams);
     }, MODAL_CONTAINER_ANIMATION_DURATION);
   };
 
   const onClear = () => {
-    setFormData({
-      name: subcategory?.name || '',
-      iconName: subcategory?.iconName || 'Card',
-      description: subcategory?.description || '',
-    });
+    setFormData(defaultValue);
   };
 
   const dispatch = useAppDispatch();
@@ -73,17 +79,6 @@ export const SubcategoryEdit: FC = () => {
     searchParams.delete('subcategoryID');
     setSearchParams(searchParams);
   };
-
-  // Modal container state
-  const [isOpened, setIsOpened] = useState<boolean>(true);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   // Validation
   const { setIsValidate, validation, setValidateFields } = useGetSubcategoryFormValidation(formData);
@@ -107,7 +102,7 @@ export const SubcategoryEdit: FC = () => {
 
       <EditFromControl
         disabled={!validation.isValid}
-        setValidateFields={setValidateFields}
+        setValidate={setValidateFields}
         isEdit={isEdit}
         setIsEdit={setIsEdit}
         onUpdate={updateFunction}

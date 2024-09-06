@@ -6,7 +6,7 @@ interface FormLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
 
 export const FormLabel: FC<FormLabelProps> = ({ children, className, ...props }) => {
   return (
-    <label className={`form-label text-body user-select-none mx-1 mb-0 ${className ? className : ''}`} {...props}>
+    <label className={`form-label text-body user-select-none mx-1 mb-0 ${className || ''}`} {...props}>
       {children}
     </label>
   );

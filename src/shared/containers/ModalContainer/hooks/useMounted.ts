@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useTimeoutRefWithClear } from 'shared/hooks';
 
 export const useMounted = (props: { isOpened: boolean; duration: number }) => {
   const { isOpened, duration } = props;
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useTimeoutRefWithClear();
 
   useEffect(() => {
     if (isOpened && !isMounted) {
@@ -17,12 +18,6 @@ export const useMounted = (props: { isOpened: boolean; duration: number }) => {
         setIsMounted(false);
       }, duration);
     }
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
   }, [isOpened]);
   return isMounted;
 };

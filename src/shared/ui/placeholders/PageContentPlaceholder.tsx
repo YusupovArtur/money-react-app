@@ -4,7 +4,7 @@ interface PageContentPlaceholderProps extends HTMLAttributes<HTMLParagraphElemen
 
 export const PageContentPlaceholder: FC<PageContentPlaceholderProps> = ({ className }) => {
   return (
-    <p className={`placeholder-wave ${className ? className : ''}`}>
+    <p className={`placeholder-wave ${className || ''}`}>
       <span style={{ height: '3.2rem' }} className="placeholder col-12 mb-1"></span>
       <span style={{ height: '3.2rem' }} className="placeholder col-12 mb-1"></span>
       <span style={{ height: '3.2rem' }} className="placeholder col-12 mb-1"></span>

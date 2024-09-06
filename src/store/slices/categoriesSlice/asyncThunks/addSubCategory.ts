@@ -4,7 +4,8 @@ import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { getAuth } from 'firebase/auth';
 import { arrayUnion, doc, runTransaction } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
-import { getErrorMessage, getID } from 'store';
+import { generateID } from 'store/helpers/generateID.ts';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const addSubCategory = createAsyncThunk<
   { categoryID: string; subcategoryID: string; subcategory: SubcategoryType },
@@ -19,7 +20,7 @@ export const addSubCategory = createAsyncThunk<
     const docRef = doc(db, 'users_data', user.uid, 'categories', categoryID);
 
     return await runTransaction(db, async (transaction) => {
-      const subcategoryID = getID(20);
+      const subcategoryID = generateID();
       transaction.update(docRef, { 'subcategories.order': arrayUnion(subcategoryID) });
       transaction.update(docRef, { [`subcategories.list.${subcategoryID}`]: subcategory });
       return { categoryID: categoryID, subcategoryID: subcategoryID, subcategory };

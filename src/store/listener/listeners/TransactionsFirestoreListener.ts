@@ -3,14 +3,10 @@ import { db } from 'app/firebase.ts';
 import { User } from 'firebase/auth';
 import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 // Store
-import { AppDispatch, useAppDispatch } from 'store';
-import {
-  setTransactions,
-  setTransactionsResponseState,
-  TransactionsListType,
-  TransactionType,
-} from 'store/slices/transactionsSlice';
+import { AppDispatch, useAppDispatch } from 'store/index.ts';
+import { setTransactions, setTransactionsResponseState } from 'store/slices/transactionsSlice';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
+import { getTransactionsList } from 'store/slices/transactionsSlice/helpers/getTransactionsList.ts';
 
 export class TransactionsFirestoreListener {
   listener: Unsubscribe | null = null;
@@ -37,14 +33,22 @@ export class TransactionsFirestoreListener {
       this.listener = onSnapshot(
         docsRef,
         (querySnapshot) => {
-          if (!querySnapshot.metadata.hasPendingWrites) {
-            const list: TransactionsListType = {};
-            querySnapshot.forEach((doc) => {
-              list[doc.id] = doc.data() as TransactionType;
-            });
-
-            this.dispatch(setTransactions(list));
+          if (querySnapshot.metadata.hasPendingWrites || querySnapshot.metadata.fromCache) {
+            return;
           }
+
+          // Local delete checking
+          const changes = querySnapshot.docChanges();
+          if (window.pending.transactions.delete.id && changes.length === 1) {
+            const change = changes[0];
+            if (change.type === 'removed' && window.pending.transactions.delete.id === change.doc.id) {
+              window.pending.transactions.delete.id = undefined;
+              return;
+            }
+          }
+
+          const list = getTransactionsList(querySnapshot);
+          this.dispatch(setTransactions(list));
         },
         (error) => {
           this.dispatch(

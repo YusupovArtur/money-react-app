@@ -9,7 +9,7 @@ import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entitie
 import { WalletsIDForm } from './components/WalletsIDForm.tsx';
 import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import { getToday } from 'shared/helpers';
+import { getTodayTimestamp } from 'shared/helpers';
 
 interface TransactionFormProps {
   type: TransactionType['type'] | null;
@@ -31,7 +31,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
     setFormData((state) => ({
       ...state,
       sum: 0,
-      time: getToday(),
+      time: getTodayTimestamp(),
       fromWallet: '',
       toWallet: '',
       category: '',
@@ -45,7 +45,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
       {/*Type*/}
       <div className="position-relative mb-3">
         <FormLabel htmlFor={typeInputID} style={{ display: 'block' }}>
-          Тип операции
+          Тип транзакции
         </FormLabel>
         {type === null ? (
           <TransactionTypeInput
@@ -120,7 +120,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
           isValidSubcategory={fieldValidities.subcategory}
           setIsValidate={setIsValidate}
         />
-        <FormValidationFeedback feedbackMessage={fieldFeedbacks.category} className="align-items-start" />
+        <FormValidationFeedback feedbackMessage={fieldFeedbacks.category} className="align-items-start ms-1" />
         <FormValidationFeedback
           feedbackMessage={fieldFeedbacks.subcategory}
           className="align-items-start"

@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
-import { getStringBalance } from 'pages/WalletsPage/helpers/getStringBalance.ts';
 import { WalletType } from 'store/slices/walletsSlice';
 import { getWalletTypeName } from 'pages/WalletsPage/helpers/getWalletTypeName.ts';
 import { WalletTypeIcon } from 'pages/WalletsPage/ui/WalletTypeIcon.tsx';
 import { EntityIcon } from 'entities/EntityIcon';
+import { getStringCurrencyValue } from 'shared/helpers';
 
 export const WalletEditInfo: FC<{ wallet: WalletType }> = ({ wallet }) => {
+  const balanceColor = wallet.balance < 0 ? 'text-danger' : '';
+
   return (
     <div className="d-flex flex-column mx-2 mb-4">
       {/* Тип счета */}
@@ -26,7 +28,7 @@ export const WalletEditInfo: FC<{ wallet: WalletType }> = ({ wallet }) => {
 
       {/* Балланс счета */}
       <EntityFieldLabel className="mt-3">Сумма на счете</EntityFieldLabel>
-      <EntityFieldValue>{`${getStringBalance(wallet.balance)} ₽`}</EntityFieldValue>
+      <EntityFieldValue className={balanceColor}>{getStringCurrencyValue({ value: wallet.balance })}</EntityFieldValue>
 
       {/* Описание счета */}
       {wallet.description && (

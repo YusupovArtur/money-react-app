@@ -8,6 +8,7 @@ import { InputFormControl } from 'entities/InputFormControl';
 import { useGetWalletFormValidation } from 'pages/WalletsPage/forms/WalletForm/helpers/useGetWalletFormValidation.ts';
 // UI
 import { ModalWindowContainer } from 'shared/containers';
+import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
 
 interface WalletInputProps {
   isOpened: boolean;
@@ -15,14 +16,16 @@ interface WalletInputProps {
 }
 
 export const WalletInput: FC<WalletInputProps> = ({ isOpened, setIsOpened }) => {
-  const [formData, setFormData] = useState<WalletType>({
+  const defaultData: WalletType = {
     name: '',
     balance: 0,
     iconName: 'Card',
-    color: '#ced4da',
+    color: COLOR_NAMES_HEX['gray-400'],
     type: 'debit',
     description: '',
-  });
+  };
+
+  const [formData, setFormData] = useState<WalletType>(defaultData);
 
   // Callbacks
   const dispatch = useAppDispatch();
@@ -31,12 +34,12 @@ export const WalletInput: FC<WalletInputProps> = ({ isOpened, setIsOpened }) => 
   };
 
   const onClear = () => {
-    setIsValidate({ name: Boolean(formData.name), type: Boolean(formData.type), balance: !isNaN(formData.balance) });
-    setFormData({ name: '', balance: 0, iconName: 'Card', color: '#ced4da', type: 'debit', description: '' });
+    setIsValidate({ name: false, type: true, balance: false });
+    setFormData(defaultData);
   };
   const onClose = (isOpened: boolean) => {
-    setIsOpened(isOpened);
     onClear();
+    setIsOpened(isOpened);
   };
 
   // Validation

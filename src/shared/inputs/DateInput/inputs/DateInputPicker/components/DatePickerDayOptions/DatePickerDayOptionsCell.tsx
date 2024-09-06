@@ -3,6 +3,7 @@ import { DatePickerDayOptionsCellPropsType } from 'shared/inputs/DateInput/types
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { DATE_PICKER_CELL_SIZE } from 'shared/inputs/DateInput/constants/constants.ts';
 import './text-color-quaternary.scss';
+import { getDateStateFromTimestamp } from 'shared/inputs/DateInput/helpers/getDateStateFromTimestamp.ts';
 
 interface DateInputPickerDayOptionsCellProps {
   datePickerDayCellProps: DatePickerDayOptionsCellPropsType;
@@ -18,8 +19,7 @@ export const DatePickerDayOptionsCell: FC<DateInputPickerDayOptionsCellProps> = 
   const colorClassName = props.isSelected ? '' : props.isInCurrentMonth ? 'text-body-emphasis' : 'text-body-quaternary';
 
   const handleDatepickerSetDate = () => {
-    const cellsDate = new Date(props.timestamp);
-    setDateState({ day: cellsDate.getDate(), month: cellsDate.getMonth() + 1, year: cellsDate.getFullYear() });
+    setDateState(getDateStateFromTimestamp(props.timestamp));
   };
 
   const handlePreventDefault = (event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {

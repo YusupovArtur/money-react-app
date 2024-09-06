@@ -1,8 +1,9 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Store
 import { ResponseHooksType, useAppDispatch, useAppSelector } from 'store';
 import { deleteWallet, updateWallet, WalletType } from 'store/slices/walletsSlice';
+import { selectWalletWithTotalBalance } from 'store/slices/walletsSlice/selectors/selectWalletWithTotalBalance.ts';
 // Form
 import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
 import { useGetWalletFormValidation } from 'pages/WalletsPage/forms/WalletForm/helpers/useGetWalletFormValidation.ts';
@@ -11,58 +12,56 @@ import { WalletEditInfo } from 'pages/WalletsPage/widgets/WalletEdit/ui/WalletEd
 // UI
 import { ModalWindowContainer } from 'shared/containers';
 import { MODAL_CONTAINER_ANIMATION_DURATION } from 'shared/containers/ModalContainer/ModalContainer.tsx';
+import { useTimeoutRefWithClear } from 'shared/hooks';
+import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
 
 export const WalletEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const id = searchParams.get('walletID');
+  const walletID = searchParams.get('walletID');
+  const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
 
-  const wallet = id !== null ? useAppSelector((state) => state.wallets.list[id]) : undefined;
   const isLoading = useAppSelector((state) => state.wallets.responseState.isLoading);
+  const defaultValue: WalletType = {
+    name: wallet?.name || '',
+    balance: wallet?.balance || 0,
+    iconName: wallet?.iconName || 'Card',
+    color: wallet?.color || COLOR_NAMES_HEX['gray-400'],
+    type: wallet?.type || 'debit',
+    description: wallet?.description || '',
+  };
 
   useEffect(() => {
-    if (isLoading === false && id !== null && !wallet) {
-      alert(`Счета с ID "${id}" не существует`);
+    if (isLoading === false && walletID !== null && !wallet) {
+      alert(`Счета с ID "${walletID}" не существует`);
       searchParams.delete('walletID');
       setSearchParams(searchParams);
     }
     onClear();
-  }, [isLoading, id, wallet]);
+  }, [isLoading, walletID, wallet]);
 
   // Form data
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [formData, setFormData] = useState<WalletType>({
-    name: wallet?.name || '',
-    balance: wallet?.balance || 0,
-    iconName: wallet?.iconName || 'Card',
-    color: wallet?.color || '#ced4da',
-    type: wallet?.type || 'debit',
-    description: wallet?.description || '',
-  });
+  const [formData, setFormData] = useState<WalletType>(defaultValue);
+  const [isOpened, setIsOpened] = useState<boolean>(true);
+  const timeoutRef = useTimeoutRefWithClear();
 
   // Callbacks
   const handleClose = () => {
     setIsOpened(false);
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       searchParams.delete('walletID');
       setSearchParams(searchParams);
     }, MODAL_CONTAINER_ANIMATION_DURATION);
   };
 
   const onClear = () => {
-    setFormData({
-      name: wallet?.name || '',
-      balance: wallet?.balance || 0,
-      iconName: wallet?.iconName || 'Card',
-      color: wallet?.color || '#ced4da',
-      type: wallet?.type || 'debit',
-      description: wallet?.description || '',
-    });
+    setFormData(defaultValue);
   };
 
   const dispatch = useAppDispatch();
   const onUpdate = (statusHooks: ResponseHooksType) => {
-    if (id !== null) {
-      dispatch(updateWallet({ id, walletProps: formData, ...statusHooks }));
+    if (walletID !== null) {
+      dispatch(updateWallet({ id: walletID, walletProps: formData, ...statusHooks }));
     }
   };
   const onUpdateFulfilled = () => {
@@ -70,8 +69,8 @@ export const WalletEdit: FC = () => {
   };
 
   const onDelete = (statusHooks: ResponseHooksType) => {
-    if (id !== null) {
-      dispatch(deleteWallet({ id, ...statusHooks }));
+    if (walletID !== null) {
+      dispatch(deleteWallet({ id: walletID, ...statusHooks }));
     }
   };
   const onDeleteFulfilled = () => {
@@ -79,22 +78,11 @@ export const WalletEdit: FC = () => {
     setSearchParams(searchParams);
   };
 
-  // Modal container state
-  const [isOpened, setIsOpened] = useState<boolean>(true);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
   // Form validation
   const { setIsValidate, validation, setValidateFields } = useGetWalletFormValidation(formData);
 
   // Return null if not find wallet
-  if (id === null || !wallet) {
+  if (!wallet) {
     return null;
   }
 
@@ -113,7 +101,7 @@ export const WalletEdit: FC = () => {
 
       <EditFromControl
         disabled={!validation.isValid}
-        setValidateFields={setValidateFields}
+        setValidate={setValidateFields}
         onClear={onClear}
         onUpdate={onUpdate}
         onDelete={onDelete}

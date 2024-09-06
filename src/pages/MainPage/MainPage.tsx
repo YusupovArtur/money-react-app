@@ -6,7 +6,7 @@ import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIconAndSpinner, PageContentWrapper } from 'shared/ui';
 import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
 import { CheckIcon } from 'shared/icons';
-import { getToday } from 'shared/helpers';
+import { getTodayTimestamp } from 'shared/helpers';
 
 export const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
@@ -170,7 +170,7 @@ export const MainPage: FC = () => {
   };
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [timestamp, setTimestamp] = useState<number>(getToday());
+  const [timestamp, setTimestamp] = useState<number>(getTodayTimestamp());
   // return <PagePlaceholder />;
 
   return (

@@ -10,6 +10,7 @@ interface ModalContainerProps extends HTMLAttributes<HTMLDivElement> {
   isOpened: boolean;
   onCollapse?: (isOpened: boolean) => any;
   zIndex?: number;
+  animated?: boolean;
 }
 
 export const ModalContainer: FC<ModalContainerProps> = ({
@@ -18,11 +19,15 @@ export const ModalContainer: FC<ModalContainerProps> = ({
   onCollapse,
   zIndex = 2,
   className = '',
+  animated = true,
   ...props
 }) => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
-  const isMounted = useMounted({ isOpened, duration: MODAL_CONTAINER_ANIMATION_DURATION });
+  const isMounted = useMounted({ isOpened, duration: animated ? MODAL_CONTAINER_ANIMATION_DURATION : 0 });
   const isMousePressedDown = useRef<boolean>(false);
+
+  const backgroundClassName = animated ? (isOpened ? 'opacity-enter-150' : 'opacity-out-150') : '';
+  const containerClassName = animated ? (isOpened ? 'scale-opacity-enter-150' : 'scale-opacity-out-150') : '';
 
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
@@ -70,13 +75,13 @@ export const ModalContainer: FC<ModalContainerProps> = ({
         maxHeight: '100vh',
         overflow: 'auto',
       }}
-      className={`bg-body-backout d-flex ${isOpened ? 'opacity-enter-150' : 'opacity-out-150'}`}
+      className={`bg-body-backout d-flex ${backgroundClassName}`}
     >
       <div
         onMouseDown={handleMouseEventStopPropagation}
         onMouseUp={handleMouseEventStopPropagation}
         ref={modalContainerRef}
-        className={`${className} ${isOpened ? 'scale-opacity-enter-150' : 'scale-opacity-out-150'}`}
+        className={`${className} ${containerClassName}`}
         {...props}
       >
         {children}

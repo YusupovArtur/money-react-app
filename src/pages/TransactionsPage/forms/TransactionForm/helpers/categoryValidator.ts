@@ -26,7 +26,7 @@ export const categoryValidator = (formData: TransactionType): validatorsReturnTy
   } else if (!categories[category]) {
     return { isValid: false, feedback: 'Такой категории не существует' };
   } else if (type !== categories[category].type) {
-    return { isValid: false, feedback: 'Тип категории не подходит к типу операции' };
+    return { isValid: false, feedback: 'Тип категории не подходит к типу транзакции' };
   }
 
   return { isValid: true };

@@ -4,7 +4,8 @@ import { getUserState, updateUserState, UserStateType, UserType } from 'store/sl
 // Firebase
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 // Helpers
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const signupUserWithEmailAndPassword = createAsyncThunk<
   UserType,

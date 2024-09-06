@@ -22,9 +22,11 @@ export const addWallet = createAsyncThunk<
     const docsRef = collection(db, 'users_data', user.uid, 'wallets');
     const docRef = doc(docsRef);
 
+    const id = docRef.id;
+    window.pending.wallets.add.id = id;
+
     return await runTransaction(db, async (transaction) => {
       transaction.set(docRef, wallet);
-      const id = docRef.id;
       transaction.set(orderRef, { order: arrayUnion(id) }, { merge: true });
 
       return { id, wallet };

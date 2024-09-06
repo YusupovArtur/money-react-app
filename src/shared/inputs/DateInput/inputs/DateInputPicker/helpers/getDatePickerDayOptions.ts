@@ -1,6 +1,7 @@
 import { DatePickerDayOptionsCellPropsType } from 'shared/inputs/DateInput/types/types.ts';
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { getTimestampFromDateState } from 'shared/inputs/DateInput/helpers/getTimestampFromDateState.ts';
+import { DateUTC, getTodayTimestamp } from 'shared/helpers';
 
 export const getDatePickerDayOptions = (props: {
   dateState: DateStateType;
@@ -12,30 +13,28 @@ export const getDatePickerDayOptions = (props: {
   } = props;
 
   const options: DatePickerDayOptionsCellPropsType[][] = [];
+  const stateTimestamp = getTimestampFromDateState(dateState);
+  const today = new DateUTC(getTodayTimestamp());
 
-  const firstDayInMonth: Date = new Date(year, month - 1, 1);
-  const firstDayInFieldTimestamp =
-    firstDayInMonth.getTime() - (firstDayInMonth.getDay() === 0 ? 6 : firstDayInMonth.getDay() - 1) * 86400000;
-
-  const timestamp = getTimestampFromDateState(dateState);
-  const presentDay = new Date();
+  const firstInMonth = new DateUTC(new Date(Date.UTC(year, month - 1, 1)).getTime());
+  const firstTimestampOption = firstInMonth.timestamp - (firstInMonth.getDay() === 0 ? 6 : firstInMonth.getDay() - 1) * 86400000;
 
   for (let i = 0; i < 6; i++) {
     const week: DatePickerDayOptionsCellPropsType[] = [];
 
     for (let j = 0; j < 7; j++) {
-      const currentTimestamp = firstDayInFieldTimestamp + (i * 7 + j) * 86400000;
-      const currentDateObject = new Date(currentTimestamp);
+      const currentTimestamp = firstTimestampOption + (i * 7 + j) * 86400000;
+      const currentDate = new DateUTC(currentTimestamp);
 
       week.push({
         timestamp: currentTimestamp,
-        date: currentDateObject.getDate(),
-        isInCurrentMonth: currentDateObject.getMonth() === month - 1,
-        isSelected: timestamp === currentTimestamp,
+        date: currentDate.getDate(),
+        isInCurrentMonth: currentDate.getMonth() === month - 1,
+        isSelected: stateTimestamp === currentTimestamp,
         isCurrent:
-          presentDay.getDate() === currentDateObject.getDate() &&
-          presentDay.getMonth() === currentDateObject.getMonth() &&
-          presentDay.getFullYear() === currentDateObject.getFullYear(),
+          today.getDate() === currentDate.getDate() &&
+          today.getMonth() === currentDate.getMonth() &&
+          today.getFullYear() === currentDate.getFullYear(),
       });
     }
 

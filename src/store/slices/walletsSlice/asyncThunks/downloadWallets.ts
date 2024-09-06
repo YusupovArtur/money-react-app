@@ -41,11 +41,11 @@ export const addDownloadWalletsExtraReducers = (builder: ActionReducerMapBuilder
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(downloadWallets.fulfilled, (state, action) => {
-      state.list = action.payload.list;
-      state.order = action.payload.order;
-
       state.responseState.errorMessage = '';
       state.responseState.isLoading = false;
+
+      state.order = action.payload.order;
+      state.list = action.payload.list;
 
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');

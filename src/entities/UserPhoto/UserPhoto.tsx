@@ -10,12 +10,12 @@ export const UserPhoto: FC<UserPhotoProps> = ({ iconSize = '1.5rem', ...props })
 
   const photoDataURL = useAppSelector((state) => state.user.photoDataURL);
 
-  const [url, setUrl] = useState(photoURL ? photoURL : '/images/person-circle.svg');
+  const [url, setUrl] = useState(photoURL || '/images/person-circle.svg');
 
   return (
     <span {...props}>
       <img
-        src={photoDataURL ? photoDataURL : undefined}
+        src={photoDataURL || undefined}
         style={{ width: iconSize, height: iconSize, objectFit: 'contain', display: 'block' }}
         className="rounded-circle"
         alt="Нет фото"

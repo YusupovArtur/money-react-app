@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAuth, sendEmailVerification } from 'firebase/auth';
 // Helpers
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
 // Types
 import { getUserState, UserStateType, UserType } from 'store/slices/userSlice';
 // Async Thunks
@@ -14,6 +14,7 @@ import { addUpdateUserExtraReducers } from './asyncThunks/updateUserState';
 import { addUploadUserPhotoExtraReducers } from './asyncThunks/uploadUserPhoto.ts';
 import { addFetchPhotoDataURLExtraReducers } from 'store/slices/userSlice/asyncThunks/fetchPhotoDataURL.ts';
 import { addDeleteUserPhotoExtraReducers } from 'store/slices/userSlice/asyncThunks/deleteUserPhoto.ts';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const verifyEmail = createAsyncThunk<void, ResponseHooksType>('user/verifyEmail', async (props) => {
   const { setIsLoading, setErrorMessage, onFulfilled } = props;

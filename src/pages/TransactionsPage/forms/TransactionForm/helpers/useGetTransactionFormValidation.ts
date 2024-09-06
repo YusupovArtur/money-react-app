@@ -8,6 +8,7 @@ import { walletsValidator } from 'pages/TransactionsPage/forms/TransactionForm/h
 import { useAppSelector } from 'store/store.ts';
 import { categoryValidator } from 'pages/TransactionsPage/forms/TransactionForm/helpers/categoryValidator.ts';
 import { subcategoryValidator } from 'pages/TransactionsPage/forms/TransactionForm/helpers/subcategoryValidator.ts';
+import { selectWalletsList } from 'store/slices/walletsSlice';
 
 export const useGetTransactionFormValidation = (
   formData: TransactionType,
@@ -22,11 +23,11 @@ export const useGetTransactionFormValidation = (
     time: Boolean(formData.time),
     fromWallet: Boolean(formData.fromWallet),
     toWallet: Boolean(formData.toWallet),
-    category: true || Boolean(formData.category),
-    subcategory: true || Boolean(formData.subcategory),
+    category: Boolean(formData.category),
+    subcategory: Boolean(formData.category) || Boolean(formData.subcategory),
   });
 
-  const wallets = useAppSelector((state) => state.wallets.list);
+  const wallets = useAppSelector(selectWalletsList);
   const categories = useAppSelector((state) => state.categories.list);
 
   const validation = useFormValidation<TransactionType>({

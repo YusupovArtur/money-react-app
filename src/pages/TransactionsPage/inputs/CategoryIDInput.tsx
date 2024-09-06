@@ -1,5 +1,5 @@
 import { FC, useDeferredValue } from 'react';
-import { CategoryType } from 'store/slices/categoriesSlice';
+import { CategoryType, selectCategoriesList, selectCategory, selectFilteredCategoriesOrder } from 'store/slices/categoriesSlice';
 import { useAppSelector } from 'store/store.ts';
 import { IDInput, IDOptionType } from './components/IDInput.tsx';
 
@@ -12,11 +12,11 @@ interface CategoryIdInputProps {
 }
 
 export const CategoryIDInput: FC<CategoryIdInputProps> = ({ inputID, categoryID, setCategoryID, categoryType, setValidate }) => {
-  const categories = useAppSelector((state) => state.categories.list);
-  const categoriesOrder = useAppSelector((state) => state.categories.order);
+  const category = useAppSelector(selectCategory(categoryID));
+  const categories = useAppSelector(selectCategoriesList);
 
-  const category = categoryID ? categories[categoryID] : undefined;
-  const categoryTypeDeferred = useDeferredValue(categoryType);
+  const categoryTypeFilterDeferred = useDeferredValue(categoryType);
+  const categoriesOrder = useAppSelector(selectFilteredCategoriesOrder(categoryTypeFilterDeferred));
 
   const option: IDOptionType = {
     id: categoryID,
@@ -27,16 +27,14 @@ export const CategoryIDInput: FC<CategoryIdInputProps> = ({ inputID, categoryID,
 
   const options: IDOptionType[] = [
     { id: '', name: 'Не выбрана', iconName: 'Question', color: '' },
-    ...categoriesOrder
-      .filter((id) => categories[id].type === categoryTypeDeferred)
-      .map((id) => {
-        return {
-          id,
-          name: categories[id].name,
-          color: categories[id].color,
-          iconName: categories[id].iconName,
-        };
-      }),
+    ...categoriesOrder.map((id) => {
+      return {
+        id,
+        name: categories[id].name,
+        color: categories[id].color,
+        iconName: categories[id].iconName,
+      };
+    }),
   ];
 
   return (

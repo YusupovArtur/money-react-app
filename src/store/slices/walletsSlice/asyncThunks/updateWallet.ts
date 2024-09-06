@@ -1,9 +1,12 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { WalletsStateType, WalletUpdateType } from 'store/slices/walletsSlice';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
 import { getAuth } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
+import { getTransactionsQuerySnapshot } from 'store/slices/transactionsSlice/helpers/getTransactionsQuerySnapshot.ts';
+import { getWalletsTotals } from 'store/slices/transactionsSlice/helpers/getWalletsTotals.ts';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const updateWallet = createAsyncThunk<
   { id: string; walletProps: WalletUpdateType },
@@ -17,13 +20,22 @@ export const updateWallet = createAsyncThunk<
     const user = auth.currentUser;
     const docRef = doc(db, 'users_data', user.uid, 'wallets', id);
 
-    return await updateDoc(docRef, walletProps)
-      .then(() => {
-        return { id, walletProps };
-      })
-      .catch((error) => {
-        return rejectWithValue(getErrorMessage(error));
+    try {
+      let balance: number | undefined = undefined;
+
+      if (walletProps.balance !== undefined) {
+        const transactions = await getTransactionsQuerySnapshot(user.uid);
+        const totals = getWalletsTotals(transactions);
+        const total = totals[id] ? totals[id] : 0;
+        balance = walletProps.balance - total;
+      }
+
+      return await updateDoc(docRef, { ...walletProps, balance }).then(() => {
+        return { id, walletProps: { ...walletProps, balance } };
       });
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
   } else {
     return rejectWithValue('Вы не авторизованы');
   }

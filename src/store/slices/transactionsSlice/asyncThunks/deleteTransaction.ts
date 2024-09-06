@@ -3,30 +3,37 @@ import { TransactionsStateType } from 'store/slices/transactionsSlice';
 import { getAuth } from 'firebase/auth';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
+import { addTransactionToWalletsTotals } from '../helpers/addTransactionToWalletsTotals.ts';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
-export const deleteTransaction = createAsyncThunk<{ id: string }, ResponseHooksType & { id: string }, { rejectValue: string }>(
-  'transactions/deleteTransaction',
-  async (props, { rejectWithValue }) => {
-    const { id } = props;
-    const auth = getAuth();
+export const deleteTransaction = createAsyncThunk<
+  { id: string },
+  ResponseHooksType & { id: string },
+  {
+    rejectValue: string;
+  }
+>('transactions/deleteTransaction', async (props, { rejectWithValue }) => {
+  const { id } = props;
+  const auth = getAuth();
 
-    if (auth.currentUser) {
-      const user = auth.currentUser;
-      const transactionRef = doc(db, 'users_data', user.uid, 'transactions', id);
+  if (auth.currentUser) {
+    const user = auth.currentUser;
+    const transactionRef = doc(db, 'users_data', user.uid, 'transactions', id);
 
-      return await deleteDoc(transactionRef)
-        .then(() => {
-          return { id };
-        })
-        .catch((error) => {
-          return rejectWithValue(getErrorMessage(error));
-        });
-    } else {
-      return rejectWithValue('Вы не авторизованы');
-    }
-  },
-);
+    window.pending.transactions.delete.id = id;
+
+    return await deleteDoc(transactionRef)
+      .then(() => {
+        return { id };
+      })
+      .catch((error) => {
+        return rejectWithValue(getErrorMessage(error));
+      });
+  } else {
+    return rejectWithValue('Вы не авторизованы');
+  }
+});
 
 export const addDeleteTransactionExtraReducers = (builder: ActionReducerMapBuilder<TransactionsStateType>) => {
   builder
@@ -35,6 +42,8 @@ export const addDeleteTransactionExtraReducers = (builder: ActionReducerMapBuild
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(deleteTransaction.fulfilled, (state, action) => {
+      const transaction = state.list[action.payload.id];
+      addTransactionToWalletsTotals({ action: 'decrease', totals: state.walletsTransactionsTotals, transaction });
       delete state.list[action.payload.id];
 
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);

@@ -16,14 +16,16 @@ interface SubcategoryInputProps {
 }
 
 export const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isOpened, setIsOpened }) => {
-  const [formData, setFormData] = useState<SubcategoryType>({
+  const defaultData: SubcategoryType = {
     name: '',
     iconName: 'Card',
     description: '',
-  });
+  };
+
+  const [formData, setFormData] = useState<SubcategoryType>(defaultData);
 
   const onClear = () => {
-    setFormData({ name: '', iconName: 'Card', description: '' });
+    setFormData(defaultData);
     setIsValidate({ name: false });
   };
   const onClose = (isOpened: boolean) => {

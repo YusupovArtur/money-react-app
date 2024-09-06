@@ -10,7 +10,7 @@ export const FormValidationFeedback: FC<FormValidationFeedbackProps> = ({ feedba
     return null;
   }
   return (
-    <div className={`form-validation-feedback ${className ? className : ''}`} {...props}>
+    <div className={`form-validation-feedback ${className || ''}`} {...props}>
       <span>{feedbackMessage}</span>
     </div>
   );

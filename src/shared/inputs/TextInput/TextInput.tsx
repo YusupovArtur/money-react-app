@@ -8,7 +8,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({ classNa
       ref={ref}
       type="text"
       style={{ fontSize: '1.08rem' }}
-      className={`form-control py-1 px-2 ${className ? className : ''}`}
+      className={`form-control py-1 px-2 ${className || ''}`}
       autoComplete="off"
       {...props}
     />

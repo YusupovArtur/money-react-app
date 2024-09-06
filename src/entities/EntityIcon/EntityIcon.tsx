@@ -11,7 +11,7 @@ interface EntityIconProps {
 
 export const EntityIcon: FC<EntityIconProps> = ({ iconName, color, iconSize }) => {
   const validatedIconName = iconName !== undefined ? iconName : 'Exclamation';
-  const validatedColor = color ? color : COLOR_NAMES_HEX['red-500'];
+  const validatedColor = color || COLOR_NAMES_HEX['red-500'];
 
   const numberRemSize = parseFloat(iconSize) ? parseFloat(iconSize) : 0;
   const textColor = getTextColor(validatedColor);

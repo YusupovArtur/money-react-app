@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useAppSelector } from 'store/index.ts';
 import { IDInput, IDOptionType } from './components/IDInput.tsx';
+import { selectWallet, selectWalletsList, selectWalletsOrder } from 'store/slices/walletsSlice';
 
 interface WalletIDInputProps {
   inputID?: string;
@@ -19,9 +20,9 @@ export const WalletIDInput: FC<WalletIDInputProps> = ({
   firstSelectedWalletID,
   setValidate,
 }) => {
-  const wallets = useAppSelector((state) => state.wallets.list);
-  const walletsOrder = useAppSelector((state) => state.wallets.order);
-  const wallet = walletID ? wallets[walletID] : undefined;
+  const wallet = useAppSelector(selectWallet(walletID));
+  const wallets = useAppSelector(selectWalletsList);
+  const walletsOrder = useAppSelector(selectWalletsOrder);
 
   useEffect(() => {
     if (firstSelectedWalletID === walletID) {

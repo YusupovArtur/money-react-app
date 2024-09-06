@@ -1,10 +1,11 @@
-// React imports
+// React
 import { FC, lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-// Components imports
-import { Navbar } from 'widgets/Navbar';
+// Hooks
+import { useFirestoreListener } from 'store/listener';
+// Components
 import { AppWrapper } from 'app/AppWrapper';
-import { useFirestoreChangesListener } from 'app/useFirestoreChangesListener.ts';
+import { Navbar } from 'widgets/Navbar';
 import { PageLoadingSpinner } from 'shared/ui';
 // Pages
 const MainPage = lazy(() => import('pages/MainPage'));
@@ -15,7 +16,7 @@ const LoginPage = lazy(() => import('pages/LoginPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
 export const App: FC = () => {
-  useFirestoreChangesListener();
+  useFirestoreListener();
 
   return (
     <AppWrapper>

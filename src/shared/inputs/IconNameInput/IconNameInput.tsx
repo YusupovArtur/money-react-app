@@ -17,7 +17,6 @@ interface IconNameInputProps {
   optionsStyle?: { rowLength?: number; isDivider?: boolean };
 }
 
-// TODO: add without icon
 export const IconNameInput: FC<IconNameInputProps> = ({
   iconName,
   setIconName,

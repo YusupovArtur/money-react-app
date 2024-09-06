@@ -20,4 +20,4 @@ export { DropdownMenuWrapper } from './wrappers/DropdownMenuWrapper.tsx';
 export { ModalContainerWrapper } from './wrappers/ModalContainerWrapper.tsx';
 export { PageContentWrapper } from './wrappers/PageContentWrapper.tsx';
 export { ListItemWrapper } from './wrappers/LisItemWrapper/ListItemWrapper.tsx';
-export { ListItemLabel } from './labels/ListItemLabel.tsx';
+export { ListItemFieldValue } from './labels/ListItemFieldValue.tsx';

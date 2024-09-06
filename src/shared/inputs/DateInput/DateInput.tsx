@@ -44,33 +44,37 @@ export const DateInput: FC<DateInputProps> = ({ id, timestamp, setTimestamp, isM
   const isMobile = !isModalForMobileDevice ? false : getDeviceType() === 'mobile';
 
   return (
-    <div className="d-flex">
-      <DropdownContainer
-        isOpened={isOpenedDatePicker}
-        setIsOpened={setIsOpenedDatePicker}
-        menuAlignment={{ x: 'right', y: 'top' }}
-        isInsideClickClose={false}
-        isModalForMobileDevice={isModalForMobileDevice}
-        DropdownToggle={
-          <ButtonWithIcon
-            style={{ width: '100%', height: '100%' }}
-            className={`btn btn-primary rounded-end-0 ${isOpenedDatePicker ? 'active' : ''}`}
-          >
-            <CalendarIcon iconSize="1.3rem" />
-          </ButtonWithIcon>
-        }
-        DropdownMenu={
-          <DropdownMenuWrapper>
-            <DateInputPicker
-              dateState={dateState}
-              setDateState={setDateState}
-              setIsShowDatepicker={setIsOpenedDatePicker}
-              isMobile={isMobile}
-            />
-          </DropdownMenuWrapper>
-        }
-      ></DropdownContainer>
-      <DateTextInput id={id} dateState={dateState} setDateState={setDateState} isMobile={isMobile} className={className} />
-    </div>
+    <>
+      <div className="d-flex">
+        <DropdownContainer
+          isOpened={isOpenedDatePicker}
+          setIsOpened={setIsOpenedDatePicker}
+          menuAlignment={{ x: 'right', y: 'top' }}
+          isInsideClickClose={false}
+          isModalForMobileDevice={isModalForMobileDevice}
+          DropdownToggle={
+            <ButtonWithIcon
+              style={{ width: '100%', height: '100%' }}
+              className={`btn btn-primary rounded-end-0 ${isOpenedDatePicker ? 'active' : ''}`}
+            >
+              <CalendarIcon iconSize="1.3rem" />
+            </ButtonWithIcon>
+          }
+          DropdownMenu={
+            <DropdownMenuWrapper>
+              <DateInputPicker
+                dateState={dateState}
+                setDateState={setDateState}
+                setIsOpenedDatepicker={setIsOpenedDatePicker}
+                isMobile={isMobile}
+              />
+            </DropdownMenuWrapper>
+          }
+        ></DropdownContainer>
+        <DateTextInput id={id} dateState={dateState} setDateState={setDateState} isMobile={isMobile} className={className} />
+      </div>
+
+      {`${dateState.day}.${dateState.month}.${dateState.year}`}
+    </>
   );
 };

@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Store
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
-import { CategoryAddType, deleteCategory, updateCategory } from 'store/slices/categoriesSlice';
+import { CategoryAddType, deleteCategory, selectCategory, updateCategory } from 'store/slices/categoriesSlice';
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 // Forms
 import { EditFromControl } from 'entities/EditFormControl';
@@ -24,8 +24,15 @@ export const CategoryEdit: FC = () => {
   const categoryID = searchParams.get('categoryID');
   const subcategoryID = searchParams.get('subcategoryID');
 
-  const category = categoryID !== null ? useAppSelector((state) => state.categories.list[categoryID]) : undefined;
+  const category = useAppSelector(selectCategory(categoryID));
   const isLoading = useAppSelector((state) => state.categories.responseState.isLoading);
+  const defaultValue: CategoryAddType = {
+    name: category?.name || '',
+    iconName: category?.iconName || 'Card',
+    color: category?.color || '#ced4da',
+    type: category?.type || 'expense',
+    description: category?.description || '',
+  };
 
   useEffect(() => {
     if (isLoading === false && categoryID !== null && !category) {
@@ -39,13 +46,7 @@ export const CategoryEdit: FC = () => {
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isOpenedSubcategoryInput, setIsOpenedSubcategoryInput] = useState<boolean>(false);
-  const [formData, setFormData] = useState<CategoryAddType>({
-    name: category?.name || '',
-    iconName: category?.iconName || 'Card',
-    color: category?.color || '#ced4da',
-    type: category?.type || 'expense',
-    description: category?.description || '',
-  });
+  const [formData, setFormData] = useState<CategoryAddType>(defaultValue);
 
   // Callbacks
   const onClose = () => {
@@ -55,13 +56,7 @@ export const CategoryEdit: FC = () => {
   };
 
   const onClear = () => {
-    setFormData({
-      name: category?.name || '',
-      iconName: category?.iconName || 'Card',
-      color: category?.color || '#ced4da',
-      type: category?.type || 'expense',
-      description: category?.description || '',
-    });
+    setFormData(defaultValue);
   };
 
   const dispatch = useAppDispatch();
@@ -132,7 +127,7 @@ export const CategoryEdit: FC = () => {
         <div className="mb-3">
           <EditFromControl
             disabled={!validation.isValid}
-            setValidateFields={setValidateFields}
+            setValidate={setValidateFields}
             onClear={onClear}
             onUpdate={updateFunction}
             onDelete={deleteFunction}

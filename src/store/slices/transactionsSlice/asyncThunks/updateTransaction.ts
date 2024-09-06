@@ -3,23 +3,25 @@ import { TransactionsStateType, TransactionUpdateType } from 'store/slices/trans
 import { db } from 'app/firebase.ts';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
+import { addTransactionToWalletsTotals } from 'store/slices/transactionsSlice/helpers/addTransactionToWalletsTotals.ts';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const updateTransaction = createAsyncThunk<
-  { id: string; operation: TransactionUpdateType },
-  ResponseHooksType & { id: string; operation: TransactionUpdateType },
+  { id: string; operationProps: TransactionUpdateType },
+  ResponseHooksType & { id: string; operationProps: TransactionUpdateType },
   { rejectValue: string }
 >('transactions/updateTransaction', async (props, { rejectWithValue }) => {
-  const { id, operation } = props;
+  const { id, operationProps } = props;
   const auth = getAuth();
 
   if (auth.currentUser) {
     const user = auth.currentUser;
     const transactionRef = doc(db, 'users_data', user.uid, 'transactions', id);
 
-    return await updateDoc(transactionRef, operation)
+    return await updateDoc(transactionRef, operationProps)
       .then(() => {
-        return { id, operation };
+        return { id, operationProps };
       })
       .catch((error) => {
         return rejectWithValue(getErrorMessage(error));
@@ -36,7 +38,17 @@ export const addUpdateTransactionExtraReducers = (builder: ActionReducerMapBuild
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(updateTransaction.fulfilled, (state, action) => {
-      state.list[action.payload.id] = { ...state.list[action.payload.id], ...action.payload.operation };
+      const prevTransaction = state.list[action.payload.id];
+      const nextTransaction = { ...state.list[action.payload.id], ...action.payload.operationProps };
+
+      addTransactionToWalletsTotals({
+        action: 'decrease',
+        totals: state.walletsTransactionsTotals,
+        transaction: prevTransaction,
+      });
+      addTransactionToWalletsTotals({ totals: state.walletsTransactionsTotals, transaction: nextTransaction });
+
+      state.list[action.payload.id] = nextTransaction;
 
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');

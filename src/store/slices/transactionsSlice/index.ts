@@ -5,6 +5,9 @@ export { deleteTransaction } from './asyncThunks/deleteTransaction.ts';
 
 export { clearTransactions, setTransactions, setTransactionsResponseState } from './transactionsSlice.ts';
 
+export { selectTransaction } from './selectors/selectTransaction.ts';
+export { selectWalletTransactionsTotal } from './selectors/selectWalletTransactionsTotal.ts';
+
 export type { TransactionType } from './types/TransactionType.ts';
 export type { TransactionUpdateType } from './types/TransactionUpdateType.ts';
 export type { TransactionsListType } from './types/TransactionsListType.ts';

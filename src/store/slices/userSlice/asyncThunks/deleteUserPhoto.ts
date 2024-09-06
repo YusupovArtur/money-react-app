@@ -3,7 +3,8 @@ import { storage } from 'app/firebase.ts';
 import { getAuth } from 'firebase/auth';
 import { deleteObject, ref } from 'firebase/storage';
 import { fetchPhotoDataURL, updateUserState, UserStateType } from 'store/slices/userSlice';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const deleteUserPhoto = createAsyncThunk<
   void,

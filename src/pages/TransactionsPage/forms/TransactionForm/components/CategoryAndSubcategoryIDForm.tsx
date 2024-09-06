@@ -24,7 +24,7 @@ export const CategoryAndSubcategoryIDForm: FC<CategoryAndSubcategoryIDFormProps>
   const subcategoryInputID = useId();
 
   const categorySetValidate = () => {
-    setIsValidate((state) => ({ ...state, category: true }));
+    setIsValidate((state) => ({ ...state, category: true, subcategory: true }));
   };
   const subcategorySetValidate = () => {
     setIsValidate((state) => ({ ...state, subcategory: true }));

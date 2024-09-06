@@ -1,7 +1,8 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { UserStateType } from 'store/slices/userSlice';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const updateUserState = createAsyncThunk<
   { username: string | null | undefined; photoURL: string | null | undefined },

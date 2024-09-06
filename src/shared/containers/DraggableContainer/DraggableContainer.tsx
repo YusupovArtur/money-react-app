@@ -14,7 +14,6 @@ interface DraggableItemProps {
   setOverID: Dispatch<SetStateAction<string>>;
 }
 
-// TODO: решить проблему с borders
 export const DraggableContainer: FC<DraggableItemProps> = ({
   id,
   children,

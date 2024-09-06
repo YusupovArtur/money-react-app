@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
+import { useTimeoutRefWithClear } from 'shared/hooks';
 
 export const useThrottledCallback = <T extends (...args: any[]) => any>(callback: T, delay: number): T => {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useTimeoutRefWithClear();
   const lastCallRef = useRef<number>(0);
 
   const throttledFunction = useCallback(
@@ -21,14 +22,6 @@ export const useThrottledCallback = <T extends (...args: any[]) => any>(callback
     },
     [callback, delay, timeoutRef.current, lastCallRef.current],
   );
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   return throttledFunction as T;
 };

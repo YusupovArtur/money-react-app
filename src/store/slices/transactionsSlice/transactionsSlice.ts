@@ -7,6 +7,7 @@ import { addDownloadTransactionsExtraReducers } from 'store/slices/transactionsS
 import { addAddTransactionExtraReducers } from 'store/slices/transactionsSlice/asyncThunks/addTransaction.ts';
 import { addUpdateTransactionExtraReducers } from 'store/slices/transactionsSlice/asyncThunks/updateTransaction.ts';
 import { addDeleteTransactionExtraReducers } from 'store/slices/transactionsSlice/asyncThunks/deleteTransaction.ts';
+import { getWalletsTotals } from 'store/slices/transactionsSlice/helpers/getWalletsTotals.ts';
 
 const initialState: TransactionsStateType = {
   list: {},
@@ -14,6 +15,7 @@ const initialState: TransactionsStateType = {
     isLoading: undefined,
     errorMessage: '',
   },
+  walletsTransactionsTotals: {},
 };
 
 const transactionsSlice = createSlice({
@@ -27,6 +29,7 @@ const transactionsSlice = createSlice({
     },
     setTransactions(state, action: PayloadAction<TransactionsListType>) {
       state.list = action.payload;
+      state.walletsTransactionsTotals = getWalletsTotals(action.payload);
       state.responseState = { isLoading: false, errorMessage: '' };
     },
     setTransactionsResponseState(state, action: PayloadAction<ResponseStateType>) {

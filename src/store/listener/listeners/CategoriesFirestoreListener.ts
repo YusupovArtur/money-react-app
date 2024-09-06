@@ -3,11 +3,12 @@ import { db } from 'app/firebase.ts';
 import { User } from 'firebase/auth';
 import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 // Store
-import { AppDispatch, useAppDispatch } from 'store';
-import { getWalletsOrderedList, setWallets, setWalletsResponseState } from 'store/slices/walletsSlice';
+import { AppDispatch, useAppDispatch } from 'store/index.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
+import { setCategories, setCategoriesResponseState } from 'store/slices/categoriesSlice';
+import { getCategoriesOrderedList } from 'store/slices/categoriesSlice/helpers/getCategoriesOrderedList.ts';
 
-export class WalletsFirestoreListener {
+export class CategoriesFirestoreListener {
   listener: Unsubscribe | null = null;
   dispatch: AppDispatch;
 
@@ -24,27 +25,27 @@ export class WalletsFirestoreListener {
   }
 
   subscribe(user: User | null) {
-    this.dispatch(setWalletsResponseState({ isLoading: true, errorMessage: '' }));
+    this.dispatch(setCategoriesResponseState({ isLoading: true, errorMessage: '' }));
 
     if (user && !this.listener) {
-      const docsRef = collection(db, 'users_data', user.uid, 'wallets');
+      const docsRef = collection(db, 'users_data', user.uid, 'categories');
 
       this.listener = onSnapshot(
         docsRef,
         (querySnapshot) => {
           // TODO: Слушатель реагирует на локальные изменения произведенные через транзакцию, нужно решить проблему
           if (!querySnapshot.metadata.hasPendingWrites && !querySnapshot.metadata.fromCache) {
-            const orderedList = getWalletsOrderedList(querySnapshot);
+            const orderedList = getCategoriesOrderedList(querySnapshot);
 
-            this.dispatch(setWallets(orderedList));
+            this.dispatch(setCategories(orderedList));
           }
         },
         (error) => {
-          this.dispatch(setWalletsResponseState({ isLoading: false, errorMessage: getErrorMessage(error.message) }));
+          this.dispatch(setCategoriesResponseState({ isLoading: false, errorMessage: getErrorMessage(error.message) }));
         },
       );
     } else {
-      this.dispatch(setWalletsResponseState({ isLoading: false, errorMessage: 'Вы не авторизованы' }));
+      this.dispatch(setCategoriesResponseState({ isLoading: false, errorMessage: 'Вы не авторизованы' }));
     }
   }
 }

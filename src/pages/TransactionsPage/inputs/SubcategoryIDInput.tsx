@@ -1,6 +1,11 @@
 import { FC } from 'react';
 import { useAppSelector } from 'store/store.ts';
-import { CategoryType } from 'store/slices/categoriesSlice';
+import {
+  selectCategory,
+  selectSubcategoriesList,
+  selectSubcategoriesOrder,
+  selectSubcategory,
+} from 'store/slices/categoriesSlice';
 import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
 import { IDInput, IDOptionType } from 'pages/TransactionsPage/inputs/components/IDInput.tsx';
 
@@ -19,19 +24,17 @@ export const SubcategoryIDInput: FC<SubcategoryIDInputProps> = ({
   setSubcategoryID,
   setValidate,
 }) => {
-  const category = useAppSelector((state) => state.categories.list[categoryID]) as CategoryType | undefined;
-
-  const subcategories = category ? category.subcategories.list : undefined;
-  const subcategoriesOrder = category ? category.subcategories.order : undefined;
-
-  const subcategory = subcategories && subcategoryID ? subcategories[subcategoryID] : undefined;
+  const category = useAppSelector(selectCategory(categoryID));
+  const subcategory = useAppSelector(selectSubcategory({ categoryID, subcategoryID }));
+  const subcategoriesList = useAppSelector(selectSubcategoriesList(categoryID));
+  const subcategoriesOrder = useAppSelector(selectSubcategoriesOrder(categoryID));
 
   const selectedIconSize = '2rem';
 
   const theme = useAppSelector((state) => state.theme.themeDisplay);
   const bodyColor = theme === 'light' ? COLOR_NAMES_HEX['gray-100'] : COLOR_NAMES_HEX['body-tertiary-dark'];
 
-  if (!category || !subcategories || !subcategoriesOrder || subcategoriesOrder?.length === 0) {
+  if (!category || !subcategoriesList || !subcategoriesOrder || subcategoriesOrder?.length === 0) {
     return (
       <>
         <input id={inputID} type="text" value={categoryID || ''} readOnly={true} style={{ display: 'none' }} />
@@ -54,9 +57,9 @@ export const SubcategoryIDInput: FC<SubcategoryIDInputProps> = ({
     ...subcategoriesOrder.map((id) => {
       return {
         id,
-        name: subcategories[id].name,
+        name: subcategoriesList[id].name,
         color: category.color,
-        iconName: subcategories[id].iconName,
+        iconName: subcategoriesList[id].iconName,
       };
     }),
   ];

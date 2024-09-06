@@ -2,23 +2,24 @@ import { FC } from 'react';
 // Store
 import { useAppSelector } from 'store/store.ts';
 import { useSearchParams } from 'react-router-dom';
-import { ListItemLabel, ListItemWrapper } from 'shared/ui';
-import { getStringBalance } from 'pages/WalletsPage/helpers/getStringBalance.ts';
+import { ListItemFieldValue, ListItemWrapper } from 'shared/ui';
 import { WalletTypeIcon } from 'pages/WalletsPage/ui/WalletTypeIcon.tsx';
 import { EntityIcon } from 'entities/EntityIcon';
+import { getStringCurrencyValue } from 'shared/helpers';
+import { selectWalletWithTotalBalance } from 'store/slices/walletsSlice/selectors/selectWalletWithTotalBalance.ts';
 
 interface WalletItemProps {
-  id: string;
+  walletID: string;
   disabled?: boolean;
   loading?: boolean;
 }
 
-export const WalletsListItem: FC<WalletItemProps> = ({ id, disabled, loading }) => {
-  const wallet = useAppSelector((state) => state.wallets.list[id]);
+export const WalletsListItem: FC<WalletItemProps> = ({ walletID, disabled, loading }) => {
+  const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const handleSetId = () => {
-    searchParams.set('walletID', id);
+  const handleSetID = () => {
+    searchParams.set('walletID', walletID);
     setSearchParams(searchParams);
   };
 
@@ -26,17 +27,19 @@ export const WalletsListItem: FC<WalletItemProps> = ({ id, disabled, loading }) 
     return null;
   }
 
+  const balanceColor = wallet.balance < 0 ? 'text-danger' : '';
+
   return (
-    <ListItemWrapper onClick={handleSetId} disabled={disabled} loading={loading}>
+    <ListItemWrapper onClick={handleSetID} disabled={disabled} loading={loading}>
       <EntityIcon iconName={wallet.iconName} color={wallet.color} iconSize="2.2rem" />
 
-      <ListItemLabel className="flex-shrink-1 ms-2" style={{ marginRight: 'auto' }}>
+      <ListItemFieldValue className="flex-shrink-1 ms-2" style={{ marginRight: 'auto' }}>
         {wallet.name}
-      </ListItemLabel>
+      </ListItemFieldValue>
 
-      <ListItemLabel className="flex-shrink-0 mx-2" style={{ fontWeight: 500 }}>
-        {`${getStringBalance(wallet.balance)} ₽`}
-      </ListItemLabel>
+      <ListItemFieldValue className={`flex-shrink-0 mx-2 ${balanceColor}`} style={{ fontWeight: 500 }}>
+        {getStringCurrencyValue({ value: wallet.balance })}
+      </ListItemFieldValue>
 
       <WalletTypeIcon type={wallet.type} />
     </ListItemWrapper>

@@ -14,6 +14,7 @@ interface ModalWindowContainerProps extends HTMLAttributes<HTMLDivElement> {
   /** Callback for close when outside clicked */
   onCollapse?: (isOpened: boolean) => any;
   zIndex?: number;
+  animated?: boolean;
 }
 
 export const ModalWindowContainer: FC<ModalWindowContainerProps> = ({ children, onClose, onCollapse, ...props }) => {

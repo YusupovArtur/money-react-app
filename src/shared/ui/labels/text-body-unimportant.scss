@@ -1,0 +1,4 @@
+.text-body-unimportant {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+}

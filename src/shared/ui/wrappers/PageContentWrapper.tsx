@@ -11,7 +11,7 @@ export const PageContentWrapper: FC<PageContentWrapperProps> = (props) => {
   return (
     <div
       style={{ width: '100vw', maxWidth: maxWidth, ...restStyle }}
-      className={`d-flex flex-column bg-body-tertiary rounded-4 shadow-sm p-3 ${className ? className : ''}`}
+      className={`d-flex flex-column bg-body-tertiary rounded-4 shadow-sm p-3 ${className || ''}`}
       {...restProps}
     >
       {children}

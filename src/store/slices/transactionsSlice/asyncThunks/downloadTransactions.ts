@@ -1,12 +1,13 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { TransactionsListType, TransactionsStateType, TransactionType } from 'store/slices/transactionsSlice';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from 'app/firebase.ts';
+import { TransactionsListType, TransactionsStateType } from 'store/slices/transactionsSlice';
 import { getAuth } from 'firebase/auth';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
+import { getWalletsTotals } from 'store/slices/transactionsSlice/helpers/getWalletsTotals.ts';
+import { getTransactionsQuerySnapshot } from 'store/slices/transactionsSlice/helpers/getTransactionsQuerySnapshot.ts';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const downloadTransactions = createAsyncThunk<
-  TransactionsListType,
+  { list: TransactionsListType },
   ResponseHooksType,
   {
     rejectValue: string;
@@ -16,19 +17,13 @@ export const downloadTransactions = createAsyncThunk<
 
   if (auth.currentUser) {
     const user = auth.currentUser;
-    const transactionsRef = collection(db, 'users_data', user.uid, 'transactions');
 
-    return await getDocs(transactionsRef)
-      .then((querySnapshot) => {
-        const transactionsList: TransactionsListType = {};
-        querySnapshot.forEach((doc) => {
-          transactionsList[doc.id] = doc.data() as TransactionType;
-        });
-        return transactionsList;
-      })
-      .catch((error) => {
-        return rejectWithValue(getErrorMessage(error));
-      });
+    try {
+      const transactionsList = await getTransactionsQuerySnapshot(user.uid);
+      return { list: transactionsList };
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
   } else {
     return rejectWithValue('Вы не авторизованы');
   }
@@ -44,7 +39,8 @@ export const addDownloadTransactionsExtraReducers = (builder: ActionReducerMapBu
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(downloadTransactions.fulfilled, (state, action) => {
-      state.list = action.payload;
+      state.list = action.payload.list;
+      state.walletsTransactionsTotals = getWalletsTotals(action.payload.list);
 
       state.responseState.isLoading = false;
       state.responseState.errorMessage = '';

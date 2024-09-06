@@ -1,6 +1,6 @@
 // React imports
 import ReactDOM from 'react-dom/client';
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { App } from 'app/App';
 // Router
 import { BrowserRouter } from 'react-router-dom';
@@ -16,13 +16,13 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'styles/index.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persist} loading={null}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
-  </StrictMode>,
+  // <StrictMode>
+  <Provider store={store}>
+    <PersistGate persistor={persist} loading={null}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>,
+  // </StrictMode>,
 );

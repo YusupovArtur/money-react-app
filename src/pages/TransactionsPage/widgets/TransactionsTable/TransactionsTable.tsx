@@ -1,40 +1,21 @@
 import { FC } from 'react';
-import { TransactionsListType } from 'store/slices/transactionsSlice';
-// import { useAppSelector } from 'store/hook';
+import { useAppSelector } from 'store/store.ts';
+import { getStringDate } from 'shared/helpers';
+import { useSearchParams } from 'react-router-dom';
 
-export const TransactionsTable: FC<{
-  operations: TransactionsListType;
-}> = ({ operations }) => {
-  const toStringDate = (date: Date): string => {
-    // const seconds = date.getSeconds().toString().padStart(2, '0');
-    // const minutes = date.getMinutes().toString().padStart(2, '0');
-    // const hours = date.getHours().toString().padStart(2, '0');
-    // return `${hours}:${minutes}:${seconds} ${day}.${month}.${year}`;
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = date.getMonth().toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}.${month}.${year}`;
+interface TransactionsTableProps {}
+
+export const TransactionsTable: FC<TransactionsTableProps> = () => {
+  const transactions = useAppSelector((state) => state.transactions.list);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const handleSetID = (id: string) => {
+    searchParams.set('transactionID', id);
+    setSearchParams(searchParams);
   };
 
-  // const hash_table: {
-  //   [key: string]: {
-  //     sum: number;
-  //     time: number;
-  //     fromWallet: string;
-  //     toWallet: string;
-  //     category: string;
-  //     subcategory: string;
-  //     description: string;
-  //   };
-  // } = {};
-  // operations.forEach(({ id, ...operation }) => (hash_table[id] = operation));
-  // console.log(hash_table);
-  // delete hash_table['2d3y7PAGdMCTQ77CCMvx'];
-  // console.log(hash_table);
-  // // const hash_table_keys = Object.keys(hash_table).sort((a, b) => hash_table[a].time - hash_table[b].time);
-
   return (
-    <table className="table table-bordered m-0">
+    <table className="table table-bordered m-0" style={{ width: '100%', overflowY: 'hidden' }}>
       <thead>
         <tr>
           <th>ID</th>
@@ -48,18 +29,23 @@ export const TransactionsTable: FC<{
         </tr>
       </thead>
       <tbody>
-        {Object.keys(operations)
-          .sort((a, b) => operations[a].sum - operations[b].sum)
-          .map((key) => (
-            <tr key={key}>
-              <td>{key}</td>
-              <td>{operations[key].sum}</td>
-              <td>{toStringDate(new Date(operations[key].time))}</td>
-              <td>{operations[key].fromWallet}</td>
-              <td>{operations[key].toWallet}</td>
-              <td>{operations[key].category}</td>
-              <td>{operations[key].subcategory}</td>
-              <td>{operations[key].description}</td>
+        {Object.keys(transactions)
+          .sort((a, b) => transactions[a].sum - transactions[b].sum)
+          .map((id) => (
+            <tr
+              key={id}
+              onClick={() => {
+                handleSetID(id);
+              }}
+            >
+              <td>{id}</td>
+              <td>{transactions[id].sum}</td>
+              <td>{getStringDate(new Date(transactions[id].time))}</td>
+              <td>{transactions[id].fromWallet}</td>
+              <td>{transactions[id].toWallet}</td>
+              <td>{transactions[id].category}</td>
+              <td>{transactions[id].subcategory}</td>
+              <td>{transactions[id].description}</td>
             </tr>
           ))}
       </tbody>

@@ -3,7 +3,8 @@ import { storage } from 'app/firebase.ts';
 import { getAuth } from 'firebase/auth';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { setPhotoDataURL, updateUserState, UserStateType } from 'store/slices/userSlice';
-import { getErrorMessage, ResponseHooksType } from 'store';
+import { ResponseHooksType } from 'store';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 export const uploadUserPhoto = createAsyncThunk<
   void,

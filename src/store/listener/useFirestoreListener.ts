@@ -2,14 +2,16 @@ import { useEffect } from 'react';
 // Firebase
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store
-import { useAppDispatch, useAppSelector } from 'store';
-import { CategoriesFirestoreListener, TransactionsFirestoreListener, WalletsFirestoreListener } from 'store/listeners';
+import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import { clearUserState, fetchPhotoDataURL, getUserState, logoutUser, setUserState } from 'store/slices/userSlice';
 import { clearTransactions } from 'store/slices/transactionsSlice';
 import { clearWallets } from 'store/slices/walletsSlice';
 import { clearCategories } from 'store/slices/categoriesSlice';
+import { TransactionsFirestoreListener } from 'store/listener/listeners/TransactionsFirestoreListener.ts';
+import { WalletsFirestoreListener } from 'store/listener/listeners/WalletsFirestoreListener.ts';
+import { CategoriesFirestoreListener } from 'store/listener/listeners/CategoriesFirestoreListener.ts';
 
-export const useFirestoreChangesListener = () => {
+export const useFirestoreListener = () => {
   const dispatch = useAppDispatch();
 
   const auth = getAuth();
@@ -20,6 +22,17 @@ export const useFirestoreChangesListener = () => {
   const CategoriesListener = new CategoriesFirestoreListener();
 
   useEffect(() => {
+    window.pending = window.pending || {
+      transactions: {
+        delete: { id: undefined },
+      },
+      wallets: {
+        add: { id: undefined },
+        delete: { id: undefined },
+        shift: { order: undefined },
+      },
+    };
+
     return () => {
       TransactionsListener.unsubscribe();
       WalletsListener.unsubscribe();

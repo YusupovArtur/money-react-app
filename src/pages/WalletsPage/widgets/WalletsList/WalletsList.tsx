@@ -1,7 +1,7 @@
 import { FC, useDeferredValue, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
-import { shiftWallet, WALLETS_LIST_LAST_ITEM_ID, WalletType } from 'store/slices/walletsSlice';
+import { selectFilteredWalletsOrder, shiftWallet, WALLETS_LIST_LAST_ITEM_ID, WalletType } from 'store/slices/walletsSlice';
 // Components
 import { WalletsListItem } from './WalletsListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
@@ -14,10 +14,7 @@ interface WalletsListProps {
 
 export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
   const deferredFilter = useDeferredValue(filter);
-  const wallets = useAppSelector((state) => state.wallets.list);
-  const order = useAppSelector((state) => state.wallets.order).filter((id) =>
-    !deferredFilter ? true : deferredFilter === wallets[id].type,
-  );
+  const order = useAppSelector(selectFilteredWalletsOrder(deferredFilter));
 
   const errorMessage = useAppSelector((state) => state.wallets.responseState.errorMessage);
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
@@ -63,7 +60,7 @@ export const WalletsList: FC<WalletsListProps> = ({ filter }) => {
             setStartID={setDragStartID}
             setOverID={setDragOverID}
           >
-            <WalletsListItem id={id} disabled={disabled} loading={shiftIsLoading} />
+            <WalletsListItem walletID={id} disabled={disabled} loading={shiftIsLoading} />
           </DraggableContainer>
         );
       })}

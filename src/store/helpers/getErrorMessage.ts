@@ -26,10 +26,7 @@ const getErrorCodesRussianDetalization = (code: any): string => {
 };
 
 export const getErrorMessage = (error: any): string => {
-  console.log(error.message, error.code);
-  console.log(typeof error, 'code' in error);
-
-  if (typeof error !== 'object') {
+  if (typeof error !== 'object' || error === null) {
     return getErrorCodesRussianDetalization(error);
   } else if ('code' in error) {
     return getErrorCodesRussianDetalization(error.code);

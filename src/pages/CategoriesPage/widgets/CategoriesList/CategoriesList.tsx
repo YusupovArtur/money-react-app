@@ -1,7 +1,12 @@
-import { FC, useDeferredValue, useState } from 'react';
+import { FC, useDeferredValue, useEffect, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
-import { CATEGORIES_LIST_LAST_ITEM_ID, CategoryType, shiftCategory } from 'store/slices/categoriesSlice';
+import {
+  CATEGORIES_LIST_LAST_ITEM_ID,
+  CategoryType,
+  selectFilteredCategoriesOrder,
+  shiftCategory,
+} from 'store/slices/categoriesSlice';
 // Category imports
 import { CategoryListItem } from 'pages/CategoriesPage/widgets/CategoriesList/CategoryListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
@@ -14,10 +19,11 @@ interface CategoriesListProps {
 
 export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
   const deferredFilter = useDeferredValue(filter);
-  const categories = useAppSelector((state) => state.categories.list);
-  const order = useAppSelector((state) => state.categories.order).filter((id) =>
-    !deferredFilter ? true : deferredFilter === categories[id].type,
-  );
+  const order = useAppSelector(selectFilteredCategoriesOrder(deferredFilter));
+
+  useEffect(() => {
+    console.log('order render');
+  }, [order]);
 
   const errorMessage = useAppSelector((state) => state.categories.responseState.errorMessage);
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);

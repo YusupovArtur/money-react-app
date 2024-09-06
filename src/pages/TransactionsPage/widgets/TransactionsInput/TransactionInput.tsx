@@ -7,7 +7,7 @@ import { ModalWindowContainer } from 'shared/containers';
 import { InputFormControl } from 'entities/InputFormControl';
 import { TransactionForm } from '../../forms/TransactionForm/TransactionForm.tsx';
 import { useGetTransactionFormValidation } from '../../forms/TransactionForm/helpers/useGetTransactionFormValidation.ts';
-import { getToday } from 'shared/helpers';
+import { getTodayTimestamp } from 'shared/helpers';
 
 interface TransactionInputProps {
   isOpened: boolean;
@@ -16,20 +16,22 @@ interface TransactionInputProps {
 }
 
 export const TransactionInput: FC<TransactionInputProps> = ({ isOpened, setIsOpened, type }) => {
-  const [formData, setFormData] = useState<TransactionType>({
+  const defaultValue: TransactionType = {
     sum: 0,
-    time: getToday(),
+    time: getTodayTimestamp(),
     type: type === null ? 'expense' : type,
     fromWallet: '',
     toWallet: '',
     category: '',
     subcategory: '',
     description: '',
-  });
+  };
+
+  const [formData, setFormData] = useState<TransactionType>(defaultValue);
 
   const dispatch = useAppDispatch();
   const onAdd = (statusHooks: ResponseHooksType) => {
-    dispatch(addTransaction({ operation: formData, ...statusHooks }));
+    dispatch(addTransaction({ transaction: formData, ...statusHooks }));
   };
 
   const onClear = () => {
@@ -42,16 +44,7 @@ export const TransactionInput: FC<TransactionInputProps> = ({ isOpened, setIsOpe
       category: Boolean(formData.category),
       subcategory: Boolean(formData.subcategory),
     });
-    setFormData({
-      sum: 0,
-      time: getToday(),
-      type: type === null ? 'expense' : type,
-      fromWallet: '',
-      toWallet: '',
-      category: '',
-      subcategory: '',
-      description: '',
-    });
+    setFormData(defaultValue);
   };
   const onClose = (isOpened: boolean) => {
     setIsOpened(isOpened);

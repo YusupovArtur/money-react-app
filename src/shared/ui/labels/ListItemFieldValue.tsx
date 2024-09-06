@@ -1,10 +1,11 @@
 import { FC, HTMLAttributes } from 'react';
+import './text-body-unimportant.scss';
 
-interface ListItemLabelProps extends HTMLAttributes<HTMLSpanElement> {
+interface ListItemFieldValueProps extends HTMLAttributes<HTMLSpanElement> {
   children: string;
 }
 
-export const ListItemLabel: FC<ListItemLabelProps> = ({ children, style, className, ...props }) => {
+export const ListItemFieldValue: FC<ListItemFieldValueProps> = ({ children, style, className, ...props }) => {
   return (
     <span
       style={{
@@ -15,7 +16,7 @@ export const ListItemLabel: FC<ListItemLabelProps> = ({ children, style, classNa
         textOverflow: 'ellipsis',
         ...style,
       }}
-      className={`text-body user-select-none ${className}`}
+      className={`text-body-unimportant user-select-none ${className}`}
       {...props}
     >
       {children}

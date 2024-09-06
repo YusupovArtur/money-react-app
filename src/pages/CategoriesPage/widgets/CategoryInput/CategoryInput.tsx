@@ -7,6 +7,7 @@ import { useGetCategoryFormValidation } from 'pages/CategoriesPage/forms/helpers
 // Store
 import { ResponseHooksType, useAppDispatch } from 'store/index.ts';
 import { addCategory, CategoryAddType } from 'store/slices/categoriesSlice';
+import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
 
 interface CategoryInputProps {
   isOpened: boolean;
@@ -14,13 +15,15 @@ interface CategoryInputProps {
 }
 
 export const CategoryInput: FC<CategoryInputProps> = ({ isOpened, setIsOpened }) => {
-  const [formData, setFormData] = useState<CategoryAddType>({
+  const defaultData: CategoryAddType = {
     name: '',
     iconName: 'Card',
-    color: '#ced4da',
+    color: COLOR_NAMES_HEX['gray-400'],
     type: 'expense',
     description: '',
-  });
+  };
+
+  const [formData, setFormData] = useState<CategoryAddType>(defaultData);
 
   // Callbacks
   const dispatch = useAppDispatch();
@@ -29,7 +32,7 @@ export const CategoryInput: FC<CategoryInputProps> = ({ isOpened, setIsOpened })
   };
 
   const onClear = () => {
-    setFormData({ name: '', iconName: 'Card', color: '#ced4da', type: 'expense', description: '' });
+    setFormData(defaultData);
     setIsValidate({ name: true, type: true });
   };
   const onClose = (isOpened: boolean) => {
