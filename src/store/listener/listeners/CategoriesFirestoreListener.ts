@@ -5,8 +5,11 @@ import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 // Store
 import { AppDispatch, useAppDispatch } from 'store/index.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
-import { setCategories, setCategoriesResponseState } from 'store/slices/categoriesSlice';
+import { CategoryType, setCategories, setCategoriesResponseState, setCategory } from 'store/slices/categoriesSlice';
 import { getCategoriesOrderedList } from 'store/slices/categoriesSlice/helpers/getCategoriesOrderedList.ts';
+import { isLocalAdd } from 'store/listener/helpers/isLocalAdd.ts';
+import { isLocalDelete } from 'store/listener/helpers/isLocalDelete.ts';
+import { isLocalShift } from 'store/listener/helpers/isLocalShift.ts';
 
 export class CategoriesFirestoreListener {
   listener: Unsubscribe | null = null;
@@ -33,12 +36,40 @@ export class CategoriesFirestoreListener {
       this.listener = onSnapshot(
         docsRef,
         (querySnapshot) => {
-          // TODO: Слушатель реагирует на локальные изменения произведенные через транзакцию, нужно решить проблему
-          if (!querySnapshot.metadata.hasPendingWrites && !querySnapshot.metadata.fromCache) {
-            const orderedList = getCategoriesOrderedList(querySnapshot);
-
-            this.dispatch(setCategories(orderedList));
+          if (querySnapshot.metadata.hasPendingWrites || querySnapshot.metadata.fromCache) {
+            return;
           }
+
+          const changes = querySnapshot.docChanges();
+          // Local add checking
+          if (isLocalAdd({ id: window.pending.categories.add.id, changes })) {
+            window.pending.categories.add.id = undefined;
+            return;
+          }
+
+          // Local delete checking
+          if (isLocalDelete({ id: window.pending.categories.delete.id, changes })) {
+            window.pending.categories.delete.id = undefined;
+            return;
+          }
+
+          // Local shift checking
+          if (isLocalShift({ order: window.pending.categories.shift.order, changes })) {
+            window.pending.categories.shift.order = undefined;
+            return;
+          }
+
+          // If only one category changed set only one category
+          if (changes.length === 1 && changes[0].doc.id !== 'order') {
+            const id = changes[0].doc.id;
+            const category = changes[0].doc.data() as CategoryType;
+            this.dispatch(setCategory({ action: changes[0].type, id, category }));
+            this.dispatch(setCategoriesResponseState({ isLoading: false, errorMessage: '' }));
+            return;
+          }
+
+          const orderedList = getCategoriesOrderedList(querySnapshot);
+          this.dispatch(setCategories(orderedList));
         },
         (error) => {
           this.dispatch(setCategoriesResponseState({ isLoading: false, errorMessage: getErrorMessage(error.message) }));

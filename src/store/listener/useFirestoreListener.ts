@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 // Firebase
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // Store
@@ -21,7 +21,7 @@ export const useFirestoreListener = () => {
   const WalletsListener = new WalletsFirestoreListener();
   const CategoriesListener = new CategoriesFirestoreListener();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.pending = window.pending || {
       transactions: {
         delete: { id: undefined },
@@ -31,8 +31,15 @@ export const useFirestoreListener = () => {
         delete: { id: undefined },
         shift: { order: undefined },
       },
+      categories: {
+        add: { id: undefined },
+        delete: { id: undefined },
+        shift: { order: undefined },
+      },
     };
+  }, []);
 
+  useEffect(() => {
     return () => {
       TransactionsListener.unsubscribe();
       WalletsListener.unsubscribe();

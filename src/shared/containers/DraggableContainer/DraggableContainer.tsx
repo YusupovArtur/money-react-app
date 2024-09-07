@@ -69,7 +69,7 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         onDragOver={handleDragOver}
         onDragEnd={resetState}
         onDrop={handleDrop}
-        style={{ zIndex: startID === id ? 2 : undefined }}
+        style={{ zIndex: startID === id ? 1 : undefined }}
       >
         <OpenableContainer
           className="bordered-strong rounded"

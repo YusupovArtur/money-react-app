@@ -6,7 +6,9 @@ import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 import { AppDispatch, useAppDispatch } from 'store/index.ts';
 import { getWalletsOrderedList, setWallets, setWalletsResponseState } from 'store/slices/walletsSlice';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
-import { deepEqual } from 'shared/helpers';
+import { isLocalAdd } from 'store/listener/helpers/isLocalAdd.ts';
+import { isLocalDelete } from 'store/listener/helpers/isLocalDelete.ts';
+import { isLocalShift } from 'store/listener/helpers/isLocalShift.ts';
 
 export class WalletsFirestoreListener {
   listener: Unsubscribe | null = null;
@@ -39,39 +41,21 @@ export class WalletsFirestoreListener {
 
           const changes = querySnapshot.docChanges();
           // Local add checking
-          if (window.pending.wallets.add.id && changes.length === 2) {
-            const addWallet = changes.find(
-              (change) => change.type === 'added' && change.doc.id === window.pending.wallets.add.id,
-            );
-            const order = changes.find((change) => change.type === 'modified' && change.doc.id === 'order');
-            if (addWallet && order) {
-              window.pending.wallets.add.id = undefined;
-              return;
-            }
+          if (isLocalAdd({ id: window.pending.wallets.add.id, changes })) {
+            window.pending.wallets.add.id = undefined;
+            return;
           }
 
           // Local delete checking
-          if (window.pending.wallets.delete.id && changes.length === 1) {
-            const deleteWallet = changes.find(
-              (change) => change.type === 'removed' && change.doc.id === window.pending.wallets.delete.id,
-            );
-            // const order = changes.find((change) => change.type === 'modified' && change.doc.id === 'order');
-            if (deleteWallet) {
-              window.pending.wallets.delete.id = undefined;
-              return;
-            }
+          if (isLocalDelete({ id: window.pending.wallets.delete.id, changes })) {
+            window.pending.wallets.delete.id = undefined;
+            return;
           }
 
           // Local shift checking
-          if (window.pending.wallets.shift.order && changes.length === 1) {
-            const orderChange = changes.find((change) => change.type === 'modified' && change.doc.id === 'order');
-            if (orderChange) {
-              const order = (orderChange.doc.data() as { order: string[] }).order;
-              if (deepEqual(order, window.pending.wallets.shift.order)) {
-                window.pending.wallets.shift.order = undefined;
-                return;
-              }
-            }
+          if (isLocalShift({ order: window.pending.wallets.shift.order, changes })) {
+            window.pending.wallets.shift.order = undefined;
+            return;
           }
 
           const orderedList = getWalletsOrderedList(querySnapshot);

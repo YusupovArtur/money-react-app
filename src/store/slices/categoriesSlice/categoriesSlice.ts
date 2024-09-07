@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ResponseStateType } from 'store';
-import { CategoriesOrderedListType, CategoriesStateType } from 'store/slices/categoriesSlice';
+import { CategoriesOrderedListType, CategoriesStateType, CategoryType } from 'store/slices/categoriesSlice';
 // Extra Reducers
 import { addDownloadCategoriesExtraReducers } from 'store/slices/categoriesSlice/asyncThunks/downloadCategories.ts';
 import { addAddCategoryExtraReducers } from 'store/slices/categoriesSlice/asyncThunks/addCategory.ts';
@@ -27,6 +27,27 @@ const categoriesSlice = createSlice({
   initialState,
 
   reducers: {
+    setCategory(
+      state,
+      action: PayloadAction<{
+        action: 'added' | 'modified' | 'removed';
+        id: string;
+        category: CategoryType;
+      }>,
+    ) {
+      switch (action.payload.action) {
+        case 'added':
+          state.order.push(action.payload.id);
+          state.list[action.payload.id] = action.payload.category;
+          break;
+        case 'modified':
+          state.list[action.payload.id] = action.payload.category;
+          break;
+        case 'removed':
+          delete state.list[action.payload.id];
+          state.order = state.order.filter((id) => id !== action.payload.id);
+      }
+    },
     clearCategories(state) {
       state.list = {};
       state.order = [];
@@ -56,5 +77,5 @@ const categoriesSlice = createSlice({
   },
 });
 
-export const { clearCategories, setCategories, setCategoriesResponseState } = categoriesSlice.actions;
+export const { setCategory, clearCategories, setCategories, setCategoriesResponseState } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

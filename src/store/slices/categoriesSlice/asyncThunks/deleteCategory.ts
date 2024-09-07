@@ -21,6 +21,7 @@ export const deleteCategory = createAsyncThunk<
     const orderRef = doc(db, 'users_data', user.uid, 'categories', 'order');
     const docRef = doc(db, 'users_data', user.uid, 'categories', categoryID);
 
+    window.pending.categories.delete.id = categoryID;
     return await runTransaction(db, async (transaction) => {
       transaction.update(orderRef, { order: arrayRemove(categoryID) });
       transaction.delete(docRef);

@@ -1,5 +1,5 @@
 // Reducers
-export { clearCategories, setCategories, setCategoriesResponseState } from './categoriesSlice.ts';
+export { setCategory, clearCategories, setCategories, setCategoriesResponseState } from './categoriesSlice.ts';
 
 // Async Thunks
 export { downloadCategories } from './asyncThunks/downloadCategories.ts';

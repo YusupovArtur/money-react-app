@@ -1,4 +1,4 @@
-import { FC, useDeferredValue, useEffect, useState } from 'react';
+import { FC, useDeferredValue, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
 import {
@@ -20,10 +20,6 @@ interface CategoriesListProps {
 export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
   const deferredFilter = useDeferredValue(filter);
   const order = useAppSelector(selectFilteredCategoriesOrder(deferredFilter));
-
-  useEffect(() => {
-    console.log('order render');
-  }, [order]);
 
   const errorMessage = useAppSelector((state) => state.categories.responseState.errorMessage);
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);

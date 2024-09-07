@@ -18,9 +18,9 @@ export const addSubCategory = createAsyncThunk<
   if (auth.currentUser) {
     const user = auth.currentUser;
     const docRef = doc(db, 'users_data', user.uid, 'categories', categoryID);
+    const subcategoryID = generateID();
 
     return await runTransaction(db, async (transaction) => {
-      const subcategoryID = generateID();
       transaction.update(docRef, { 'subcategories.order': arrayUnion(subcategoryID) });
       transaction.update(docRef, { [`subcategories.list.${subcategoryID}`]: subcategory });
       return { categoryID: categoryID, subcategoryID: subcategoryID, subcategory };
