@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { DropdownContainer } from 'shared/containers';
 import { EntityIcon } from 'entities/EntityIcon';
-import { DropdownMenuWrapper } from 'shared/ui';
+import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 
 export type IDOptionType = {
   id: string;
@@ -57,10 +57,9 @@ export const IDInput: FC<IDInputProps> = ({
         menuAlignment={{ x: 'right', y: 'bottom' }}
         isModalForMobileDevice={true}
         DropdownToggle={
-          <button style={{ maxWidth: '100%' }} className="btn btn-body-tertiary d-flex align-items-center dropdown-toggle">
+          <ButtonWithIcon caption={option.name} className="btn-body-tertiary dropdown-toggle">
             <EntityIcon iconName={option.iconName} color={option.color} iconSize={selectedIconSize} />
-            <span className="flex-shrink-1 text-truncate ms-1">{option.name}</span>
-          </button>
+          </ButtonWithIcon>
         }
         DropdownMenu={
           <DropdownMenuWrapper className={`px-0 ${topColor ? 'pt-0' : ''}`} style={{ minWidth: '10rem' }}>

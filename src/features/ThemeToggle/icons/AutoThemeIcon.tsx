@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const LightThemeIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
+export const LightThemeIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

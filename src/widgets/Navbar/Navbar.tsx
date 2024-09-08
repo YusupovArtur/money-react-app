@@ -1,75 +1,66 @@
 import { FC } from 'react';
 // Router
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // Store
 import { useAppSelector } from 'store';
 // UI
 import { ThemeToggle } from 'features/ThemeToggle';
 import { UserPhoto } from 'entities/UserPhoto';
+import { NavbarLink } from 'widgets/Navbar/ui/NavbarLink.tsx';
+import { CategoryIcon, WalletIcon } from 'shared/icons';
+import { IconCaptionContainer } from 'shared/containers';
+import { useMediaQuery } from 'shared/hooks';
+import { BoxArrowInRightIcon } from 'widgets/Navbar/icons/BoxArrowInRightIcon.tsx';
 
-// TODO: Change links style to more contrast
 export const Navbar: FC = () => {
-  const location = useLocation();
-  const isUserAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
+  const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
+  const isMobile = useMediaQuery('(max-width: 500px)');
+
+  const userLinkCaption = isAuthorised ? 'Профиль' : 'Войти';
+  const UserLinkIcon = isAuthorised ? (
+    <UserPhoto iconSize="1.6rem" className="text-body" />
+  ) : (
+    <BoxArrowInRightIcon iconSize="1.6rem" />
+  );
 
   return (
-    <nav className="sticky-top z-2 navbar navbar-expand-sm bg-body-tertiary shadow-sm">
-      <div className="container-fluid">
-        <Link className="navbar-brand d-flex justify-content-center" to="/">
-          <img style={{ width: '1.7rem', height: '1.7rem' }} src="/images/chart-icon.png" alt="2Money" />
+    <nav className="sticky-top navbar bg-body-tertiary shadow-sm z-2">
+      <div className="container-fluid flex-nowrap">
+        <Link className="navbar-brand d-flex align-items-center p-0 m-0 me-2" to="/">
+          <img style={{ width: '1.8rem', height: '1.8rem' }} src="/images/chart-icon.png" alt="2Money" />
         </Link>
 
-        <button
-          type="button"
-          className="navbar-toggler"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-sm-0">
-            <li className="nav-item">
-              <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
-                Главная
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/transactions" className={`nav-link ${location.pathname === '/transactions' ? 'active' : ''}`}>
-                Транзакции
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/wallets" className={`nav-link ${location.pathname === '/wallets' ? 'active' : ''}`}>
-                Счета
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/categories" className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}>
-                Категории
-              </Link>
-            </li>
-            {isUserAuthorised ? (
-              <li className="nav-item">
-                <Link to="/profile" className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
-                  <div className="d-flex align-items-center">
-                    <span>Профиль</span>
-                    <UserPhoto iconSize="1.5rem" className="text-body p-0 ms-1" />
-                  </div>
-                </Link>
-              </li>
-            ) : (
-              <li className="nav-item">
-                <Link to="/login" className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}>
-                  Войти
-                </Link>
-              </li>
+        <NavbarLink to={'/'} className="me-2">
+          <span>Главная</span>
+        </NavbarLink>
+        <NavbarLink to={'/transactions'} className="me-2">
+          <span>Транзакции</span>
+        </NavbarLink>
+        <NavbarLink to={'/wallets'} className="me-2">
+          <IconCaptionContainer caption={!isMobile ? 'Счета' : undefined}>
+            {isMobile && (
+              <div className="mx-2">
+                <WalletIcon iconSize="1.3rem"></WalletIcon>
+              </div>
             )}
-          </ul>
+          </IconCaptionContainer>
+        </NavbarLink>
+        <NavbarLink to={'/categories'} className="me-2">
+          <IconCaptionContainer caption={!isMobile ? 'Категории' : undefined}>
+            {isMobile && (
+              <div className="me-2">
+                <CategoryIcon iconSize="1.3rem"></CategoryIcon>
+              </div>
+            )}
+          </IconCaptionContainer>
+        </NavbarLink>
+        <NavbarLink to={isAuthorised ? '/profile' : '/login'} className="me-2">
+          <IconCaptionContainer caption={!isMobile ? userLinkCaption : undefined}>
+            {isMobile && UserLinkIcon}
+          </IconCaptionContainer>
+        </NavbarLink>
+
+        <div style={{ marginLeft: 'auto' }}>
           <ThemeToggle />
         </div>
       </div>

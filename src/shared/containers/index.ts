@@ -4,3 +4,5 @@ export { ModalWindowContainer } from './ModalWindowContainer/ModalWindowContaine
 export { DropdownContainer } from './DropdownContainer/DropdownContainer.tsx';
 
 export { DraggableContainer } from './DraggableContainer/DraggableContainer.tsx';
+
+export { IconCaptionContainer } from './IconCaptionContainer/IconCaptionContainer.tsx';

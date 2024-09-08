@@ -1,19 +1,18 @@
 import { FC } from 'react';
-// Store imports
+// Store
 import { useAppDispatch, useAppSelector } from 'store';
 import { changeThemeDisplay, changeThemeMode } from 'store/slices/themeSlice';
-// UI imports
+// UI
 import { ButtonWithIcon } from 'shared/ui';
-import { LightThemeIcon } from 'features/ThemeToggle/icons/AutoThemeIcon';
-import { DarkThemeIcon } from 'features/ThemeToggle/icons/DarkThemeIcon';
-import { AutoThemeIcon } from 'features/ThemeToggle/icons/LightThemeIcon';
+import { LightThemeIcon } from './icons/AutoThemeIcon';
+import { DarkThemeIcon } from './icons/DarkThemeIcon';
+import { AutoThemeIcon } from './icons/LightThemeIcon';
 // Model
-import { useThemeAutoModeListener } from 'features/ThemeToggle/hooks/useThemeAutoModeListener';
+import { useThemeAutoModeListener } from './hooks/useThemeAutoModeListener';
 
-export const ThemeToggle: FC = () => {
+export const ThemeToggle: FC<{ iconSize?: `${number}rem` }> = ({ iconSize = '1.5rem' }) => {
   const themeMode = useAppSelector((store) => store.theme.themeMode);
   const dispatch = useAppDispatch();
-  const iconSize: string = '1.5rem';
 
   // Theme mode change listener
   useThemeAutoModeListener();
