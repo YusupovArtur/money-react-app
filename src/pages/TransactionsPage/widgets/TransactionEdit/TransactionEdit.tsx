@@ -83,6 +83,7 @@ export const TransactionEdit: FC = () => {
 
   // Form validation
   const { setIsValidate, validation, setValidateFields } = useGetTransactionFormValidation(formData);
+  console.log(validation);
 
   // Return null if not find transaction
   if (!transaction) {

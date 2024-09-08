@@ -14,14 +14,10 @@ import { BoxArrowInRightIcon } from 'widgets/Navbar/icons/BoxArrowInRightIcon.ts
 
 export const Navbar: FC = () => {
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
-  const isMobile = useMediaQuery('(max-width: 500px)');
+  const isMobile = useMediaQuery('(max-width: 550px)');
 
   const userLinkCaption = isAuthorised ? 'Профиль' : 'Войти';
-  const UserLinkIcon = isAuthorised ? (
-    <UserPhoto iconSize="1.6rem" className="text-body" />
-  ) : (
-    <BoxArrowInRightIcon iconSize="1.6rem" />
-  );
+  const UserLinkIcon = isAuthorised ? <UserPhoto iconSize="1.4rem" /> : <BoxArrowInRightIcon iconSize="1.4rem" />;
 
   return (
     <nav className="sticky-top navbar bg-body-tertiary shadow-sm z-2">
@@ -40,7 +36,7 @@ export const Navbar: FC = () => {
           <IconCaptionContainer caption={!isMobile ? 'Счета' : undefined}>
             {isMobile && (
               <div className="mx-2">
-                <WalletIcon iconSize="1.3rem"></WalletIcon>
+                <WalletIcon iconSize="1.4rem"></WalletIcon>
               </div>
             )}
           </IconCaptionContainer>
@@ -49,15 +45,13 @@ export const Navbar: FC = () => {
           <IconCaptionContainer caption={!isMobile ? 'Категории' : undefined}>
             {isMobile && (
               <div className="me-2">
-                <CategoryIcon iconSize="1.3rem"></CategoryIcon>
+                <CategoryIcon iconSize="1.4rem"></CategoryIcon>
               </div>
             )}
           </IconCaptionContainer>
         </NavbarLink>
         <NavbarLink to={isAuthorised ? '/profile' : '/login'} className="me-2">
-          <IconCaptionContainer caption={!isMobile ? userLinkCaption : undefined}>
-            {isMobile && UserLinkIcon}
-          </IconCaptionContainer>
+          <IconCaptionContainer caption={!isMobile ? userLinkCaption : undefined}>{UserLinkIcon}</IconCaptionContainer>
         </NavbarLink>
 
         <div style={{ marginLeft: 'auto' }}>

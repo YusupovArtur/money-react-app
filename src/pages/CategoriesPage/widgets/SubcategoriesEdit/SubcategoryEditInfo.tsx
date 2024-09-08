@@ -23,7 +23,7 @@ export const SubcategoryEditInfo: FC<SubcategoryEditInfoProps> = ({ subcategory,
       {subcategory.description && (
         <>
           <EntityFieldLabel className="mt-3">Описание</EntityFieldLabel>
-          <EntityFieldValue>{subcategory.description ? subcategory.description : 'Нет описания'}</EntityFieldValue>
+          <EntityFieldValue>{subcategory.description}</EntityFieldValue>
         </>
       )}
     </div>

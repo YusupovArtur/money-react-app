@@ -34,7 +34,7 @@ export const WalletEditInfo: FC<{ wallet: WalletType }> = ({ wallet }) => {
       {wallet.description && (
         <>
           <EntityFieldLabel className="mt-3">Описание</EntityFieldLabel>
-          <EntityFieldValue>{wallet.description ? wallet.description : 'Нет описания'}</EntityFieldValue>
+          <EntityFieldValue>{wallet.description}</EntityFieldValue>
         </>
       )}
     </div>

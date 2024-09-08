@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const DefaultUserIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
+export const DefaultUserPhotoIcon: FC<{ iconSize: string }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

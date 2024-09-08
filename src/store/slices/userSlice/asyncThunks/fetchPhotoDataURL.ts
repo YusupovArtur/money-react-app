@@ -2,6 +2,7 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { getAuth } from 'firebase/auth';
 import { UserStateType } from 'store/slices/userSlice';
 import { ResponseHooksType } from 'store';
+import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
 const convertBlobToDataUrl = (blob: Blob) => {
   return new Promise<string>((resolve, reject) => {
@@ -18,23 +19,20 @@ const convertBlobToDataUrl = (blob: Blob) => {
 
 export const fetchPhotoDataURL = createAsyncThunk<
   { imageDataURL: UserStateType['photoDataURL'] },
-  { isFetchDefaultIcon?: boolean } & ResponseHooksType,
+  ResponseHooksType,
   {
     rejectValue: string;
   }
->('user/fetchPhotoDataURL', async (props, { rejectWithValue, dispatch }) => {
-  const { isFetchDefaultIcon = false, ...responseHooks } = props;
+>('user/fetchPhotoDataURL', async (_props, { rejectWithValue }) => {
   const auth = getAuth();
 
   if (auth.currentUser) {
-    const user = auth.currentUser;
-    const photoURL = isFetchDefaultIcon
-      ? '/images/person-circle.svg'
-      : user.photoURL
-      ? user.photoURL
-      : '/images/person-circle.svg';
+    const photoURL = auth.currentUser.photoURL;
 
     try {
+      if (!photoURL) {
+        return { imageDataURL: null };
+      }
       const response = await fetch(photoURL);
 
       if (!response.ok) {
@@ -45,10 +43,7 @@ export const fetchPhotoDataURL = createAsyncThunk<
       const imageDataURL = await convertBlobToDataUrl(blob);
       return { imageDataURL };
     } catch (error) {
-      if (user.photoURL !== null && !isFetchDefaultIcon) {
-        dispatch(fetchPhotoDataURL({ isFetchDefaultIcon: true, ...responseHooks }));
-      }
-      return rejectWithValue('Неизвестная ошибка');
+      return rejectWithValue(getErrorMessage(error));
     }
   } else {
     return rejectWithValue('Вы не авторизованы');

@@ -28,7 +28,7 @@ export const IDInput: FC<IDInputProps> = ({
   setID,
   setValidate,
   topBorderColor,
-  selectedIconSize = '2rem',
+  selectedIconSize = '2.3rem',
   optionIconSize = '2rem',
 }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -57,7 +57,7 @@ export const IDInput: FC<IDInputProps> = ({
         menuAlignment={{ x: 'right', y: 'bottom' }}
         isModalForMobileDevice={true}
         DropdownToggle={
-          <ButtonWithIcon caption={option.name} className="btn-body-tertiary dropdown-toggle">
+          <ButtonWithIcon caption={option.name} className="btn-body-tertiary dropdown-toggle" style={{ padding: '0.15rem' }}>
             <EntityIcon iconName={option.iconName} color={option.color} iconSize={selectedIconSize} />
           </ButtonWithIcon>
         }

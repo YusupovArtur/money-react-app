@@ -26,7 +26,7 @@ export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) =
       {category.description && (
         <>
           <EntityFieldLabel className="mt-3">Описание</EntityFieldLabel>
-          <EntityFieldValue>{category.description ? category.description : 'Нет описания'}</EntityFieldValue>
+          <EntityFieldValue>{category.description}</EntityFieldValue>
         </>
       )}
     </div>

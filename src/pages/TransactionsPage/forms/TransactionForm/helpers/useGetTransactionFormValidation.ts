@@ -21,8 +21,8 @@ export const useGetTransactionFormValidation = (
     type: true,
     sum: Boolean(formData.sum),
     time: Boolean(formData.time),
-    fromWallet: Boolean(formData.fromWallet),
-    toWallet: Boolean(formData.toWallet),
+    fromWallet: Boolean(formData.fromWallet) || Boolean(formData.toWallet),
+    toWallet: Boolean(formData.fromWallet) || Boolean(formData.toWallet),
     category: Boolean(formData.category),
     subcategory: Boolean(formData.category) || Boolean(formData.subcategory),
   });
