@@ -6,7 +6,7 @@ import {
   selectSubcategoriesOrder,
   selectSubcategory,
 } from 'store/slices/categoriesSlice';
-import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
+import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
 import { IDInput, IDOptionType } from 'pages/TransactionsPage/inputs/components/IDInput.tsx';
 
 interface SubcategoryIDInputProps {
@@ -29,40 +29,38 @@ export const SubcategoryIDInput: FC<SubcategoryIDInputProps> = ({
   const subcategoriesList = useAppSelector(selectSubcategoriesList(categoryID));
   const subcategoriesOrder = useAppSelector(selectSubcategoriesOrder(categoryID));
 
-  const selectedIconSize = '2rem';
-
-  const theme = useAppSelector((state) => state.theme.themeDisplay);
-  const bodyColor = theme === 'light' ? COLOR_NAMES_HEX['gray-100'] : COLOR_NAMES_HEX['body-tertiary-dark'];
-
-  if (!category || !subcategoriesList || !subcategoriesOrder || subcategoriesOrder?.length === 0) {
-    return (
-      <>
-        <input id={inputID} type="text" value={categoryID || ''} readOnly={true} style={{ display: 'none' }} />
-        <div style={{ height: `calc(${selectedIconSize} + 0.75rem)` }} className="d-flex align-items-center px-2">
-          <span className="text-body-tertiary">Нет подкатегорий</span>
-        </div>
-      </>
-    );
-  }
+  const selectedIconSize = '2.3rem';
+  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const categoryColor = category ? category.color : bodyColor;
+  const topBorderColor = category
+    ? category.type === 'expense'
+      ? 'danger'
+      : category.type === 'income'
+      ? 'success'
+      : 'primary'
+    : undefined;
 
   const option: IDOptionType = {
     id: subcategoryID,
     name: subcategory ? subcategory.name : subcategoryID ? 'Неизвестный счет' : 'Счет не выбран',
-    iconName: subcategory ? subcategory.iconName : subcategoryID ? 'Exclamation' : 'Question',
-    color: subcategory ? category.color : subcategoryID ? '' : bodyColor,
+    iconName: subcategory ? subcategory.iconName : subcategoryID ? 'Exclamation' : 'QuestionSmall',
+    color: subcategory ? categoryColor : subcategoryID ? '' : bodyColor,
   };
 
-  const options: IDOptionType[] = [
-    { id: '', name: 'Не выбрана', iconName: 'Question', color: bodyColor },
-    ...subcategoriesOrder.map((id) => {
-      return {
-        id,
-        name: subcategoriesList[id].name,
-        color: category.color,
-        iconName: subcategoriesList[id].iconName,
-      };
-    }),
-  ];
+  const options: IDOptionType[] =
+    subcategoriesOrder && subcategoriesList
+      ? [
+          { id: '', name: 'Не выбрана', iconName: 'Question', color: bodyColor },
+          ...subcategoriesOrder.map((id) => {
+            return {
+              id,
+              name: subcategoriesList[id].name,
+              color: categoryColor,
+              iconName: subcategoriesList[id].iconName,
+            };
+          }),
+        ]
+      : [];
 
   return (
     <IDInput
@@ -70,9 +68,13 @@ export const SubcategoryIDInput: FC<SubcategoryIDInputProps> = ({
       option={option}
       options={options}
       setID={setSubcategoryID}
-      topBorderColor={category.type === 'expense' ? 'danger' : category.type === 'income' ? 'success' : 'primary'}
+      topBorderColor={topBorderColor}
       setValidate={setValidate}
       selectedIconSize={selectedIconSize}
+      emptySelectMessage={{
+        isShow: !category || !subcategoriesList || !subcategoriesOrder || subcategoriesOrder?.length === 0,
+        caption: 'Нет подкатегорий',
+      }}
     />
   );
 };

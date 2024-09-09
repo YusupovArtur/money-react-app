@@ -68,13 +68,13 @@ export const WalletsIDForm: FC<WalletIDFormProps> = ({ formData, setFormData, is
       {formData.type === 'expense' && WalletFromInput}
       {formData.type === 'transfer' && (
         <div className="d-flex align-items-center">
-          <div className="flex-fill w-100" style={{ maxWidth: 'calc(50% - 0.75rem)' }}>
+          <div className="flex-fill w-100" style={{ maxWidth: 'calc(50% - 1.25rem)' }}>
             {WalletFromInput}
           </div>
-          <div className="flex-grow-0 flex-shrink-1">
+          <div className="flex-grow-0 flex-shrink-1 mx-2">
             <ArrowRightIcon iconSize="1.5rem" />
           </div>
-          <div className="flex-fill w-100" style={{ maxWidth: 'calc(50% - 0.75rem)' }}>
+          <div className="flex-fill w-100" style={{ maxWidth: 'calc(50% - 1.25rem)' }}>
             {WalletToInput}
           </div>
         </div>

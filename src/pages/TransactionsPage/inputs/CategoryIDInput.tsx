@@ -2,6 +2,7 @@ import { FC, useDeferredValue } from 'react';
 import { CategoryType, selectCategoriesList, selectCategory, selectFilteredCategoriesOrder } from 'store/slices/categoriesSlice';
 import { useAppSelector } from 'store/store.ts';
 import { IDInput, IDOptionType } from './components/IDInput.tsx';
+import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
 
 interface CategoryIdInputProps {
   inputID?: string;
@@ -18,15 +19,29 @@ export const CategoryIDInput: FC<CategoryIdInputProps> = ({ inputID, categoryID,
   const categoryTypeFilterDeferred = useDeferredValue(categoryType);
   const categoriesOrder = useAppSelector(selectFilteredCategoriesOrder(categoryTypeFilterDeferred));
 
+  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const iconName = category
+    ? category.iconName
+    : categoryID
+    ? 'Exclamation'
+    : categoryType === 'transfer'
+    ? 'QuestionSmall'
+    : 'Question';
+
   const option: IDOptionType = {
     id: categoryID,
     name: category ? category.name : categoryID ? 'Неизвестная категория' : 'Категория не выбрана',
-    iconName: category ? category.iconName : categoryID ? 'Exclamation' : 'Question',
-    color: category ? category.color : '',
+    iconName,
+    color: category ? category.color : categoryType === 'transfer' ? bodyColor : '',
   };
 
   const options: IDOptionType[] = [
-    { id: '', name: 'Не выбрана', iconName: 'Question', color: '' },
+    {
+      id: '',
+      name: 'Не выбрана',
+      iconName: categoryType === 'transfer' ? 'QuestionSmall' : 'Question',
+      color: categoryType === 'transfer' ? bodyColor : '',
+    },
     ...categoriesOrder.map((id) => {
       return {
         id,
@@ -45,6 +60,10 @@ export const CategoryIDInput: FC<CategoryIdInputProps> = ({ inputID, categoryID,
       setID={setCategoryID}
       setValidate={setValidate}
       topBorderColor={categoryType === 'income' ? 'success' : categoryType === 'expense' ? 'danger' : 'primary'}
+      emptySelectMessage={{
+        isShow: categoryType === 'transfer' && categoriesOrder.length === 0,
+        caption: 'Нет категорий',
+      }}
     ></IDInput>
   );
 };

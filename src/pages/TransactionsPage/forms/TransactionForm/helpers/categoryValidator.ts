@@ -1,6 +1,7 @@
 import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { store } from 'store';
+import { CategoryType } from 'store/slices/categoriesSlice';
 
 const getTypeName = (type: TransactionType['type']) => {
   switch (type) {
@@ -16,16 +17,24 @@ const getTypeName = (type: TransactionType['type']) => {
 };
 
 export const categoryValidator = (formData: TransactionType): validatorsReturnType => {
-  const { type, category } = formData;
+  const { type, category: id } = formData;
+
+  if (!id) {
+    if (type === 'transfer') {
+      return { isValid: true };
+    } else {
+      return { isValid: false, feedback: `Введите категорию ${getTypeName(type)}` };
+    }
+  }
 
   const state = store.getState();
-  const categories = state.categories.list;
+  const category = state.categories.list[id] as CategoryType | undefined;
 
   if (!category) {
-    return { isValid: false, feedback: `Введите категорию ${getTypeName(type)}` };
-  } else if (!categories[category]) {
     return { isValid: false, feedback: 'Такой категории не существует' };
-  } else if (type !== categories[category].type) {
+  }
+
+  if (type !== category.type) {
     return { isValid: false, feedback: 'Тип категории не подходит к типу транзакции' };
   }
 

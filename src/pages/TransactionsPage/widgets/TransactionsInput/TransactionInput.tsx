@@ -37,12 +37,12 @@ export const TransactionInput: FC<TransactionInputProps> = ({ isOpened, setIsOpe
   const onClear = () => {
     setIsValidate({
       type: true,
-      sum: Boolean(formData.sum),
-      time: Boolean(formData.time),
-      fromWallet: Boolean(formData.fromWallet),
-      toWallet: Boolean(formData.toWallet),
-      category: Boolean(formData.category),
-      subcategory: Boolean(formData.subcategory),
+      sum: false,
+      time: true,
+      fromWallet: false,
+      toWallet: false,
+      category: false,
+      subcategory: false,
     });
     setFormData(defaultValue);
   };

@@ -23,6 +23,15 @@ export const CategoryAndSubcategoryIDForm: FC<CategoryAndSubcategoryIDFormProps>
   const categoryInputID = useId();
   const subcategoryInputID = useId();
 
+  const setCategoryID = (id: string) => {
+    setFormData((state) => {
+      if (id === state.category) {
+        return state;
+      }
+      return { ...state, category: id, subcategory: '' };
+    });
+  };
+
   const categorySetValidate = () => {
     setIsValidate((state) => ({ ...state, category: true, subcategory: true }));
   };
@@ -38,19 +47,12 @@ export const CategoryAndSubcategoryIDForm: FC<CategoryAndSubcategoryIDFormProps>
           <FormLabel className="ms-1" htmlFor={categoryInputID}>
             Категория
           </FormLabel>
-          <ValidityIcon isValid={isValidCategory} iconSize="1.4rem" />
+          {!(!formData.category && formData.type === 'transfer') && <ValidityIcon isValid={isValidCategory} iconSize="1.4rem" />}
         </div>
         <CategoryIDInput
           inputID={categoryInputID}
           categoryID={formData.category}
-          setCategoryID={(id: string) => {
-            setFormData((state) => {
-              if (id === state.category) {
-                return state;
-              }
-              return { ...state, category: id, subcategory: '' };
-            });
-          }}
+          setCategoryID={setCategoryID}
           categoryType={formData.type}
           setValidate={categorySetValidate}
         />

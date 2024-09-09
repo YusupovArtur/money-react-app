@@ -17,6 +17,7 @@ const convertBlobToDataUrl = (blob: Blob) => {
   });
 };
 
+// TODO: решить проблему при ошибке CORS фетчится дефолтная иконка
 export const fetchPhotoDataURL = createAsyncThunk<
   { imageDataURL: UserStateType['photoDataURL'] },
   ResponseHooksType,

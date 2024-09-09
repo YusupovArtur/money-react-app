@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { DropdownContainer } from 'shared/containers';
 import { EntityIcon } from 'entities/EntityIcon';
-import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
+import { DropdownMenuWrapper } from 'shared/ui';
 
 export type IDOptionType = {
   id: string;
@@ -19,6 +19,10 @@ interface IDInputProps {
   topBorderColor?: 'success' | 'danger' | 'primary';
   selectedIconSize?: `${number}rem`;
   optionIconSize?: `${number}rem`;
+  emptySelectMessage?: {
+    isShow: boolean;
+    caption: string;
+  };
 }
 
 export const IDInput: FC<IDInputProps> = ({
@@ -30,6 +34,7 @@ export const IDInput: FC<IDInputProps> = ({
   topBorderColor,
   selectedIconSize = '2.3rem',
   optionIconSize = '2rem',
+  emptySelectMessage = { isShow: false, caption: '' },
 }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -47,6 +52,17 @@ export const IDInput: FC<IDInputProps> = ({
     };
   }, [isOpened]);
 
+  if (emptySelectMessage.isShow) {
+    return (
+      <>
+        <input id={inputID} type="text" value={option.id || ''} readOnly={true} style={{ display: 'none' }} />
+        <div style={{ height: `calc(${selectedIconSize} + 0.4rem)` }} className="d-flex align-items-center px-2">
+          <span className="text-body-tertiary">{emptySelectMessage.caption}</span>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <input id={inputID} type="text" value={option.id || ''} readOnly={true} style={{ display: 'none' }} />
@@ -57,9 +73,13 @@ export const IDInput: FC<IDInputProps> = ({
         menuAlignment={{ x: 'right', y: 'bottom' }}
         isModalForMobileDevice={true}
         DropdownToggle={
-          <ButtonWithIcon caption={option.name} className="btn-body-tertiary dropdown-toggle" style={{ padding: '0.15rem' }}>
+          <button
+            style={{ maxWidth: '100%', padding: '0.15rem' }}
+            className="btn btn-body-tertiary d-flex align-items-center dropdown-toggle"
+          >
             <EntityIcon iconName={option.iconName} color={option.color} iconSize={selectedIconSize} />
-          </ButtonWithIcon>
+            <span className="flex-shrink-1 text-truncate ms-1">{option.name}</span>
+          </button>
         }
         DropdownMenu={
           <DropdownMenuWrapper className={`px-0 ${topColor ? 'pt-0' : ''}`} style={{ minWidth: '10rem' }}>
