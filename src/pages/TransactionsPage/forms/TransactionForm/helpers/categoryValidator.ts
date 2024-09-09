@@ -1,4 +1,4 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { store } from 'store';
 import { CategoryType } from 'store/slices/categoriesSlice';
@@ -16,7 +16,7 @@ const getTypeName = (type: TransactionType['type']) => {
   }
 };
 
-export const categoryValidator = (formData: TransactionType): validatorsReturnType => {
+export const categoryValidator = (formData: TransactionType): ValidatorReturnType => {
   const { type, category: id } = formData;
 
   if (!id) {

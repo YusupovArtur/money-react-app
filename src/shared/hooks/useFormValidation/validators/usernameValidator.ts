@@ -1,11 +1,11 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
 import { USERNAME_REGULAR_EXPRESSION } from './regularExpressions.ts';
 
 interface HasUsername {
   username: string;
 }
 
-export const usernameValidator = <T extends HasUsername>(formData: T): validatorsReturnType => {
+export const usernameValidator = <T extends HasUsername>(formData: T): ValidatorReturnType => {
   const username = formData.username;
 
   if (!username) {

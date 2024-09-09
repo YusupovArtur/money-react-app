@@ -9,15 +9,16 @@ import { useAppSelector } from 'store/store.ts';
 import { categoryValidator } from 'pages/TransactionsPage/forms/TransactionForm/helpers/categoryValidator.ts';
 import { subcategoryValidator } from 'pages/TransactionsPage/forms/TransactionForm/helpers/subcategoryValidator.ts';
 import { selectWalletsList } from 'store/slices/walletsSlice';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 export const useGetTransactionFormValidation = (
   formData: TransactionType,
 ): {
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof TransactionType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<TransactionType, boolean>>>;
   validation: ReturnType<typeof useFormValidation<TransactionType>>;
   setValidateFields: () => void;
 } => {
-  const [isValidate, setIsValidate] = useState<{ [K in keyof TransactionType]?: boolean }>({
+  const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<TransactionType, boolean>>({
     type: true,
     sum: Boolean(formData.sum),
     time: Boolean(formData.time),

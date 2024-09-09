@@ -1,11 +1,11 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
 import { NAME_REGULAR_EXPRESSION } from './regularExpressions.ts';
 
 interface HasName {
   name: string;
 }
 
-export const nameValidator = <T extends HasName>(formData: T): validatorsReturnType => {
+export const nameValidator = <T extends HasName>(formData: T): ValidatorReturnType => {
   const name = formData.name;
 
   if (!name) {

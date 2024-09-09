@@ -10,13 +10,14 @@ import { WalletsIDForm } from './components/WalletsIDForm.tsx';
 import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { getTodayTimestamp } from 'shared/helpers';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface TransactionFormProps {
   type: TransactionType['type'] | null;
   formData: TransactionType;
   setFormData: Dispatch<SetStateAction<TransactionType>>;
   validation: ReturnType<typeof useFormValidation<TransactionType>>;
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof TransactionType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<TransactionType, boolean>>>;
 }
 
 export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setFormData, validation, setIsValidate }) => {

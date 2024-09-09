@@ -1,31 +1,28 @@
 import { useEffect, useState } from 'react';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 type FormDataType<T> = {
   [K in keyof T]: T[K];
 };
 
-export type validatorsReturnType = {
+export type ValidatorReturnType = {
   isValid: boolean;
   feedback?: string;
 };
 
-type ValidatorsType<T> = {
-  [K in keyof T]?: (value: T) => validatorsReturnType;
-};
-
-type IsValidateType<T> = {
-  [K in keyof T]?: boolean;
+type ValidatorType<T> = {
+  [K in keyof T]?: (value: T) => ValidatorReturnType;
 };
 
 export const useFormValidation = <T,>(props: {
   formData: FormDataType<T>;
-  validators: ValidatorsType<T>;
-  isValidate: IsValidateType<T>;
+  validators: ValidatorType<T>;
+  isValidate: OptionalPrimitiveKeysType<T, boolean>;
   extraDeps?: ReadonlyArray<any>;
 }): {
   isValid: boolean;
-  fieldValidities: { [K in keyof T]?: boolean };
-  fieldFeedbacks: { [K in keyof T]?: string };
+  fieldValidities: OptionalPrimitiveKeysType<T, boolean>;
+  fieldFeedbacks: OptionalPrimitiveKeysType<T, string>;
 } => {
   const { formData, validators, isValidate, extraDeps = [] } = props;
 

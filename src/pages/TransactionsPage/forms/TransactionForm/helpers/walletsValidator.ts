@@ -1,8 +1,8 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { store } from 'store';
 
-export const walletsValidator = (formData: TransactionType): validatorsReturnType => {
+export const walletsValidator = (formData: TransactionType): ValidatorReturnType => {
   const { type, fromWallet, toWallet } = formData;
   const state = store.getState();
   const wallets = state.wallets.list;

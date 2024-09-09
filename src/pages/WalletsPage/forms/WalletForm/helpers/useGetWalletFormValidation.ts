@@ -4,15 +4,16 @@ import { useFormValidation } from 'shared/hooks';
 import { nameValidator } from 'shared/hooks/useFormValidation/validators';
 import { typeValidator } from './typeValidator.ts';
 import { balanceValidator } from './balanceValidator.ts';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 export const useGetWalletFormValidation = (
   formData: WalletType,
 ): {
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof WalletType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<WalletType, boolean>>>;
   validation: ReturnType<typeof useFormValidation<WalletType>>;
   setValidateFields: () => void;
 } => {
-  const [isValidate, setIsValidate] = useState<{ [K in keyof WalletType]?: boolean }>({
+  const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<WalletType, boolean>>({
     name: Boolean(formData.name),
     type: true,
     balance: Boolean(formData.balance),

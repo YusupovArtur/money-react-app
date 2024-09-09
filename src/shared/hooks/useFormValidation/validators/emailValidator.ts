@@ -1,11 +1,11 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
+import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation.tsx';
 import { EMAIL_REGULAR_EXPRESSION } from './regularExpressions.ts';
 
 interface HasEmail {
   email: string;
 }
 
-export const emailValidator = <T extends HasEmail>(formData: T): validatorsReturnType => {
+export const emailValidator = <T extends HasEmail>(formData: T): ValidatorReturnType => {
   const email = formData.email;
 
   if (!email) {

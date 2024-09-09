@@ -7,12 +7,13 @@ import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { WalletType } from 'store/slices/walletsSlice';
 // UI
 import { FormLabel, FormValidationFeedback } from 'shared/ui';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface WalletFormProps {
   formData: WalletType;
   setFormData: Dispatch<SetStateAction<WalletType>>;
   validation: ReturnType<typeof useFormValidation<WalletType>>;
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof WalletType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<WalletType, boolean>>>;
 }
 
 export const WalletForm: FC<WalletFormProps> = ({ formData, setFormData, validation, setIsValidate }) => {

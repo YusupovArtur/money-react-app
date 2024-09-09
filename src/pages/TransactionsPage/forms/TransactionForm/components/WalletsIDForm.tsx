@@ -4,12 +4,13 @@ import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { ValidityIcon, WalletIcon } from 'shared/icons';
 import { FormLabel } from 'shared/ui';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface WalletIDFormProps {
   formData: TransactionType;
   setFormData: Dispatch<SetStateAction<TransactionType>>;
   isValid?: boolean;
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof TransactionType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<TransactionType, boolean>>>;
 }
 
 export const WalletsIDForm: FC<WalletIDFormProps> = ({ formData, setFormData, isValid, setIsValidate }) => {

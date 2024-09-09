@@ -1,6 +1,5 @@
 import { CSSProperties, Fragment, HTMLProps, useId } from 'react';
-
-type Primitive = number | string | boolean | null | undefined;
+import { Primitive } from 'shared/types';
 
 type RadioOption<T extends Primitive> = {
   label: string;

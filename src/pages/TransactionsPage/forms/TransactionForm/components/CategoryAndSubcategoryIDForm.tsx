@@ -4,13 +4,14 @@ import { CategoryIcon, ValidityIcon } from 'shared/icons';
 import { FormLabel } from 'shared/ui';
 import { CategoryIDInput } from 'pages/TransactionsPage/inputs/CategoryIDInput.tsx';
 import { SubcategoryIDInput } from 'pages/TransactionsPage/inputs/SubcategoryIDInput.tsx';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface CategoryAndSubcategoryIDFormProps {
   formData: TransactionType;
   setFormData: Dispatch<SetStateAction<TransactionType>>;
   isValidCategory?: boolean;
   isValidSubcategory?: boolean;
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof TransactionType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<TransactionType, boolean>>>;
 }
 
 export const CategoryAndSubcategoryIDForm: FC<CategoryAndSubcategoryIDFormProps> = ({

@@ -5,12 +5,13 @@ import { CATEGORY_ICON_OPTIONS, ColorHexInput, IconNameInput, TextInput } from '
 import { CategoryAddType, CategoryType } from 'store/slices/categoriesSlice';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { FormLabel, FormValidationFeedback } from 'shared/ui';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface CategoryFormProps {
   formData: CategoryAddType;
   setFormData: Dispatch<SetStateAction<CategoryAddType>>;
   validation: ReturnType<typeof useFormValidation<CategoryAddType>>;
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof CategoryAddType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<CategoryAddType, boolean>>>;
 }
 
 export const CategoryForm: FC<CategoryFormProps> = ({ formData, setFormData, validation, setIsValidate }) => {

@@ -6,12 +6,13 @@ import { getValidityClassName, useFormValidation } from 'shared/hooks';
 import { SubcategoryType } from 'store/slices/categoriesSlice';
 // UI
 import { FormLabel, FormValidationFeedback } from 'shared/ui';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface SubcategoryFormProps {
   formData: SubcategoryType;
   setFormData: Dispatch<SetStateAction<SubcategoryType>>;
   validation: ReturnType<typeof useFormValidation<SubcategoryType>>;
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof SubcategoryType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<SubcategoryType, boolean>>>;
 }
 
 export const SubcategoryForm: FC<SubcategoryFormProps> = ({ formData, setFormData, validation, setIsValidate }) => {

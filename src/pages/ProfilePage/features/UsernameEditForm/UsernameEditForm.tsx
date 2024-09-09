@@ -10,6 +10,7 @@ import { usernameValidator } from 'shared/hooks/useFormValidation/validators';
 import { TextInput } from 'shared/inputs';
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner, FormValidationFeedback } from 'shared/ui';
 import { CheckIcon, CrossIcon, PencilSquareIcon } from 'shared/icons';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 export const UsernameEditForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +29,7 @@ export const UsernameEditForm: FC = () => {
     setFormData({ username: usernameState || '' });
   };
 
-  const [isValidate, setIsValidate] = useState<{ [K in keyof UsernameEditFormDataType]?: boolean }>({
+  const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<UsernameEditFormDataType, boolean>>({
     username: Boolean(formData.username) && isEdit,
   });
   const { isValid, fieldValidities, fieldFeedbacks } = useFormValidation<UsernameEditFormDataType>({

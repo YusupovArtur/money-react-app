@@ -9,6 +9,7 @@ import { SigninFormDataType } from 'pages/LoginPage/types/SigninFormDataType';
 // UI
 import { FormValidationFeedback } from 'shared/ui';
 import { TextInput } from 'shared/inputs';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface SigninFormProps {
   formData: SigninFormDataType;
@@ -20,7 +21,7 @@ export const SigninForm: FC<SigninFormProps> = ({ formData, setFormData, onSubmi
   const dispatch = useAppDispatch();
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
-  const [isValidate, setIsValidate] = useState<{ [K in keyof SigninFormDataType]?: boolean }>({
+  const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<SigninFormDataType, boolean>>({
     email: Boolean(formData.email),
     password: Boolean(formData.password),
   });

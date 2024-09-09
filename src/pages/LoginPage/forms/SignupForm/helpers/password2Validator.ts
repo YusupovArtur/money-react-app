@@ -1,11 +1,11 @@
-import { validatorsReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
+import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
 
 interface HasPasswords {
   password: string;
   password2: string;
 }
 
-export const password2Validator = <T extends HasPasswords>(formData: T): validatorsReturnType => {
+export const password2Validator = <T extends HasPasswords>(formData: T): ValidatorReturnType => {
   const password1 = formData.password;
   const password2 = formData.password2;
 

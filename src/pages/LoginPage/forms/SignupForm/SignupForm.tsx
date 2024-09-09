@@ -10,6 +10,7 @@ import { SignupFormDataType } from 'pages/LoginPage/types/SignupFormDataType.ts'
 // UI
 import { FormValidationFeedback } from 'shared/ui';
 import { TextInput } from 'shared/inputs';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface SignupFormProps {
   formData: SignupFormDataType;
@@ -21,7 +22,7 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
   const dispatch = useAppDispatch();
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
-  const [isValidate, setIsValidate] = useState<{ [K in keyof SignupFormDataType]?: boolean }>({
+  const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<SignupFormDataType, boolean>>({
     email: Boolean(formData.email),
     username: Boolean(formData.username),
     password: Boolean(formData.password),

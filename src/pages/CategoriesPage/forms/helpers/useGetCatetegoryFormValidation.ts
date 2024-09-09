@@ -3,15 +3,16 @@ import { CategoryAddType } from 'store/slices/categoriesSlice';
 import { useFormValidation } from 'shared/hooks';
 import { nameValidator } from 'shared/hooks/useFormValidation/validators';
 import { typeValidator } from 'entities/EntitiesComponents';
+import { OptionalPrimitiveKeysType } from 'shared/types';
 
 export const useGetCategoryFormValidation = (
   formData: CategoryAddType,
 ): {
-  setIsValidate: Dispatch<SetStateAction<{ [K in keyof CategoryAddType]?: boolean }>>;
+  setIsValidate: Dispatch<SetStateAction<OptionalPrimitiveKeysType<CategoryAddType, boolean>>>;
   validation: ReturnType<typeof useFormValidation<CategoryAddType>>;
   setValidateFields: () => void;
 } => {
-  const [isValidate, setIsValidate] = useState<{ [K in keyof CategoryAddType]?: boolean }>({
+  const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<CategoryAddType, boolean>>({
     name: Boolean(formData.name),
     type: true,
   });
