@@ -21,40 +21,22 @@ export const WalletsIDForm: FC<WalletIDFormProps> = ({ formData, setFormData, is
     setIsValidate((state) => ({ ...state, fromWallet: true, toWallet: true }));
   };
 
-  const WalletFromInput = (
-    <WalletIDInput
-      inputID={walletFromInputID}
-      walletID={formData.fromWallet}
-      setWalletID={(id: string) => {
-        setFormData((state) => {
-          if (id === state.fromWallet) {
-            return state;
-          }
-          return { ...state, fromWallet: id };
-        });
-      }}
-      walletTransactionType="from"
-      setValidate={setValidate}
-    ></WalletIDInput>
-  );
-
-  const WalletToInput = (
-    <WalletIDInput
-      inputID={walletToInputID}
-      walletID={formData.toWallet}
-      firstSelectedWalletID={formData.fromWallet}
-      setWalletID={(id: string) => {
-        setFormData((state) => {
-          if (id === state.toWallet) {
-            return state;
-          }
-          return { ...state, toWallet: id };
-        });
-      }}
-      walletTransactionType="to"
-      setValidate={setValidate}
-    ></WalletIDInput>
-  );
+  const setFromWalletID = (id: string) => {
+    setFormData((state) => {
+      if (id === state.fromWallet) {
+        return state;
+      }
+      return { ...state, fromWallet: id };
+    });
+  };
+  const setToWalletID = (id: string) => {
+    setFormData((state) => {
+      if (id === state.toWallet) {
+        return state;
+      }
+      return { ...state, toWallet: id };
+    });
+  };
 
   return (
     <>
@@ -66,21 +48,53 @@ export const WalletsIDForm: FC<WalletIDFormProps> = ({ formData, setFormData, is
         <ValidityIcon isValid={isValid} iconSize="1.4rem" />
       </div>
 
-      {formData.type === 'expense' && WalletFromInput}
+      {formData.type === 'expense' && (
+        <WalletIDInput
+          inputID={walletFromInputID}
+          walletID={formData.fromWallet}
+          setWalletID={setFromWalletID}
+          walletTransactionType="from"
+          setValidate={setValidate}
+        ></WalletIDInput>
+      )}
       {formData.type === 'transfer' && (
         <div className="d-flex align-items-center">
           <div className="flex-fill w-100" style={{ maxWidth: 'calc(50% - 1.25rem)' }}>
-            {WalletFromInput}
+            <WalletIDInput
+              inputID={walletFromInputID}
+              walletID={formData.fromWallet}
+              setWalletID={setFromWalletID}
+              walletTransactionType="from"
+              setValidate={setValidate}
+              style={{ width: '100%' }}
+            ></WalletIDInput>
           </div>
           <div className="flex-grow-0 flex-shrink-1 mx-2">
             <ArrowRightIcon iconSize="1.5rem" />
           </div>
           <div className="flex-fill w-100" style={{ maxWidth: 'calc(50% - 1.25rem)' }}>
-            {WalletToInput}
+            <WalletIDInput
+              inputID={walletToInputID}
+              walletID={formData.toWallet}
+              firstSelectedWalletID={formData.fromWallet}
+              setWalletID={setToWalletID}
+              walletTransactionType="to"
+              setValidate={setValidate}
+              style={{ width: '100%' }}
+            ></WalletIDInput>
           </div>
         </div>
       )}
-      {formData.type === 'income' && WalletToInput}
+      {formData.type === 'income' && (
+        <WalletIDInput
+          inputID={walletToInputID}
+          walletID={formData.toWallet}
+          firstSelectedWalletID={formData.fromWallet}
+          setWalletID={setToWalletID}
+          walletTransactionType="to"
+          setValidate={setValidate}
+        ></WalletIDInput>
+      )}
     </>
   );
 };

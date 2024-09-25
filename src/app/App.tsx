@@ -15,7 +15,7 @@ const CategoriesPage = lazy(() => import('pages/CategoriesPage'));
 const LoginPage = lazy(() => import('pages/LoginPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
-export const App: FC = () => {
+const App: FC = () => {
   useFirestoreListener();
 
   return (
@@ -34,3 +34,5 @@ export const App: FC = () => {
     </AppWrapper>
   );
 };
+
+export default App;

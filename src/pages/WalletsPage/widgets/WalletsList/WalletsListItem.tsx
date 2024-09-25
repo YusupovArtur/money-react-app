@@ -1,12 +1,12 @@
 import { FC } from 'react';
 // Store
-import { useAppSelector } from 'store/store.ts';
 import { useSearchParams } from 'react-router-dom';
-import { ListItemFieldValue, ListItemWrapper } from 'shared/ui';
-import { WalletTypeIcon } from 'pages/WalletsPage/ui/WalletTypeIcon.tsx';
+import { useGetWalletWithTotalBalance } from 'store/slices/walletsSlice';
+// UI
 import { EntityIcon } from 'entities/EntityIcon';
+import { WalletTypeIcon } from 'pages/WalletsPage/ui/WalletTypeIcon.tsx';
 import { getStringCurrencyValue } from 'shared/helpers';
-import { selectWalletWithTotalBalance } from 'store/slices/walletsSlice/selectors/selectWalletWithTotalBalance.ts';
+import { ListItemFieldValue, ListItemWrapper } from 'shared/ui';
 
 interface WalletItemProps {
   walletID: string;
@@ -15,7 +15,8 @@ interface WalletItemProps {
 }
 
 export const WalletsListItem: FC<WalletItemProps> = ({ walletID, disabled, loading }) => {
-  const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
+  // const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
+  const { walletWithTotalBalance: wallet } = useGetWalletWithTotalBalance(walletID);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const handleSetID = () => {

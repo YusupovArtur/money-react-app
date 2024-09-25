@@ -18,7 +18,7 @@ export const subcategoryValidator = (formData: TransactionType): ValidatorReturn
     return { isValid: false, feedback: 'categoryID == "" and subcategoryID != ""' };
   }
 
-  if (category && subcategory) {
+  if (subcategoryID && !subcategory) {
     return { isValid: false, feedback: 'Такой подкатегории не существует' };
   }
 

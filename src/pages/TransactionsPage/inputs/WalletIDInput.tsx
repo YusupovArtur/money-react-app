@@ -1,9 +1,9 @@
-import { FC, useEffect } from 'react';
+import { ButtonHTMLAttributes, FC, useEffect } from 'react';
 import { useAppSelector } from 'store/index.ts';
 import { IDInput, IDOptionType } from './components/IDInput.tsx';
 import { selectWallet, selectWalletsList, selectWalletsOrder } from 'store/slices/walletsSlice';
 
-interface WalletIDInputProps {
+interface WalletIDInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   inputID?: string;
   walletID: string;
   setWalletID: (id: string) => any;
@@ -19,6 +19,7 @@ export const WalletIDInput: FC<WalletIDInputProps> = ({
   walletTransactionType,
   firstSelectedWalletID,
   setValidate,
+  ...props
 }) => {
   const wallet = useAppSelector(selectWallet(walletID));
   const wallets = useAppSelector(selectWalletsList);
@@ -59,6 +60,7 @@ export const WalletIDInput: FC<WalletIDInputProps> = ({
       setID={setWalletID}
       setValidate={setValidate}
       topBorderColor={walletTransactionType === 'from' ? 'danger' : 'success'}
+      {...props}
     />
   );
 };

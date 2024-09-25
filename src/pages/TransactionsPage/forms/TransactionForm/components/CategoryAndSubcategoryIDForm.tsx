@@ -32,6 +32,14 @@ export const CategoryAndSubcategoryIDForm: FC<CategoryAndSubcategoryIDFormProps>
       return { ...state, category: id, subcategory: '' };
     });
   };
+  const setSubcategoryID = (id: string) => {
+    setFormData((state) => {
+      if (id === state.subcategory) {
+        return state;
+      }
+      return { ...state, subcategory: id };
+    });
+  };
 
   const categorySetValidate = () => {
     setIsValidate((state) => ({ ...state, category: true, subcategory: true }));
@@ -67,9 +75,7 @@ export const CategoryAndSubcategoryIDForm: FC<CategoryAndSubcategoryIDFormProps>
           inputID={subcategoryInputID}
           categoryID={formData.category}
           subcategoryID={formData.subcategory}
-          setSubcategoryID={(id: string) => {
-            setFormData((state) => ({ ...state, subcategory: id }));
-          }}
+          setSubcategoryID={setSubcategoryID}
           setValidate={subcategorySetValidate}
         />
       </div>

@@ -2,8 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Store
 import { ResponseHooksType, useAppDispatch, useAppSelector } from 'store';
-import { deleteWallet, updateWallet, WalletType } from 'store/slices/walletsSlice';
-import { selectWalletWithTotalBalance } from 'store/slices/walletsSlice/selectors/selectWalletWithTotalBalance.ts';
+import { deleteWallet, updateWallet, useGetWalletWithTotalBalance, WalletType } from 'store/slices/walletsSlice';
 // Form
 import { WalletForm } from 'pages/WalletsPage/forms/WalletForm/WalletForm.tsx';
 import { useGetWalletFormValidation } from 'pages/WalletsPage/forms/WalletForm/helpers/useGetWalletFormValidation.ts';
@@ -18,7 +17,8 @@ import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAM
 export const WalletEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const walletID = searchParams.get('walletID');
-  const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
+  // const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
+  const { walletWithTotalBalance: wallet, walletForUseEffect } = useGetWalletWithTotalBalance(walletID);
 
   const isLoading = useAppSelector((state) => state.wallets.responseState.isLoading);
   const defaultValue: WalletType = {
@@ -31,13 +31,13 @@ export const WalletEdit: FC = () => {
   };
 
   useEffect(() => {
-    if (isLoading === false && walletID !== null && !wallet) {
+    if (isLoading === false && walletID !== null && !walletForUseEffect) {
       alert(`Счета с ID "${walletID}" не существует`);
       searchParams.delete('walletID');
       setSearchParams(searchParams);
     }
     onClear();
-  }, [isLoading, walletID, wallet]);
+  }, [isLoading, walletID, walletForUseEffect]);
 
   // Form data
   const [isEdit, setIsEdit] = useState<boolean>(false);

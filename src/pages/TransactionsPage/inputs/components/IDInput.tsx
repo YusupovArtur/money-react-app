@@ -1,5 +1,5 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { DropdownContainer } from 'shared/containers';
+import { ButtonHTMLAttributes, FC, useEffect, useRef, useState } from 'react';
+import { DropdownContainer, IconCaptionContainer } from 'shared/containers';
 import { EntityIcon } from 'entities/EntityIcon';
 import { DropdownMenuWrapper } from 'shared/ui';
 
@@ -10,7 +10,7 @@ export type IDOptionType = {
   color: string;
 };
 
-interface IDInputProps {
+interface IDInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   inputID?: string;
   option: IDOptionType;
   options: IDOptionType[];
@@ -35,6 +35,9 @@ export const IDInput: FC<IDInputProps> = ({
   selectedIconSize = '2.3rem',
   optionIconSize = '2rem',
   emptySelectMessage = { isShow: false, caption: '' },
+  style,
+  className,
+  ...props
 }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
@@ -74,11 +77,13 @@ export const IDInput: FC<IDInputProps> = ({
         isModalForMobileDevice={true}
         DropdownToggle={
           <button
-            style={{ maxWidth: '100%', padding: '0.15rem' }}
-            className="btn btn-body-tertiary d-flex align-items-center dropdown-toggle"
+            style={{ maxWidth: '100%', padding: '0.15rem 0.25rem', ...style }}
+            className={`btn btn-body-tertiary ${className || ''}`}
+            {...props}
           >
-            <EntityIcon iconName={option.iconName} color={option.color} iconSize={selectedIconSize} />
-            <span className="flex-shrink-1 text-truncate ms-1">{option.name}</span>
+            <IconCaptionContainer caption={option.name} className="dropdown-toggle">
+              <EntityIcon iconName={option.iconName} color={option.color} iconSize={selectedIconSize} />
+            </IconCaptionContainer>
           </button>
         }
         DropdownMenu={
