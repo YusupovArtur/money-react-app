@@ -24,17 +24,17 @@ export const useFirestoreListener = () => {
   useLayoutEffect(() => {
     window.pending = window.pending || {
       transactions: {
-        delete: { id: undefined },
+        delete: { id: undefined, flags: 0 },
       },
       wallets: {
-        add: { id: undefined },
-        delete: { id: undefined },
-        shift: { order: undefined },
+        add: { id: undefined, flags: 0 },
+        delete: { id: undefined, flags: 0 },
+        shift: { order: undefined, flags: 0 },
       },
       categories: {
-        add: { id: undefined },
-        delete: { id: undefined },
-        shift: { order: undefined },
+        add: { id: undefined, flags: 0 },
+        delete: { id: undefined, flags: 0 },
+        shift: { order: undefined, flags: 0 },
       },
     };
   }, []);

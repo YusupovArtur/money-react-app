@@ -71,7 +71,7 @@ export const CategoryEdit: FC = () => {
 
   const deleteFunction = (statusHooks: ResponseHooksType) => {
     if (categoryID !== null) {
-      dispatch(deleteCategory({ categoryID, ...statusHooks }));
+      dispatch(deleteCategory({ id: categoryID, ...statusHooks }));
     }
   };
   const onDeleteFulfilled = () => {

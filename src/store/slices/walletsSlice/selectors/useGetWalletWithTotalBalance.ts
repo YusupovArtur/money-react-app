@@ -10,19 +10,19 @@ export const useGetWalletWithTotalBalance = (
   totalForUseEffect: number;
 } => {
   const wallet = useAppSelector(selectWallet(id));
+  const total = useAppSelector(selectWalletTransactionsTotal(id));
 
   if (!wallet) {
     return { walletWithTotalBalance: undefined, walletForUseEffect: undefined, totalForUseEffect: 0 };
   }
 
-  const total = useAppSelector(selectWalletTransactionsTotal(id));
   if (!total) {
     return { walletWithTotalBalance: wallet, walletForUseEffect: wallet, totalForUseEffect: total };
   }
 
   return {
-    walletWithTotalBalance: wallet,
-    walletForUseEffect: { ...wallet, balance: wallet.balance + total },
+    walletWithTotalBalance: { ...wallet, balance: wallet.balance + total },
+    walletForUseEffect: wallet,
     totalForUseEffect: total,
   };
 };

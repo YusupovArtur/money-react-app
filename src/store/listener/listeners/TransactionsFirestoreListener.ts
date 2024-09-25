@@ -32,6 +32,9 @@ export class TransactionsFirestoreListener {
 
       this.listener = onSnapshot(
         docsRef,
+        {
+          includeMetadataChanges: false,
+        },
         (querySnapshot) => {
           if (querySnapshot.metadata.hasPendingWrites || querySnapshot.metadata.fromCache) {
             return;
@@ -39,10 +42,13 @@ export class TransactionsFirestoreListener {
 
           // Local delete checking
           const changes = querySnapshot.docChanges();
-          if (window.pending.transactions.delete.id && changes.length === 1) {
+          if (window.pending.transactions.delete.id && window.pending.transactions.delete.flags && changes.length === 1) {
             const change = changes[0];
             if (change.type === 'removed' && window.pending.transactions.delete.id === change.doc.id) {
-              window.pending.transactions.delete.id = undefined;
+              window.pending.transactions.delete.flags -= 1;
+              if (window.pending.transactions.delete.flags <= 0) {
+                window.pending.transactions.delete.id = undefined;
+              }
               return;
             }
           }

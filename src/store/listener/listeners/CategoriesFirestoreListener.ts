@@ -35,6 +35,9 @@ export class CategoriesFirestoreListener {
 
       this.listener = onSnapshot(
         docsRef,
+        {
+          includeMetadataChanges: false,
+        },
         (querySnapshot) => {
           if (querySnapshot.metadata.hasPendingWrites || querySnapshot.metadata.fromCache) {
             return;
@@ -43,19 +46,28 @@ export class CategoriesFirestoreListener {
           const changes = querySnapshot.docChanges();
           // Local add checking
           if (isLocalAdd({ id: window.pending.categories.add.id, changes })) {
-            window.pending.categories.add.id = undefined;
+            window.pending.categories.add.flags -= 1;
+            if (window.pending.categories.add.flags <= 0) {
+              window.pending.categories.add.id = undefined;
+            }
             return;
           }
 
           // Local delete checking
           if (isLocalDelete({ id: window.pending.categories.delete.id, changes })) {
-            window.pending.categories.delete.id = undefined;
+            window.pending.categories.delete.flags -= 1;
+            if (window.pending.categories.delete.flags <= 0) {
+              window.pending.categories.delete.id = undefined;
+            }
             return;
           }
 
           // Local shift checking
           if (isLocalShift({ order: window.pending.categories.shift.order, changes })) {
-            window.pending.categories.shift.order = undefined;
+            window.pending.categories.shift.flags -= 1;
+            if (window.pending.categories.shift.flags <= 0) {
+              window.pending.categories.shift.order = undefined;
+            }
             return;
           }
 

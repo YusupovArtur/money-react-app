@@ -17,4 +17,11 @@ export default defineConfig({
       app: '/src/app',
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern',
+      },
+    },
+  },
 });

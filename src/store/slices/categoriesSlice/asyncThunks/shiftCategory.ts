@@ -33,7 +33,7 @@ export const shiftCategory = createAsyncThunk<
         if (id2 === CATEGORIES_LIST_LAST_ITEM_ID) {
           order.push(id1);
 
-          window.pending.categories.shift.order = order;
+          window.pending.categories.shift = { order, flags: 2 };
           transaction.set(orderRef, { order });
           return { order };
         }
@@ -42,7 +42,7 @@ export const shiftCategory = createAsyncThunk<
         if (index2 !== -1) {
           order.splice(index2, 0, id1);
 
-          window.pending.categories.shift.order = order;
+          window.pending.categories.shift = { order, flags: 2 };
           transaction.set(orderRef, { order });
           return { order };
         } else {

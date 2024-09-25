@@ -4,8 +4,8 @@ import { getAuth } from 'firebase/auth';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
 import { ResponseHooksType } from 'store';
-import { addTransactionToWalletsTotals } from '../helpers/addTransactionToWalletsTotals.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
+import { addTransactionToWalletsTotals } from 'store/slices/transactionsSlice/helpers/addTransactionToWalletsTotals.ts';
 
 export const deleteTransaction = createAsyncThunk<
   { id: string },
@@ -21,7 +21,7 @@ export const deleteTransaction = createAsyncThunk<
     const user = auth.currentUser;
     const transactionRef = doc(db, 'users_data', user.uid, 'transactions', id);
 
-    window.pending.transactions.delete.id = id;
+    window.pending.transactions.delete = { id, flags: 2 };
 
     return await deleteDoc(transactionRef)
       .then(() => {
@@ -42,9 +42,9 @@ export const addDeleteTransactionExtraReducers = (builder: ActionReducerMapBuild
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(deleteTransaction.fulfilled, (state, action) => {
-      const transaction = state.list[action.payload.id];
-      addTransactionToWalletsTotals({ action: 'decrease', totals: state.walletsTransactionsTotals, transaction });
+      const transaction = { ...state.list[action.payload.id] };
       delete state.list[action.payload.id];
+      addTransactionToWalletsTotals({ action: 'decrease', totals: state.walletsTransactionsTotals, transaction });
 
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');

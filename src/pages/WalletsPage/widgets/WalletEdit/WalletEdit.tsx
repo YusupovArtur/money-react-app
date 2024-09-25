@@ -17,8 +17,8 @@ import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAM
 export const WalletEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const walletID = searchParams.get('walletID');
-  // const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
   const { walletWithTotalBalance: wallet, walletForUseEffect } = useGetWalletWithTotalBalance(walletID);
+  // const wallet = useAppSelector(selectWalletWithTotalBalance(walletID));
 
   const isLoading = useAppSelector((state) => state.wallets.responseState.isLoading);
   const defaultValue: WalletType = {

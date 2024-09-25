@@ -34,6 +34,9 @@ export class WalletsFirestoreListener {
 
       this.listener = onSnapshot(
         docsRef,
+        {
+          includeMetadataChanges: false,
+        },
         (querySnapshot) => {
           if (querySnapshot.metadata.hasPendingWrites || querySnapshot.metadata.fromCache) {
             return;
@@ -42,19 +45,28 @@ export class WalletsFirestoreListener {
           const changes = querySnapshot.docChanges();
           // Local add checking
           if (isLocalAdd({ id: window.pending.wallets.add.id, changes })) {
-            window.pending.wallets.add.id = undefined;
+            window.pending.wallets.add.flags -= 1;
+            if (window.pending.wallets.add.flags <= 0) {
+              window.pending.wallets.add.id = undefined;
+            }
             return;
           }
 
           // Local delete checking
           if (isLocalDelete({ id: window.pending.wallets.delete.id, changes })) {
-            window.pending.wallets.delete.id = undefined;
+            window.pending.wallets.delete.flags -= 1;
+            if (window.pending.wallets.delete.flags <= 0) {
+              window.pending.wallets.delete.id = undefined;
+            }
             return;
           }
 
           // Local shift checking
           if (isLocalShift({ order: window.pending.wallets.shift.order, changes })) {
-            window.pending.wallets.shift.order = undefined;
+            window.pending.wallets.shift.flags -= 1;
+            if (window.pending.wallets.shift.flags <= 0) {
+              window.pending.wallets.shift.order = undefined;
+            }
             return;
           }
 

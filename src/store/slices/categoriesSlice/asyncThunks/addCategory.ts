@@ -19,9 +19,10 @@ export const addCategory = createAsyncThunk<
     const orderRef = doc(db, 'users_data', user.uid, 'categories', 'order');
     const docsRef = collection(db, 'users_data', user.uid, 'categories');
     const docRef = doc(docsRef);
-    const id = docRef.id;
 
-    window.pending.categories.add.id = id;
+    const id = docRef.id;
+    window.pending.categories.add = { id, flags: 2 };
+
     return runTransaction(db, async (transaction) => {
       const orderSnapshot = (await transaction.get(orderRef)).data();
       const order = orderSnapshot ? (orderSnapshot as { order: string[] }).order : [];

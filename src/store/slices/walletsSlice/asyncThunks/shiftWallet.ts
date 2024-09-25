@@ -33,7 +33,7 @@ export const shiftWallet = createAsyncThunk<
 
         if (id2 === WALLETS_LIST_LAST_ITEM_ID) {
           order.push(id1);
-          window.pending.wallets.shift.order = order;
+          window.pending.wallets.shift = { order, flags: 2 };
           transaction.set(orderRef, { order });
           return { order };
         }
@@ -41,7 +41,7 @@ export const shiftWallet = createAsyncThunk<
         const index2 = order.findIndex((id) => id2 === id);
         if (index2 !== -1) {
           order.splice(index2, 0, id1);
-          window.pending.wallets.shift.order = order;
+          window.pending.wallets.shift = { order, flags: 2 };
           transaction.set(orderRef, { order });
           return { order };
         } else {

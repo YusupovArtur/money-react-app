@@ -21,7 +21,7 @@ export const deleteWallet = createAsyncThunk<
     const orderRef = doc(db, 'users_data', user.uid, 'wallets', 'order');
     const docRef = doc(db, 'users_data', user.uid, 'wallets', id);
 
-    window.pending.wallets.delete.id = id;
+    window.pending.wallets.delete = { id, flags: 2 };
 
     return await runTransaction(db, async (transaction) => {
       transaction.update(orderRef, { order: arrayRemove(id) });

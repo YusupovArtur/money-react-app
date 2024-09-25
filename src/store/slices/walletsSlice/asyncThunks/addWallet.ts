@@ -23,7 +23,7 @@ export const addWallet = createAsyncThunk<
     const docRef = doc(docsRef);
 
     const id = docRef.id;
-    window.pending.wallets.add.id = id;
+    window.pending.wallets.add = { id, flags: 2 };
 
     return await runTransaction(db, async (transaction) => {
       transaction.set(docRef, wallet);
