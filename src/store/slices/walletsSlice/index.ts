@@ -11,6 +11,7 @@ export { clearWallets, setWallets, setWalletsResponseState } from './walletsSlic
 export { selectWallet } from './selectors/selectWallet.ts';
 export { useGetWalletWithTotalBalance } from './selectors/useGetWalletWithTotalBalance.ts';
 export { selectWalletWithTotalBalance } from './selectors/selectWalletWithTotalBalance.ts'; // Legacy!
+export { selectDisplayedWallet } from './selectors/selectDisplayedWallet.ts';
 
 export { selectWalletsList } from './selectors/selectWalletsList.ts';
 export { selectWalletsOrder } from './selectors/selectWalletsOrder.ts';

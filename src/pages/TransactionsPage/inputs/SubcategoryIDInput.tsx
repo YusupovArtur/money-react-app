@@ -4,7 +4,7 @@ import {
   selectCategory,
   selectSubcategoriesList,
   selectSubcategoriesOrder,
-  selectSubcategory,
+  useGetDisplayedSubcategory,
 } from 'store/slices/categoriesSlice';
 import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
 import { IDInput, IDOptionType } from 'pages/TransactionsPage/inputs/components/IDInput.tsx';
@@ -24,33 +24,37 @@ export const SubcategoryIDInput: FC<SubcategoryIDInputProps> = ({
   setSubcategoryID,
   setValidate,
 }) => {
+  // const subcategory = useAppSelector(selectSubcategory({ categoryID, subcategoryID }));
+  const {
+    displayedSubcategory: subcategory,
+    categoryColor,
+    subcategoryColor,
+  } = useGetDisplayedSubcategory({ categoryID, subcategoryID });
   const category = useAppSelector(selectCategory(categoryID));
-  const subcategory = useAppSelector(selectSubcategory({ categoryID, subcategoryID }));
   const subcategoriesList = useAppSelector(selectSubcategoriesList(categoryID));
   const subcategoriesOrder = useAppSelector(selectSubcategoriesOrder(categoryID));
 
   const selectedIconSize = '2.3rem';
   const bodyColor = useAppSelector(selectBodyBackgroundColor);
-  const categoryColor = category ? category.color : bodyColor;
   const topBorderColor = category
     ? category.type === 'expense'
       ? 'danger'
       : category.type === 'income'
-      ? 'success'
-      : 'primary'
+        ? 'success'
+        : 'primary'
     : undefined;
 
   const option: IDOptionType = {
     id: subcategoryID,
-    name: subcategory ? subcategory.name : subcategoryID ? 'Неизвестный счет' : 'Счет не выбран',
-    iconName: subcategory ? subcategory.iconName : subcategoryID ? 'Exclamation' : 'QuestionSmall',
-    color: subcategory ? categoryColor : subcategoryID ? '' : bodyColor,
+    name: subcategory.name,
+    iconName: subcategory.iconName,
+    color: subcategoryColor,
   };
 
   const options: IDOptionType[] =
     subcategoriesOrder && subcategoriesList
       ? [
-          { id: '', name: 'Не выбрана', iconName: 'Question', color: bodyColor },
+          { id: '', name: 'Не выбрана', iconName: 'QuestionSmall', color: bodyColor },
           ...subcategoriesOrder.map((id) => {
             return {
               id,

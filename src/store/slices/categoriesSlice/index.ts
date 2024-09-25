@@ -17,10 +17,12 @@ export { selectCategory } from './selectors/selectCategory.ts';
 export { selectCategoriesList } from './selectors/selectCategoriesList.ts';
 export { selectCategoriesOrder } from './selectors/selectCategoriesOrder.ts';
 export { selectFilteredCategoriesOrder } from './selectors/selectFilteredCategoriesOrder.ts';
+export { useGetDisplayedCategory } from './selectors/useGetDisplayedCategory.ts';
 
 export { selectSubcategory } from './selectors/selectSubcategory.ts';
 export { selectSubcategoriesList } from './selectors/selectSubcategoriesList.ts';
 export { selectSubcategoriesOrder } from './selectors/selectSubcategoriesOrder.ts';
+export { useGetDisplayedSubcategory } from './selectors/useGetDisplayedSubcategory.ts';
 
 // Types
 export type { CategoryType } from './types/CategoryType.ts';
