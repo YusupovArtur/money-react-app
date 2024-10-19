@@ -1,12 +1,15 @@
 import { FC } from 'react';
 import { useAppSelector } from 'store/store.ts';
-import { getStringDate } from 'shared/helpers';
 import { useSearchParams } from 'react-router-dom';
+import { TransactionsTableRow } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTableRow.tsx';
+import './style/transactions-table.scss';
+import { TransactionsTableHead } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTableHead.tsx';
 
 interface TransactionsTableProps {}
 
 export const TransactionsTable: FC<TransactionsTableProps> = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
+  const order = Object.keys(transactions).sort((a, b) => transactions[a].sum - transactions[b].sum);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const handleSetID = (id: string) => {
@@ -14,40 +17,20 @@ export const TransactionsTable: FC<TransactionsTableProps> = () => {
     setSearchParams(searchParams);
   };
 
+  // Time
+  // Sum
+  // Type
+  // Wallet
+  // Category
+  // Subcategory
+
   return (
-    <table className="table table-bordered m-0" style={{ width: '100%', overflowY: 'hidden' }}>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Sum</th>
-          <th>Date</th>
-          <th>From wallet</th>
-          <th>To wallet</th>
-          <th>Category</th>
-          <th>Subcategory</th>
-          <th>Description</th>
-        </tr>
-      </thead>
+    <table className="transactions-table table-hover">
+      <TransactionsTableHead />
       <tbody>
-        {Object.keys(transactions)
-          .sort((a, b) => transactions[a].sum - transactions[b].sum)
-          .map((id) => (
-            <tr
-              key={id}
-              onClick={() => {
-                handleSetID(id);
-              }}
-            >
-              <td>{id}</td>
-              <td>{transactions[id].sum}</td>
-              <td>{getStringDate(new Date(transactions[id].time))}</td>
-              <td>{transactions[id].fromWallet}</td>
-              <td>{transactions[id].toWallet}</td>
-              <td>{transactions[id].category}</td>
-              <td>{transactions[id].subcategory}</td>
-              <td>{transactions[id].description}</td>
-            </tr>
-          ))}
+        {order.map((id) => (
+          <TransactionsTableRow key={id} id={id} transaction={transactions[id]} setTransactionID={handleSetID} />
+        ))}
       </tbody>
     </table>
   );

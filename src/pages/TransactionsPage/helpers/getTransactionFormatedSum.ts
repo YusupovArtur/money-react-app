@@ -5,8 +5,8 @@ export const getTransactionFormatedSum = (transaction: TransactionType): { forma
   const { type, sum } = transaction;
 
   const color = type === 'expense' ? 'text-danger' : type === 'income' ? 'text-success' : '';
-  const sign = type === 'expense' ? 'negative' : 'positive';
-  const formatedSum = getStringCurrencyValue({ value: transaction.sum, sign });
+  const sign = type === 'expense' ? 'negative' : type === 'income' ? 'positive' : undefined;
+  const formatedSum = getStringCurrencyValue({ value: sum, sign });
 
   return { color, formatedSum: formatedSum };
 };

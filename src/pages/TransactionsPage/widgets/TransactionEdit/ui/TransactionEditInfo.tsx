@@ -47,11 +47,21 @@ export const TransactionEditInfo: FC<{ transaction: TransactionType }> = ({ tran
       {type === 'income' && <WalletShortInfo id={toWallet} iconSize={iconSize} />}
       {type === 'transfer' && (
         <div className="d-flex align-items-center w-100">
-          <WalletShortInfo id={fromWallet} iconSize={iconSize} style={{ maxWidth: 'calc(50% - 1.25rem)' }} />
-          <div className="mx-2">
+          <WalletShortInfo
+            id={fromWallet}
+            iconSize={iconSize}
+            className="w-100 flex-fill"
+            style={{ maxWidth: 'calc(50% - 1.25rem)' }}
+          />
+          <div className="flex-grow-0 flex-shrink-1 mx-2 mx-2">
             <ArrowRightIcon iconSize="1.5rem" />
           </div>
-          <WalletShortInfo id={toWallet} iconSize={iconSize} style={{ maxWidth: 'calc(50% - 1.25rem)' }} />
+          <WalletShortInfo
+            id={toWallet}
+            iconSize={iconSize}
+            className="w-100 flex-fill"
+            style={{ maxWidth: 'calc(50% - 1.25rem)' }}
+          />
         </div>
       )}
 
