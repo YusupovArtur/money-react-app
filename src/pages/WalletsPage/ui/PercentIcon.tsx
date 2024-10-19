@@ -1,12 +1,17 @@
 import { FC } from 'react';
 
-export const PercentIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
+interface PercentIconProps {
+  iconSize: `${number}rem`;
+  color?: string;
+}
+
+export const PercentIcon: FC<PercentIconProps> = ({ iconSize, color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={iconSize}
       height={iconSize}
-      fill="currentColor"
+      fill={color || 'currentColor'}
       className="bi bi-percent"
       viewBox="0 0 16 16"
     >

@@ -1,12 +1,17 @@
 import { FC } from 'react';
 
-export const CashStackIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
+interface CashStackIconProps {
+  iconSize: `${number}rem`;
+  color?: string;
+}
+
+export const CashStackIcon: FC<CashStackIconProps> = ({ iconSize, color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={iconSize}
       height={iconSize}
-      fill="currentColor"
+      fill={color || 'currentColor'}
       className="bi bi-cash-stack"
       viewBox="0 0 16 16"
     >

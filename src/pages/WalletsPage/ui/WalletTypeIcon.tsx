@@ -3,27 +3,21 @@ import { WalletType } from 'store/slices/walletsSlice';
 import { CashStackIcon } from './CashStackIcon.tsx';
 import { PercentIcon } from './PercentIcon.tsx';
 import { GraphUpArrowIcon } from './GraphUpArrowIcon.tsx';
+import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
 
-export const WalletTypeIcon: FC<{ type: WalletType['type'] }> = ({ type }) => {
+interface WalletTypeIconProps {
+  type: WalletType['type'];
+  iconSize?: `${number}rem`;
+}
+
+export const WalletTypeIcon: FC<WalletTypeIconProps> = ({ type, iconSize = '1.4rem' }) => {
   switch (type) {
     case 'debit':
-      return (
-        <div className="text-primary">
-          <CashStackIcon iconSize="1.4rem" />
-        </div>
-      );
+      return <CashStackIcon iconSize={iconSize} color={COLOR_NAMES_HEX['blue-500']} />;
     case 'credit':
-      return (
-        <div className="text-danger">
-          <PercentIcon iconSize="1.4rem" />
-        </div>
-      );
+      return <PercentIcon iconSize={iconSize} color={COLOR_NAMES_HEX['red-500']} />;
     case 'investment':
-      return (
-        <div className="text-success">
-          <GraphUpArrowIcon iconSize="1.4rem" />
-        </div>
-      );
+      return <GraphUpArrowIcon iconSize={iconSize} color={COLOR_NAMES_HEX['green-500']} />;
     default:
       return null;
   }

@@ -3,27 +3,21 @@ import { TransactionType } from 'store/slices/transactionsSlice';
 import { ArrowDownRightIcon } from './ArrowDownRightIcon.tsx';
 import { ArrowUpRightIcon } from './ArrowUpRightIcon.tsx';
 import { ArrowLeftRightIcon } from 'shared/icons';
+import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
 
-export const TransactionEntityTypeIcon: FC<{ type: TransactionType['type'] }> = ({ type }) => {
+interface TransactionEntityTypeIconProps {
+  type: TransactionType['type'];
+  iconSize?: `${number}rem`;
+}
+
+export const TransactionEntityTypeIcon: FC<TransactionEntityTypeIconProps> = ({ type, iconSize = '1.4rem' }) => {
   switch (type) {
     case 'expense':
-      return (
-        <div style={{ color: '#dc3545' }}>
-          <ArrowDownRightIcon iconSize="1.4rem" />
-        </div>
-      );
+      return <ArrowDownRightIcon iconSize={iconSize} color={COLOR_NAMES_HEX['red-500']} />;
     case 'income':
-      return (
-        <div style={{ color: '#198754' }}>
-          <ArrowUpRightIcon iconSize="1.4rem" />
-        </div>
-      );
+      return <ArrowUpRightIcon iconSize={iconSize} color={COLOR_NAMES_HEX['green-500']} />;
     case 'transfer':
-      return (
-        <div style={{ color: '#0d6efd' }}>
-          <ArrowLeftRightIcon iconSize="1.4rem" />
-        </div>
-      );
+      return <ArrowLeftRightIcon iconSize={iconSize} color={COLOR_NAMES_HEX['blue-500']} />;
     default:
       return null;
   }

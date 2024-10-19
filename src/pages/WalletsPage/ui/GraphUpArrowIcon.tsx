@@ -1,12 +1,17 @@
 import { FC } from 'react';
 
-export const GraphUpArrowIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
+interface GraphUpArrowIconProps {
+  iconSize: `${number}rem`;
+  color?: string;
+}
+
+export const GraphUpArrowIcon: FC<GraphUpArrowIconProps> = ({ iconSize, color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={iconSize}
       height={iconSize}
-      fill="currentColor"
+      fill={color || 'currentColor'}
       className="bi bi-graph-up-arrow"
       viewBox="0 0 16 16"
     >
