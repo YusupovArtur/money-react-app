@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 // Store imports
 import { ResponseHooksType } from 'store';
-import { useHandleDisabledClick } from 'shared/hooks';
 // UI imports
 import { AlertMessage, ButtonWithIconAndSpinner } from 'shared/ui';
 import { PlusIcon } from 'shared/icons';
@@ -26,14 +25,17 @@ export const InputFormControl: FC<InputFormControlProps> = ({ caption, disabled,
   };
 
   const handleAdd = () => {
+    if (setValidate) {
+      setValidate();
+    }
     onAdd({ setIsLoading, setErrorMessage, onFulfilled });
   };
 
-  const click = useHandleDisabledClick({ disabled, callback: handleAdd });
+  // const click = useHandleDisabledClick({ disabled, callback: handleAdd });
   const handleSetValidate = () => {
     if (setValidate && disabled) {
       setValidate();
-      click();
+      // handleAdd();
     }
   };
 

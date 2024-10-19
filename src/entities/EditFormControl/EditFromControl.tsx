@@ -4,7 +4,6 @@ import { ResponseHooksType } from 'store';
 // UI
 import { AlertMessage, ButtonWithIcon, ButtonWithIconAndSpinner } from 'shared/ui';
 import { CheckIcon, CrossIcon, PencilSquareIcon, TrashFillIcon } from 'shared/icons';
-import { useHandleDisabledClick } from 'shared/hooks';
 
 interface EditFormControlProps {
   disabled?: boolean;
@@ -49,6 +48,9 @@ export const EditFromControl: FC<EditFormControlProps> = ({
 
   const handleUpdate = () => {
     if (isEdit) {
+      if (setValidate) {
+        setValidate();
+      }
       onUpdate({
         setIsLoading: setUpdateIsLoading,
         setErrorMessage: setUpdateErrorMessage,
@@ -59,11 +61,11 @@ export const EditFromControl: FC<EditFormControlProps> = ({
     }
   };
 
-  const click = useHandleDisabledClick({ disabled, callback: handleUpdate });
+  // const click = useHandleDisabledClick({ disabled, callback: handleUpdate });
   const handleSetValidate = () => {
     if (setValidate && disabled && isEdit) {
       setValidate();
-      click();
+      // handleUpdate();
     }
   };
 

@@ -28,19 +28,24 @@ export const useFormValidation = <T,>(props: {
 
   const [fieldValidities, setFieldValidities] = useState<{ [K in keyof T]?: boolean }>({});
   const [fieldFeedbacks, setFieldFeedbacks] = useState<{ [K in keyof T]?: string }>({});
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
     const newFieldValidities: { [K in keyof T]?: boolean | undefined } = {};
     const newFieldFeedbacks: { [K in keyof T]?: string | undefined } = {};
+    let isValidCurrent: boolean = true;
 
     (Object.keys(formData) as Array<keyof T>).forEach((field) => {
       const validator = validators[field];
       if (validator) {
         if (isValidate[field]) {
           const validationResult = validator(formData);
+          isValidCurrent = isValidCurrent && validationResult.isValid;
           newFieldValidities[field] = validationResult.isValid;
           newFieldFeedbacks[field] = validationResult.feedback;
         } else {
+          const validationResult = validator(formData);
+          isValidCurrent = isValidCurrent && validationResult.isValid;
           newFieldValidities[field] = undefined;
           newFieldFeedbacks[field] = undefined;
         }
@@ -49,10 +54,10 @@ export const useFormValidation = <T,>(props: {
         newFieldFeedbacks[field] = undefined;
       }
     });
+    setIsValid(isValidCurrent);
     setFieldValidities(newFieldValidities);
     setFieldFeedbacks(newFieldFeedbacks);
   }, [formData, isValidate, ...extraDeps]);
 
-  const isValid = Object.values(fieldValidities).every(Boolean);
   return { isValid, fieldValidities, fieldFeedbacks };
 };
