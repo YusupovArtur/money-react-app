@@ -1,18 +1,20 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
+import { IconCaptionContainer } from 'shared/containers';
 
 interface ButtonWithIconProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  Icon: ReactNode;
-  buttonsCaption?: string;
-  additionalClassNames?: string;
+  children: ReactNode;
+  caption?: string;
 }
 
-const ButtonWithIcon: FC<ButtonWithIconProps> = ({ Icon, buttonsCaption, additionalClassNames, ...props }) => {
+export const ButtonWithIcon: FC<ButtonWithIconProps> = ({ children, caption, className = '', ...props }) => {
   return (
-    <button className={`btn d-flex justify-content-between align-items-center ${additionalClassNames}`} {...props}>
-      {Icon}
-      {buttonsCaption && <span className="ms-1">{buttonsCaption}</span>}
+    <button
+      type="button"
+      style={{ maxWidth: '100%' }}
+      className={`btn d-flex justify-content-center align-items-center ${className}`}
+      {...props}
+    >
+      <IconCaptionContainer caption={caption}>{children}</IconCaptionContainer>
     </button>
   );
 };
-
-export default ButtonWithIcon;

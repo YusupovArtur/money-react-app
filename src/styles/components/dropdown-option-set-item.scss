@@ -1,0 +1,16 @@
+.dropdown-option-set-item {
+  transition: transform 0.2s;
+  padding: 0.1rem !important;
+
+  &:hover, &.selected {
+    transform: scale(1.1);
+  }
+
+  &:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1) !important;
+  }
+
+  &.selected {
+    border: 2px var(--bs-border-style) var(--border-color-strong) !important;
+  }
+}

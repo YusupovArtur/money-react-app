@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      components: '/src/components_legacy',
+      components_legacy: '/src/components_legacy',
       store: '/src/store',
       styles: '/src/styles',
       shared: '/src/shared',
@@ -15,6 +15,13 @@ export default defineConfig({
       widgets: '/src/widgets',
       pages: '/src/pages',
       app: '/src/app',
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern',
+      },
     },
   },
 });

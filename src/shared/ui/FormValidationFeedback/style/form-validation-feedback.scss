@@ -1,0 +1,9 @@
+.form-validation-feedback {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  width: 100%;
+  font-size: 0.75em;
+  color: var(--bs-form-invalid-color);
+}
