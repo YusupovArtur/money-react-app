@@ -11,4 +11,5 @@ export { selectWalletTransactionsTotal } from './selectors/selectWalletTransacti
 export type { TransactionType } from './types/TransactionType.ts';
 export type { TransactionUpdateType } from './types/TransactionUpdateType.ts';
 export type { TransactionsListType } from './types/TransactionsListType.ts';
+export type { TransactionsOrderedListType } from './types/TransactionsOrderedListType.ts';
 export type { TransactionsStateType } from './types/TransactionsStateType.ts';

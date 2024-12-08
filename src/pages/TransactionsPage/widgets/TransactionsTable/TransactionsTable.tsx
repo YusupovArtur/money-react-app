@@ -1,15 +1,27 @@
-import { FC } from 'react';
-import { useAppSelector } from 'store/store.ts';
+import { FC, useDeferredValue, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+// Store
+import { useAppSelector } from 'store/store.ts';
+// Components
 import { TransactionsTableRow } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTableRow.tsx';
-import './style/transactions-table.scss';
 import { TransactionsTableHead } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTableHead.tsx';
+// Helpers
+import { getSortedTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getSortedTransactionsOrder.ts';
+import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
+// Style
+import './style/transactions-table.scss';
 
 interface TransactionsTableProps {}
 
 export const TransactionsTable: FC<TransactionsTableProps> = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
-  const order = Object.keys(transactions).sort((a, b) => transactions[a].sum - transactions[b].sum);
+  const [sortingOrder, setSortingOrder] = useState<TransactionsSortingOrderType>({ key: 'type', order: 'desc' });
+  const sortingOrderDeferred = useDeferredValue(sortingOrder);
+
+  const orderSorted = getSortedTransactionsOrder({
+    orderedList: { order: Object.keys(transactions), list: transactions },
+    filter: sortingOrderDeferred,
+  });
 
   const [searchParams, setSearchParams] = useSearchParams();
   const handleSetID = (id: string) => {
@@ -26,9 +38,9 @@ export const TransactionsTable: FC<TransactionsTableProps> = () => {
 
   return (
     <table className="transactions-table table-hover">
-      <TransactionsTableHead />
+      <TransactionsTableHead sortingOrder={sortingOrderDeferred} setSortingOrder={setSortingOrder} />
       <tbody>
-        {order.map((id) => (
+        {orderSorted.map((id) => (
           <TransactionsTableRow key={id} id={id} transaction={transactions[id]} setTransactionID={handleSetID} />
         ))}
       </tbody>

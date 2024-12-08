@@ -26,17 +26,17 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
   // Time
   // Icon
   // Sum
-  // Wallet
+  // Wallets
   // Category
   // Subcategory
 
   return (
     <tr onClick={handleSetTransactionID}>
       {/*Time*/}
-      <td style={{ width: '110px', textAlign: 'center' }}>{getStringDate(new Date(time))}</td>
+      <td style={{ textAlign: 'center' }}>{getStringDate(new Date(time))}</td>
 
       {/*Icon*/}
-      <td style={{ width: '38.8px', padding: '7px 5px' }}>
+      <td style={{ padding: '7px 5px' }}>
         <div className="d-flex justify-content-center align-items-center">
           <TransactionEntityTypeIcon type={type} iconSize="1.2rem" />
         </div>
@@ -77,19 +77,6 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
           </td>
         </>
       )}
-      {/*<td>*/}
-      {/*  <div className="d-flex justify-content-center align-items-center">*/}
-      {/*    {type === 'expense' && <WalletShortInfo id={fromWallet}></WalletShortInfo>}*/}
-      {/*    {type === 'income' && <WalletShortInfo id={toWallet}></WalletShortInfo>}*/}
-      {/*    {type === 'transfer' && (*/}
-      {/*      <>*/}
-      {/*        <WalletShortInfo id={fromWallet} className="me-1" />*/}
-      {/*        <ArrowRightIcon iconSize="1rem" />*/}
-      {/*        <WalletShortInfo id={toWallet} className="ms-1" />*/}
-      {/*      </>*/}
-      {/*    )}*/}
-      {/*  </div>*/}
-      {/*</td>*/}
 
       {/*Category*/}
       <td colSpan={2}>

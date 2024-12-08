@@ -14,7 +14,7 @@ export const TransactionsPage: FC = () => {
 
   return (
     <>
-      <PageContentWrapper style={{ maxWidth: '100vw', margin: '0 auto', overflow: 'hidden' }}>
+      <PageContentWrapper style={{ maxWidth: '100vw', margin: '0 auto' }}>
         <TransactionsTable />
       </PageContentWrapper>
 

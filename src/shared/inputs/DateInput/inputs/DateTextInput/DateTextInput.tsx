@@ -49,6 +49,7 @@ export const DateTextInput: FC<DateTextInputProps> = ({ id, dateState, setDateSt
         selectedPart: selectedPartRef.current,
       });
 
+      const currentSelectedPart = selectedPartRef.current;
       if (event.key.match(/\d/g)) {
         if (selectedPartRef.current === 'day' && newDateStateFieldValue >= 4) {
           selectedPartRef.current = 'month';
@@ -58,7 +59,7 @@ export const DateTextInput: FC<DateTextInputProps> = ({ id, dateState, setDateSt
         setDateInputSelection({ dateInputRef, selectedPart: selectedPartRef.current });
       }
 
-      return { ...state, [selectedPartRef.current]: newDateStateFieldValue };
+      return { ...state, [currentSelectedPart]: newDateStateFieldValue };
     });
   };
 
