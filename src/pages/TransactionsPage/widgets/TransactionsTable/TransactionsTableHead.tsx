@@ -1,96 +1,53 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { DropdownContainer } from 'shared/containers';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
-import { TableHeadCellButton } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableHeadCellButton.tsx';
-import { DropdownMenuWrapper } from 'shared/ui';
-import { SortingOrderInput } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/SortingOrderInput.tsx';
+import { TableFilterMenu } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableFilterMenu.tsx';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
+import { TransactionType } from 'store/slices/transactionsSlice';
+import { useAppSelector } from 'store/store.ts';
 
 interface TransactionsTableHeadProps {
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
+  filter: TransactionsFilterType<keyof TransactionType>;
+  setFilterOrder: Dispatch<SetStateAction<TransactionsFilterType<keyof TransactionType>>>;
 }
 
 // @ts-ignore
 export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingOrder, setSortingOrder }) => {
+  const transactionsList = useAppSelector((state) => state.transactions.list);
+  const order = Object.keys(transactionsList);
+
   return (
     <thead>
       <tr>
         {/*Time*/}
         <th style={{ width: '110px', padding: 0 }}>
-          <DropdownContainer
-            isInsideClickClose={false}
-            isModalForMobileDevice={true}
-            DropdownToggle={<TableHeadCellButton caption="Дата" fieldKey="time" sortingOrder={sortingOrder} />}
-            DropdownMenu={
-              <DropdownMenuWrapper style={{ fontWeight: 'normal' }}>
-                <SortingOrderInput fieldKey="time" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
-              </DropdownMenuWrapper>
-            }
-          />
+          <TableFilterMenu fieldKey="time" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} order={order} />
         </th>
 
         {/*Type*/}
         <th style={{ width: '60px', padding: 0 }}>
-          <DropdownContainer
-            isInsideClickClose={false}
-            isModalForMobileDevice={true}
-            DropdownToggle={<TableHeadCellButton caption="Тип" fieldKey="type" sortingOrder={sortingOrder} />}
-            DropdownMenu={
-              <DropdownMenuWrapper style={{ fontWeight: 'normal' }}>
-                <SortingOrderInput fieldKey="type" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
-              </DropdownMenuWrapper>
-            }
-          />
+          <TableFilterMenu fieldKey="type" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} order={order} />
         </th>
 
         {/*Sum*/}
         <th style={{ padding: 0 }}>
-          <DropdownContainer
-            DropdownToggle={<TableHeadCellButton caption="Сумма" fieldKey="sum" sortingOrder={sortingOrder} />}
-            DropdownMenu={
-              <>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-              </>
-            }
-          />
+          <TableFilterMenu fieldKey="sum" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} order={order} />
         </th>
 
         {/*Wallets*/}
         <th colSpan={2} style={{ padding: 0 }}>
-          <DropdownContainer
-            DropdownToggle={<TableHeadCellButton caption="Счета" fieldKey="fromWallet" sortingOrder={sortingOrder} />}
-            DropdownMenu={<div>test</div>}
-          />
+          <TableFilterMenu fieldKey="fromWallet" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} order={order} />
         </th>
 
         {/*Category*/}
         <th colSpan={2} style={{ padding: 0 }}>
-          <DropdownContainer
-            DropdownToggle={<TableHeadCellButton caption="Категория" fieldKey="category" sortingOrder={sortingOrder} />}
-            DropdownMenu={<div>test</div>}
-          />
+          <TableFilterMenu fieldKey="category" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} order={order} />
         </th>
 
         {/*Subcategory*/}
         <th style={{ padding: 0 }}>
-          <DropdownContainer
-            DropdownToggle={<TableHeadCellButton caption="Подкатегория" fieldKey="subcategory" sortingOrder={sortingOrder} />}
-            DropdownMenu={<div>test</div>}
-          />
+          <TableFilterMenu fieldKey="subcategory" sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} order={order} />
         </th>
       </tr>
     </thead>

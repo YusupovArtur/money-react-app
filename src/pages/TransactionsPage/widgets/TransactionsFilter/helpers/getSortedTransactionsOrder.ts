@@ -1,5 +1,5 @@
 import { TransactionsOrderedListType } from 'store/slices/transactionsSlice';
-import { getTransactionFieldSortWeight } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldSortWeight.ts';
+import { getTransactionFieldSortingWeight } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldSortingWeight.ts';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
 
 export const getSortedTransactionsOrder = (props: {
@@ -10,8 +10,8 @@ export const getSortedTransactionsOrder = (props: {
   const { order, list } = orderedList;
 
   return order.toSorted((a, b) => {
-    const valueA = getTransactionFieldSortWeight({ transaction: list[a], key: filter.key });
-    const valueB = getTransactionFieldSortWeight({ transaction: list[b], key: filter.key });
+    const valueA = getTransactionFieldSortingWeight({ transaction: list[a], key: filter.key });
+    const valueB = getTransactionFieldSortingWeight({ transaction: list[b], key: filter.key });
 
     if (typeof valueA === 'number' && typeof valueB === 'number') {
       if (filter.order === 'asc') {

@@ -1,7 +1,7 @@
-@import "api/colors";
-@import "api/buttons";
-@import "api/backgrounds";
-@import "api/borders";
+@use "api/colors";
+@use "api/buttons";
+@use "api/backgrounds";
+@use "api/borders";
 
-@import "components/dropdown-option-set-item";
-@import "components/dropdown-option-list-item";
+@use "components/dropdown-option-set-item";
+@use "components/dropdown-option-list-item";

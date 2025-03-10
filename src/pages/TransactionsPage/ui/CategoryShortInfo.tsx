@@ -5,7 +5,7 @@ import { CategoryType, useGetDisplayedCategory } from 'store/slices/categoriesSl
 
 interface CategoryShortInfoProps extends HTMLProps<HTMLDivElement> {
   id: string;
-  type: CategoryType['type'];
+  type?: CategoryType['type'];
   iconSize?: `${number}rem`;
 }
 

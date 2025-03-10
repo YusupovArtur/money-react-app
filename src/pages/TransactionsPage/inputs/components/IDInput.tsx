@@ -44,15 +44,19 @@ export const IDInput: FC<IDInputProps> = ({
   const topColor = topBorderColor ? `bg-${topBorderColor}` : undefined;
 
   const flag = useRef<boolean>(false);
+  const flagIsWasOpened = useRef<boolean>(false);
   useEffect(() => {
+    if (isOpened) {
+      flagIsWasOpened.current = true;
+    }
+    if (flagIsWasOpened.current && !isOpened) {
+      flag.current = true;
+    }
     if (flag.current && !isOpened) {
       if (setValidate) {
         setValidate();
       }
     }
-    return () => {
-      flag.current = true;
-    };
   }, [isOpened]);
 
   if (emptySelectMessage.isShow) {
