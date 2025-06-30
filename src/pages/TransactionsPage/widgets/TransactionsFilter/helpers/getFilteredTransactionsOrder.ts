@@ -1,6 +1,5 @@
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
-import { selectTransaction, TransactionType } from 'store/slices/transactionsSlice';
-import { store } from 'store';
+import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
 
 const isSet = <T>(value: any): value is Set<T> => {
   return value instanceof Set;
@@ -19,9 +18,10 @@ const isRangeFilter = (value: any): value is RangeType => {
 
 export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(props: {
   order: string[];
+  list: TransactionsListType;
   filter: TransactionsFilterType<T>;
 }): string[] => {
-  const { order, filter } = props;
+  const { order, list, filter } = props;
   const key = filter.key;
 
   if (filter.filter === null) {
@@ -29,31 +29,29 @@ export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(pr
   }
 
   if (isSet(filter.filter)) {
-    const state = store.getState();
     return order.filter((id) => {
-      const transaction = selectTransaction(id)(state);
+      const transaction: TransactionType | undefined = list[id];
       if (!transaction) {
         return false;
       }
 
       if (key === 'fromWallet' || key === 'toWallet') {
-        return (
+        return !(
           (filter.filter as Set<TransactionType['fromWallet']>).has(transaction.fromWallet) ||
           (filter.filter as Set<TransactionType['toWallet']>).has(transaction.toWallet)
         );
       }
 
-      return (filter.filter as Set<TransactionType[T]>).has(transaction[key]);
+      return !(filter.filter as Set<TransactionType[T]>).has(transaction[key]);
     });
   }
 
   if (isRangeFilter(filter.filter) && (key === 'time' || key === 'sum')) {
     const range = filter.filter as RangeType;
-    const state = store.getState();
 
     if (range.min !== null && range.max === null) {
       return order.filter((id) => {
-        const transaction = selectTransaction(id)(state);
+        const transaction: TransactionType | undefined = list[id];
         if (!transaction) {
           return false;
         }
@@ -63,7 +61,7 @@ export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(pr
 
     if (range.min === null && range.max !== null) {
       return order.filter((id) => {
-        const transaction = selectTransaction(id)(state);
+        const transaction: TransactionType | undefined = list[id];
         if (!transaction) {
           return false;
         }
@@ -73,7 +71,7 @@ export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(pr
 
     if (range.min !== null && range.max !== null) {
       return order.filter((id) => {
-        const transaction = selectTransaction(id)(state);
+        const transaction: TransactionType | undefined = list[id];
         if (!transaction) {
           return false;
         }

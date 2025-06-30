@@ -1,16 +1,15 @@
-import { selectTransaction, TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
-import { getTransactionFieldCaptionKey } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldCaptionKey.ts';
-import { store } from 'store/index.ts';
 import { getTransactionFieldSortingWeight } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldSortingWeight.ts';
+import { getTransactionFieldCaptionKey } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldCaptionKey.ts';
+import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
 
 export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
-  key: keyof TransactionType;
+  key: T;
   order: string[];
+  list: TransactionsListType;
   // orderedList: TransactionsOrderedListType;
 }): { options: TransactionType[T][]; optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>> } => {
-  const { order, key } = props;
-  const state = store.getState();
+  const { order, key, list } = props;
 
   const options = new Set<TransactionType[T]>();
   const optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>> = {} as Record<
@@ -20,7 +19,7 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
 
   if (key !== 'toWallet' && key !== 'fromWallet') {
     order.forEach((id) => {
-      const transaction = selectTransaction(id)(state);
+      const transaction: TransactionType | undefined = list[id];
       if (transaction) {
         const field =
           key === 'sum' ? (transaction['type'] === 'expense' ? -transaction['sum'] : transaction['sum']) : transaction[key];
@@ -36,7 +35,7 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
     });
   } else {
     order.forEach((id) => {
-      const transaction = selectTransaction(id)(state);
+      const transaction: TransactionType | undefined = list[id];
       if (transaction) {
         if (transaction.fromWallet !== '' && !options.has(transaction.fromWallet as TransactionType[T])) {
           options.add(transaction['fromWallet'] as TransactionType[T]);
@@ -65,7 +64,7 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
     if (typeof valueA === 'number' && typeof valueB === 'number') {
       return valueB - valueA;
     } else if (typeof valueA === 'string' && typeof valueB === 'string') {
-      return valueB.localeCompare(valueA);
+      return -valueB.localeCompare(valueA);
     }
 
     return 0;

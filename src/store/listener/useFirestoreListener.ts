@@ -55,9 +55,9 @@ export const useFirestoreListener = () => {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      TransactionsListener.subscribe(user);
       WalletsListener.subscribe(user);
       CategoriesListener.subscribe(user);
+      TransactionsListener.subscribe(user);
       dispatch(setUserState(getUserState(user)));
       dispatch(fetchPhotoDataURL({}));
     } else {

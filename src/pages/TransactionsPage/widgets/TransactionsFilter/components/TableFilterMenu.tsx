@@ -1,18 +1,27 @@
-import { Dispatch, FC, SetStateAction } from 'react';
-import { DropdownMenuWrapper } from 'shared/ui';
-import { SortingOrderInput } from './SortingOrderInput.tsx';
-import { TransactionsSortingOrderType } from '../types/TransactionsSortingOrderType.ts';
-import { TransactionType } from 'store/slices/transactionsSlice';
-import { DropdownContainer } from 'shared/containers';
-import { TableHeadCellButton } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableHeadCellButton.tsx';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
+// Helpers
 import { getFilterOptionsList } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getFilterOptionsList.ts';
+// Components
+import { SortingOrderInput } from './SortingOrderInput.tsx';
 import { TableFilterOptionsMenu } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableFilterOptionsMenu.tsx';
+import { TableHeadCellButton } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableHeadCellButton.tsx';
+import { DropdownContainer } from 'shared/containers';
+// UI
+import { DropdownMenuWrapper } from 'shared/ui';
+// Types
+import { TransactionsSortingOrderType } from '../types/TransactionsSortingOrderType.ts';
+import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
+import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsFilter/hooks/useSetFilter.ts';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
 
-interface TableFilterMenuProps {
-  fieldKey: keyof TransactionType;
+interface TableFilterMenuProps<T extends keyof TransactionType> {
+  fieldKey: T;
+  order: string[];
+  list: TransactionsListType;
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
-  order: string[];
+  filter: TransactionsFilterType<keyof TransactionType>;
+  setFilter: FilterDispatcherType<T>;
 }
 
 const captions: Record<keyof TransactionType, string> = {
@@ -26,8 +35,16 @@ const captions: Record<keyof TransactionType, string> = {
   description: 'Описание',
 };
 
-export const TableFilterMenu: FC<TableFilterMenuProps> = ({ fieldKey, sortingOrder, setSortingOrder, order }) => {
-  const options = getFilterOptionsList({ key: fieldKey, order: order });
+export const TableFilterMenu = <T extends keyof TransactionType>({
+  fieldKey,
+  order,
+  list,
+  sortingOrder,
+  setSortingOrder,
+  filter,
+  setFilter,
+}: TableFilterMenuProps<T>): ReactNode => {
+  const options = getFilterOptionsList({ key: fieldKey, order: order, list: list });
 
   return (
     <DropdownContainer
@@ -41,6 +58,8 @@ export const TableFilterMenu: FC<TableFilterMenuProps> = ({ fieldKey, sortingOrd
             fieldKey={fieldKey}
             options={options.options}
             optionKeys={options.optionKeys}
+            filter={filter}
+            setFilter={setFilter}
           ></TableFilterOptionsMenu>
         </DropdownMenuWrapper>
       }

@@ -23,7 +23,7 @@ export const SortingOrderInput: FC<SortingOrderInputProps> = ({ fieldKey, sortin
   };
 
   return (
-    <ButtonWithIcon className="btn-body" caption="Сортировать" onClick={handleSetOrder}>
+    <ButtonWithIcon className="btn btn-body" caption="Сортировать" onClick={handleSetOrder}>
       <SortingIcon fieldKey={fieldKey} sortingOrder={sortingOrder} iconSize="1rem" defaultIcon={true} />
     </ButtonWithIcon>
   );

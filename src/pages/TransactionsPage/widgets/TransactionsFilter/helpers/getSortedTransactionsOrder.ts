@@ -21,9 +21,9 @@ export const getSortedTransactionsOrder = (props: {
       }
     } else if (typeof valueA === 'string' && typeof valueB === 'string') {
       if (filter.order === 'asc') {
-        return valueA.localeCompare(valueB);
+        return -valueA.localeCompare(valueB);
       } else {
-        return valueB.localeCompare(valueA);
+        return -valueB.localeCompare(valueA);
       }
     }
 

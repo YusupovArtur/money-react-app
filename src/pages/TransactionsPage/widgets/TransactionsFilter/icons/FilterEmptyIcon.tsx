@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const FilterIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
+export const FilterEmptyIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

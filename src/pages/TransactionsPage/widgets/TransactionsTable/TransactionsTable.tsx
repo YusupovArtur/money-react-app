@@ -8,10 +8,12 @@ import { TransactionsTableHead } from 'pages/TransactionsPage/widgets/Transactio
 // Helpers
 import { getSortedTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getSortedTransactionsOrder.ts';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
-// Style
-import './style/transactions-table.scss';
+import { getFilteredTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getFilteredTransactionsOrder.ts';
+// Types
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
+// Style
+import './style/transactions-table.scss';
 
 interface TransactionsTableProps {}
 
@@ -19,12 +21,22 @@ export const TransactionsTable: FC<TransactionsTableProps> = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
 
   const [sortingOrder, setSortingOrder] = useState<TransactionsSortingOrderType>({ key: 'time', order: 'desc' });
-  const [filter, setFilter] = useState<TransactionsFilterType<keyof TransactionType>>({ key: 'sum', filter: null });
   const sortingOrderDeferred = useDeferredValue(sortingOrder);
+
+  const [filter, setFilter] = useState<TransactionsFilterType<keyof TransactionType>>({
+    key: 'fromWallet',
+    filter: null,
+  });
   const filterDeferred = useDeferredValue<TransactionsFilterType<keyof TransactionType>>(filter);
 
+  const orderFiltered = getFilteredTransactionsOrder({
+    filter: filterDeferred,
+    list: transactions,
+    order: Object.keys(transactions),
+  });
+
   const orderSorted = getSortedTransactionsOrder({
-    orderedList: { order: Object.keys(transactions), list: transactions },
+    orderedList: { order: orderFiltered, list: transactions },
     filter: sortingOrderDeferred,
   });
 
@@ -44,10 +56,10 @@ export const TransactionsTable: FC<TransactionsTableProps> = () => {
   return (
     <table className="transactions-table table-hover">
       <TransactionsTableHead
-        sortingOrder={sortingOrderDeferred}
+        sortingOrder={sortingOrder}
         setSortingOrder={setSortingOrder}
         filter={filterDeferred}
-        setFilterOrder={setFilter}
+        setFilter={setFilter}
       />
       <tbody>
         {orderSorted.map((id) => (
