@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, HTMLAttributes, InputHTMLAttributes, useEffect, useState } from 'react';
 // Model
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 // Components
@@ -13,15 +13,35 @@ import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 import { CalendarIcon } from 'shared/inputs/DateInput/ui/CalendarIcon.tsx';
 
-interface DateInputProps {
-  id?: string;
+interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'style'> {
   timestamp: number;
   setTimestamp: (timestamp: number) => any;
-  isModalForMobileDevice?: boolean;
-  className?: string;
+  disabled?: boolean;
+
+  isModalDropdownContainerForMobileDevice?: boolean;
+  portalContainerForDropdownContainer?: HTMLElement | null;
+  dropdownContainerZIndex?: number;
+
+  dateInputsDivContainersProps?: HTMLAttributes<HTMLDivElement>;
+  dateTextInputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'style' | 'disabled'> & {
+    style?: Omit<React.CSSProperties, 'fontSize'> & {
+      fontSize?: `${number}rem`;
+    };
+  };
 }
 
-export const DateInput: FC<DateInputProps> = ({ id, timestamp, setTimestamp, isModalForMobileDevice = false, className }) => {
+export const DateInput: FC<DateInputProps> = ({
+  timestamp,
+  setTimestamp,
+  disabled,
+
+  isModalDropdownContainerForMobileDevice = false,
+  portalContainerForDropdownContainer,
+  dropdownContainerZIndex = 3,
+
+  dateInputsDivContainersProps,
+  dateTextInputProps,
+}) => {
   const [dateState, setDateState] = useState<DateStateType>(getDateStateFromTimestamp(timestamp));
 
   useEffect(() => {
@@ -41,40 +61,49 @@ export const DateInput: FC<DateInputProps> = ({ id, timestamp, setTimestamp, isM
   // For text field
   const [isOpenedDatePicker, setIsOpenedDatePicker] = useState<boolean>(false);
 
-  const isMobile = !isModalForMobileDevice ? false : getDeviceType() === 'mobile';
+  const isMobile = !isModalDropdownContainerForMobileDevice ? false : getDeviceType() === 'mobile';
+
+  const iconSize = dateTextInputProps?.style?.fontSize || '1.2rem';
+  const { className: divClassName, ...restDivProps } = dateInputsDivContainersProps || {};
 
   return (
-    <>
-      <div className="d-flex">
-        <DropdownContainer
-          isOpened={isOpenedDatePicker}
-          setIsOpened={setIsOpenedDatePicker}
-          menuAlignment={{ x: 'right', y: 'top' }}
-          isInsideClickClose={false}
-          isModalForMobileDevice={isModalForMobileDevice}
-          DropdownToggle={
-            <ButtonWithIcon
-              style={{ width: '100%', height: '100%' }}
-              className={`btn btn-primary rounded-end-0 ${isOpenedDatePicker ? 'active' : ''}`}
-            >
-              <CalendarIcon iconSize="1.3rem" />
-            </ButtonWithIcon>
-          }
-          DropdownMenu={
-            <DropdownMenuWrapper>
-              <DateInputPicker
-                dateState={dateState}
-                setDateState={setDateState}
-                setIsOpenedDatepicker={setIsOpenedDatePicker}
-                isMobile={isMobile}
-              />
-            </DropdownMenuWrapper>
-          }
-        ></DropdownContainer>
-        <DateTextInput id={id} dateState={dateState} setDateState={setDateState} isMobile={isMobile} className={className} />
-      </div>
-
-      {`${dateState.day}.${dateState.month}.${dateState.year}`}
-    </>
+    <div className={`d-flex ${divClassName || ''}`} {...restDivProps}>
+      <DropdownContainer
+        isOpened={isOpenedDatePicker}
+        setIsOpened={setIsOpenedDatePicker}
+        disabled={disabled}
+        menuAlignment={{ x: 'right', y: 'top' }}
+        isInsideClickClose={false}
+        isModalForMobileDevice={isModalDropdownContainerForMobileDevice}
+        portalContainer={portalContainerForDropdownContainer}
+        zIndex={dropdownContainerZIndex}
+        DropdownToggle={
+          <ButtonWithIcon
+            disabled={disabled}
+            style={{ width: '100%', height: '100%' }}
+            className={`align-self-stretch btn btn-primary rounded-end-0 ${isOpenedDatePicker ? 'active' : ''}`}
+          >
+            <CalendarIcon iconSize={iconSize} />
+          </ButtonWithIcon>
+        }
+        DropdownMenu={
+          <DropdownMenuWrapper>
+            <DateInputPicker
+              dateState={dateState}
+              setDateState={setDateState}
+              setIsOpenedDatepicker={setIsOpenedDatePicker}
+              isMobile={isMobile}
+            />
+          </DropdownMenuWrapper>
+        }
+      ></DropdownContainer>
+      <DateTextInput
+        dateState={dateState}
+        setDateState={setDateState}
+        isMobile={isMobile}
+        disabled={disabled}
+        {...dateTextInputProps}
+      />
+    </div>
   );
 };

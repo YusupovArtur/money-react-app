@@ -4,12 +4,12 @@ import { TransactionsListType, TransactionType } from 'store/slices/transactions
 import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
 
 export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
-  key: T;
+  fieldKey: T;
   order: string[];
   list: TransactionsListType;
   // orderedList: TransactionsOrderedListType;
 }): { options: TransactionType[T][]; optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>> } => {
-  const { order, key, list } = props;
+  const { order, fieldKey, list } = props;
 
   const options = new Set<TransactionType[T]>();
   const optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>> = {} as Record<
@@ -17,17 +17,21 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
     TransactionFieldCaptionKeyType<T>
   >;
 
-  if (key !== 'toWallet' && key !== 'fromWallet') {
+  if (fieldKey !== 'toWallet' && fieldKey !== 'fromWallet') {
     order.forEach((id) => {
       const transaction: TransactionType | undefined = list[id];
       if (transaction) {
         const field =
-          key === 'sum' ? (transaction['type'] === 'expense' ? -transaction['sum'] : transaction['sum']) : transaction[key];
+          fieldKey === 'sum'
+            ? transaction['type'] === 'expense'
+              ? -transaction['sum']
+              : transaction['sum']
+            : transaction[fieldKey];
 
         if (!options.has(field as TransactionType[T])) {
           options.add(field as TransactionType[T]);
           optionKeys[field as TransactionType[T]] = getTransactionFieldCaptionKey({
-            key,
+            fieldKey: fieldKey,
             transaction,
           }) as TransactionFieldCaptionKeyType<T>;
         }
@@ -40,7 +44,7 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
         if (transaction.fromWallet !== '' && !options.has(transaction.fromWallet as TransactionType[T])) {
           options.add(transaction['fromWallet'] as TransactionType[T]);
           optionKeys[transaction['fromWallet'] as TransactionType[T]] = getTransactionFieldCaptionKey({
-            key: 'fromWallet',
+            fieldKey: 'fromWallet',
             transaction: transaction,
           }) as TransactionFieldCaptionKeyType<T>;
         }
@@ -48,7 +52,7 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
         if (transaction.toWallet !== '' && !options.has(transaction.toWallet as TransactionType[T])) {
           options.add(transaction['toWallet'] as TransactionType[T]);
           optionKeys[transaction['toWallet'] as TransactionType[T]] = getTransactionFieldCaptionKey({
-            key: 'toWallet',
+            fieldKey: 'toWallet',
             transaction: transaction,
           }) as TransactionFieldCaptionKeyType<T>;
         }
@@ -58,8 +62,8 @@ export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
 
   const optionsArray = Array.from(options);
   const filteredOptionsArray = optionsArray.sort((a, b) => {
-    const valueA = getTransactionFieldSortingWeight({ key, transactionFieldCaptionKey: optionKeys[a] });
-    const valueB = getTransactionFieldSortingWeight({ key, transactionFieldCaptionKey: optionKeys[b] });
+    const valueA = getTransactionFieldSortingWeight({ fieldKey: fieldKey, transactionFieldCaptionKey: optionKeys[a] });
+    const valueB = getTransactionFieldSortingWeight({ fieldKey: fieldKey, transactionFieldCaptionKey: optionKeys[b] });
 
     if (typeof valueA === 'number' && typeof valueB === 'number') {
       return valueB - valueA;

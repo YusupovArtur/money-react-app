@@ -1,14 +1,20 @@
-import { ChangeEvent, ReactNode, useId } from 'react';
+import { ChangeEvent, ReactNode, useEffect, useId, useState } from 'react';
 // Components
-import { TransactionsFilterMenuOption } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TransactionsFilterMenuOption.tsx';
-import { ButtonWithIcon } from 'shared/ui';
+import { DateInput, NumberInput } from 'shared/inputs';
+import { TransactionsFilterMenuOption } from './TransactionsFilterMenuOption.tsx';
+import { ButtonWithIcon, EntityFieldLabel } from 'shared/ui';
+// Helpers
+import { isSubset } from 'shared/helpers';
+import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getCurrentFilter.ts';
+import { getUndefinedFilterOptionsSet } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getUndefinedFilterOptionsSet.ts';
+import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/isRangeFilterObject.ts';
+import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getRangeFilterFromFilter.ts';
 // UI
-import { FilterEmptyIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/FilterEmptyIcon.tsx';
-import { FilterFillIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/FilterFillIcon.tsx';
+import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/FilterIcon.tsx';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsFilter/hooks/useSetFilter.ts';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
+import { RangeFilterType, TransactionsFilterType } from '../types/TransactionsFilterType.ts';
 import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType';
 
 interface TableFilterOptionsMenuProps<T extends keyof TransactionType> {
@@ -17,6 +23,7 @@ interface TableFilterOptionsMenuProps<T extends keyof TransactionType> {
   optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>>;
   filter: TransactionsFilterType<keyof TransactionType>;
   setFilter: FilterDispatcherType<T>;
+  portalContainerForInternalDropdowns?: HTMLElement | null;
 }
 
 export const TableFilterOptionsMenu = <T extends keyof TransactionType>({
@@ -25,87 +32,121 @@ export const TableFilterOptionsMenu = <T extends keyof TransactionType>({
   optionKeys,
   filter,
   setFilter,
+  portalContainerForInternalDropdowns,
 }: TableFilterOptionsMenuProps<T>): ReactNode => {
-  const currentFilter: TransactionsFilterType<keyof TransactionType> =
-    filter.key === fieldKey
-      ? filter
-      : {
-          key: fieldKey,
-          filter: null,
-        };
+  const currentFilter = getCurrentFilter({ fieldKey: fieldKey, filter: filter });
 
-  const allChecked =
-    currentFilter.filter === null ? true : currentFilter.filter instanceof Set ? currentFilter.filter.size === 0 : true;
+  const allChecked = currentFilter.filter === null || (currentFilter.filter instanceof Set && currentFilter.filter.size === 0);
+  const rangeInputDisabled = currentFilter.filter instanceof Set && currentFilter.filter.size > 0;
+  const optionsInputDisabled =
+    isRangeFilterObject(currentFilter.filter) && (!isNaN(currentFilter.filter.min) || !isNaN(currentFilter.filter.max));
 
-  const checkAllHtmlForId = useId();
+  // Undefined options logics
+  const undefinedOptionsSet = getUndefinedFilterOptionsSet({ fieldKey, options, optionKeys });
+  const undefinedChecked =
+    currentFilter.filter === null ||
+    (currentFilter.filter instanceof Set && !isSubset(currentFilter.filter, undefinedOptionsSet));
 
-  // const deleteFilterHandler = (): void => {
-  //   setFilter({ key: 'type', filter: null });
-  // };
-  //
-  // const clearFilterHandler = (event: ChangeEvent<HTMLInputElement>): void => {
-  //   setFilter((state): TransactionsFilterType<T> => {
-  //     if (state.key === fieldKey) {
-  //       if (event.target.checked) {
-  //         return { key: fieldKey, filter: null as any };
-  //       } else {
-  //         return { key: fieldKey, filter: new Set(options) as any };
-  //       }
-  //     } else {
-  //       return { key: fieldKey, filter: new Set(options) as any };
-  //     }
-  //   });
-  // };
-  //
-  // const handlerOptionChange = (option: TransactionType[T]) => (event: ChangeEvent<HTMLInputElement>) => {
-  //   const checked = event.target.checked;
-  //
-  //   setFilter((state): TransactionsFilterType<T> => {
-  //     if (state.key !== fieldKey || !(state.filter instanceof Set)) {
-  //       if (!checked) {
-  //         return { key: fieldKey, filter: new Set<TransactionType[T]>([option]) as any };
-  //       } else {
-  //         return { key: fieldKey, filter: null as any };
-  //       }
-  //     }
-  //
-  //     console.log(state);
-  //     const newSet = new Set<TransactionType[T]>(state.filter as Set<TransactionType[T]>);
-  //     if (checked) {
-  //       newSet.delete(option);
-  //     } else {
-  //       newSet.add(option);
-  //     }
-  //
-  //     return { key: fieldKey, filter: newSet as any };
-  //   });
-  // };
-
+  // Menu handlers
   const deleteFilterHandler = () => {
     setFilter({ type: 'delete' });
   };
-
   const clearFilterHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      setFilter({ type: 'setAll' });
+      setFilter({ type: 'delete' });
     } else {
       setFilter({ type: 'setNone', options: options });
     }
   };
+  const optionChangeHandler =
+    (option: TransactionType[T] | Set<TransactionType[T]>) => (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        setFilter({ type: 'add', option: option });
+      } else {
+        setFilter({ type: 'remove', option: option });
+      }
+    };
 
-  const optionChangeHandler = (option: TransactionType[T]) => (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setFilter({ type: 'add', option: option });
-    } else {
-      setFilter({ type: 'remove', option: option });
-    }
+  // Range filter logics
+  const [rangeFilter, setRangeFilter] = useState<RangeFilterType>(getRangeFilterFromFilter({ fieldKey, filter }));
+  const setRangeFilterHandler = (field: 'min' | 'max') => (value: number) => {
+    setRangeFilter((state) => ({ ...state, [field]: value }));
   };
+  useEffect(() => {
+    if (!isNaN(rangeFilter.min) || !isNaN(rangeFilter.max)) {
+      setFilter({ type: 'range', option: rangeFilter });
+    } else {
+      if (isRangeFilterObject(currentFilter.filter)) {
+        setFilter({ type: 'delete' });
+      }
+    }
+  }, [rangeFilter.min, rangeFilter.max]);
+  useEffect(() => {
+    const currentFilter = getCurrentFilter({ fieldKey, filter });
+    if (currentFilter.filter === null || currentFilter.filter instanceof Set) {
+      setRangeFilter({ min: NaN, max: NaN });
+    }
+  }, [filter]);
 
+  const rangeInputId1 = useId();
+  const rangeInputId2 = useId();
+  const checkAllInputId = useId();
+  const checkUndefinedOptionsInputId = useId();
   return (
     <>
       <ButtonWithIcon className="btn btn-body mt-3 mb-1" caption="Удалить фильтр" onClick={deleteFilterHandler}>
-        {currentFilter.filter !== null ? <FilterFillIcon iconSize="1rem" /> : <FilterEmptyIcon iconSize="1rem" />}
+        <FilterIcon fieldKey={fieldKey} filter={filter} iconSize="1rem" defaultIcon={true} />
       </ButtonWithIcon>
+
+      {fieldKey === 'time' && (
+        <>
+          <EntityFieldLabel className="align-self-start mx-1">До</EntityFieldLabel>
+          <DateInput
+            timestamp={rangeFilter.max}
+            setTimestamp={setRangeFilterHandler('max')}
+            isModalDropdownContainerForMobileDevice={true}
+            disabled={rangeInputDisabled}
+            dateTextInputProps={{ id: rangeInputId1, style: { fontSize: '1rem' } }}
+            portalContainerForDropdownContainer={portalContainerForInternalDropdowns}
+            dropdownContainerZIndex={4}
+          />
+          <EntityFieldLabel className="align-self-start mx-1">От</EntityFieldLabel>
+          <DateInput
+            timestamp={rangeFilter.min}
+            setTimestamp={setRangeFilterHandler('min')}
+            isModalDropdownContainerForMobileDevice={true}
+            disabled={rangeInputDisabled}
+            dateTextInputProps={{ id: rangeInputId2, style: { fontSize: '1rem' } }}
+            dateInputsDivContainersProps={{ className: 'mb-2' }}
+            portalContainerForDropdownContainer={portalContainerForInternalDropdowns}
+            dropdownContainerZIndex={4}
+          />
+        </>
+      )}
+
+      {fieldKey === 'sum' && (
+        <>
+          <EntityFieldLabel className="align-self-start mx-1">До</EntityFieldLabel>
+          <NumberInput
+            id={rangeInputId1}
+            number={rangeFilter.max}
+            setNumber={setRangeFilterHandler('max')}
+            isCanSetNaN={true}
+            disabled={rangeInputDisabled}
+            style={{ fontSize: '0.9rem' }}
+          />
+          <EntityFieldLabel className="align-self-start mx-1">От</EntityFieldLabel>
+          <NumberInput
+            id={rangeInputId2}
+            number={rangeFilter.min}
+            setNumber={setRangeFilterHandler('min')}
+            isCanSetNaN={true}
+            disabled={rangeInputDisabled}
+            style={{ fontSize: '0.9rem' }}
+            className="mb-2"
+          />
+        </>
+      )}
 
       <div className="form-check mb-1">
         <input
@@ -113,38 +154,59 @@ export const TableFilterOptionsMenu = <T extends keyof TransactionType>({
           type="checkbox"
           checked={allChecked}
           onChange={clearFilterHandler}
-          id={checkAllHtmlForId}
+          id={checkAllInputId}
         />
-        <label className="form-check-label flex-grow-1 w-100 fw-bold" htmlFor={checkAllHtmlForId}>
+        <label className="form-check-label flex-grow-1 w-100 fw-bold" htmlFor={checkAllInputId}>
           Выбрать все
         </label>
       </div>
 
       {options.map((option, index) => {
-        const key = option.toString() + index.toString();
+        if (!undefinedOptionsSet.has(option)) {
+          const key = fieldKey + index.toString() + option.toString();
+          const checked =
+            currentFilter.filter === null
+              ? true
+              : currentFilter.filter instanceof Set
+                ? !(currentFilter.filter as Set<any>).has(option)
+                : true;
 
-        const checked =
-          currentFilter.filter === null
-            ? true
-            : currentFilter.filter instanceof Set
-              ? !(currentFilter.filter as Set<any>).has(option)
-              : true;
-
-        return (
-          <div className="form-check" key={key}>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              checked={checked}
-              onChange={optionChangeHandler(option)}
-              id={key}
-            />
-            <label className="form-check-label flex-grow-1 w-100" htmlFor={key}>
-              <TransactionsFilterMenuOption fieldKey={fieldKey} optionKey={optionKeys[option]}></TransactionsFilterMenuOption>
-            </label>
-          </div>
-        );
+          return (
+            <div className="form-check" key={key}>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={optionChangeHandler(option)}
+                disabled={optionsInputDisabled}
+                id={key}
+                className="form-check-input"
+              />
+              <label className="form-check-label flex-grow-1 w-100" htmlFor={key}>
+                <TransactionsFilterMenuOption fieldKey={fieldKey} optionKey={optionKeys[option]}></TransactionsFilterMenuOption>
+              </label>
+            </div>
+          );
+        }
       })}
+
+      {undefinedOptionsSet.size > 0 && (
+        <div className="form-check" key={checkUndefinedOptionsInputId}>
+          <input
+            type="checkbox"
+            checked={undefinedChecked}
+            onChange={optionChangeHandler(undefinedOptionsSet)}
+            id={checkUndefinedOptionsInputId}
+            disabled={optionsInputDisabled}
+            className="form-check-input"
+          />
+          <label className="form-check-label flex-grow-1 w-100" htmlFor={checkUndefinedOptionsInputId}>
+            <TransactionsFilterMenuOption
+              fieldKey={fieldKey}
+              optionKey={optionKeys[undefinedOptionsSet.values().next().value as TransactionType[T]]}
+            ></TransactionsFilterMenuOption>
+          </label>
+        </div>
+      )}
     </>
   );
 };

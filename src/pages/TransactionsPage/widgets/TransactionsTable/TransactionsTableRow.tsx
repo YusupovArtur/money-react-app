@@ -1,12 +1,17 @@
 import { FC } from 'react';
-import { TransactionType } from 'store/slices/transactionsSlice';
+// Helpers
 import { getStringDate } from 'shared/helpers';
 import { getTransactionFormatedSum } from 'pages/TransactionsPage/helpers/getTransactionFormatedSum.ts';
-import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+// UI
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
 import { CategoryShortInfo } from 'pages/TransactionsPage/ui/CategoryShortInfo.tsx';
 import { SubcategoryShortInfo } from 'pages/TransactionsPage/ui/SubcategoryShortInfo.tsx';
 import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
+import { useMediaQuery } from 'shared/hooks';
+import { MEDIUM_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/constants/MEDIA_QUERY_CONSTANTS.ts';
+import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+// Types
+import { TransactionType } from 'store/slices/transactionsSlice';
 
 interface TransactionsTableRowProps {
   id: string;
@@ -21,6 +26,7 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
     setTransactionID(id);
   };
 
+  const isMedium = useMediaQuery(MEDIUM_WINDOW_MEDIA_QUERY);
   const { formatedSum, color } = getTransactionFormatedSum(transaction);
 
   // Time
@@ -86,11 +92,13 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
       </td>
 
       {/*Subcategory*/}
-      <td>
-        <div className="d-flex justify-content-start">
-          <SubcategoryShortInfo categoryID={category} subcategoryID={subcategory} type={type} />
-        </div>
-      </td>
+      {!isMedium && (
+        <td>
+          <div className="d-flex justify-content-start">
+            <SubcategoryShortInfo categoryID={category} subcategoryID={subcategory} type={type} />
+          </div>
+        </td>
+      )}
     </tr>
   );
 };

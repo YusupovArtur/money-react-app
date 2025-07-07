@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
+import { RangeFilterType, TransactionsFilterType } from '../types/TransactionsFilterType.ts';
 
 export interface FilterDispatcherType<T extends keyof TransactionType> {
   (command: FilterDispatcherCommandType<T>): void;
@@ -10,8 +10,9 @@ type FilterDispatcherCommandType<T extends keyof TransactionType> =
   | { type: 'delete' }
   | { type: 'setAll' }
   | { type: 'setNone'; options: TransactionType[T][] }
-  | { type: 'add'; option: TransactionType[T] }
-  | { type: 'remove'; option: TransactionType[T] };
+  | { type: 'add'; option: TransactionType[T] | Set<TransactionType[T]> }
+  | { type: 'remove'; option: TransactionType[T] | Set<TransactionType[T]> }
+  | { type: 'range'; option: RangeFilterType };
 
 const isSet = <T>(value: unknown): value is Set<T> => {
   return value instanceof Set;
@@ -41,12 +42,27 @@ export const useSetFilter = <T extends keyof TransactionType>(props: {
           return { key: fieldKey, filter: new Set(command.options) as any };
 
         case 'add':
-          currentSet.delete(command.option);
+          if (!(command.option instanceof Set)) {
+            currentSet.delete(command.option);
+          } else {
+            command.option.forEach((option) => {
+              currentSet.delete(option);
+            });
+          }
           return { key: fieldKey, filter: currentSet as any };
 
         case 'remove':
-          currentSet.add(command.option);
+          if (!(command.option instanceof Set)) {
+            currentSet.add(command.option);
+          } else {
+            command.option.forEach((option) => {
+              currentSet.add(option);
+            });
+          }
           return { key: fieldKey, filter: currentSet as any };
+
+        case 'range':
+          return { key: fieldKey, filter: command.option };
 
         default:
           return state;

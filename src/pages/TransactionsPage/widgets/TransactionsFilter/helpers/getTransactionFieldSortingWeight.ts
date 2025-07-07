@@ -7,10 +7,10 @@ import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/T
 type TransactionSortWeightType<T extends keyof TransactionType> = T extends 'time' | 'sum' | 'type' ? number : string;
 
 interface GetTransactionFieldSortingWeightSignatures {
-  <T extends keyof TransactionType>(props: { key: T; transaction: TransactionType }): TransactionSortWeightType<T>;
+  <T extends keyof TransactionType>(props: { fieldKey: T; transaction: TransactionType }): TransactionSortWeightType<T>;
 
   <T extends keyof TransactionType>(props: {
-    key: T;
+    fieldKey: T;
     transactionFieldCaptionKey: TransactionFieldCaptionKeyType<T>;
   }): TransactionSortWeightType<T>;
 }
@@ -58,16 +58,16 @@ const getWeightFromSubcategory = (props: { categoryID: string; subcategoryID: st
 export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightSignatures = <
   T extends keyof TransactionType,
 >(props: {
-  key: T;
+  fieldKey: T;
   transaction?: TransactionType;
   transactionFieldCaptionKey?: TransactionFieldCaptionKeyType<T>;
 }): TransactionSortWeightType<T> => {
-  const { transaction, transactionFieldCaptionKey, key } = props;
+  const { transaction, transactionFieldCaptionKey, fieldKey } = props;
 
   // Time or Description
-  if (key === 'time' || key === 'description') {
+  if (fieldKey === 'time' || fieldKey === 'description') {
     if (transaction) {
-      return transaction[key] as TransactionSortWeightType<T>;
+      return transaction[fieldKey] as TransactionSortWeightType<T>;
     }
     if (transactionFieldCaptionKey) {
       return transactionFieldCaptionKey as TransactionSortWeightType<T>;
@@ -75,7 +75,7 @@ export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightS
   }
 
   // Sum
-  if (key === 'sum') {
+  if (fieldKey === 'sum') {
     if (transaction) {
       return getWeightFromSum({ type: transaction.type, sum: transaction.sum }) as TransactionSortWeightType<T>;
     }
@@ -88,7 +88,7 @@ export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightS
   }
 
   // Type
-  if (key === 'type') {
+  if (fieldKey === 'type') {
     if (transaction) {
       return getWeightFromType(transaction.type) as TransactionSortWeightType<T>;
     }
@@ -100,7 +100,7 @@ export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightS
   }
 
   // Wallets
-  if (key === 'fromWallet' || key === 'toWallet') {
+  if (fieldKey === 'fromWallet' || fieldKey === 'toWallet') {
     if (transaction) {
       const fromWalletName = getWeightFromWallet(transaction.fromWallet);
       const toWalletName = getWeightFromWallet(transaction.toWallet);
@@ -123,7 +123,7 @@ export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightS
   }
 
   // Category
-  if (key === 'category') {
+  if (fieldKey === 'category') {
     if (transaction) {
       return getWeightFromCategory(transaction.category) as TransactionSortWeightType<T>;
     }
@@ -135,7 +135,7 @@ export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightS
   }
 
   // Subcategory
-  if (key === 'subcategory') {
+  if (fieldKey === 'subcategory') {
     if (transaction) {
       return getWeightFromSubcategory({
         categoryID: transaction.category,

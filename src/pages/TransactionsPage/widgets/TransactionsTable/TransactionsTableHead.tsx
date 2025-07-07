@@ -1,14 +1,16 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Store
-import { useAppSelector } from 'store/store.ts';
 // Components
-import { TableFilterMenu } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableFilterMenu.tsx';
+import { TableSortingFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableSortingFilteringMenu.tsx';
 // Helpers
 import { useSetFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/hooks/useSetFilter.ts';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
+// UI
+import { useMediaQuery } from 'shared/hooks';
+import { MEDIUM_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/constants/MEDIA_QUERY_CONSTANTS.ts';
 
 interface TransactionsTableHeadProps {
   sortingOrder: TransactionsSortingOrderType;
@@ -18,18 +20,15 @@ interface TransactionsTableHeadProps {
 }
 
 export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingOrder, setSortingOrder, filter, setFilter }) => {
-  const transactionsList = useAppSelector((state) => state.transactions.list);
-  const order = Object.keys(transactionsList);
+  const isMedium = useMediaQuery(MEDIUM_WINDOW_MEDIA_QUERY);
 
   return (
     <thead>
       <tr>
         {/*Time*/}
         <th style={{ width: '110px', padding: 0 }}>
-          <TableFilterMenu
+          <TableSortingFilteringMenu
             fieldKey="time"
-            order={order}
-            list={transactionsList}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
@@ -39,10 +38,8 @@ export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingO
 
         {/*Type*/}
         <th style={{ width: '60px', padding: 0 }}>
-          <TableFilterMenu
+          <TableSortingFilteringMenu
             fieldKey="type"
-            order={order}
-            list={transactionsList}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
@@ -52,10 +49,8 @@ export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingO
 
         {/*Sum*/}
         <th style={{ padding: 0 }}>
-          <TableFilterMenu
+          <TableSortingFilteringMenu
             fieldKey="sum"
-            order={order}
-            list={transactionsList}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
@@ -65,10 +60,8 @@ export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingO
 
         {/*Wallets*/}
         <th colSpan={2} style={{ padding: 0 }}>
-          <TableFilterMenu
+          <TableSortingFilteringMenu
             fieldKey="fromWallet"
-            order={order}
-            list={transactionsList}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
@@ -78,10 +71,8 @@ export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingO
 
         {/*Category*/}
         <th colSpan={2} style={{ padding: 0 }}>
-          <TableFilterMenu
+          <TableSortingFilteringMenu
             fieldKey="category"
-            order={order}
-            list={transactionsList}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
@@ -90,17 +81,17 @@ export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingO
         </th>
 
         {/*Subcategory*/}
-        <th style={{ padding: 0 }}>
-          <TableFilterMenu
-            fieldKey="subcategory"
-            order={order}
-            list={transactionsList}
-            sortingOrder={sortingOrder}
-            setSortingOrder={setSortingOrder}
-            filter={filter}
-            setFilter={useSetFilter({ fieldKey: 'subcategory', setFilter: setFilter })}
-          />
-        </th>
+        {!isMedium && (
+          <th style={{ padding: 0 }}>
+            <TableSortingFilteringMenu
+              fieldKey="subcategory"
+              sortingOrder={sortingOrder}
+              setSortingOrder={setSortingOrder}
+              filter={filter}
+              setFilter={useSetFilter({ fieldKey: 'subcategory', setFilter: setFilter })}
+            />
+          </th>
+        )}
       </tr>
     </thead>
   );

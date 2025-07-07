@@ -4,7 +4,6 @@ export const useMediaQuery = (query: string): boolean => {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    // Установка начального состояния
     const mediaQuery = window.matchMedia(query);
     setMatches(mediaQuery.matches);
 

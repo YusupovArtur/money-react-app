@@ -10,7 +10,8 @@ import { getTodayTimestamp } from 'shared/helpers';
 
 export const MainPage: FC = () => {
   const [dateInputValue, setDateInputValue] = useState<string>('');
-  const [value, setValue] = useState(0);
+  const [value1, setValue1] = useState(0);
+  const [value2, setValue2] = useState(0);
   const [color, setColor] = useState<string>('#000000');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -233,7 +234,13 @@ export const MainPage: FC = () => {
           }
         ></DropdownContainer>
       </div>
-      <NumberInput number={value} setNumber={(number: number) => setValue(number)}></NumberInput>
+
+      <NumberInput number={value1} setNumber={(number: number) => setValue1(number)} isCanSetNaN={true}></NumberInput>
+      {value1}
+
+      <NumberInput number={value2} setNumber={(number: number) => setValue2(number)} isCanSetNaN={false}></NumberInput>
+      {value2}
+
       <ColorHexInput colorHex={color} setColorHex={setColor} />
       <ButtonWithIconAndSpinner
         caption="Submit"

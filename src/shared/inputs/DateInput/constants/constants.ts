@@ -3,7 +3,7 @@ export const DATE_PICKER_CELL_SIZE: number = 2.5; // em
 export const MIN_YEAR = 1980;
 export const MAX_YEAR = 1980 + Math.ceil((2060 - MIN_YEAR + 1) / 4) * 4 - 1;
 
-export const MONTH_SHORT_NAMES: string[] = ['Янв', 'Фев', 'Мар', 'Апр', 'май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+export const MONTH_SHORT_NAMES: string[] = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
 export const MONTH_ABBREVIATED_NAMES: string[] = [
   'Янв.',
   'Фев.',

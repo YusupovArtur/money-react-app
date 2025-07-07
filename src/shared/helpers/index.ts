@@ -1,4 +1,6 @@
 export { deepEqual } from './deepEqual/deepEqual.ts';
+export { isSubset } from './isSubset/isSubset.ts';
+export { isNumbersEqual } from './isNumbersEqual/isNumbersEqual.ts';
 
 export { getDeviceType } from './getDeviceType/getDeviceType.ts';
 export { getStringCurrencyValue } from './getStringBalance/getStringCurrencyValue.ts';

@@ -10,8 +10,8 @@ export const getSortedTransactionsOrder = (props: {
   const { order, list } = orderedList;
 
   return order.toSorted((a, b) => {
-    const valueA = getTransactionFieldSortingWeight({ transaction: list[a], key: filter.key });
-    const valueB = getTransactionFieldSortingWeight({ transaction: list[b], key: filter.key });
+    const valueA = getTransactionFieldSortingWeight({ transaction: list[a], fieldKey: filter.key });
+    const valueB = getTransactionFieldSortingWeight({ transaction: list[b], fieldKey: filter.key });
 
     if (typeof valueA === 'number' && typeof valueB === 'number') {
       if (filter.order === 'asc') {

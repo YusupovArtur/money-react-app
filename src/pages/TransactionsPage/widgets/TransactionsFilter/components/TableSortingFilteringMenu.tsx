@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 // Helpers
 import { getFilterOptionsList } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getFilterOptionsList.ts';
 // Components
@@ -10,14 +10,13 @@ import { DropdownContainer } from 'shared/containers';
 import { DropdownMenuWrapper } from 'shared/ui';
 // Types
 import { TransactionsSortingOrderType } from '../types/TransactionsSortingOrderType.ts';
-import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
+import { TransactionType } from 'store/slices/transactionsSlice';
 import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsFilter/hooks/useSetFilter.ts';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
+import { useAppSelector } from 'store/store.ts';
 
-interface TableFilterMenuProps<T extends keyof TransactionType> {
+interface TableSortingFilteringMenuProps<T extends keyof TransactionType> {
   fieldKey: T;
-  order: string[];
-  list: TransactionsListType;
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
   filter: TransactionsFilterType<keyof TransactionType>;
@@ -35,22 +34,33 @@ const captions: Record<keyof TransactionType, string> = {
   description: 'Описание',
 };
 
-export const TableFilterMenu = <T extends keyof TransactionType>({
+export const TableSortingFilteringMenu = <T extends keyof TransactionType>({
   fieldKey,
-  order,
-  list,
   sortingOrder,
   setSortingOrder,
   filter,
   setFilter,
-}: TableFilterMenuProps<T>): ReactNode => {
-  const options = getFilterOptionsList({ key: fieldKey, order: order, list: list });
+}: TableSortingFilteringMenuProps<T>): ReactNode => {
+  const list = useAppSelector((state) => state.transactions.list);
+  const order = Object.keys(list);
+  const options = getFilterOptionsList({ fieldKey: fieldKey, order: order, list: list });
+
+  const divRef = useRef<HTMLDivElement>(null);
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    if (divRef.current) {
+      setPortalContainer(divRef.current);
+    }
+  }, []);
 
   return (
     <DropdownContainer
       isInsideClickClose={false}
       isModalForMobileDevice={true}
-      DropdownToggle={<TableHeadCellButton caption={captions[fieldKey]} fieldKey={fieldKey} sortingOrder={sortingOrder} />}
+      toggleRef={divRef}
+      DropdownToggle={
+        <TableHeadCellButton caption={captions[fieldKey]} fieldKey={fieldKey} sortingOrder={sortingOrder} filter={filter} />
+      }
       DropdownMenu={
         <DropdownMenuWrapper style={{ fontWeight: 'normal' }}>
           <SortingOrderInput fieldKey={fieldKey} sortingOrder={sortingOrder} setSortingOrder={setSortingOrder} />
@@ -60,6 +70,7 @@ export const TableFilterMenu = <T extends keyof TransactionType>({
             optionKeys={options.optionKeys}
             filter={filter}
             setFilter={setFilter}
+            portalContainerForInternalDropdowns={portalContainer}
           ></TableFilterOptionsMenu>
         </DropdownMenuWrapper>
       }

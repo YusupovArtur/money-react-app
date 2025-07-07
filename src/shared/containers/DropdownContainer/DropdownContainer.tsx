@@ -1,4 +1,4 @@
-import { CSSProperties, FC, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { CSSProperties, FC, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 // Containers
 import { ModalContainer } from 'shared/containers';
 // Hooks
@@ -6,19 +6,25 @@ import { useClickOutside, useThrottledCallback } from 'shared/hooks';
 // Helpers
 import { MenuAlignmentType } from './types/MenuAlignmentType';
 import { getMenuAlignmentStyle } from './helpers/getMenuAlignmentStyle';
-import { getPositionedMenuAlignment } from './helpers/getPositionedMenuAlignment';
+import { getPositionedMenuAlignment } from './helpers/getPositionedMenuAlignmentType.ts';
 import { getDeviceType } from 'shared/helpers';
+import { createPortal } from 'react-dom';
 
 interface BaseDropdownContainerProps {
   DropdownToggle: ReactNode;
   DropdownMenu: ReactNode;
 
+  disabled?: boolean;
   isInsideClickClose?: boolean;
   isOutsideClickClose?: boolean;
 
   menuAlignment?: MenuAlignmentType;
   zIndex?: number;
   isModalForMobileDevice?: boolean;
+  portalContainer?: HTMLElement | null;
+
+  toggleRef?: React.RefObject<HTMLDivElement>;
+  menuRef?: React.RefObject<HTMLDivElement>;
 }
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
@@ -39,6 +45,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   isOpened: outerIsOpened,
   setIsOpened: outerSetIsOpened,
+  disabled,
 
   isInsideClickClose = true,
   isOutsideClickClose = true,
@@ -46,18 +53,23 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   menuAlignment = { y: 'bottom', x: 'right' },
   zIndex = 3,
   isModalForMobileDevice = false,
+  portalContainer,
+  toggleRef: innerToggleRef,
+  menuRef: innerMenuRef,
 }) => {
   const [isOpened, setIsOpened] =
     outerIsOpened !== undefined && outerSetIsOpened ? [outerIsOpened, outerSetIsOpened] : useState<boolean>(false);
 
-  const toggleRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = innerToggleRef || useRef<HTMLDivElement>(null);
+  const menuRef = innerMenuRef || useRef<HTMLDivElement>(null);
 
-  const [menuAlignmentStyle, setMenuAlignmentStyle] = useState<CSSProperties>(getMenuAlignmentStyle(menuAlignment));
-  const deviceType = isModalForMobileDevice ? getDeviceType() : 'desktop';
+  const [menuAlignmentStyle, setMenuAlignmentStyle] = useState<CSSProperties>(
+    getMenuAlignmentStyle({ menuAlignment: menuAlignment, menuRef, toggleRef }),
+  );
+  const deviceType: 'mobile' | 'desktop' = isModalForMobileDevice ? getDeviceType() : 'desktop';
 
   const handleToggleClick = () => {
-    setIsOpened(!isOpened);
+    if (!disabled) setIsOpened(!isOpened);
   };
 
   const handleMenuClick = () => {
@@ -75,7 +87,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   const throttledHandleScroll = useThrottledCallback(() => {
     if (toggleRef && menuRef && toggleRef.current && menuRef.current) {
       const { alignment, maxHeight } = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
-      const alignmentStyle = getMenuAlignmentStyle(alignment);
+      const alignmentStyle = getMenuAlignmentStyle({ menuAlignment: alignment, menuRef, toggleRef });
       setMenuAlignmentStyle({ ...alignmentStyle, maxHeight });
     }
   }, 100);
@@ -85,7 +97,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   useLayoutEffect(() => {
     if (isOpened) {
       const { alignment, maxHeight } = getPositionedMenuAlignment({ toggleRef, menuRef, menuAlignment });
-      const alignmentStyle = getMenuAlignmentStyle(alignment);
+      const alignmentStyle = getMenuAlignmentStyle({ menuAlignment: alignment, menuRef, toggleRef });
       setMenuAlignmentStyle({ ...alignmentStyle, maxHeight });
     }
   }, [isOpened, DropdownMenu]);
@@ -102,20 +114,30 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   }, []);
 
   return (
-    <div style={{ position: 'relative' }}>
-      <div ref={toggleRef} onClick={handleToggleClick} style={{ width: '100%', height: '100%' }}>
+    <>
+      <div ref={toggleRef} onClick={handleToggleClick}>
         {DropdownToggle}
       </div>
 
-      {isOpened && deviceType === 'desktop' && (
-        <div
-          ref={menuRef}
-          onClick={handleMenuClick}
-          style={{ position: 'absolute', zIndex, overflowY: 'auto', ...menuAlignmentStyle }}
-        >
-          {DropdownMenu}
-        </div>
-      )}
+      {isOpened &&
+        deviceType === 'desktop' &&
+        createPortal(
+          <div
+            ref={menuRef}
+            onClick={handleMenuClick}
+            style={{
+              width: 'fit-content',
+              height: 'fit-content',
+              position: 'absolute',
+              zIndex: zIndex,
+              overflowY: 'auto',
+              ...menuAlignmentStyle,
+            }}
+          >
+            {DropdownMenu}
+          </div>,
+          portalContainer ? portalContainer : document.body,
+        )}
 
       {isOpened && deviceType === 'mobile' && (
         <ModalContainer
@@ -128,6 +150,6 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
           {DropdownMenu}
         </ModalContainer>
       )}
-    </div>
+    </>
   );
 };

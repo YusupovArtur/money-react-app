@@ -1,6 +1,12 @@
-export const getNumberFromText = (numberString: string): number => {
+export const getNumberFromText = (props: { numberString: string; isCanSetNaN?: boolean }): number => {
+  const { numberString, isCanSetNaN } = props;
+
   if (!numberString || numberString === '-' || numberString === '.' || numberString === '-.') {
-    return 0;
+    if (isCanSetNaN) {
+      return NaN;
+    } else {
+      return 0;
+    }
   } else {
     return parseFloat(numberString);
   }

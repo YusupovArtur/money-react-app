@@ -89,11 +89,11 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
       <div className="position-relative mb-3">
         <FormLabel htmlFor={dateInputID}>Дата</FormLabel>
         <DateInput
-          id={dateInputID}
           timestamp={formData.time}
           setTimestamp={(timestamp: number) => setFormData((state) => ({ ...state, time: timestamp }))}
-          isModalForMobileDevice={true}
+          isModalDropdownContainerForMobileDevice={true}
           className={getValidityClassName(fieldValidities.time)}
+          dateTextInputProps={{ id: dateInputID }}
         ></DateInput>
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.time} />
       </div>

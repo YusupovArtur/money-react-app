@@ -1,19 +1,18 @@
 import { MutableRefObject } from 'react';
 import { MenuAlignmentType } from '../types/MenuAlignmentType';
 
-interface getPositionedMenuAlignmentProps {
+type GetPositionedMenuAlignmentType = (props: {
+  menuAlignment: MenuAlignmentType;
   toggleRef: MutableRefObject<HTMLSpanElement | null>;
   menuRef: MutableRefObject<HTMLSpanElement | null>;
-  menuAlignment: MenuAlignmentType;
-}
-
-export const getPositionedMenuAlignment = (
-  props: getPositionedMenuAlignmentProps,
-): {
+}) => {
   alignment: MenuAlignmentType;
   maxHeight?: number;
-} => {
+};
+
+export const getPositionedMenuAlignment: GetPositionedMenuAlignmentType = (props) => {
   const { toggleRef, menuRef, menuAlignment } = props;
+
   if (toggleRef.current && menuRef.current && window.visualViewport) {
     const alignment: MenuAlignmentType = { ...menuAlignment };
 

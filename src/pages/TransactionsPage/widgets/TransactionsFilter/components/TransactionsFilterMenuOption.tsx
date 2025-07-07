@@ -51,7 +51,7 @@ export const TransactionsFilterMenuOption = <T extends keyof TransactionType>({
 
   // Categories
   if (fieldKey === 'category') {
-    return <CategoryShortInfo id={optionKey as TransactionFieldCaptionKeyType<'category'>} />;
+    return <CategoryShortInfo id={optionKey as TransactionFieldCaptionKeyType<'category'>} type={'transfer'} />;
   }
 
   // Subcategories

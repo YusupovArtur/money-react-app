@@ -1,21 +1,32 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, MutableRefObject } from 'react';
 import { MenuAlignmentType } from '../types/MenuAlignmentType';
 
-export const getMenuAlignmentStyle = (props: MenuAlignmentType): CSSProperties => {
-  const { x, y } = props;
+type GetMenuAlignmentStyleType = (props: {
+  menuAlignment: MenuAlignmentType;
+  toggleRef: MutableRefObject<HTMLSpanElement | null>;
+  menuRef: MutableRefObject<HTMLSpanElement | null>;
+}) => CSSProperties;
 
+export const getMenuAlignmentStyle: GetMenuAlignmentStyleType = (props) => {
+  const { x, y } = props.menuAlignment;
+  const { toggleRef, menuRef } = props;
   const style: CSSProperties = {};
 
-  if (y === 'bottom') {
-    style.top = '100%';
-  } else {
-    style.bottom = '100%';
-  }
+  if (toggleRef.current && menuRef.current) {
+    const toggleRect = toggleRef.current.getBoundingClientRect();
+    const menuRect = menuRef.current.getBoundingClientRect();
 
-  if (x === 'left') {
-    style.right = '0%';
-  } else {
-    style.left = '0%';
+    if (y === 'bottom') {
+      style.top = toggleRect.bottom;
+    } else {
+      style.top = toggleRect.top - menuRect.height;
+    }
+
+    if (x === 'left') {
+      style.left = toggleRect.right - menuRect.width;
+    } else {
+      style.left = toggleRect.left;
+    }
   }
 
   return style;
