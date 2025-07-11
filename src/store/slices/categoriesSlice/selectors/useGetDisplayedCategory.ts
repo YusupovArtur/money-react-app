@@ -11,11 +11,12 @@ const defaultProps = {
 export const useGetDisplayedCategory = (props: {
   id: string | null;
   type?: CategoryType['type'];
+  isDefaultIconForTransferTypeCategory?: boolean;
 }): {
   displayedCategory: CategoryType;
   categoryForUseEffect: CategoryType | undefined;
 } => {
-  const { id, type } = props;
+  const { id, type, isDefaultIconForTransferTypeCategory } = props;
   const category = useAppSelector(selectCategory(id));
   const bodyColor = useAppSelector(selectBodyBackgroundColor);
 
@@ -37,8 +38,8 @@ export const useGetDisplayedCategory = (props: {
 
   return {
     displayedCategory: {
-      name: 'Категория не выбрана',
-      iconName: type === 'transfer' ? 'QuestionSmall' : 'Question',
+      name: isDefaultIconForTransferTypeCategory ? 'Перевод' : 'Категория не выбрана',
+      iconName: type === 'transfer' ? (isDefaultIconForTransferTypeCategory ? 'ArrowLeftRight' : 'QuestionSmall') : 'Question',
       color: type === 'transfer' ? bodyColor : '',
       ...defaultProps,
     },

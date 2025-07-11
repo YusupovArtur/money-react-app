@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, InputHTMLAttributes, useEffect, useState } from 'react';
+import React, { FC, HTMLAttributes, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 // Model
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 // Components
@@ -44,6 +44,8 @@ export const DateInput: FC<DateInputProps> = ({
 }) => {
   const [dateState, setDateState] = useState<DateStateType>(getDateStateFromTimestamp(timestamp));
 
+  const dateTextInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     setTimestamp(getTimestampFromDateState(dateState));
   }, [dateState]);
@@ -72,11 +74,13 @@ export const DateInput: FC<DateInputProps> = ({
         isOpened={isOpenedDatePicker}
         setIsOpened={setIsOpenedDatePicker}
         disabled={disabled}
-        menuAlignment={{ x: 'right', y: 'top' }}
-        isInsideClickClose={false}
-        isModalForMobileDevice={isModalDropdownContainerForMobileDevice}
+        isModalDropdownContainerForMobileDevice={isModalDropdownContainerForMobileDevice}
         portalContainer={portalContainerForDropdownContainer}
+        isInsideClickClose={false}
+        menuAlignment={{ x: 'right', y: 'top' }}
         zIndex={dropdownContainerZIndex}
+        dropdownDivContainerProps={{ style: { width: undefined, height: undefined } }}
+        additionalRefsForClickOutsideIgnore={[dateTextInputRef]}
         DropdownToggle={
           <ButtonWithIcon
             disabled={disabled}
@@ -102,6 +106,8 @@ export const DateInput: FC<DateInputProps> = ({
         setDateState={setDateState}
         isMobile={isMobile}
         disabled={disabled}
+        setIsOpenedDatePicker={setIsOpenedDatePicker}
+        dateTextInputRef={dateTextInputRef}
         {...dateTextInputProps}
       />
     </div>

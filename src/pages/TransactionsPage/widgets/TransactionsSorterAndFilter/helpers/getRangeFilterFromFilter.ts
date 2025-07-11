@@ -1,7 +1,10 @@
-import { RangeFilterType, TransactionsFilterType } from '../types/TransactionsFilterType.ts';
+import {
+  RangeFilterType,
+  TransactionsFilterType,
+} from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getCurrentFilter.ts';
-import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/isRangeFilterObject.ts';
+import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getCurrentFilter.ts';
+import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/isRangeFilterObject.ts';
 
 export const getRangeFilterFromFilter = (props: {
   fieldKey: keyof TransactionType;

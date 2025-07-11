@@ -78,7 +78,8 @@ export const IDInput: FC<IDInputProps> = ({
         isOpened={isOpened}
         setIsOpened={setIsOpened}
         menuAlignment={{ x: 'right', y: 'bottom' }}
-        isModalForMobileDevice={true}
+        isModalDropdownContainerForMobileDevice={true}
+        dropdownDivContainerProps={{ style: { maxWidth: '100%', maxHeight: '100%' } }}
         DropdownToggle={
           <button
             style={{ maxWidth: '100%', padding: '0.15rem 0.25rem', ...style }}

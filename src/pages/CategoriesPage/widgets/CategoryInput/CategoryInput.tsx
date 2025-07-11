@@ -35,8 +35,8 @@ export const CategoryInput: FC<CategoryInputProps> = ({ isOpened, setIsOpened })
     setFormData(defaultData);
     setIsValidate({ name: false, type: true });
   };
-  const onClose = (isOpened: boolean) => {
-    setIsOpened(isOpened);
+  const onClose = (value: boolean | ((prev: boolean) => boolean)) => {
+    setIsOpened(value);
     onClear();
   };
 

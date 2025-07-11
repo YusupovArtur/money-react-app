@@ -19,7 +19,7 @@ export const ColorHexInput: FC<ColorInputProps> = ({ colorHex, setColorHex, id, 
 
       <DropdownContainer
         menuAlignment={{ x: 'right', y: 'bottom' }}
-        isModalForMobileDevice={true}
+        isModalDropdownContainerForMobileDevice={true}
         DropdownToggle={
           <button
             type="button"

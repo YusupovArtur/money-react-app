@@ -5,19 +5,22 @@ import { TransactionsFilterMenuOption } from './TransactionsFilterMenuOption.tsx
 import { ButtonWithIcon, EntityFieldLabel } from 'shared/ui';
 // Helpers
 import { isSubset } from 'shared/helpers';
-import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getCurrentFilter.ts';
-import { getUndefinedFilterOptionsSet } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getUndefinedFilterOptionsSet.ts';
-import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/isRangeFilterObject.ts';
-import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getRangeFilterFromFilter.ts';
+import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getCurrentFilter.ts';
+import { getUndefinedFilterOptionsSet } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getUndefinedFilterOptionsSet.ts';
+import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/isRangeFilterObject.ts';
+import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getRangeFilterFromFilter.ts';
 // UI
-import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/FilterIcon.tsx';
+import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsFilter/hooks/useSetFilter.ts';
-import { RangeFilterType, TransactionsFilterType } from '../types/TransactionsFilterType.ts';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType';
+import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter.ts';
+import {
+  RangeFilterType,
+  TransactionsFilterType,
+} from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 
-interface TableFilterOptionsMenuProps<T extends keyof TransactionType> {
+interface TransactionsTableFilteringMenuProps<T extends keyof TransactionType> {
   fieldKey: T;
   options: TransactionType[T][];
   optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>>;
@@ -26,14 +29,14 @@ interface TableFilterOptionsMenuProps<T extends keyof TransactionType> {
   portalContainerForInternalDropdowns?: HTMLElement | null;
 }
 
-export const TableFilterOptionsMenu = <T extends keyof TransactionType>({
+export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>({
   fieldKey,
   options,
   optionKeys,
   filter,
   setFilter,
   portalContainerForInternalDropdowns,
-}: TableFilterOptionsMenuProps<T>): ReactNode => {
+}: TransactionsTableFilteringMenuProps<T>): ReactNode => {
   const currentFilter = getCurrentFilter({ fieldKey: fieldKey, filter: filter });
 
   const allChecked = currentFilter.filter === null || (currentFilter.filter instanceof Set && currentFilter.filter.size === 0);
@@ -95,7 +98,7 @@ export const TableFilterOptionsMenu = <T extends keyof TransactionType>({
   return (
     <>
       <ButtonWithIcon className="btn btn-body mt-3 mb-1" caption="Удалить фильтр" onClick={deleteFilterHandler}>
-        <FilterIcon fieldKey={fieldKey} filter={filter} iconSize="1rem" defaultIcon={true} />
+        <FilterIcon fieldKey={fieldKey} filter={filter} iconSize="1rem" isIconForDeleteFilterButton={true} />
       </ButtonWithIcon>
 
       {fieldKey === 'time' && (

@@ -28,8 +28,8 @@ export const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isOpen
     setFormData(defaultData);
     setIsValidate({ name: false });
   };
-  const onClose = (isOpened: boolean) => {
-    setIsOpened(isOpened);
+  const onClose = (value: boolean | ((prev: boolean) => boolean)) => {
+    setIsOpened(value);
     onClear();
   };
 

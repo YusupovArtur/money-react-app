@@ -1,17 +1,20 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
+import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
 import { ButtonWithIcon } from 'shared/ui';
-import { SortingIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/SortingIcon.tsx';
+import { SortingIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/SortingIcon.tsx';
 
-interface SortingOrderInputProps {
+interface TransactionsTableSortingMenuProps {
   fieldKey: keyof TransactionType;
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
 }
 
-// @ts-ignore
-export const SortingOrderInput: FC<SortingOrderInputProps> = ({ fieldKey, sortingOrder, setSortingOrder }) => {
+export const TransactionsTableSortingMenu: FC<TransactionsTableSortingMenuProps> = ({
+  fieldKey,
+  sortingOrder,
+  setSortingOrder,
+}) => {
   const handleSetOrder = () => {
     if (sortingOrder.key !== fieldKey) {
       setSortingOrder({ key: fieldKey, order: 'desc' });
@@ -24,7 +27,7 @@ export const SortingOrderInput: FC<SortingOrderInputProps> = ({ fieldKey, sortin
 
   return (
     <ButtonWithIcon className="btn btn-body" caption="Сортировать" onClick={handleSetOrder}>
-      <SortingIcon fieldKey={fieldKey} sortingOrder={sortingOrder} iconSize="1rem" defaultIcon={true} />
+      <SortingIcon fieldKey={fieldKey} sortingOrder={sortingOrder} iconSize="1rem" isIconForSetSortingOrderButton={true} />
     </ButtonWithIcon>
   );
 };

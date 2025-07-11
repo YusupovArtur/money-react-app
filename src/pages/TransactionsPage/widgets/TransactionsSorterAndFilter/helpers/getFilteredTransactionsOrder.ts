@@ -1,7 +1,7 @@
-import { TransactionsFilterType } from '../types/TransactionsFilterType.ts';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
-import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/isRangeFilterObject.ts';
-import { getFormattedRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getFormattedRangeFilterObject.ts';
+import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/isRangeFilterObject.ts';
+import { getFormattedRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFormattedRangeFilterObject.ts';
 
 const isSet = <T>(value: any): value is Set<T> => {
   return value instanceof Set;

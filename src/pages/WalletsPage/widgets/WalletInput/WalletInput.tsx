@@ -37,9 +37,9 @@ export const WalletInput: FC<WalletInputProps> = ({ isOpened, setIsOpened }) => 
     setIsValidate({ name: false, type: true, balance: false });
     setFormData(defaultData);
   };
-  const onClose = (isOpened: boolean) => {
+  const onClose = (value: boolean | ((prev: boolean) => boolean)) => {
     onClear();
-    setIsOpened(isOpened);
+    setIsOpened(value);
   };
 
   // Validation

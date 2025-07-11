@@ -8,7 +8,7 @@ export const MODAL_CONTAINER_ANIMATION_DURATION = 150;
 interface ModalContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   isOpened: boolean;
-  onCollapse?: (isOpened: boolean) => any;
+  onCollapse?: (value: boolean | ((prev: boolean) => boolean)) => any;
   zIndex?: number;
   animated?: boolean;
 }

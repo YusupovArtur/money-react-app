@@ -20,16 +20,18 @@ interface BaseDropdownContainerProps {
 
   menuAlignment?: MenuAlignmentType;
   zIndex?: number;
-  isModalForMobileDevice?: boolean;
+  dropdownDivContainerProps?: { style?: CSSProperties; className?: string };
+  isModalDropdownContainerForMobileDevice?: boolean;
   portalContainer?: HTMLElement | null;
 
   toggleRef?: React.RefObject<HTMLDivElement>;
   menuRef?: React.RefObject<HTMLDivElement>;
+  additionalRefsForClickOutsideIgnore?: React.RefObject<HTMLElement>[];
 }
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
   isOpened: boolean;
-  setIsOpened: (isOpened: boolean) => any;
+  setIsOpened: (value: boolean | ((prev: boolean) => boolean)) => any;
 }
 
 interface WithoutStateDropdownContainerProps extends BaseDropdownContainerProps {
@@ -52,10 +54,12 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   menuAlignment = { y: 'bottom', x: 'right' },
   zIndex = 3,
-  isModalForMobileDevice = false,
+  dropdownDivContainerProps,
+  isModalDropdownContainerForMobileDevice = false,
   portalContainer,
   toggleRef: innerToggleRef,
   menuRef: innerMenuRef,
+  additionalRefsForClickOutsideIgnore,
 }) => {
   const [isOpened, setIsOpened] =
     outerIsOpened !== undefined && outerSetIsOpened ? [outerIsOpened, outerSetIsOpened] : useState<boolean>(false);
@@ -66,10 +70,10 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   const [menuAlignmentStyle, setMenuAlignmentStyle] = useState<CSSProperties>(
     getMenuAlignmentStyle({ menuAlignment: menuAlignment, menuRef, toggleRef }),
   );
-  const deviceType: 'mobile' | 'desktop' = isModalForMobileDevice ? getDeviceType() : 'desktop';
+  const deviceType: 'mobile' | 'desktop' = isModalDropdownContainerForMobileDevice ? getDeviceType() : 'desktop';
 
   const handleToggleClick = () => {
-    if (!disabled) setIsOpened(!isOpened);
+    if (!disabled) setIsOpened((state) => !state);
   };
 
   const handleMenuClick = () => {
@@ -92,7 +96,10 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
     }
   }, 100);
 
-  useClickOutside({ elementRef: [toggleRef, menuRef], onClickOutside: handleOutsideClick });
+  useClickOutside({
+    elementRef: [toggleRef, menuRef, ...(additionalRefsForClickOutsideIgnore ?? [])],
+    onClickOutside: handleOutsideClick,
+  });
 
   useLayoutEffect(() => {
     if (isOpened) {
@@ -100,7 +107,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
       const alignmentStyle = getMenuAlignmentStyle({ menuAlignment: alignment, menuRef, toggleRef });
       setMenuAlignmentStyle({ ...alignmentStyle, maxHeight });
     }
-  }, [isOpened, DropdownMenu]);
+  }, [isOpened, DropdownMenu, toggleRef.current, menuRef.current]);
 
   useEffect(() => {
     window.addEventListener('scroll', throttledHandleScroll);
@@ -115,7 +122,12 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   return (
     <>
-      <div ref={toggleRef} onClick={handleToggleClick}>
+      <div
+        ref={toggleRef}
+        onClick={handleToggleClick}
+        style={{ width: 'fit-content', height: 'fit-content', ...dropdownDivContainerProps?.style }}
+        className={dropdownDivContainerProps?.className}
+      >
         {DropdownToggle}
       </div>
 

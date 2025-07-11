@@ -2,7 +2,7 @@ import { store } from 'store/index.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { selectCategory, selectSubcategory } from 'store/slices/categoriesSlice';
 import { selectWallet } from 'store/slices/walletsSlice';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 
 type TransactionSortWeightType<T extends keyof TransactionType> = T extends 'time' | 'sum' | 'type' ? number : string;
 

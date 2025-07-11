@@ -1,4 +1,4 @@
-import { RangeFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
+import { RangeFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 
 export const getFormattedRangeFilterObject = (obj: RangeFilterType): RangeFilterType => {
   const formattedObj = { min: NaN, max: NaN };

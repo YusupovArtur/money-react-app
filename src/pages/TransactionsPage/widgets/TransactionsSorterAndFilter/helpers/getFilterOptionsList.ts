@@ -1,7 +1,7 @@
-import { getTransactionFieldSortingWeight } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldSortingWeight.ts';
-import { getTransactionFieldCaptionKey } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldCaptionKey.ts';
+import { getTransactionFieldSortingWeight } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getTransactionFieldSortingWeight.ts';
+import { getTransactionFieldCaptionKey } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getTransactionFieldCaptionKey.ts';
 import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 
 export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
   fieldKey: T;

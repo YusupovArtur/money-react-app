@@ -1,12 +1,13 @@
 import { FC } from 'react';
 
-export const FilterFillIcon: FC<{ iconSize: `${number}rem` }> = ({ iconSize }) => {
+export const FilterFillIcon: FC<{ iconSize: `${number}rem`; color?: string }> = ({ iconSize, color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={iconSize}
       height={iconSize}
       fill="currentColor"
+      color={color}
       className="bi bi-funnel-fill"
       viewBox="0 0 16 16"
     >

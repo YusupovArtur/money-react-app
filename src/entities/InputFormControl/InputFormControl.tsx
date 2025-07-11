@@ -10,7 +10,7 @@ interface InputFormControlProps {
   disabled?: boolean;
   setValidate?: () => any;
 
-  setIsOpened: (isOpened: boolean) => any;
+  setIsOpened: (value: boolean | ((prev: boolean) => boolean)) => any;
   onAdd: (statusHooks: ResponseHooksType) => any;
   onClear: () => any;
 }

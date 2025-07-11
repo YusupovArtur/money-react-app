@@ -84,7 +84,7 @@ export const TransactionEditInfo: FC<{ transaction: TransactionType }> = ({ tran
       {description && (
         <>
           <EntityFieldLabel className="mt-3">Описание</EntityFieldLabel>
-          <EntityFieldValue>{description}</EntityFieldValue>
+          <EntityFieldValue style={{ fontWeight: 400 }}>{description}</EntityFieldValue>
         </>
       )}
     </div>

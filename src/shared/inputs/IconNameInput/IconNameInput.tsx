@@ -40,7 +40,7 @@ export const IconNameInput: FC<IconNameInputProps> = ({
       <input id={id} type="text" value={iconName || ''} readOnly={true} style={{ display: 'none' }} />
 
       <DropdownContainer
-        isModalForMobileDevice={true}
+        isModalDropdownContainerForMobileDevice={true}
         menuAlignment={{ x: 'right', y: 'bottom' }}
         DropdownToggle={
           <ButtonWithIcon className="dropdown-toggle btn-body-tertiary">

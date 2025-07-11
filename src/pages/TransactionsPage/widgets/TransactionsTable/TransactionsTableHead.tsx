@@ -1,16 +1,17 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 // Store
 // Components
-import { TableSortingFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsFilter/components/TableSortingFilteringMenu.tsx';
+import { TransactionsTableSortingFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsTableSortingFilteringMenu.tsx';
 // Helpers
-import { useSetFilter } from 'pages/TransactionsPage/widgets/TransactionsFilter/hooks/useSetFilter.ts';
+import { useSetFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter.ts';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
-import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
 // UI
 import { useMediaQuery } from 'shared/hooks';
-import { MEDIUM_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/constants/MEDIA_QUERY_CONSTANTS.ts';
+import { MEDIUM_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/widgets/TransactionsTable/constants/MEDIA_QUERY_CONSTANTS.ts';
+import { TRANSACTION_TABLE_PROPORTIONS } from 'pages/TransactionsPage/widgets/TransactionsTable/constants/TRANSACTION_TABLE_PROPORTIONS.ts';
 
 interface TransactionsTableHeadProps {
   sortingOrder: TransactionsSortingOrderType;
@@ -26,69 +27,72 @@ export const TransactionsTableHead: FC<TransactionsTableHeadProps> = ({ sortingO
     <thead>
       <tr>
         {/*Time*/}
-        <th style={{ width: '110px', padding: 0 }}>
-          <TableSortingFilteringMenu
+        <th style={{ width: TRANSACTION_TABLE_PROPORTIONS.timeWidth, padding: 0 }}>
+          <TransactionsTableSortingFilteringMenu
             fieldKey="time"
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
-            setFilter={useSetFilter({ fieldKey: 'time', setFilter: setFilter })}
+            setFilterDispatcher={useSetFilter({ fieldKey: 'time', setFilter: setFilter })}
           />
         </th>
 
         {/*Type*/}
-        <th style={{ width: '60px', padding: 0 }}>
-          <TableSortingFilteringMenu
+        <th style={{ width: TRANSACTION_TABLE_PROPORTIONS.typeWidth, padding: 0 }}>
+          <TransactionsTableSortingFilteringMenu
             fieldKey="type"
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
-            setFilter={useSetFilter({ fieldKey: 'type', setFilter: setFilter })}
+            setFilterDispatcher={useSetFilter({ fieldKey: 'type', setFilter: setFilter })}
           />
         </th>
 
         {/*Sum*/}
-        <th style={{ padding: 0 }}>
-          <TableSortingFilteringMenu
+        <th
+          colSpan={TRANSACTION_TABLE_PROPORTIONS.sumColSpan}
+          style={{ width: TRANSACTION_TABLE_PROPORTIONS.sumWidth, padding: 0 }}
+        >
+          <TransactionsTableSortingFilteringMenu
             fieldKey="sum"
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
-            setFilter={useSetFilter({ fieldKey: 'sum', setFilter: setFilter })}
+            setFilterDispatcher={useSetFilter({ fieldKey: 'sum', setFilter: setFilter })}
           />
         </th>
 
         {/*Wallets*/}
-        <th colSpan={2} style={{ padding: 0 }}>
-          <TableSortingFilteringMenu
+        <th colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan} style={{ padding: 0 }}>
+          <TransactionsTableSortingFilteringMenu
             fieldKey="fromWallet"
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
-            setFilter={useSetFilter({ fieldKey: 'fromWallet', setFilter: setFilter })}
+            setFilterDispatcher={useSetFilter({ fieldKey: 'fromWallet', setFilter: setFilter })}
           />
         </th>
 
         {/*Category*/}
-        <th colSpan={2} style={{ padding: 0 }}>
-          <TableSortingFilteringMenu
+        <th colSpan={TRANSACTION_TABLE_PROPORTIONS.categoryColSpan} style={{ padding: 0 }}>
+          <TransactionsTableSortingFilteringMenu
             fieldKey="category"
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
             filter={filter}
-            setFilter={useSetFilter({ fieldKey: 'category', setFilter: setFilter })}
+            setFilterDispatcher={useSetFilter({ fieldKey: 'category', setFilter: setFilter })}
           />
         </th>
 
         {/*Subcategory*/}
         {!isMedium && (
-          <th style={{ padding: 0 }}>
-            <TableSortingFilteringMenu
+          <th colSpan={TRANSACTION_TABLE_PROPORTIONS.subcategoryColSpan} style={{ padding: 0 }}>
+            <TransactionsTableSortingFilteringMenu
               fieldKey="subcategory"
               sortingOrder={sortingOrder}
               setSortingOrder={setSortingOrder}
               filter={filter}
-              setFilter={useSetFilter({ fieldKey: 'subcategory', setFilter: setFilter })}
+              setFilterDispatcher={useSetFilter({ fieldKey: 'subcategory', setFilter: setFilter })}
             />
           </th>
         )}

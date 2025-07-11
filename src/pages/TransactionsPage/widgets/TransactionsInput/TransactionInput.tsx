@@ -46,8 +46,8 @@ export const TransactionInput: FC<TransactionInputProps> = ({ isOpened, setIsOpe
     });
     setFormData(defaultValue);
   };
-  const onClose = (isOpened: boolean) => {
-    setIsOpened(isOpened);
+  const onClose = (value: boolean | ((prev: boolean) => boolean)) => {
+    setIsOpened(value);
     onClear();
   };
 

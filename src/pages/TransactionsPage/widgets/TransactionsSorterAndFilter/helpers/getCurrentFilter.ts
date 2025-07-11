@@ -1,4 +1,4 @@
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
 
 export const getCurrentFilter = (props: {

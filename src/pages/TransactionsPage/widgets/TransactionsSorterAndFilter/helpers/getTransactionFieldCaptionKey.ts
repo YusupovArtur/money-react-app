@@ -1,5 +1,5 @@
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 
 export const getTransactionFieldCaptionKey = <T extends keyof TransactionType>(props: {
   fieldKey: T;

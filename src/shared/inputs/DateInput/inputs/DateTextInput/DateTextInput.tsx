@@ -1,4 +1,4 @@
-import {
+import React, {
   Dispatch,
   DragEvent,
   FC,
@@ -28,15 +28,25 @@ interface DateTextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>,
   dateState: DateStateType;
   setDateState: Dispatch<SetStateAction<DateStateType>>;
   isMobile?: boolean;
+  setIsOpenedDatePicker?: (value: boolean | ((prev: boolean) => boolean)) => any;
+  dateTextInputRef?: React.RefObject<HTMLInputElement>;
 }
 
-export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState, isMobile = false, className, ...props }) => {
+export const DateTextInput: FC<DateTextInputProps> = ({
+  dateState,
+  setDateState,
+  isMobile = false,
+  className,
+  setIsOpenedDatePicker,
+  dateTextInputRef: outerDateTextInputRef,
+  ...props
+}) => {
   // For text field
-  const dateInputRef = useRef<HTMLInputElement>(null);
+  const dateTextInputRef = outerDateTextInputRef || useRef<HTMLInputElement>(null);
   const selectedPartRef = useRef<DateFieldName>('day');
 
   useEffect(() => {
-    setDateInputSelection({ dateInputRef, selectedPart: selectedPartRef.current });
+    setDateInputSelection({ dateInputRef: dateTextInputRef, selectedPart: selectedPartRef.current });
   });
 
   // Change input value
@@ -55,7 +65,7 @@ export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState,
         } else if (selectedPartRef.current === 'month' && newDateStateFieldValue >= 2) {
           selectedPartRef.current = 'year';
         }
-        setDateInputSelection({ dateInputRef, selectedPart: selectedPartRef.current });
+        setDateInputSelection({ dateInputRef: dateTextInputRef, selectedPart: selectedPartRef.current });
       }
 
       return { ...state, [currentSelectedPart]: newDateStateFieldValue };
@@ -74,18 +84,18 @@ export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState,
   };
 
   // Selection handlers
-  const handleClick = () => {
+  const handleMouseUpAndDown = () => {
     if (!isMobile) {
       requestAnimationFrame(() => {
-        setDateInputSelectionPartRefByMouse({ dateInputRef, selectedPartRef });
-        setDateInputSelection({ dateInputRef, selectedPart: selectedPartRef.current });
+        setDateInputSelectionPartRefByMouse({ dateInputRef: dateTextInputRef, selectedPartRef });
+        setDateInputSelection({ dateInputRef: dateTextInputRef, selectedPart: selectedPartRef.current });
       });
     }
   };
 
   const setDateInputSelectionByKey = (event: KeyboardEvent<HTMLInputElement>) => {
     setDateInputSelectionPartRefByKeyboard({ key: event.key, selectedPartRef });
-    setDateInputSelection({ dateInputRef, selectedPart: selectedPartRef.current });
+    setDateInputSelection({ dateInputRef: dateTextInputRef, selectedPart: selectedPartRef.current });
   };
 
   // Handlers
@@ -106,6 +116,10 @@ export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState,
     setDateState((state) => getValidatedDateStateValue(state));
   };
 
+  const handleClickIsOpenedDatePicker = () => {
+    if (setIsOpenedDatePicker && props.disabled !== true && isMobile) setIsOpenedDatePicker((state) => !state);
+  };
+
   const handlePreventDefault = (
     event: SyntheticEvent<HTMLInputElement, Event> | ReactMouseEvent<HTMLInputElement, MouseEvent> | DragEvent<HTMLInputElement>,
   ) => {
@@ -115,11 +129,12 @@ export const DateTextInput: FC<DateTextInputProps> = ({ dateState, setDateState,
 
   return (
     <TextInput
-      ref={dateInputRef}
+      ref={dateTextInputRef}
       value={getStringDateFromDateState(dateState)}
       onKeyDown={handleKeyDown}
-      onMouseDown={handleClick}
-      onMouseUp={handleClick}
+      onMouseDown={handleMouseUpAndDown}
+      onMouseUp={handleMouseUpAndDown}
+      onClick={handleClickIsOpenedDatePicker}
       onBlur={handleBlur}
       className={`rounded-start-0 ${className || ''}`}
       readOnly={isMobile}

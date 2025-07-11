@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionFieldCaptionKeyType.ts';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { getStringDate } from 'shared/helpers';
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';

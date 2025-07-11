@@ -1,6 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { RangeFilterType, TransactionsFilterType } from '../types/TransactionsFilterType.ts';
+import {
+  RangeFilterType,
+  TransactionsFilterType,
+} from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 
 export interface FilterDispatcherType<T extends keyof TransactionType> {
   (command: FilterDispatcherCommandType<T>): void;

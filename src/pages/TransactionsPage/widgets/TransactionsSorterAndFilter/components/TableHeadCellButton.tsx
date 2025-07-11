@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
-import { SortingIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/SortingIcon.tsx';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsFilterType.ts';
-import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsFilter/icons/FilterIcon.tsx';
+import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
+import { SortingIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/SortingIcon.tsx';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
 
 interface TableHeadCellButtonProps {
   caption: string;

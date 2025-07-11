@@ -1,6 +1,6 @@
 import { TransactionsOrderedListType } from 'store/slices/transactionsSlice';
-import { getTransactionFieldSortingWeight } from 'pages/TransactionsPage/widgets/TransactionsFilter/helpers/getTransactionFieldSortingWeight.ts';
-import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsFilter/types/TransactionsSortingOrderType.ts';
+import { getTransactionFieldSortingWeight } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getTransactionFieldSortingWeight.ts';
+import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
 
 export const getSortedTransactionsOrder = (props: {
   orderedList: TransactionsOrderedListType;
