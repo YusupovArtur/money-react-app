@@ -4,23 +4,23 @@ import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/Tra
 
 export const getSortedTransactionsOrder = (props: {
   orderedList: TransactionsOrderedListType;
-  filter: TransactionsSortingOrderType;
+  sortingOrder: TransactionsSortingOrderType;
 }): string[] => {
-  const { orderedList, filter } = props;
+  const { orderedList, sortingOrder } = props;
   const { order, list } = orderedList;
 
   return order.toSorted((a, b) => {
-    const valueA = getTransactionFieldSortingWeight({ transaction: list[a], fieldKey: filter.key });
-    const valueB = getTransactionFieldSortingWeight({ transaction: list[b], fieldKey: filter.key });
+    const valueA = getTransactionFieldSortingWeight({ transaction: list[a], fieldKey: sortingOrder.key });
+    const valueB = getTransactionFieldSortingWeight({ transaction: list[b], fieldKey: sortingOrder.key });
 
     if (typeof valueA === 'number' && typeof valueB === 'number') {
-      if (filter.order === 'asc') {
+      if (sortingOrder.order === 'asc') {
         return valueA - valueB;
       } else {
         return valueB - valueA;
       }
     } else if (typeof valueA === 'string' && typeof valueB === 'string') {
-      if (filter.order === 'asc') {
+      if (sortingOrder.order === 'asc') {
         return -valueA.localeCompare(valueB);
       } else {
         return -valueB.localeCompare(valueA);

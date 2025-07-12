@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 // Helpers
-import { getFilterOptionsList } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFilterOptionsList.ts';
+import { getTransactionsFilterOptionsList } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getTransactionsFilterOptionsList.ts';
 // Components
 import { TransactionsTableSortingMenu } from './TransactionsTableSortingMenu.tsx';
 import { TransactionsTableFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsTableFilteringMenu.tsx';
@@ -10,17 +10,24 @@ import { DropdownContainer } from 'shared/containers';
 import { DropdownMenuWrapper } from 'shared/ui';
 // Types
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
-import { TransactionType } from 'store/slices/transactionsSlice';
-import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter.ts';
+import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
-import { useAppSelector } from 'store/store.ts';
+import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/types.ts';
 
 interface TransactionsTableSortingFilteringMenu<T extends keyof TransactionType> {
   fieldKey: T;
+
+  transactions: TransactionsListType;
+  order: string[];
+
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
-  filter: TransactionsFilterType<keyof TransactionType>;
+
+  filter: TransactionsFilterType<T>;
   setFilterDispatcher: FilterDispatcherType<T>;
+  filtersLength: number;
+  filtrationOrder?: number;
+
   DropdownToggle?: ReactNode;
 }
 
@@ -37,15 +44,17 @@ const captions: Record<keyof TransactionType, string> = {
 
 export const TransactionsTableSortingFilteringMenu = <T extends keyof TransactionType>({
   fieldKey,
+  transactions,
+  order,
   sortingOrder,
   setSortingOrder,
   filter,
   setFilterDispatcher,
+  filtersLength,
+  filtrationOrder,
   DropdownToggle,
 }: TransactionsTableSortingFilteringMenu<T>): ReactNode => {
-  const list = useAppSelector((state) => state.transactions.list);
-  const order = Object.keys(list);
-  const options = getFilterOptionsList({ fieldKey: fieldKey, order: order, list: list });
+  const options = getTransactionsFilterOptionsList({ fieldKey: fieldKey, order: order, list: transactions });
 
   const divRef = useRef<HTMLDivElement>(null);
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
@@ -65,7 +74,13 @@ export const TransactionsTableSortingFilteringMenu = <T extends keyof Transactio
         DropdownToggle ? (
           DropdownToggle
         ) : (
-          <TableHeadCellButton caption={captions[fieldKey]} fieldKey={fieldKey} sortingOrder={sortingOrder} filter={filter} />
+          <TableHeadCellButton
+            caption={captions[fieldKey]}
+            fieldKey={fieldKey}
+            sortingOrder={sortingOrder}
+            filter={filter}
+            filtrationOrder={filtersLength > 1 ? filtrationOrder : undefined}
+          />
         )
       }
       DropdownMenu={
@@ -77,6 +92,7 @@ export const TransactionsTableSortingFilteringMenu = <T extends keyof Transactio
             optionKeys={options.optionKeys}
             filter={filter}
             setFilter={setFilterDispatcher}
+            filtersLength={filtersLength}
             portalContainerForInternalDropdowns={portalContainer}
           ></TransactionsTableFilteringMenu>
         </DropdownMenuWrapper>

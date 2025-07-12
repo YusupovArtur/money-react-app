@@ -4,28 +4,30 @@ import { DateInput, NumberInput } from 'shared/inputs';
 import { TransactionsFilterMenuOption } from './TransactionsFilterMenuOption.tsx';
 import { ButtonWithIcon, EntityFieldLabel } from 'shared/ui';
 // Helpers
-import { isSubset } from 'shared/helpers';
-import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getCurrentFilter.ts';
+import { deepEqual, isSet, isSubset } from 'shared/helpers';
 import { getUndefinedFilterOptionsSet } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getUndefinedFilterOptionsSet.ts';
-import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/isRangeFilterObject.ts';
-import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getRangeFilterFromFilter.ts';
+import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/isRangeFilterObject.ts';
+import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getRangeFilterFromFilter.ts';
 // UI
 import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
 // Types
+import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/types.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter.ts';
 import {
   RangeFilterType,
   TransactionsFilterType,
 } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
+import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getCurrentFilter.ts';
+import { TrashFillIcon } from 'shared/icons';
 
 interface TransactionsTableFilteringMenuProps<T extends keyof TransactionType> {
   fieldKey: T;
   options: TransactionType[T][];
   optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>>;
-  filter: TransactionsFilterType<keyof TransactionType>;
+  filter: TransactionsFilterType<T>;
   setFilter: FilterDispatcherType<T>;
+  filtersLength: number;
   portalContainerForInternalDropdowns?: HTMLElement | null;
 }
 
@@ -35,24 +37,23 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   optionKeys,
   filter,
   setFilter,
+  filtersLength,
   portalContainerForInternalDropdowns,
 }: TransactionsTableFilteringMenuProps<T>): ReactNode => {
-  const currentFilter = getCurrentFilter({ fieldKey: fieldKey, filter: filter });
-
-  const allChecked = currentFilter.filter === null || (currentFilter.filter instanceof Set && currentFilter.filter.size === 0);
-  const rangeInputDisabled = currentFilter.filter instanceof Set && currentFilter.filter.size > 0;
-  const optionsInputDisabled =
-    isRangeFilterObject(currentFilter.filter) && (!isNaN(currentFilter.filter.min) || !isNaN(currentFilter.filter.max));
+  const allChecked = filter.filter === null || (isSet(filter.filter) && filter.filter.size === 0);
+  const rangeInputDisabled = isSet(filter.filter) && filter.filter.size > 0;
+  const optionsInputDisabled = isRangeFilterObject(filter.filter) && (!isNaN(filter.filter.min) || !isNaN(filter.filter.max));
 
   // Undefined options logics
   const undefinedOptionsSet = getUndefinedFilterOptionsSet({ fieldKey, options, optionKeys });
-  const undefinedChecked =
-    currentFilter.filter === null ||
-    (currentFilter.filter instanceof Set && !isSubset(currentFilter.filter, undefinedOptionsSet));
+  const undefinedChecked = filter.filter === null || (isSet(filter.filter) && !isSubset(filter.filter, undefinedOptionsSet));
 
   // Menu handlers
   const deleteFilterHandler = () => {
     setFilter({ type: 'delete' });
+  };
+  const deleteAllFiltersHandler = () => {
+    if (filtersLength > 1) setFilter({ type: 'deleteAll' });
   };
   const clearFilterHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -79,15 +80,20 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
     if (!isNaN(rangeFilter.min) || !isNaN(rangeFilter.max)) {
       setFilter({ type: 'range', option: rangeFilter });
     } else {
-      if (isRangeFilterObject(currentFilter.filter)) {
-        setFilter({ type: 'delete' });
+      if (isRangeFilterObject(filter.filter)) {
+        setFilter({ type: 'setAll' });
       }
     }
   }, [rangeFilter.min, rangeFilter.max]);
   useEffect(() => {
-    const currentFilter = getCurrentFilter({ fieldKey, filter });
+    const currentFilter = getCurrentFilter({ fieldKey, filters: filter });
     if (currentFilter.filter === null || currentFilter.filter instanceof Set) {
       setRangeFilter({ min: NaN, max: NaN });
+    }
+    if (isRangeFilterObject(filter.filter)) {
+      if (!deepEqual(filter.filter, rangeFilter)) {
+        setRangeFilter(filter.filter);
+      }
     }
   }, [filter]);
 
@@ -97,9 +103,14 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   const checkUndefinedOptionsInputId = useId();
   return (
     <>
-      <ButtonWithIcon className="btn btn-body mt-3 mb-1" caption="Удалить фильтр" onClick={deleteFilterHandler}>
-        <FilterIcon fieldKey={fieldKey} filter={filter} iconSize="1rem" isIconForDeleteFilterButton={true} />
-      </ButtonWithIcon>
+      <div className="d-flex mt-3 mb-1">
+        <ButtonWithIcon className="flex-grow-1 btn btn-body me-1" caption="Удалить фильтр" onClick={deleteFilterHandler}>
+          <FilterIcon filter={filter} iconSize="1rem" isIconForDeleteFilterButton={true} />
+        </ButtonWithIcon>
+        <ButtonWithIcon onClick={deleteAllFiltersHandler} className={`btn btn-body me-1 ${filtersLength > 1 && 'text-danger'}`}>
+          <TrashFillIcon iconSize="1rem" />
+        </ButtonWithIcon>
+      </div>
 
       {fieldKey === 'time' && (
         <>
@@ -167,12 +178,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
       {options.map((option, index) => {
         if (!undefinedOptionsSet.has(option)) {
           const key = fieldKey + index.toString() + option.toString();
-          const checked =
-            currentFilter.filter === null
-              ? true
-              : currentFilter.filter instanceof Set
-                ? !(currentFilter.filter as Set<any>).has(option)
-                : true;
+          const checked = filter.filter === null ? true : isSet(filter.filter) ? !(filter.filter as Set<any>).has(option) : true;
 
           return (
             <div className="form-check" key={key}>
@@ -184,7 +190,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
                 id={key}
                 className="form-check-input"
               />
-              <label className="form-check-label flex-grow-1 w-100" htmlFor={key}>
+              <label className="form-check-label flex-grow-1 w-100 d-flex justify-content-start" htmlFor={key}>
                 <TransactionsFilterMenuOption fieldKey={fieldKey} optionKey={optionKeys[option]}></TransactionsFilterMenuOption>
               </label>
             </div>
@@ -202,7 +208,10 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
             disabled={optionsInputDisabled}
             className="form-check-input"
           />
-          <label className="form-check-label flex-grow-1 w-100" htmlFor={checkUndefinedOptionsInputId}>
+          <label
+            className="form-check-label flex-grow-1 w-100 d-flex justify-content-start"
+            htmlFor={checkUndefinedOptionsInputId}
+          >
             <TransactionsFilterMenuOption
               fieldKey={fieldKey}
               optionKey={optionKeys[undefinedOptionsSet.values().next().value as TransactionType[T]]}

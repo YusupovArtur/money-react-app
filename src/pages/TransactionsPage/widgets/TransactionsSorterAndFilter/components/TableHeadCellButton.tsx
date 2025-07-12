@@ -10,19 +10,26 @@ interface TableHeadCellButtonProps {
   fieldKey: keyof TransactionType;
   sortingOrder: TransactionsSortingOrderType;
   filter: TransactionsFilterType<keyof TransactionType>;
+  filtrationOrder?: number;
 }
 
 // @ts-ignore
-export const TableHeadCellButton: FC<TableHeadCellButtonProps> = ({ caption, fieldKey, sortingOrder, filter }) => {
+export const TableHeadCellButton: FC<TableHeadCellButtonProps> = ({
+  caption,
+  fieldKey,
+  sortingOrder,
+  filter,
+  filtrationOrder,
+}) => {
   return (
     <button
       className="btn btn-body-tertiary w-100 overflow-hidden d-flex justify-content-center align-items-center"
       style={{ padding: '7px 2px', textOverflow: 'ellipsis', fontWeight: 700 }}
     >
       <span className="overflow-hidden text-truncate">{caption}</span>
-      <div className="d-flex align-items-center" style={{ marginLeft: '0.05rem' }}>
+      <div className="d-flex align-items-end" style={{ marginLeft: '0.05rem' }}>
         <SortingIcon fieldKey={fieldKey} sortingOrder={sortingOrder} />
-        <FilterIcon fieldKey={fieldKey} filter={filter} />
+        <FilterIcon filter={filter} filtrationOrder={filtrationOrder} />
       </div>
     </button>
   );

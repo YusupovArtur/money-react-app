@@ -9,7 +9,6 @@ import { useMediaQuery } from 'shared/hooks';
 // Helpers
 import { getSortedTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getSortedTransactionsOrder.ts';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
-import { getFilteredTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFilteredTransactionsOrder.ts';
 // Types
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
@@ -19,37 +18,34 @@ import { SMALL_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/widgets/Transac
 import { TransactionsListItem } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsListItem.tsx';
 import { TransactionsListHead } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsListHead.tsx';
 import { AlertMessage } from 'shared/ui';
+import { getFiltrationCalculationsObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFiltrationCalculationsObject.ts';
 
 export const TransactionsTable: FC = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
+  const order = useMemo(() => Object.keys(transactions), [transactions]);
 
   const [sortingOrder, setSortingOrder] = useState<TransactionsSortingOrderType>({ key: 'time', order: 'desc' });
   const sortingOrderDeferred = useDeferredValue(sortingOrder);
 
-  const [filter, setFilter] = useState<TransactionsFilterType<keyof TransactionType>>({
-    key: 'fromWallet',
-    filter: null,
-  });
-  const filterDeferred = useDeferredValue<TransactionsFilterType<keyof TransactionType>>(filter);
+  const [filters, setFilters] = useState<TransactionsFilterType<keyof TransactionType>[]>([]);
+  const filtersDeferred = useDeferredValue<TransactionsFilterType<keyof TransactionType>[]>(filters);
 
-  const orderFiltered = useMemo(() => {
-    return getFilteredTransactionsOrder({
-      filter: filterDeferred,
-      list: transactions,
-      order: Object.keys(transactions),
-    });
-  }, [filterDeferred, transactions]);
+  // Filtering
+  const filtrationCalculationsObject = useMemo(() => {
+    return getFiltrationCalculationsObject({ list: transactions, order: order, filters: filtersDeferred });
+  }, [transactions, order, filtersDeferred]);
 
+  // Sorting
   const orderedList = useMemo(() => {
     return {
       list: transactions,
-      order: orderFiltered,
+      order: filtrationCalculationsObject.order,
     };
-  }, [transactions, orderFiltered]);
+  }, [transactions, filtrationCalculationsObject]);
   const orderSorted = useMemo(() => {
     return getSortedTransactionsOrder({
       orderedList: orderedList,
-      filter: sortingOrderDeferred,
+      sortingOrder: sortingOrderDeferred,
     });
   }, [orderedList, sortingOrderDeferred]);
 
@@ -60,18 +56,7 @@ export const TransactionsTable: FC = () => {
   };
 
   const isSmall = useMediaQuery(SMALL_WINDOW_MEDIA_QUERY);
-
   const errorMessage = useAppSelector((state) => state.transactions.responseState.errorMessage);
-  // if (errorMessage) {
-  //   return <AlertMessage alertMessage={errorMessage} className="alert-danger" />;
-  // }
-
-  // Time
-  // Sum
-  // Type
-  // Wallet
-  // Category
-  // Subcategory
 
   return (
     <>
@@ -79,10 +64,12 @@ export const TransactionsTable: FC = () => {
       {!isSmall && (
         <table className="transactions-table table-hover">
           <TransactionsTableHead
+            transactions={transactions}
+            filtrationCalculationsObject={filtrationCalculationsObject}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
-            filter={filterDeferred}
-            setFilter={setFilter}
+            filters={filters}
+            setFilters={setFilters}
           />
           <tbody>
             {orderSorted.map((id) => (
@@ -95,11 +82,14 @@ export const TransactionsTable: FC = () => {
       {/*Mobile list*/}
       {isSmall && (
         <>
+          {' '}
           <TransactionsListHead
+            transactions={transactions}
+            filtrationCalculationsObject={filtrationCalculationsObject}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
-            filter={filter}
-            setFilter={setFilter}
+            filters={filters}
+            setFilters={setFilters}
           />
           {orderSorted.map((id) => (
             <TransactionsListItem key={id} id={id} transaction={transactions[id]} setTransactionID={handleSetID} />

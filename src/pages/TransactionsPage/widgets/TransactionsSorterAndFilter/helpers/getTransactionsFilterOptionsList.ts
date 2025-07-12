@@ -3,7 +3,7 @@ import { getTransactionFieldCaptionKey } from 'pages/TransactionsPage/widgets/Tr
 import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 
-export const getFilterOptionsList = <T extends keyof TransactionType>(props: {
+export const getTransactionsFilterOptionsList = <T extends keyof TransactionType>(props: {
   fieldKey: T;
   order: string[];
   list: TransactionsListType;

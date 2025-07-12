@@ -19,18 +19,18 @@ export const TransactionsPage: FC = () => {
 
   const isLoading = useAppSelector((state) => state.transactions.responseState.isLoading);
 
-  if (isLoading !== false) {
-    if (id === null) {
-      return <TransactionsPagePlaceholder />;
-    } else {
-      return (
-        <>
-          <TransactionsPagePlaceholder />
-          <EditWindowPlaceholder />
-        </>
-      );
-    }
-  }
+  // if (isLoading !== false) {
+  //   if (id === null) {
+  //     return <TransactionsPagePlaceholder />;
+  //   } else {
+  //     return (
+  //       <>
+  //         <TransactionsPagePlaceholder />
+  //         <EditWindowPlaceholder />
+  //       </>
+  //     );
+  //   }
+  // }
 
   return (
     <>

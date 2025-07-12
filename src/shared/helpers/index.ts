@@ -1,4 +1,5 @@
 export { deepEqual } from './deepEqual/deepEqual.ts';
+export { isSet } from './isSet/isSet.ts';
 export { isSubset } from './isSubset/isSubset.ts';
 export { isNumbersEqual } from './isNumbersEqual/isNumbersEqual.ts';
 
