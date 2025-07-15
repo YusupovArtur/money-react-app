@@ -90,7 +90,7 @@ export const TransactionsListItem: FC<TransactionsListItemProps> = ({ id, transa
           <TransactionEntityTypeIcon type={type} iconSize="1.2rem" />
         </div>
         <span className="text-body-tertiary" style={{ fontSize: fontSizeSmall, ...nowrapStyle }}>
-          {getStringDate(new Date(time))}
+          {getStringDate(time)}
         </span>
       </div>
     </ListItemWrapper>

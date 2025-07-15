@@ -3,7 +3,7 @@ export { addWallet } from './asyncThunks/addWallet.ts';
 export { deleteWallet } from './asyncThunks/deleteWallet.ts';
 export { updateWallet } from './asyncThunks/updateWallet.ts';
 export { shiftWallet } from './asyncThunks/shiftWallet.ts';
-export { getWalletsOrderedList } from './helpers/getWalletsOrderedList.ts';
+export { getValidWalletsOrderedList } from './helpers/getValidWalletsOrderedList.ts';
 
 export { clearWallets, setWallets, setWalletsResponseState } from './walletsSlice.ts';
 

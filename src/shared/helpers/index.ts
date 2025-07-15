@@ -1,10 +1,13 @@
-export { deepEqual } from './deepEqual/deepEqual.ts';
-export { isSet } from './isSet/isSet.ts';
-export { isSubset } from './isSubset/isSubset.ts';
-export { isNumbersEqual } from './isNumbersEqual/isNumbersEqual.ts';
+export { deepEqual } from './deepEqual.ts';
+export { isSet } from './typeChecks/isSet.ts';
+export { isSubset } from './typeChecks/isSubset.ts';
+export { isNumbersEqual } from './typeChecks/isNumbersEqual.ts';
+export { isArrayOfStrings } from './typeChecks/isArrayOfStrings.ts';
 
-export { getDeviceType } from './getDeviceType/getDeviceType.ts';
-export { getStringCurrencyValue } from './getStringBalance/getStringCurrencyValue.ts';
+export { clamp } from './clamp.ts';
+
+export { getDeviceType } from '../getDeviceType.ts';
+export { getStringCurrencyValue } from './getStringCurrencyValue.ts';
 
 export { getStringDate } from './date/getStringDate.ts';
 export { getToday } from 'shared/helpers/date/getToday.ts';

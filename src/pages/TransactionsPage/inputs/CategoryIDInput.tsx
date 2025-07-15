@@ -6,7 +6,7 @@ import {
   useGetDisplayedCategory,
 } from 'store/slices/categoriesSlice';
 import { useAppSelector } from 'store/store.ts';
-import { IDInput, IDOptionType } from './components/IDInput.tsx';
+import { IDInput, IDOptionType } from 'shared/inputs';
 import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
 
 interface CategoryIdInputProps {

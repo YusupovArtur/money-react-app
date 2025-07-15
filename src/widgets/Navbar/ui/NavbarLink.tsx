@@ -6,7 +6,11 @@ export const NavbarLink: FC<LinkProps> = ({ to, children, className, ...props })
   const location = useLocation();
 
   return (
-    <Link to={to} className={`navbar-link overflow-hidden ${className} ${location.pathname === to ? 'active' : ''}`} {...props}>
+    <Link
+      to={to}
+      className={`navbar-link overflow-hidden ${className || ''} ${location.pathname === to ? 'active' : ''}`}
+      {...props}
+    >
       {children}
     </Link>
   );

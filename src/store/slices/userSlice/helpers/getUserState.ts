@@ -7,7 +7,7 @@ export const getUserState = (user: User | null): UserType => {
       isUserAuthorised: true,
       email: user.email,
       username: user.displayName,
-      id: user.uid,
+      // id: user.uid,
       isEmailVerified: user.emailVerified,
       photoURL: user.photoURL,
     };
@@ -16,7 +16,7 @@ export const getUserState = (user: User | null): UserType => {
       isUserAuthorised: false,
       email: null,
       username: null,
-      id: null,
+      // id: null,
       isEmailVerified: false,
       photoURL: null,
     };

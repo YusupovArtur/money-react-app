@@ -1,4 +1,5 @@
 import { MutableRefObject } from 'react';
+import { clamp } from 'shared/helpers';
 
 export const moveCanvasImageCoordinates = (props: {
   canvas: HTMLCanvasElement | null;
@@ -22,6 +23,6 @@ export const moveCanvasImageCoordinates = (props: {
   const x_min = (imageSize - image.width) / 2;
   const y_min = (imageSize - image.height) / 2;
 
-  xRef.current = Math.min(Math.max(xRef.current + dx_rescale, x_min), x_max);
-  yRef.current = Math.min(Math.max(yRef.current + dy_rescale, y_min), y_max);
+  xRef.current = clamp(xRef.current + dx_rescale, x_min, x_max);
+  yRef.current = clamp(yRef.current + dy_rescale, y_min, y_max);
 };

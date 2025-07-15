@@ -23,7 +23,7 @@ export const TransactionsPagePlaceholder: FC = () => {
     <PageContentWrapper style={{ margin: '0 auto', maxWidth: '100%' }}>
       <table className="transactions-table placeholder-wave">
         <tbody>
-          {[1, 2, 3, 4, 5, 6].map((i) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <tr key={i}>
               {[1, 2, 3, 4, 5].map((j) => (
                 <td key={j}>

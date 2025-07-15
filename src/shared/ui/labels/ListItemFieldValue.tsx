@@ -16,7 +16,7 @@ export const ListItemFieldValue: FC<ListItemFieldValueProps> = ({ children, styl
         textOverflow: 'ellipsis',
         ...style,
       }}
-      className={`text-body-unimportant user-select-none ${className}`}
+      className={`text-body-unimportant user-select-none ${className || ''}`}
       {...props}
     >
       {children}

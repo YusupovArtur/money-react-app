@@ -6,7 +6,7 @@ import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 import { AppDispatch, useAppDispatch } from 'store/index.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 import { CategoryType, setCategories, setCategoriesResponseState, setCategory } from 'store/slices/categoriesSlice';
-import { getCategoriesOrderedList } from 'store/slices/categoriesSlice/helpers/getCategoriesOrderedList.ts';
+import { getValidCategoriesOrderedList } from 'store/slices/categoriesSlice/helpers/getValidCategoriesOrderedList.ts';
 import { isLocalAdd } from 'store/listener/helpers/isLocalAdd.ts';
 import { isLocalDelete } from 'store/listener/helpers/isLocalDelete.ts';
 import { isLocalShift } from 'store/listener/helpers/isLocalShift.ts';
@@ -80,7 +80,7 @@ export class CategoriesFirestoreListener {
             return;
           }
 
-          const orderedList = getCategoriesOrderedList(querySnapshot);
+          const orderedList = getValidCategoriesOrderedList(querySnapshot);
           this.dispatch(setCategories(orderedList));
         },
         (error) => {

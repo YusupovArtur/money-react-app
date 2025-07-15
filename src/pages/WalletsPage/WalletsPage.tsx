@@ -9,7 +9,7 @@ import { WalletInput } from './widgets/WalletInput/WalletInput.tsx';
 import { WalletsList } from './widgets/WalletsList/WalletsList.tsx';
 import { WalletsFilter } from './features/WalletsFilter.tsx';
 // Transaction
-import { TransactionInput } from 'pages/TransactionsPage';
+import { TransactionInput } from 'widgets/TransactionsInput';
 // UI
 import { ButtonWithIcon, EditWindowPlaceholder, PageContentWrapper } from 'shared/ui';
 import { WalletsPagePlaceholder } from 'pages/WalletsPage/ui/WalletsPagePlaceholder.tsx';
@@ -41,7 +41,7 @@ export const WalletsPage: FC = () => {
 
   return (
     <>
-      <PageContentWrapper style={{ margin: '0 auto' }} className="pb-0">
+      <PageContentWrapper style={{ margin: '0 auto' }}>
         <div className="d-flex justify-content-between mb-2">
           <ButtonWithIcon caption="Перевод" onClick={() => setIsOpenedTransactionInput(true)} className="btn-primary">
             <ArrowLeftRightIcon iconSize="1.2rem" />

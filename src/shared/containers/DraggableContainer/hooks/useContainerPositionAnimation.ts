@@ -2,14 +2,14 @@ import { Dispatch, MutableRefObject, RefObject, SetStateAction, useEffect, useRe
 import { canselAnimation } from 'shared/containers/DraggableContainer/helpers/cancelAnimation.ts';
 import { getContainerPositionY } from 'shared/containers/DraggableContainer/helpers/getContainerPositionY.ts';
 
-export const useContainerPositionAnimation = (props: {
-  startID: string;
-  id: string;
+export const useContainerPositionAnimation = <T>(props: {
+  startIndex: T;
+  index: T;
   dy: MutableRefObject<number>;
   setDyState: Dispatch<SetStateAction<number>>;
   containerRef: RefObject<HTMLDivElement>;
 }) => {
-  const { startID, id, dy, setDyState, containerRef } = props;
+  const { startIndex, index, dy, setDyState, containerRef } = props;
   const containerYRef = useRef<number | null>(null);
   const containerDyRef = useRef<number>(0);
 
@@ -19,7 +19,7 @@ export const useContainerPositionAnimation = (props: {
       containerDyRef.current = containerYRef.current - rect.top;
     }
     setDyState(dy.current + containerDyRef.current);
-    if (startID === id) {
+    if (startIndex === index) {
       animationRef.current = requestAnimationFrame(containerPositionAnimation);
     }
   };
@@ -27,12 +27,12 @@ export const useContainerPositionAnimation = (props: {
   const animationRef = useRef<number | null>(null);
   useEffect(() => {
     canselAnimation(animationRef.current);
-    if (startID === id) {
+    if (startIndex === index) {
       containerYRef.current = getContainerPositionY(containerRef.current);
       animationRef.current = requestAnimationFrame(containerPositionAnimation);
     }
     return () => {
       canselAnimation(animationRef.current);
     };
-  }, [startID]);
+  }, [startIndex]);
 };

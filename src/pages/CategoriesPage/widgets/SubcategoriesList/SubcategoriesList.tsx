@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/index.ts';
-import { CategoryType, shiftSubCategory, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/slices/categoriesSlice';
+import { CategoryType, shiftSubCategory } from 'store/slices/categoriesSlice';
 // Subcategories
 import { SubcategoriesListItem } from 'pages/CategoriesPage/widgets/SubcategoriesList/SubcategoriesListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
 import { AlertMessage, EntityFieldLabel } from 'shared/ui';
-import { getDeviceType } from 'shared/helpers';
+import { getOpenableContainersState } from 'shared/containers/DraggableContainer/helpers/getOpenableContainersState.ts';
 
 interface SubcategoriesListProps {
   categoryID: string;
@@ -17,20 +17,19 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
   const order = category.subcategories.order;
   const list = category.subcategories.list;
 
-  const [dragOverID, setDragOverID] = useState<string>('');
-  const [dragStartID, setDragStartID] = useState<string>('');
+  const [dragOverIndex, setDragOverIndex] = useState<number>(NaN);
+  const [dragStartIndex, setDragStartIndex] = useState<number>(NaN);
 
-  const draggable = getDeviceType() === 'desktop';
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
   const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
   const dispatch = useAppDispatch();
-  const dropFunction = (dropID: string) => {
+  const dropFunction = (index: number) => {
     dispatch(
       shiftSubCategory({
         categoryID: categoryID,
-        subcategoryID1: dragStartID,
-        subcategoryID2: dropID,
+        index1: dragStartIndex,
+        index2: index,
         setIsLoading: setShiftIsLoading,
         setErrorMessage: setShiftErrorMessage,
       }),
@@ -44,20 +43,23 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
       <AlertMessage alertMessage={shiftErrorMessage} className="alert-danger mt-1" />
 
       {order.map((id, index) => {
-        const aboveID = index === 0 ? undefined : order[index - 1];
-        const isOpened = id === dragOverID && id !== dragStartID && aboveID !== dragStartID;
-        const disabled = shiftIsLoading || (Boolean(dragStartID) && id !== dragStartID);
+        const disabled = shiftIsLoading || (Boolean(dragStartIndex) && index !== dragStartIndex);
 
         return (
           <DraggableContainer
             key={id}
-            id={id}
-            draggable={draggable && !shiftIsLoading}
-            isOpened={isOpened}
+            index={index}
+            draggable={!shiftIsLoading}
+            isOpened={getOpenableContainersState({
+              index: index,
+              startIndex: dragStartIndex,
+              overIndex: dragOverIndex,
+              length: order.length,
+            })}
             onDrop={dropFunction}
-            startID={dragStartID}
-            setStartID={setDragStartID}
-            setOverID={setDragOverID}
+            startIndex={dragStartIndex}
+            setStartIndex={setDragStartIndex}
+            setOverIndex={setDragOverIndex}
           >
             <SubcategoriesListItem
               id={id}
@@ -69,22 +71,6 @@ export const SubcategoriesList: FC<SubcategoriesListProps> = ({ categoryID, cate
           </DraggableContainer>
         );
       })}
-
-      <DraggableContainer
-        id={SUBCATEGORIES_LIST_LAST_ITEM_ID}
-        draggable={false}
-        onDrop={dropFunction}
-        isOpened={
-          SUBCATEGORIES_LIST_LAST_ITEM_ID === dragOverID &&
-          SUBCATEGORIES_LIST_LAST_ITEM_ID !== dragStartID &&
-          (order[order.length - 1] ? order[order.length - 1] : undefined) !== dragStartID
-        }
-        startID={dragStartID}
-        setStartID={setDragStartID}
-        setOverID={setDragOverID}
-      >
-        <div className="mb-3"></div>
-      </DraggableContainer>
     </>
   );
 };

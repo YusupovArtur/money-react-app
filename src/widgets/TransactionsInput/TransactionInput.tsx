@@ -5,8 +5,8 @@ import { addTransaction, TransactionType } from 'store/slices/transactionsSlice'
 // Forms
 import { ModalWindowContainer } from 'shared/containers';
 import { InputFormControl } from 'entities/InputFormControl';
-import { TransactionForm } from '../../forms/TransactionForm/TransactionForm.tsx';
-import { useGetTransactionFormValidation } from '../../forms/TransactionForm/helpers/useGetTransactionFormValidation.ts';
+import { TransactionForm } from 'pages/TransactionsPage/forms/TransactionForm/TransactionForm.tsx';
+import { useGetTransactionFormValidation } from 'pages/TransactionsPage/forms/TransactionForm/helpers/useGetTransactionFormValidation.ts';
 import { getTodayTimestamp } from 'shared/helpers';
 
 interface TransactionInputProps {

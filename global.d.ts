@@ -36,5 +36,13 @@ interface Window {
         flags: number;
       };
     };
+
+    settings: {
+      widgetsSettings: {
+        walletsWidget: {
+          flags: number;
+        };
+      };
+    };
   };
 }

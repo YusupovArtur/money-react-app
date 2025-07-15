@@ -43,7 +43,7 @@ const initialState: UserStateType = {
     isUserAuthorised: false,
     email: null,
     username: null,
-    id: null,
+    // id: null,
     isEmailVerified: false,
     photoURL: null,
   },

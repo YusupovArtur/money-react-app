@@ -1,17 +1,12 @@
 import { FC, useDeferredValue, useState } from 'react';
 // Store imports
 import { useAppDispatch, useAppSelector } from 'store/index.ts';
-import {
-  CATEGORIES_LIST_LAST_ITEM_ID,
-  CategoryType,
-  selectFilteredCategoriesOrder,
-  shiftCategory,
-} from 'store/slices/categoriesSlice';
+import { CategoryType, selectFilteredCategoriesOrder, shiftCategory } from 'store/slices/categoriesSlice';
 // Category imports
 import { CategoryListItem } from 'pages/CategoriesPage/widgets/CategoriesList/CategoryListItem.tsx';
 import { DraggableContainer } from 'shared/containers';
 import { AlertMessage } from 'shared/ui';
-import { getDeviceType } from 'shared/helpers';
+import { getOpenableContainersState } from 'shared/containers/DraggableContainer/helpers/getOpenableContainersState.ts';
 
 interface CategoriesListProps {
   filter?: CategoryType['type'] | null;
@@ -25,16 +20,15 @@ export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
   const [shiftIsLoading, setShiftIsLoading] = useState<boolean>(false);
   const [shiftErrorMessage, setShiftErrorMessage] = useState<string>('');
 
-  const draggable = getDeviceType() === 'desktop';
-  const [dragOverID, setDragOverID] = useState<string>('');
-  const [dragStartID, setDragStartID] = useState<string>('');
+  const [dragOverIndex, setDragOverIndex] = useState<number>(NaN);
+  const [dragStartIndex, setDragStartIndex] = useState<number>(NaN);
 
   const dispatch = useAppDispatch();
-  const dropFunction = (dropID: string) =>
+  const dropFunction = (index: number) =>
     dispatch(
       shiftCategory({
-        categoryID1: dragStartID,
-        categoryID2: dropID,
+        index1: dragStartIndex,
+        index2: index,
         setIsLoading: setShiftIsLoading,
         setErrorMessage: setShiftErrorMessage,
       }),
@@ -49,41 +43,28 @@ export const CategoriesList: FC<CategoriesListProps> = ({ filter }) => {
       <AlertMessage alertMessage={shiftErrorMessage} className="alert-danger mt-1" />
 
       {order.map((id, index) => {
-        const aboveID = index === 0 ? undefined : order[index - 1];
-        const isOpened = id === dragOverID && id !== dragStartID && aboveID !== dragStartID;
-        const disabled = shiftIsLoading || (Boolean(dragStartID) && id !== dragStartID);
+        const disabled = shiftIsLoading || (Boolean(dragStartIndex) && index !== dragStartIndex);
 
         return (
           <DraggableContainer
             key={id}
-            id={id}
-            draggable={draggable && !shiftIsLoading}
-            isOpened={isOpened}
+            index={index}
+            draggable={!shiftIsLoading}
+            isOpened={getOpenableContainersState({
+              index: index,
+              startIndex: dragStartIndex,
+              overIndex: dragOverIndex,
+              length: order.length,
+            })}
             onDrop={dropFunction}
-            startID={dragStartID}
-            setStartID={setDragStartID}
-            setOverID={setDragOverID}
+            startIndex={dragStartIndex}
+            setStartIndex={setDragStartIndex}
+            setOverIndex={setDragOverIndex}
           >
             <CategoryListItem id={id} disabled={disabled} loading={shiftIsLoading} />
           </DraggableContainer>
         );
       })}
-
-      <DraggableContainer
-        id={CATEGORIES_LIST_LAST_ITEM_ID}
-        draggable={false}
-        isOpened={
-          CATEGORIES_LIST_LAST_ITEM_ID === dragOverID &&
-          CATEGORIES_LIST_LAST_ITEM_ID !== dragStartID &&
-          (order[order.length - 1] ? order[order.length - 1] : undefined) !== dragStartID
-        }
-        onDrop={dropFunction}
-        startID={dragStartID}
-        setStartID={setDragStartID}
-        setOverID={setDragOverID}
-      >
-        <div className="mb-3"></div>
-      </DraggableContainer>
     </>
   );
 };

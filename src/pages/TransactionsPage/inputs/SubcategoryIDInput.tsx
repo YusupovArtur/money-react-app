@@ -7,7 +7,7 @@ import {
   useGetDisplayedSubcategory,
 } from 'store/slices/categoriesSlice';
 import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
-import { IDInput, IDOptionType } from 'pages/TransactionsPage/inputs/components/IDInput.tsx';
+import { IDInput, IDOptionType } from 'shared/inputs';
 
 interface SubcategoryIDInputProps {
   inputID?: string;

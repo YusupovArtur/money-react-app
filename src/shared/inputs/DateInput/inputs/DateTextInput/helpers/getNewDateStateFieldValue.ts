@@ -1,6 +1,7 @@
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { DateFieldName } from 'shared/inputs/DateInput/types/DateFieldName.ts';
 import { MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
+import { clamp } from 'shared/helpers';
 
 const getDateStatePart = (props: { dateState: DateStateType; selectedPart: DateFieldName }): number => {
   const { dateState, selectedPart } = props;
@@ -57,11 +58,11 @@ export const getNewDateStateFieldValue = (props: {
 
     switch (selectedPart) {
       case 'day':
-        return Math.min(Math.max(newPartValue, 1), 31);
+        return clamp(newPartValue, 1, 31);
       case 'month':
-        return Math.min(Math.max(newPartValue, 1), 12);
+        return clamp(newPartValue, 1, 12);
       case 'year':
-        return Math.min(Math.max(newPartValue, MIN_YEAR), MAX_YEAR);
+        return clamp(newPartValue, MIN_YEAR, MAX_YEAR);
     }
   }
 

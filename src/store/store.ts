@@ -9,6 +9,7 @@ import transactionsSlice from 'store/slices/transactionsSlice/transactionsSlice.
 import walletsSlice from 'store/slices/walletsSlice/walletsSlice.ts';
 import categoriesSlice from 'store/slices/categoriesSlice/categoriesSlice.ts';
 import themeSlice from 'store/slices/themeSlice/themeSlice.ts';
+import settingsSlice from 'store/slices/settingsSlice/settingsSlice.ts';
 
 const rootReducer = combineReducers({
   user: userSlice,
@@ -16,12 +17,12 @@ const rootReducer = combineReducers({
   wallets: walletsSlice,
   categories: categoriesSlice,
   theme: themeSlice,
+  settings: settingsSlice,
 });
 
 const persistConfig = {
   key: 'root',
   storage: storage,
-  //blacklist: ['user', 'operations']
   whitelist: ['theme', 'user'],
 };
 

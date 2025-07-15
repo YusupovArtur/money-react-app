@@ -4,52 +4,33 @@ import { getAuth } from 'firebase/auth';
 import { doc, runTransaction } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
-import { WALLETS_LIST_LAST_ITEM_ID, WalletsStateType } from 'store/slices/walletsSlice';
+import { WalletsStateType } from 'store/slices/walletsSlice';
+import { shiftIndexes } from 'store/helpers/shiftIndexes.ts';
 
 export const shiftWallet = createAsyncThunk<
-  { order: string[] } | void,
-  ResponseHooksType & { walletID1: string; walletID2: string },
+  string[] | void,
+  ResponseHooksType & { index1: number; index2: number },
   { rejectValue: string }
 >('wallets/shiftWallet', async (props, { rejectWithValue }) => {
   const auth = getAuth();
-  const { walletID1: id1, walletID2: id2 } = props;
+  const { index1, index2 } = props;
 
   if (auth.currentUser) {
     const user = auth.currentUser;
     const orderRef = doc(db, 'users_data', user.uid, 'wallets', 'order');
 
-    if (id1 === id2) {
+    // noinspection DuplicatedCode
+    if (index1 === index2) {
       return;
     }
 
     return await runTransaction(db, async (transaction) => {
       const orderSnapshot = await transaction.get(orderRef);
       const order = orderSnapshot.data() ? (orderSnapshot.data() as { order: string[] }).order : [];
+      const newOrder = shiftIndexes({ order: order, index1: index1, index2: index2 });
 
-      const index1 = order.findIndex((id) => id1 === id);
-
-      if (index1 !== -1) {
-        order.splice(index1, 1);
-
-        if (id2 === WALLETS_LIST_LAST_ITEM_ID) {
-          order.push(id1);
-          window.pending.wallets.shift = { order, flags: 2 };
-          transaction.set(orderRef, { order });
-          return { order };
-        }
-
-        const index2 = order.findIndex((id) => id2 === id);
-        if (index2 !== -1) {
-          order.splice(index2, 0, id1);
-          window.pending.wallets.shift = { order, flags: 2 };
-          transaction.set(orderRef, { order });
-          return { order };
-        } else {
-          return rejectWithValue('No find id2');
-        }
-      } else {
-        return rejectWithValue('Not find id1');
-      }
+      transaction.set(orderRef, { order: newOrder });
+      return newOrder;
     }).catch((error) => {
       return rejectWithValue(getErrorMessage(error));
     });
@@ -65,7 +46,7 @@ export const addShiftWalletExtraReducers = (builder: ActionReducerMapBuilder<Wal
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(shiftWallet.fulfilled, (state, action) => {
-      if (action.payload) state.order = action.payload.order;
+      if (Array.isArray(action.payload)) state.order = action.payload;
 
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');

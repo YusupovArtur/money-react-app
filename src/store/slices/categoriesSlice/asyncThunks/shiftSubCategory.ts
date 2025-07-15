@@ -3,21 +3,22 @@ import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { getAuth } from 'firebase/auth';
 import { doc, runTransaction } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
-import { CategoriesStateType, CategoryType, SUBCATEGORIES_LIST_LAST_ITEM_ID } from 'store/slices/categoriesSlice';
+import { CategoriesStateType, CategoryType } from 'store/slices/categoriesSlice';
+import { shiftIndexes } from 'store/helpers/shiftIndexes.ts';
 
 export const shiftSubCategory = createAsyncThunk<
   { categoryID: string; order: string[] } | void,
-  { categoryID: string; subcategoryID1: string; subcategoryID2: string } & ResponseHooksType,
+  { categoryID: string; index1: number; index2: number } & ResponseHooksType,
   { rejectValue: string }
 >('categories/shiftSubCategory', async (props, { rejectWithValue }) => {
   const auth = getAuth();
-  const { categoryID, subcategoryID1: id1, subcategoryID2: id2 } = props;
+  const { categoryID, index1, index2 } = props;
 
   if (auth.currentUser) {
     const user = auth.currentUser;
     const categoryRef = doc(db, 'users_data', user.uid, 'categories', categoryID);
 
-    if (id1 === id2) {
+    if (index1 === index2) {
       return;
     }
 
@@ -25,27 +26,32 @@ export const shiftSubCategory = createAsyncThunk<
       const categorySnapshot = await transaction.get(categoryRef);
       const order = categorySnapshot.data() ? (categorySnapshot.data() as CategoryType).subcategories.order : [];
 
-      const index1 = order.findIndex((id) => id1 === id);
+      const newOrder = shiftIndexes({ order: order, index1: index1, index2: index2 });
+      transaction.update(categoryRef, { [`subcategories.order`]: newOrder });
 
-      if (index1 !== -1) {
-        order.splice(index1, 1);
-        if (id2 === SUBCATEGORIES_LIST_LAST_ITEM_ID) {
-          order.push(id1);
-          transaction.update(categoryRef, { [`subcategories.order`]: order });
-          return { categoryID, order };
-        }
+      return { categoryID: categoryID, order: newOrder };
 
-        const index2 = order.findIndex((id) => id2 === id);
-        if (index2 !== -1) {
-          order.splice(index2, 0, id1);
-          transaction.update(categoryRef, { [`subcategories.order`]: order });
-          return { categoryID, order };
-        } else {
-          return rejectWithValue('No find id2');
-        }
-      } else {
-        return rejectWithValue('Not find id1');
-      }
+      // const index1 = order.findIndex((id) => id1 === id);
+      //
+      // if (index1 !== -1) {
+      //   order.splice(index1, 1);
+      //   if (id2 === SUBCATEGORIES_LIST_LAST_ITEM_ID) {
+      //     order.push(id1);
+      //     transaction.update(categoryRef, { [`subcategories.order`]: order });
+      //     return { categoryID, order };
+      //   }
+      //
+      //   const index2 = order.findIndex((id) => id2 === id);
+      //   if (index2 !== -1) {
+      //     order.splice(index2, 0, id1);
+      //     transaction.update(categoryRef, { [`subcategories.order`]: order });
+      //     return { categoryID, order };
+      //   } else {
+      //     return rejectWithValue('No find id2');
+      //   }
+      // } else {
+      //   return rejectWithValue('Not find id1');
+      // }
     });
   } else {
     return rejectWithValue('Вы не авторизованы');

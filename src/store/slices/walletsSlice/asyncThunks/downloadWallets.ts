@@ -1,5 +1,5 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import { getWalletsOrderedList, WalletsOrderedListType, WalletsStateType } from 'store/slices/walletsSlice';
+import { getValidWalletsOrderedList, WalletsOrderedListType, WalletsStateType } from 'store/slices/walletsSlice';
 import { ResponseHooksType } from 'store';
 import { getAuth } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
@@ -21,7 +21,7 @@ export const downloadWallets = createAsyncThunk<
 
     return await getDocs(docsRef)
       .then((querySnapshot) => {
-        return getWalletsOrderedList(querySnapshot);
+        return getValidWalletsOrderedList(querySnapshot);
       })
       .catch((error) => {
         return rejectWithValue(getErrorMessage(error));
@@ -52,11 +52,11 @@ export const addDownloadWalletsExtraReducers = (builder: ActionReducerMapBuilder
       if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
     })
     .addCase(downloadWallets.rejected, (state, action) => {
-      if (action.payload !== undefined) state.responseState.errorMessage = action.payload;
-      state.responseState.isLoading = false;
-
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage && action.payload !== undefined) action.meta.arg.setErrorMessage(action.payload);
+
+      state.responseState.isLoading = false;
+      if (action.payload !== undefined) state.responseState.errorMessage = action.payload;
       console.error('Ошибка чтения счетов:', action.payload);
     });
 };

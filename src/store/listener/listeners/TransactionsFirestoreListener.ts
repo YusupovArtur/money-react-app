@@ -6,7 +6,7 @@ import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 import { AppDispatch, useAppDispatch } from 'store/index.ts';
 import { setTransactions, setTransactionsResponseState } from 'store/slices/transactionsSlice';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
-import { getTransactionsList } from 'store/slices/transactionsSlice/helpers/getTransactionsList.ts';
+import { getValidTransactionsList } from 'store/slices/transactionsSlice/helpers/getValidTransactionsList.ts';
 
 export class TransactionsFirestoreListener {
   listener: Unsubscribe | null = null;
@@ -53,7 +53,7 @@ export class TransactionsFirestoreListener {
             }
           }
 
-          const list = getTransactionsList(querySnapshot);
+          const list = getValidTransactionsList(querySnapshot);
           this.dispatch(setTransactions(list));
         },
         (error) => {

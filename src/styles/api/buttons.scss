@@ -13,6 +13,13 @@
     background-color: var(--background-color-body-active) !important;
     border-color: var(--border-color-body-active) !important;
   }
+
+  &:disabled {
+    background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity));
+    border-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity));
+    color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+    fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+  }
 }
 
 .btn-body-tertiary {
@@ -29,6 +36,13 @@
   &:active {
     background-color: var(--background-color-body-active) !important;
     border-color: var(--border-color-body-active) !important;
+  }
+
+  &:disabled {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-tertiary-bg);
+    color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
+    fill: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity));
   }
 }
 

@@ -1,5 +1,6 @@
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
+import { clamp } from 'shared/helpers';
 
 const getMonthMaxDate = (props: { month: number; year: number }): number => {
   const { month, year } = props;
@@ -20,9 +21,9 @@ const getMonthMaxDate = (props: { month: number; year: number }): number => {
 };
 
 export const getValidatedDateStateValue = (dateState: DateStateType): DateStateType => {
-  const year = dateState.year ? Math.min(Math.max(dateState.year, MIN_YEAR), MAX_YEAR) : 0;
-  const month = dateState.month ? Math.min(Math.max(dateState.month, 1), 12) : 0;
-  const day = year && month && dateState.day ? Math.min(Math.max(dateState.day, 1), getMonthMaxDate({ month, year })) : 0;
+  const year = dateState.year ? clamp(dateState.year, MIN_YEAR, MAX_YEAR) : 0;
+  const month = dateState.month ? clamp(dateState.month, 1, 12) : 0;
+  const day = year && month && dateState.day ? clamp(dateState.day, 1, getMonthMaxDate({ month, year })) : 0;
 
   return {
     day: day,

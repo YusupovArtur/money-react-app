@@ -3,6 +3,7 @@ import { AnimationStyleType } from './types/AnimationStyleType.ts';
 import { getAnimationStyleNumberState } from './helpers/getAnimationStyleNumberState.ts';
 import { getAnimationStyleStateFrame } from './helpers/getAnimationStyleStateFrame.ts';
 import { canselAnimation } from 'shared/containers/DraggableContainer/helpers/cancelAnimation.ts';
+import { clamp } from 'shared/helpers';
 
 // TODO: type that style1 === style2 in props
 interface OpenableContainerProps<T extends AnimationStyleType = AnimationStyleType> extends HTMLProps<HTMLDivElement> {
@@ -32,7 +33,7 @@ export const OpenableContainer: FC<OpenableContainerProps> = ({
 
   const animate = (time: number): void => {
     if (timeRef.current !== null) {
-      ratio.current = Math.min(Math.max(ratio.current + ((time - timeRef.current) / duration) * (isOpened ? 1 : -1), 0), 1);
+      ratio.current = clamp(ratio.current + ((time - timeRef.current) / duration) * (isOpened ? 1 : -1), 0, 1);
       const newStyleFrame = getAnimationStyleStateFrame(style1, style2, ratio.current);
       setStyle(newStyleFrame);
     }

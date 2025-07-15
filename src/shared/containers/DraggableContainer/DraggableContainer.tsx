@@ -1,29 +1,46 @@
-import { Dispatch, DragEvent, FC, ReactElement, SetStateAction, useRef, useState } from 'react';
+import { DragEvent, ReactElement, useRef, useState } from 'react';
 import { OpenableContainer } from 'shared/containers/DraggableContainer/OpenableContainer/OpenableContainer.tsx';
 import { useContainerPositionAnimation } from './hooks/useContainerPositionAnimation.ts';
 import { dragStartPreventDefault } from './helpers/dragStartPreventDefault.ts';
+import { AnimationStyleType } from 'shared/containers/DraggableContainer/OpenableContainer/types/AnimationStyleType.ts';
 
-interface DraggableItemProps {
-  id: string;
-  children?: ReactElement;
-  isOpened: boolean;
-  draggable?: boolean;
-  onDrop: (dropID: string) => any;
-  startID: string;
-  setStartID: Dispatch<SetStateAction<string>>;
-  setOverID: Dispatch<SetStateAction<string>>;
+interface SignatureWithStyle {
+  style1: AnimationStyleType;
+  style2: AnimationStyleType;
 }
 
-export const DraggableContainer: FC<DraggableItemProps> = ({
-  id,
+interface SignatureWithoutStyle {
+  style1?: never;
+  style2?: never;
+}
+
+interface DraggableItemRestProps<T> {
+  index: T;
+  children?: ReactElement;
+  draggable?: boolean;
+  isOpened: { up: boolean; down: boolean };
+  startIndex: T;
+  setStartIndex: (value: T | ((prev: T) => T)) => any;
+  setOverIndex: (value: T | ((prev: T) => T)) => any;
+  onDrop?: (index: T) => any;
+  zIndex?: number;
+}
+
+type DraggableItemProps<T> = DraggableItemRestProps<T> & (SignatureWithStyle | SignatureWithoutStyle);
+
+export const DraggableContainer = <T,>({
+  index,
   children,
   isOpened,
-  draggable,
+  draggable = true,
+  startIndex,
+  setStartIndex,
+  setOverIndex,
   onDrop,
-  startID,
-  setStartID,
-  setOverID,
-}) => {
+  zIndex = 1,
+  style1,
+  style2,
+}: DraggableItemProps<T>) => {
   const y = useRef<number>(0);
   const dy = useRef<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,11 +49,11 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
   const handleDragStart = (event: DragEvent<HTMLDivElement>) => {
     dragStartPreventDefault(event);
     y.current = event.clientY;
-    setStartID(id);
+    setStartIndex(index);
   };
 
   // Container position animation
-  useContainerPositionAnimation({ startID, id, dy, setDyState, containerRef });
+  useContainerPositionAnimation({ startIndex: startIndex, index: index, dy, setDyState, containerRef });
 
   const handleDrag = (event: DragEvent<HTMLDivElement>) => {
     dy.current += event.clientY - y.current;
@@ -44,20 +61,23 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
   };
 
   const handleDragOver = () => {
-    setOverID((state) => (state === id ? state : id));
+    setOverIndex((state) => (state === index ? state : index));
   };
 
   const handleDrop = () => {
-    onDrop(id);
+    if (onDrop) onDrop(index);
     resetState();
   };
 
   const resetState = () => {
-    setStartID('');
-    setOverID('');
+    setStartIndex(undefined as T);
+    setOverIndex(undefined as T);
     setDyState(0);
     dy.current = 0;
   };
+
+  const defaultStyle1 = { height: 0, marginTop: 0, borderWidth: 0 };
+  const defaultStyle2 = { height: 55, marginTop: 4, borderWidth: 2 };
 
   return (
     <>
@@ -69,25 +89,31 @@ export const DraggableContainer: FC<DraggableItemProps> = ({
         onDragOver={handleDragOver}
         onDragEnd={resetState}
         onDrop={handleDrop}
-        style={{ zIndex: startID === id ? 1 : undefined }}
+        style={{ zIndex: startIndex === index ? zIndex : undefined }}
       >
+        {/*Openable Container for animation*/}
         <OpenableContainer
           className="bordered-strong rounded"
           style={{ borderStyle: 'dashed' }}
-          isOpened={isOpened}
-          style1={{ height: 0, marginTop: 0, borderWidth: 0 }}
-          style2={{ height: 55, marginTop: 4, borderWidth: 2 }}
+          isOpened={isOpened.up}
+          style1={style1 ?? defaultStyle1}
+          style2={style2 ?? defaultStyle2}
           duration={250}
         />
 
-        <div
-          style={{
-            transform: `translateY(${dyState}px)`,
-            pointerEvents: startID === id ? 'none' : undefined,
-          }}
-        >
+        <div style={{ transform: `translateY(${dyState}px)`, pointerEvents: startIndex === index ? 'none' : undefined }}>
           {children}
         </div>
+
+        {/*Openable Container for animation*/}
+        <OpenableContainer
+          className="bordered-strong rounded"
+          style={{ borderStyle: 'dashed' }}
+          isOpened={isOpened.down}
+          style1={style1 ?? defaultStyle1}
+          style2={style2 ?? defaultStyle2}
+          duration={250}
+        />
       </div>
     </>
   );

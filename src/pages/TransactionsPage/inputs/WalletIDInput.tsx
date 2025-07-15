@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, FC, useEffect } from 'react';
 import { useAppSelector } from 'store/index.ts';
-import { IDInput, IDOptionType } from './components/IDInput.tsx';
+import { IDInput, IDOptionType } from 'shared/inputs';
 import { selectDisplayedWallet, selectWalletsList, selectWalletsOrder } from 'store/slices/walletsSlice';
 
 interface WalletIDInputProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -64,18 +64,3 @@ export const WalletIDInput: FC<WalletIDInputProps> = ({
     />
   );
 };
-
-// <button
-//   key={optionID}
-//   onClick={() => {
-//     setIsValidate((state) => ({ ...state, fromWallet: true, toWallet: true }));
-//     setWalletID(optionID);
-//   }}
-//   className={`dropdown-option-list-item ${optionID === walletID ? 'active' : ''}`}
-// >
-//   <EntityIcon iconName={wallets[optionID].iconName} color={wallets[optionID].color} iconSize={optionIconSize} />
-//   <span className="text-truncate ms-1 me-2">{wallets[optionID].name}</span>
-//   <span style={{ marginLeft: 'auto', fontWeight: 500 }}>
-//                     {`${getStringBalance(wallets[optionID].balance)} ₽`}
-//                   </span>
-// </button>

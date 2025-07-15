@@ -103,7 +103,7 @@ export const CategoryEdit: FC = () => {
 
   return (
     <>
-      <PageContentWrapper style={{ margin: '0 auto' }} className="pb-0">
+      <PageContentWrapper style={{ margin: '0 auto' }}>
         {isEdit ? (
           <button type="button" onClick={onClose} className="btn-close align-self-end"></button>
         ) : (

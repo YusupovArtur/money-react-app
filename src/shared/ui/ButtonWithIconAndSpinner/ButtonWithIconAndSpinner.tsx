@@ -21,8 +21,8 @@ export const ButtonWithIconAndSpinner: FC<ButtonWithIconAndSpinnerProps> = ({
       <ButtonWithIcon disabled={isLoading} {...props}>
         {isLoading ? (
           <div
-            className="spinner-border text-light"
-            style={{ width: spinnerSize, height: spinnerSize, borderWidth: spinnerThickness }}
+            className="spinner-border"
+            style={{ width: spinnerSize, height: spinnerSize, borderWidth: spinnerThickness, color: 'inherit' }}
             role="status"
           >
             <span className="visually-hidden">Loading...</span>

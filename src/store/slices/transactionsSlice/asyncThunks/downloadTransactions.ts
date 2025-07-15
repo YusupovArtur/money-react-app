@@ -5,6 +5,7 @@ import { ResponseHooksType } from 'store';
 import { getWalletsTotals } from 'store/slices/transactionsSlice/helpers/getWalletsTotals.ts';
 import { getTransactionsQuerySnapshot } from 'store/slices/transactionsSlice/helpers/getTransactionsQuerySnapshot.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
+import { getValidTransactionsList } from 'store/slices/transactionsSlice/helpers/getValidTransactionsList.ts';
 
 export const downloadTransactions = createAsyncThunk<
   { list: TransactionsListType },
@@ -19,7 +20,7 @@ export const downloadTransactions = createAsyncThunk<
     const user = auth.currentUser;
 
     try {
-      const transactionsList = await getTransactionsQuerySnapshot(user.uid);
+      const transactionsList = getValidTransactionsList(await getTransactionsQuerySnapshot(user.uid));
       return { list: transactionsList };
     } catch (error) {
       return rejectWithValue(getErrorMessage(error));

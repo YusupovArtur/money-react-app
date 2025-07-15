@@ -5,6 +5,7 @@ import { getTouchCoords } from '../helpers/getTouchCoords.ts';
 import { abs } from '../helpers/abs.ts';
 import { dot } from '../helpers/dot.ts';
 import { multiply } from '../helpers/multiply.ts';
+import { clamp } from 'shared/helpers';
 
 export const onTouchMove = (props: {
   event: ReactTouchEvent<HTMLCanvasElement> | TouchEvent;
@@ -47,7 +48,7 @@ export const onTouchMove = (props: {
     };
 
     const dScale = (touchesDist - scrollDist1 - scrollDist2) / touchesDist;
-    scale.current = Math.min(Math.max(scale.current / dScale, 0.2), 1);
+    scale.current = clamp(scale.current / dScale, 0.2, 1);
 
     touch1.current = { x: event.touches[0].clientX, y: event.touches[0].clientY };
     touch2.current = { x: event.touches[1].clientX, y: event.touches[1].clientY };

@@ -12,20 +12,20 @@ import { DropdownMenuWrapper } from 'shared/ui';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
 import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
-import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/types.ts';
+import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/FilterDispatcherType.ts';
 
 interface TransactionsTableSortingFilteringMenu<T extends keyof TransactionType> {
   fieldKey: T;
 
   transactions: TransactionsListType;
-  order: string[];
+  transactionsOrder: string[];
 
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
 
   filter: TransactionsFilterType<T>;
-  setFilterDispatcher: FilterDispatcherType<T>;
-  filtersLength: number;
+  filterDispatch: FilterDispatcherType<T>;
+  filtersLength?: number;
   filtrationOrder?: number;
 
   DropdownToggle?: ReactNode;
@@ -45,16 +45,16 @@ const captions: Record<keyof TransactionType, string> = {
 export const TransactionsTableSortingFilteringMenu = <T extends keyof TransactionType>({
   fieldKey,
   transactions,
-  order,
+  transactionsOrder,
   sortingOrder,
   setSortingOrder,
   filter,
-  setFilterDispatcher,
+  filterDispatch,
   filtersLength,
   filtrationOrder,
   DropdownToggle,
 }: TransactionsTableSortingFilteringMenu<T>): ReactNode => {
-  const options = getTransactionsFilterOptionsList({ fieldKey: fieldKey, order: order, list: transactions });
+  const options = getTransactionsFilterOptionsList({ fieldKey: fieldKey, order: transactionsOrder, list: transactions });
 
   const divRef = useRef<HTMLDivElement>(null);
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
@@ -79,7 +79,7 @@ export const TransactionsTableSortingFilteringMenu = <T extends keyof Transactio
             fieldKey={fieldKey}
             sortingOrder={sortingOrder}
             filter={filter}
-            filtrationOrder={filtersLength > 1 ? filtrationOrder : undefined}
+            filtrationOrder={filtersLength && filtersLength > 1 ? filtrationOrder : undefined}
           />
         )
       }
@@ -91,7 +91,7 @@ export const TransactionsTableSortingFilteringMenu = <T extends keyof Transactio
             options={options.options}
             optionKeys={options.optionKeys}
             filter={filter}
-            setFilter={setFilterDispatcher}
+            filterDispatch={filterDispatch}
             filtersLength={filtersLength}
             portalContainerForInternalDropdowns={portalContainer}
           ></TransactionsTableFilteringMenu>

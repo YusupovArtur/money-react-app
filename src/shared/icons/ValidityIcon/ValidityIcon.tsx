@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { CheckIcon } from 'shared/icons';
-import { ExclamationIcon } from 'shared/icons/ExclamationIcon.tsx';
+import { CheckIcon, ExclamationIcon } from 'shared/icons';
 
 interface ValidityIconProps {
   isValid: boolean | undefined;

@@ -68,8 +68,8 @@ export const TransactionsTable: FC = () => {
             filtrationCalculationsObject={filtrationCalculationsObject}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
-            filters={filters}
-            setFilters={setFilters}
+            filter={filters}
+            setFilter={setFilters}
           />
           <tbody>
             {orderSorted.map((id) => (
@@ -82,14 +82,13 @@ export const TransactionsTable: FC = () => {
       {/*Mobile list*/}
       {isSmall && (
         <>
-          {' '}
           <TransactionsListHead
             transactions={transactions}
             filtrationCalculationsObject={filtrationCalculationsObject}
             sortingOrder={sortingOrder}
             setSortingOrder={setSortingOrder}
-            filters={filters}
-            setFilters={setFilters}
+            filter={filters}
+            setFilter={setFilters}
           />
           {orderSorted.map((id) => (
             <TransactionsListItem key={id} id={id} transaction={transactions[id]} setTransactionID={handleSetID} />

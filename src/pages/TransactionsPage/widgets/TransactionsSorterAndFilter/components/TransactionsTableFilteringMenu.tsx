@@ -11,7 +11,7 @@ import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/Transac
 // UI
 import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
 // Types
-import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/types.ts';
+import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/FilterDispatcherType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import {
   RangeFilterType,
@@ -26,8 +26,8 @@ interface TransactionsTableFilteringMenuProps<T extends keyof TransactionType> {
   options: TransactionType[T][];
   optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>>;
   filter: TransactionsFilterType<T>;
-  setFilter: FilterDispatcherType<T>;
-  filtersLength: number;
+  filterDispatch: FilterDispatcherType<T>;
+  filtersLength?: number;
   portalContainerForInternalDropdowns?: HTMLElement | null;
 }
 
@@ -36,7 +36,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   options,
   optionKeys,
   filter,
-  setFilter,
+  filterDispatch,
   filtersLength,
   portalContainerForInternalDropdowns,
 }: TransactionsTableFilteringMenuProps<T>): ReactNode => {
@@ -50,24 +50,24 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
 
   // Menu handlers
   const deleteFilterHandler = () => {
-    setFilter({ type: 'delete' });
+    filterDispatch({ type: 'delete' });
   };
   const deleteAllFiltersHandler = () => {
-    if (filtersLength > 1) setFilter({ type: 'deleteAll' });
+    if (filtersLength && filtersLength > 1) filterDispatch({ type: 'deleteAll' });
   };
   const clearFilterHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      setFilter({ type: 'delete' });
+      filterDispatch({ type: 'setAll' });
     } else {
-      setFilter({ type: 'setNone', options: options });
+      filterDispatch({ type: 'remove', payload: options });
     }
   };
   const optionChangeHandler =
     (option: TransactionType[T] | Set<TransactionType[T]>) => (event: ChangeEvent<HTMLInputElement>) => {
       if (event.target.checked) {
-        setFilter({ type: 'add', option: option });
+        filterDispatch({ type: 'add', payload: option });
       } else {
-        setFilter({ type: 'remove', option: option });
+        filterDispatch({ type: 'remove', payload: option });
       }
     };
 
@@ -78,10 +78,10 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   };
   useEffect(() => {
     if (!isNaN(rangeFilter.min) || !isNaN(rangeFilter.max)) {
-      setFilter({ type: 'range', option: rangeFilter });
+      filterDispatch({ type: 'range', payload: rangeFilter });
     } else {
       if (isRangeFilterObject(filter.filter)) {
-        setFilter({ type: 'setAll' });
+        filterDispatch({ type: 'setAll' });
       }
     }
   }, [rangeFilter.min, rangeFilter.max]);
@@ -107,9 +107,11 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
         <ButtonWithIcon className="flex-grow-1 btn btn-body me-1" caption="Удалить фильтр" onClick={deleteFilterHandler}>
           <FilterIcon filter={filter} iconSize="1rem" isIconForDeleteFilterButton={true} />
         </ButtonWithIcon>
-        <ButtonWithIcon onClick={deleteAllFiltersHandler} className={`btn btn-body me-1 ${filtersLength > 1 && 'text-danger'}`}>
-          <TrashFillIcon iconSize="1rem" />
-        </ButtonWithIcon>
+        {filtersLength !== undefined && (
+          <ButtonWithIcon onClick={deleteAllFiltersHandler} className={`btn btn-body me-1 ${filtersLength > 1 && 'text-danger'}`}>
+            <TrashFillIcon iconSize="1rem" />
+          </ButtonWithIcon>
+        )}
       </div>
 
       {fieldKey === 'time' && (

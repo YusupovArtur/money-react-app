@@ -1,4 +1,5 @@
 import { AnimationStyleNumberType } from '../types/AnimationStyleNumberType.ts';
+import { clamp } from 'shared/helpers';
 
 const interpolate = (start: number, end: number, ratio: number): number => start + (end - start) * ratio;
 
@@ -17,7 +18,7 @@ export const getAnimationStyleStateFrame = (
       newStyle[key as keyof AnimationStyleNumberType] = interpolate(
         style1[key as keyof AnimationStyleNumberType] as number,
         style2[key as keyof AnimationStyleNumberType] as number,
-        Math.min(Math.max(ratio, 0), 1),
+        clamp(ratio, 0, 1),
       );
     }
   }

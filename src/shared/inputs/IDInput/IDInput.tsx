@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC, useEffect, useRef, useState } from 'react';
 import { DropdownContainer, IconCaptionContainer } from 'shared/containers';
 import { EntityIcon } from 'entities/EntityIcon';
-import { DropdownMenuWrapper } from 'shared/ui';
+import { IDInputDropdown } from 'shared/inputs';
 
 export type IDOptionType = {
   id: string;
@@ -40,8 +40,6 @@ export const IDInput: FC<IDInputProps> = ({
   ...props
 }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
-
-  const topColor = topBorderColor ? `bg-${topBorderColor}` : undefined;
 
   const flag = useRef<boolean>(false);
   const flagIsWasOpened = useRef<boolean>(false);
@@ -92,23 +90,14 @@ export const IDInput: FC<IDInputProps> = ({
           </button>
         }
         DropdownMenu={
-          <DropdownMenuWrapper className={`px-0 ${topColor ? 'pt-0' : ''}`} style={{ minWidth: '10rem' }}>
-            {topColor && <div className={`rounded-top-2 border-bottom ${topColor}`} style={{ paddingBottom: '0.5rem' }}></div>}
-
-            {options.map((optionListItem) => (
-              <button
-                key={optionListItem.id}
-                onClick={() => {
-                  if (setValidate) setValidate();
-                  setID(optionListItem.id);
-                }}
-                className={`dropdown-option-list-item ${optionListItem.id === option.id ? 'active' : ''}`}
-              >
-                <EntityIcon iconName={optionListItem.iconName} color={optionListItem.color} iconSize={optionIconSize} />
-                <span className="ms-1">{optionListItem.name}</span>
-              </button>
-            ))}
-          </DropdownMenuWrapper>
+          <IDInputDropdown
+            option={option}
+            options={options}
+            setID={setID}
+            setValidate={setValidate}
+            topBorderColor={topBorderColor}
+            optionIconSize={optionIconSize}
+          />
         }
       />
     </>

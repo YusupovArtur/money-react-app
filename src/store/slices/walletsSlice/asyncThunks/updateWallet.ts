@@ -7,6 +7,7 @@ import { db } from 'app/firebase.ts';
 import { getTransactionsQuerySnapshot } from 'store/slices/transactionsSlice/helpers/getTransactionsQuerySnapshot.ts';
 import { getWalletsTotals } from 'store/slices/transactionsSlice/helpers/getWalletsTotals.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
+import { getValidTransactionsList } from 'store/slices/transactionsSlice/helpers/getValidTransactionsList.ts';
 
 export const updateWallet = createAsyncThunk<
   { id: string; walletProps: WalletUpdateType },
@@ -24,7 +25,7 @@ export const updateWallet = createAsyncThunk<
       let balance: number | undefined = undefined;
 
       if (walletProps.balance !== undefined) {
-        const transactions = await getTransactionsQuerySnapshot(user.uid);
+        const transactions = getValidTransactionsList(await getTransactionsQuerySnapshot(user.uid));
         const totals = getWalletsTotals(transactions);
         const total = totals[id] ? totals[id] : 0;
         balance = walletProps.balance - total;

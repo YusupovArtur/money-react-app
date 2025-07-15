@@ -7,5 +7,8 @@ export type { RadioOptions } from './RadioButtonGroup/RadioButtonGroup.tsx';
 export { ColorHexInput } from './ColorHexInput/ColorHexInput.tsx';
 export { IconNameInput } from './IconNameInput/IconNameInput.tsx';
 
+export { IDInput, type IDOptionType } from './IDInput/IDInput.tsx';
+export { IDInputDropdown } from './IDInput/IDInputDropdown.tsx';
+
 export { WALLET_ICON_OPTIONS } from './IconNameInput/constants/WALLET_ICON_OPTIONS.ts';
 export { CATEGORY_ICON_OPTIONS } from './IconNameInput/constants/CATEGORY_ICON_OPTIONS.ts';

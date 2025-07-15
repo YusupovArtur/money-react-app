@@ -19,6 +19,14 @@ export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(pr
     return order;
   }
 
+  if (isSet(filter.filter) && filter.filter.size === 0) {
+    return order;
+  }
+
+  if (isRangeFilterObject(filter.filter) && isNaN(filter.filter.min) && isNaN(filter.filter.max)) {
+    return order;
+  }
+
   if (isSet(filter.filter)) {
     return order.filter((id) => {
       const transaction: TransactionType | undefined = list[id];

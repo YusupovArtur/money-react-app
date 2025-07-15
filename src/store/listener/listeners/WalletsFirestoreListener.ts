@@ -4,7 +4,7 @@ import { User } from 'firebase/auth';
 import { collection, onSnapshot, Unsubscribe } from 'firebase/firestore';
 // Store
 import { AppDispatch, useAppDispatch } from 'store/index.ts';
-import { getWalletsOrderedList, setWallets, setWalletsResponseState } from 'store/slices/walletsSlice';
+import { getValidWalletsOrderedList, setWallets, setWalletsResponseState } from 'store/slices/walletsSlice';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 import { isLocalAdd } from 'store/listener/helpers/isLocalAdd.ts';
 import { isLocalDelete } from 'store/listener/helpers/isLocalDelete.ts';
@@ -70,7 +70,7 @@ export class WalletsFirestoreListener {
             return;
           }
 
-          const orderedList = getWalletsOrderedList(querySnapshot);
+          const orderedList = getValidWalletsOrderedList(querySnapshot);
           this.dispatch(setWallets(orderedList));
         },
         (error) => {

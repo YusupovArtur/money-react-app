@@ -41,7 +41,7 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
     <tr onClick={handleSetTransactionID}>
       {/*Time*/}
       <td style={{ width: TRANSACTION_TABLE_PROPORTIONS.timeWidth, padding: '7px 5px', textAlign: 'center' }}>
-        {getStringDate(new Date(time))}
+        {getStringDate(time)}
       </td>
 
       {/*Type*/}

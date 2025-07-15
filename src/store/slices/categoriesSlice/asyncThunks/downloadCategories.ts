@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
-import { getCategoriesOrderedList } from 'store/slices/categoriesSlice/helpers/getCategoriesOrderedList.ts';
+import { getValidCategoriesOrderedList } from 'store/slices/categoriesSlice/helpers/getValidCategoriesOrderedList.ts';
 
 export const downloadCategories = createAsyncThunk<
   CategoriesOrderedListType,
@@ -22,7 +22,7 @@ export const downloadCategories = createAsyncThunk<
 
     return await getDocs(categoriesRef)
       .then((querySnapshot) => {
-        return getCategoriesOrderedList(querySnapshot);
+        return getValidCategoriesOrderedList(querySnapshot);
       })
       .catch((error) => {
         return rejectWithValue(getErrorMessage(error));

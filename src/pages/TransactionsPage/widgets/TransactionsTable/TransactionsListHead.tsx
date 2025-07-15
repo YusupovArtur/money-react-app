@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction } from 'react';
 // Components
 import { TransactionsTableSortingFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsTableSortingFilteringMenu.tsx';
 // Hooks
-import { useSetFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/useSetFilter.ts';
+import { useFilterReducer } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/useFilterReducer.ts';
 // Types
 import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
@@ -15,8 +15,8 @@ interface TransactionsListHeadProps {
   filtrationCalculationsObject: FiltrationCalculationsObjectType;
   sortingOrder: TransactionsSortingOrderType;
   setSortingOrder: Dispatch<SetStateAction<TransactionsSortingOrderType>>;
-  filters: TransactionsFilterType<keyof TransactionType>[];
-  setFilters: Dispatch<SetStateAction<TransactionsFilterType<keyof TransactionType>[]>>;
+  filter: TransactionsFilterType<keyof TransactionType>[];
+  setFilter: Dispatch<SetStateAction<TransactionsFilterType<keyof TransactionType>[]>>;
 }
 
 export const TransactionsListHead: FC<TransactionsListHeadProps> = ({
@@ -24,8 +24,8 @@ export const TransactionsListHead: FC<TransactionsListHeadProps> = ({
   filtrationCalculationsObject,
   sortingOrder,
   setSortingOrder,
-  filters,
-  setFilters,
+  filter,
+  setFilter,
 }) => {
   return (
     <div className="d-flex">
@@ -33,12 +33,12 @@ export const TransactionsListHead: FC<TransactionsListHeadProps> = ({
       <TransactionsTableSortingFilteringMenu
         fieldKey="time"
         transactions={transactions}
-        order={filtrationCalculationsObject.ordersForFilterOptions['time']}
+        transactionsOrder={filtrationCalculationsObject.ordersForFilterOptions['time']}
         sortingOrder={sortingOrder}
         setSortingOrder={setSortingOrder}
-        filter={getCurrentFilter({ fieldKey: 'time', filters: filters })}
-        setFilterDispatcher={useSetFilter({ fieldKey: 'time', setFilters: setFilters })}
-        filtersLength={filters.length}
+        filter={getCurrentFilter({ fieldKey: 'time', filters: filter })}
+        filterDispatch={useFilterReducer({ fieldKey: 'time', setFilters: setFilter })}
+        filtersLength={filter.length}
         filtrationOrder={filtrationCalculationsObject.filteringOrdersNumeration['time']}
       />
 
@@ -46,12 +46,12 @@ export const TransactionsListHead: FC<TransactionsListHeadProps> = ({
       <TransactionsTableSortingFilteringMenu
         fieldKey="sum"
         transactions={transactions}
-        order={filtrationCalculationsObject.ordersForFilterOptions['sum']}
+        transactionsOrder={filtrationCalculationsObject.ordersForFilterOptions['sum']}
         sortingOrder={sortingOrder}
         setSortingOrder={setSortingOrder}
-        filter={getCurrentFilter({ fieldKey: 'sum', filters: filters })}
-        setFilterDispatcher={useSetFilter({ fieldKey: 'sum', setFilters: setFilters })}
-        filtersLength={filters.length}
+        filter={getCurrentFilter({ fieldKey: 'sum', filters: filter })}
+        filterDispatch={useFilterReducer({ fieldKey: 'sum', setFilters: setFilter })}
+        filtersLength={filter.length}
         filtrationOrder={filtrationCalculationsObject.filteringOrdersNumeration['sum']}
       />
 
@@ -59,12 +59,12 @@ export const TransactionsListHead: FC<TransactionsListHeadProps> = ({
       <TransactionsTableSortingFilteringMenu
         fieldKey="category"
         transactions={transactions}
-        order={filtrationCalculationsObject.ordersForFilterOptions['category']}
+        transactionsOrder={filtrationCalculationsObject.ordersForFilterOptions['category']}
         sortingOrder={sortingOrder}
         setSortingOrder={setSortingOrder}
-        filter={getCurrentFilter({ fieldKey: 'category', filters: filters })}
-        setFilterDispatcher={useSetFilter({ fieldKey: 'category', setFilters: setFilters })}
-        filtersLength={filters.length}
+        filter={getCurrentFilter({ fieldKey: 'category', filters: filter })}
+        filterDispatch={useFilterReducer({ fieldKey: 'category', setFilters: setFilter })}
+        filtersLength={filter.length}
         filtrationOrder={filtrationCalculationsObject.filteringOrdersNumeration['category']}
       />
     </div>

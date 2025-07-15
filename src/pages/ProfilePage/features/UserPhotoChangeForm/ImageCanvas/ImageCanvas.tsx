@@ -6,6 +6,7 @@ import { drawCanvasImage } from '../helpers/drawCanvasImage.ts';
 import { moveCanvasImageCoordinates } from './helpers/moveCanvasImageCoordiates.ts';
 import { onTouchStart } from 'pages/ProfilePage/features/UserPhotoChangeForm/ImageCanvas/handlers/onTouchStart.ts';
 import { onTouchMove } from 'pages/ProfilePage/features/UserPhotoChangeForm/ImageCanvas/handlers/onTouchMove.ts';
+import { clamp } from 'shared/helpers';
 
 interface ImageCanvasProps {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;
@@ -36,7 +37,7 @@ export const ImageCanvas: FC<ImageCanvasProps> = ({ canvasRef, image, canvasSize
   };
 
   const moveCoords = (props: { dx: number; dy: number; dScale: number }) => {
-    scale.current = Math.min(Math.max(scale.current + props.dScale, 0.2), 1);
+    scale.current = clamp(scale.current + props.dScale, 0.2, 1);
     moveCanvasImageCoordinates({
       canvas: canvasRef.current,
       image: image.current,

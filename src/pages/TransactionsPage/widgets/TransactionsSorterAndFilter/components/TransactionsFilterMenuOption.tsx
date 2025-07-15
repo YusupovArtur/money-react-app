@@ -20,7 +20,7 @@ export const TransactionsFilterMenuOption = <T extends keyof TransactionType>({
 
   // Time
   if (fieldKey === 'time') {
-    return <div>{getStringDate(new Date(optionKey as TransactionFieldCaptionKeyType<'time'>))}</div>;
+    return <div>{getStringDate(optionKey as TransactionFieldCaptionKeyType<'time'>)}</div>;
   }
 
   // Type

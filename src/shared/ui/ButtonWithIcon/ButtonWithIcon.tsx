@@ -1,5 +1,4 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
-import { IconCaptionContainer } from 'shared/containers';
 
 interface ButtonWithIconProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -11,10 +10,11 @@ export const ButtonWithIcon: FC<ButtonWithIconProps> = ({ children, caption, cla
     <button
       type="button"
       style={{ maxWidth: '100%' }}
-      className={`btn d-flex justify-content-center align-items-center ${className}`}
+      className={`btn d-flex justify-content-center align-items-center overflow-hidden ${className || ''}`}
       {...props}
     >
-      <IconCaptionContainer caption={caption}>{children}</IconCaptionContainer>
+      {children}
+      {caption && <span className={`flex-shrink-1 text-truncate ${children ? 'ms-1' : ''}`}>{caption}</span>}
     </button>
   );
 };
