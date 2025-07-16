@@ -36,7 +36,3 @@ export type { SubcategoryUpdateType } from './types/SubcategoryUpdateType.ts';
 export type { SubcategoriesListType } from './types/SubcategoriesListType.ts';
 export type { SubcategoriesOrderedListType } from './types/SubcategoriesOrderedListType.ts';
 export type { CategoriesStateType } from './types/CategoriesStateType.ts';
-
-// Constants
-export const CATEGORIES_LIST_LAST_ITEM_ID = 'THIS_A_CATEGORIES_LIST_LAST_ITEM_ID';
-export const SUBCATEGORIES_LIST_LAST_ITEM_ID = 'THIS_A_SUBCATEGORIES_LIST_LAST_ITEM_ID';

@@ -6,6 +6,7 @@ import { db } from 'app/firebase.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 import { WalletsStateType } from 'store/slices/walletsSlice';
 import { shiftIndexes } from 'store/helpers/shiftIndexes.ts';
+import { getValidOrder } from 'store/helpers/getValidOrder.ts';
 
 export const shiftWallet = createAsyncThunk<
   string[] | void,
@@ -26,7 +27,7 @@ export const shiftWallet = createAsyncThunk<
 
     return await runTransaction(db, async (transaction) => {
       const orderSnapshot = await transaction.get(orderRef);
-      const order = orderSnapshot.data() ? (orderSnapshot.data() as { order: string[] }).order : [];
+      const order = getValidOrder(orderSnapshot.data());
       const newOrder = shiftIndexes({ order: order, index1: index1, index2: index2 });
 
       transaction.set(orderRef, { order: newOrder });

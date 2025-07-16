@@ -19,6 +19,7 @@ export const WalletWidgetSettings: FC = () => {
     dispatch(changeWalletsWidgetSettings({ action: { type: 'add' }, setIsLoading: setIsLoading }));
   };
 
+  // noinspection DuplicatedCode
   const dragStartRef = useRef<number | null>(null);
   const onDragStart = (index: number) => () => {
     dragStartRef.current = index;
@@ -34,10 +35,8 @@ export const WalletWidgetSettings: FC = () => {
           setIsLoading: setIsLoading,
         }),
       );
+      dragStartRef.current = null;
     }
-  };
-  const onDragEnd = () => {
-    dragStartRef.current = null;
   };
 
   return (
@@ -61,7 +60,6 @@ export const WalletWidgetSettings: FC = () => {
                   draggable={!isLoading}
                   onDragStart={onDragStart(index)}
                   onDrop={onDrop(index)}
-                  onDragEnd={onDragEnd}
                 >
                   <WalletShortInfo id={id} />
                   <ButtonWithIcon disabled={isLoading} onClick={deleteHandler(index)} className="btn-outline-danger ms-1 p-1">
@@ -70,12 +68,7 @@ export const WalletWidgetSettings: FC = () => {
                 </div>
               );
             })}
-            <ButtonWithIcon
-              onClick={addHandler}
-              onDrop={onDrop(order.length)}
-              disabled={isLoading}
-              className="btn-outline-primary p-1 mt-2 w-100"
-            >
+            <ButtonWithIcon onClick={addHandler} disabled={isLoading} className="btn-outline-primary p-1 mt-3 w-100">
               <PlusIcon iconSize="1rem" />
             </ButtonWithIcon>
           </DropdownMenuWrapper>

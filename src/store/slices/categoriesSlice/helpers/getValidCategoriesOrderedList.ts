@@ -41,7 +41,7 @@ const isCategory = (obj: any): obj is CategoryType => {
   );
 };
 
-const getValidCategory = (obj: unknown): CategoryType => {
+export const getValidCategory = (obj: unknown): CategoryType => {
   if (isCategory(obj)) {
     return obj;
   }

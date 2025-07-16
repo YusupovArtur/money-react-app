@@ -3,8 +3,9 @@ import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { getAuth } from 'firebase/auth';
 import { doc, runTransaction } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
-import { CategoriesStateType, CategoryType } from 'store/slices/categoriesSlice';
+import { CategoriesStateType } from 'store/slices/categoriesSlice';
 import { shiftIndexes } from 'store/helpers/shiftIndexes.ts';
+import { getValidCategory } from 'store/slices/categoriesSlice/helpers/getValidCategoriesOrderedList.ts';
 
 export const shiftSubCategory = createAsyncThunk<
   { categoryID: string; order: string[] } | void,
@@ -24,34 +25,12 @@ export const shiftSubCategory = createAsyncThunk<
 
     return await runTransaction(db, async (transaction) => {
       const categorySnapshot = await transaction.get(categoryRef);
-      const order = categorySnapshot.data() ? (categorySnapshot.data() as CategoryType).subcategories.order : [];
+      const order = getValidCategory(categorySnapshot).subcategories.order;
 
       const newOrder = shiftIndexes({ order: order, index1: index1, index2: index2 });
       transaction.update(categoryRef, { [`subcategories.order`]: newOrder });
 
       return { categoryID: categoryID, order: newOrder };
-
-      // const index1 = order.findIndex((id) => id1 === id);
-      //
-      // if (index1 !== -1) {
-      //   order.splice(index1, 1);
-      //   if (id2 === SUBCATEGORIES_LIST_LAST_ITEM_ID) {
-      //     order.push(id1);
-      //     transaction.update(categoryRef, { [`subcategories.order`]: order });
-      //     return { categoryID, order };
-      //   }
-      //
-      //   const index2 = order.findIndex((id) => id2 === id);
-      //   if (index2 !== -1) {
-      //     order.splice(index2, 0, id1);
-      //     transaction.update(categoryRef, { [`subcategories.order`]: order });
-      //     return { categoryID, order };
-      //   } else {
-      //     return rejectWithValue('No find id2');
-      //   }
-      // } else {
-      //   return rejectWithValue('Not find id1');
-      // }
     });
   } else {
     return rejectWithValue('Вы не авторизованы');

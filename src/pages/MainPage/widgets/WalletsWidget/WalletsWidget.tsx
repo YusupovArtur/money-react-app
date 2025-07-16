@@ -1,15 +1,11 @@
 import { FC } from 'react';
 import { useAppSelector } from 'store/store.ts';
 // Components
-import { WalletWidgetItem } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetItem.tsx';
 import { WalletWidgetSettings } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetSettings.tsx';
 import { AlertMessage } from 'shared/ui';
+import { WalletWidgetItemsList } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetItemsList.tsx';
 
-interface WalletsWidgetProps {}
-
-export const WalletsWidget: FC<WalletsWidgetProps> = () => {
-  const order = useAppSelector((state) => state.settings.settings.widgetsSettings.walletsWidget.order);
-
+export const WalletsWidget: FC = () => {
   const isLoadingWallets = useAppSelector((state) => state.wallets.responseState.isLoading);
   const errorMessageWallets = useAppSelector((state) => state.wallets.responseState.errorMessage);
   const isLoadingSettings = useAppSelector((state) => state.settings.responseState.isLoading);
@@ -30,12 +26,9 @@ export const WalletsWidget: FC<WalletsWidgetProps> = () => {
             ))}
           </>
         ) : (
-          <>
-            {order.map((id, index) => {
-              return <WalletWidgetItem key={id + index.toString()} id={id} index={index} />;
-            })}
-          </>
+          <WalletWidgetItemsList />
         )}
+
         <AlertMessage alertMessage={errorMessageWallets || errorMessageSettings} className="alert-danger mt-1 w-100" />
       </div>
     </div>

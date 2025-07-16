@@ -17,11 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persist} loading={null}>
-        <BrowserRouter
-          future={{
-            v7_relativeSplatPath: true,
-          }}
-        >
+        <BrowserRouter future={{ v7_relativeSplatPath: true }}>
           <App />
         </BrowserRouter>
       </PersistGate>

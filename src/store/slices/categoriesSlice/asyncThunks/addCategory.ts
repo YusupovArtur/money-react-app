@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { CategoriesStateType, CategoryAddType, CategoryType } from 'store/slices/categoriesSlice';
 import { ResponseHooksType } from 'store/types/ResponseHooksType.ts';
 import { getAuth } from 'firebase/auth';
-import { collection, doc, runTransaction } from 'firebase/firestore';
+import { arrayUnion, collection, doc, runTransaction } from 'firebase/firestore';
 import { db } from 'app/firebase.ts';
 import { getErrorMessage } from 'store/helpers/getErrorMessage.ts';
 
@@ -24,15 +24,11 @@ export const addCategory = createAsyncThunk<
     window.pending.categories.add = { id, flags: 2 };
 
     return runTransaction(db, async (transaction) => {
-      const orderSnapshot = (await transaction.get(orderRef)).data();
-      const order = orderSnapshot ? (orderSnapshot as { order: string[] }).order : [];
-
       const categoryToAdd: CategoryType = { ...category, subcategories: { list: {}, order: [] } };
       transaction.set(docRef, categoryToAdd);
-      order.push(id);
-      transaction.set(orderRef, { order });
+      transaction.set(orderRef, { order: arrayUnion(id) }, { merge: true });
 
-      return { id, category: categoryToAdd };
+      return { id: id, category: categoryToAdd };
     }).catch((error) => {
       return rejectWithValue(getErrorMessage(error));
     });

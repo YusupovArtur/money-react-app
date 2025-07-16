@@ -77,7 +77,7 @@ export const DraggableContainer = <T,>({
   };
 
   const defaultStyle1 = { height: 0, marginTop: 0, borderWidth: 0 };
-  const defaultStyle2 = { height: 55, marginTop: 4, borderWidth: 2 };
+  const defaultStyle2 = { height: 51.2, marginTop: 4, borderWidth: 2 };
 
   return (
     <>

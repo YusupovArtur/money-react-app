@@ -18,9 +18,7 @@ export const MONTH_ABBREVIATED_NAMES: string[] = [
   'Ноя.',
   'Дек.',
 ];
-export const DAY_SHORT_NAMES: string[] = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-
-export const MONTH_FULL_NAMES: string[] = [
+export const MONTH_NAMES_GENITIVE: string[] = [
   'Января',
   'Февраля',
   'Марта',
@@ -34,4 +32,6 @@ export const MONTH_FULL_NAMES: string[] = [
   'Ноября',
   'Декебря',
 ];
+
+export const DAY_SHORT_NAMES: string[] = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 export const DAY_FULL_NAMES: string[] = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
