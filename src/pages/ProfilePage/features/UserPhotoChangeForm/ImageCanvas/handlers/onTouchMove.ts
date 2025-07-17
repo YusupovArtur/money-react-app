@@ -1,4 +1,4 @@
-import { MutableRefObject, TouchEvent as ReactTouchEvent } from 'react';
+import { RefObject, TouchEvent as ReactTouchEvent } from 'react';
 import { CoordsType } from '../types/CoordsType.ts';
 import { getTouchVector } from '../helpers/getTouchVector.ts';
 import { getTouchCoords } from '../helpers/getTouchCoords.ts';
@@ -11,10 +11,10 @@ export const onTouchMove = (props: {
   event: ReactTouchEvent<HTMLCanvasElement> | TouchEvent;
   drawImage: () => void;
   moveCoords: (props: { dx: number; dy: number; dScale: number }) => void;
-  scale: MutableRefObject<number>;
-  touch: MutableRefObject<CoordsType | null>;
-  touch1: MutableRefObject<CoordsType | null>;
-  touch2: MutableRefObject<CoordsType | null>;
+  scale: RefObject<number>;
+  touch: RefObject<CoordsType | null>;
+  touch1: RefObject<CoordsType | null>;
+  touch2: RefObject<CoordsType | null>;
 }) => {
   const { event, drawImage, moveCoords, scale, touch, touch1, touch2 } = props;
 

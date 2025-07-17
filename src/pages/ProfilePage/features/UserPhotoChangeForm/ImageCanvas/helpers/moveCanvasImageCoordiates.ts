@@ -1,12 +1,12 @@
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import { clamp } from 'shared/helpers';
 
 export const moveCanvasImageCoordinates = (props: {
   canvas: HTMLCanvasElement | null;
   image: HTMLImageElement;
-  xRef: MutableRefObject<number>;
-  yRef: MutableRefObject<number>;
-  scaleRef: MutableRefObject<number>;
+  xRef: RefObject<number>;
+  yRef: RefObject<number>;
+  scaleRef: RefObject<number>;
   dx: number;
   dy: number;
 }) => {

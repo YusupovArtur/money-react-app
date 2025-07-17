@@ -1,7 +1,7 @@
-import { MutableRefObject, TouchEvent as ReactTouchEvent, useEffect } from 'react';
+import { RefObject, TouchEvent as ReactTouchEvent, useEffect } from 'react';
 
 export const useTouchEventListeners = (props: {
-  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   handleTouchStart: (event: ReactTouchEvent<HTMLCanvasElement> | TouchEvent) => void;
   handleTouchMove: (event: ReactTouchEvent<HTMLCanvasElement> | TouchEvent) => void;
 }) => {

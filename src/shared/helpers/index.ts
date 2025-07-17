@@ -3,10 +3,11 @@ export { isSet } from './typeChecks/isSet.ts';
 export { isSubset } from './typeChecks/isSubset.ts';
 export { isNumbersEqual } from './typeChecks/isNumbersEqual.ts';
 export { isArrayOfStrings } from './typeChecks/isArrayOfStrings.ts';
+export { isDigitChar, type DigitChar } from './typeChecks/isDigitChart.ts';
 
 export { clamp } from './clamp.ts';
 
-export { getDeviceType } from '../getDeviceType.ts';
+export { getDeviceType } from './getDeviceType.ts';
 export { getStringCurrencyValue } from './getStringCurrencyValue.ts';
 
 export { getStringDate } from './date/getStringDate.ts';

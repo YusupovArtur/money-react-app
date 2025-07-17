@@ -1,10 +1,10 @@
-import { CSSProperties, MutableRefObject } from 'react';
+import { CSSProperties, RefObject } from 'react';
 import { MenuAlignmentType } from '../types/MenuAlignmentType';
 
 type GetMenuAlignmentStyleType = (props: {
   menuAlignment: MenuAlignmentType;
-  toggleRef: MutableRefObject<HTMLSpanElement | null>;
-  menuRef: MutableRefObject<HTMLSpanElement | null>;
+  toggleRef: RefObject<HTMLSpanElement | null>;
+  menuRef: RefObject<HTMLSpanElement | null>;
 }) => CSSProperties;
 
 export const getMenuAlignmentStyle: GetMenuAlignmentStyleType = (props) => {

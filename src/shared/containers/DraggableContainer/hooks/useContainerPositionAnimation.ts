@@ -1,13 +1,13 @@
-import { Dispatch, MutableRefObject, RefObject, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef } from 'react';
 import { canselAnimation } from 'shared/containers/DraggableContainer/helpers/cancelAnimation.ts';
 import { getContainerPositionY } from 'shared/containers/DraggableContainer/helpers/getContainerPositionY.ts';
 
 export const useContainerPositionAnimation = <T>(props: {
   startIndex: T;
   index: T;
-  dy: MutableRefObject<number>;
+  dy: RefObject<number>;
   setDyState: Dispatch<SetStateAction<number>>;
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
 }) => {
   const { startIndex, index, dy, setDyState, containerRef } = props;
   const containerYRef = useRef<number | null>(null);

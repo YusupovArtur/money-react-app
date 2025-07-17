@@ -3,15 +3,15 @@ import React, { FC, HTMLAttributes, InputHTMLAttributes, useEffect, useRef, useS
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 // Components
 import { DateTextInput } from './inputs/DateTextInput/DateTextInput.tsx';
-import { DateInputPicker } from 'shared/inputs/DateInput/inputs/DateInputPicker/DateInputPicker.tsx';
 // Helpers
-import { getDeviceType } from 'shared/helpers';
+import { deepEqual, getDeviceType } from 'shared/helpers';
 import { getDateStateFromTimestamp } from './helpers/getDateStateFromTimestamp.ts';
 import { getTimestampFromDateState } from './helpers/getTimestampFromDateState.ts';
 // UI
 import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 import { CalendarIcon } from 'shared/inputs/DateInput/ui/CalendarIcon.tsx';
+import { DateInputPicker } from 'shared/inputs/DateInput/inputs/DateInputPicker/DateInputPicker.tsx';
 
 interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'style'> {
   timestamp: number;
@@ -53,7 +53,7 @@ export const DateInput: FC<DateInputProps> = ({
   useEffect(() => {
     setDateState((state) => {
       const dateStateTimestamp = getTimestampFromDateState(state);
-      if (timestamp !== dateStateTimestamp && !(isNaN(timestamp) && isNaN(dateStateTimestamp))) {
+      if (!deepEqual(timestamp, dateStateTimestamp)) {
         return getDateStateFromTimestamp(timestamp);
       }
       return state;
@@ -96,7 +96,7 @@ export const DateInput: FC<DateInputProps> = ({
               dateState={dateState}
               setDateState={setDateState}
               setIsOpenedDatepicker={setIsOpenedDatePicker}
-              isMobile={isMobile}
+              isModal={isMobile}
             />
           </DropdownMenuWrapper>
         }
@@ -104,7 +104,7 @@ export const DateInput: FC<DateInputProps> = ({
       <DateTextInput
         dateState={dateState}
         setDateState={setDateState}
-        isMobile={isMobile}
+        isModal={isMobile}
         disabled={disabled}
         setIsOpenedDatePicker={setIsOpenedDatePicker}
         dateTextInputRef={dateTextInputRef}

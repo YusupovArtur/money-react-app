@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { CSSProperties, FC, ReactNode, RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 // Containers
 import { ModalContainer } from 'shared/containers';
 // Hooks
@@ -24,9 +24,9 @@ interface BaseDropdownContainerProps {
   isModalDropdownContainerForMobileDevice?: boolean;
   portalContainer?: HTMLElement | null;
 
-  toggleRef?: React.RefObject<HTMLDivElement>;
-  menuRef?: React.RefObject<HTMLDivElement>;
-  additionalRefsForClickOutsideIgnore?: React.RefObject<HTMLElement>[];
+  toggleRef?: RefObject<HTMLDivElement | null>;
+  menuRef?: RefObject<HTMLDivElement | null>;
+  additionalRefsForClickOutsideIgnore?: RefObject<HTMLElement | null>[];
 }
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {

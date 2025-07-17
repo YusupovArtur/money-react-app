@@ -1,47 +1,32 @@
-import { Dispatch, FC, SetStateAction } from 'react';
 import { DATE_PICKER_CELL_SIZE, MONTH_ABBREVIATED_NAMES } from 'shared/inputs/DateInput/constants/constants.ts';
 import { ChevronRightIcon } from 'shared/inputs/DateInput/ui/ChevronRightIcon.tsx';
 import { ChevronLeftIcon } from 'shared/inputs/DateInput/ui/ChevronLeft.tsx';
-import { decrementDisplayedOption } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/decrementDisplayedOption.ts';
-import { incrementDisplayedOption } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/incrementDisplayedOption.ts';
-import { DateFieldName } from 'shared/inputs/DateInput/types/DateFieldName.ts';
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { useDatePickerContext } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
 
-interface DatePickerControlButtonsProps {
-  displayedOptionType: DateFieldName;
-  setDisplayedOptionType: Dispatch<SetStateAction<DateFieldName>>;
-  displayedOption: Omit<DateStateType, 'day'>;
-  setDisplayedOption: Dispatch<SetStateAction<Omit<DateStateType, 'day'>>>;
-}
+export const DatePickerControlButtons = () => {
+  const { state, dispatch } = useDatePickerContext();
 
-export const DatePickerControlButtons: FC<DatePickerControlButtonsProps> = ({
-  displayedOptionType,
-  setDisplayedOptionType,
-  displayedOption,
-  setDisplayedOption,
-}) => {
   const handleIncrement = () => {
-    incrementDisplayedOption({ displayedOptionType, displayedOption, setDisplayedOption });
+    dispatch({ type: 'incrementCalendarState' });
   };
-
   const handleDecrement = () => {
-    decrementDisplayedOption({ displayedOptionType, displayedOption, setDisplayedOption });
+    dispatch({ type: 'decrementCalendarState' });
+  };
+  const handleMonthButton = () => {
+    dispatch({ type: 'choseMonthCalendarLevel' });
+  };
+  const handleYearButton = () => {
+    dispatch({ type: 'choseYearCalendarLevel' });
   };
 
   return (
     <div className="d-flex justify-content-between">
       <div className="d-flex">
-        <button
-          onClick={() => (displayedOptionType === 'month' ? setDisplayedOptionType('day') : setDisplayedOptionType('month'))}
-          className=" btn btn-body rounded"
-        >
-          <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{MONTH_ABBREVIATED_NAMES[displayedOption.month - 1]}</span>
+        <button onClick={handleMonthButton} className=" btn btn-body rounded">
+          <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{MONTH_ABBREVIATED_NAMES[state.calendarState.month - 1]}</span>
         </button>
-        <button
-          onClick={() => (displayedOptionType === 'year' ? setDisplayedOptionType('day') : setDisplayedOptionType('year'))}
-          className="btn btn-body rounded"
-        >
-          <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{displayedOption.year}</span>
+        <button onClick={handleYearButton} className="btn btn-body rounded">
+          <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{state.calendarState.year}</span>
         </button>
       </div>
 

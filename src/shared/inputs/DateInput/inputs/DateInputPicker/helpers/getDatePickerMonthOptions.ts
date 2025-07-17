@@ -1,19 +1,17 @@
-import { DatePickerMonthOptionsCellPropsType } from 'shared/inputs/DateInput/types/types.ts';
+import { DatePickerMonthCellProps } from 'shared/inputs/DateInput/inputs/DateInputPicker/types.ts';
 import { MONTH_SHORT_NAMES } from 'shared/inputs/DateInput/constants/constants.ts';
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 
-export const getDatePickerMonthOptions = (props: {
-  displayedOption: Omit<DateStateType, 'day'>;
-}): DatePickerMonthOptionsCellPropsType[][] => {
+export const getDatePickerMonthOptions = (props: { calendarState: Omit<DateStateType, 'day'> }): DatePickerMonthCellProps[][] => {
   const {
-    displayedOption: { month, year },
+    calendarState: { month, year },
   } = props;
 
-  const options: DatePickerMonthOptionsCellPropsType[][] = [];
+  const options: DatePickerMonthCellProps[][] = [];
   const presentDay = new Date();
 
   for (let i = 0; i < 4; i++) {
-    const monthsRow: DatePickerMonthOptionsCellPropsType[] = [];
+    const monthsRow: DatePickerMonthCellProps[] = [];
     for (let j = 0; j < 3; j++) {
       const order = i * 3 + j;
       monthsRow.push({

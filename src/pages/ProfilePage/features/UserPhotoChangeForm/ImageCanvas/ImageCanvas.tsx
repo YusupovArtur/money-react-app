@@ -1,4 +1,4 @@
-import { FC, MouseEvent as ReactMouseEvent, MutableRefObject, TouchEvent as ReactTouchEvent, useRef, WheelEvent } from 'react';
+import { FC, MouseEvent as ReactMouseEvent, RefObject, TouchEvent as ReactTouchEvent, useRef, WheelEvent } from 'react';
 // Helpers
 import { useTouchEventListeners } from './hooks/useTouchEventListeners.ts';
 import { CoordsType } from './types/CoordsType.ts';
@@ -9,8 +9,8 @@ import { onTouchMove } from 'pages/ProfilePage/features/UserPhotoChangeForm/Imag
 import { clamp } from 'shared/helpers';
 
 interface ImageCanvasProps {
-  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
-  image: MutableRefObject<HTMLImageElement>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
+  image: RefObject<HTMLImageElement>;
   canvasSize?: string;
 }
 

@@ -1,10 +1,10 @@
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import { MenuAlignmentType } from '../types/MenuAlignmentType';
 
 type GetPositionedMenuAlignmentType = (props: {
   menuAlignment: MenuAlignmentType;
-  toggleRef: MutableRefObject<HTMLSpanElement | null>;
-  menuRef: MutableRefObject<HTMLSpanElement | null>;
+  toggleRef: RefObject<HTMLSpanElement | null>;
+  menuRef: RefObject<HTMLSpanElement | null>;
 }) => {
   alignment: MenuAlignmentType;
   maxHeight?: number;

@@ -3,7 +3,7 @@ import { RefObject, useEffect, useRef } from 'react';
 type itemOrNonEmptyArray<T> = T | [T, T, ...T[]];
 
 interface useClickOutsideProps {
-  elementRef: itemOrNonEmptyArray<RefObject<HTMLElement>>;
+  elementRef: itemOrNonEmptyArray<RefObject<HTMLElement | null>>;
   onClickOutside: () => any;
 }
 

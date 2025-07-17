@@ -1,4 +1,4 @@
-import { Dispatch, FC, MutableRefObject, SetStateAction, useState } from 'react';
+import { Dispatch, FC, RefObject, SetStateAction, useState } from 'react';
 // Store
 import { useAppDispatch } from 'store/index.ts';
 import { uploadUserPhoto } from 'store/slices/userSlice';
@@ -8,7 +8,7 @@ import { CloudPlusIcon } from './ui/CloudPlusIcon.tsx';
 import { ImageFileInput } from '../ImageFileInput/ImageFileInput.tsx';
 
 interface ImageFormControlButtonsProps {
-  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   reader: FileReader;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
 }

@@ -12,6 +12,8 @@
 
   --border-color-body-hover: rgb(198, 199, 200);
   --border-color-body-active: rgb(168, 187, 188);
+
+  --text-color-quaternary: rgba(33, 37, 41, 0.285);
 }
 
 [data-bs-theme=dark] {
@@ -28,4 +30,10 @@
 
   --border-color-body-hover: rgb(55, 59, 62);
   --border-color-body-active: rgb(51, 55, 58);
+
+  --text-color-quaternary: rgba(222, 226, 230, 0.285)
+}
+
+.text-body-quaternary {
+  color: var(--text-color-quaternary) !important;
 }

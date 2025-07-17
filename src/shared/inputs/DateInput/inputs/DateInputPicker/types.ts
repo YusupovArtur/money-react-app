@@ -1,4 +1,4 @@
-export type DatePickerDayOptionsCellPropsType = {
+export type DatePickerDayCellProps = {
   timestamp: number;
   date: number;
   isInCurrentMonth: boolean;
@@ -6,14 +6,14 @@ export type DatePickerDayOptionsCellPropsType = {
   isCurrent: boolean;
 };
 
-export type DatePickerMonthOptionsCellPropsType = {
+export type DatePickerMonthCellProps = {
   month: number;
   shortName: string;
   isSelected: boolean;
   isCurrent: boolean;
 };
 
-export type DatePickerYearOptionsCellPropsType = {
+export type DatePickerYearCellProps = {
   year: number;
   isSelected: boolean;
   isCurrent: boolean;

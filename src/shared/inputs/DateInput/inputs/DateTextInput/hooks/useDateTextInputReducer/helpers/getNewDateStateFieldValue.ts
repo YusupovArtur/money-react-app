@@ -1,9 +1,8 @@
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
-import { DateFieldName } from 'shared/inputs/DateInput/types/DateFieldName.ts';
 import { MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
-import { clamp } from 'shared/helpers';
+import { clamp, DigitChar, isDigitChar } from 'shared/helpers';
 
-const getDateStatePart = (props: { dateState: DateStateType; selectedPart: DateFieldName }): number => {
+const getDateStatePart = (props: { dateState: DateStateType; selectedPart: keyof DateStateType }): number => {
   const { dateState, selectedPart } = props;
 
   if (dateState[selectedPart] <= 0) {
@@ -22,14 +21,38 @@ const getDateStatePart = (props: { dateState: DateStateType; selectedPart: DateF
   return dateState[selectedPart];
 };
 
-export const getNewDateStateFieldValue = (props: {
-  key: string;
+export const getNewDateStateFieldValueByAdjust = (props: {
+  key: 'ArrowUp' | 'ArrowDown';
   dateState: DateStateType;
-  selectedPart: DateFieldName;
+  selectedPart: keyof DateStateType;
 }): number => {
   const { dateState, selectedPart, key } = props;
 
-  if (key.match(/\d/g)) {
+  if (key === 'ArrowUp' || key === 'ArrowDown') {
+    const change = dateState[selectedPart] ? (key === 'ArrowUp' ? 1 : key === 'ArrowDown' ? -1 : 0) : 0;
+    const newPartValue = getDateStatePart({ dateState, selectedPart }) + change;
+
+    switch (selectedPart) {
+      case 'day':
+        return clamp(newPartValue, 1, 31);
+      case 'month':
+        return clamp(newPartValue, 1, 12);
+      case 'year':
+        return clamp(newPartValue, MIN_YEAR, MAX_YEAR);
+    }
+  }
+
+  return dateState[selectedPart];
+};
+
+export const getNewDateStateFieldValueByKeyboard = (props: {
+  key: DigitChar;
+  dateState: DateStateType;
+  selectedPart: keyof DateStateType;
+}): number => {
+  const { dateState, selectedPart, key } = props;
+
+  if (isDigitChar(key)) {
     const newPartValue = dateState[selectedPart] * 10 + parseInt(key);
     switch (selectedPart) {
       case 'day':
@@ -50,20 +73,6 @@ export const getNewDateStateFieldValue = (props: {
     }
 
     return newPartValue;
-  }
-
-  if (key === 'ArrowUp' || key === 'ArrowDown') {
-    const change = dateState[selectedPart] ? (key === 'ArrowUp' ? 1 : key === 'ArrowDown' ? -1 : 0) : 0;
-    const newPartValue = getDateStatePart({ dateState, selectedPart }) + change;
-
-    switch (selectedPart) {
-      case 'day':
-        return clamp(newPartValue, 1, 31);
-      case 'month':
-        return clamp(newPartValue, 1, 12);
-      case 'year':
-        return clamp(newPartValue, MIN_YEAR, MAX_YEAR);
-    }
   }
 
   return dateState[selectedPart];
