@@ -1,16 +1,17 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 import { DatePickerDayCell } from './DatePickerDayCell.tsx';
 import { DATE_PICKER_CELL_SIZE, DAY_SHORT_NAMES } from 'shared/inputs/DateInput/constants/constants.ts';
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { getDatePickerDayOptions } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerDayOptions.ts';
 import { useDatePickerContext } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
+import { DateStateDispatcherAction } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
 
-interface DateInputPickerDayOptionsProps {
-  dateState: DateStateType;
-  setDateState: Dispatch<SetStateAction<DateStateType>>;
+interface DateInputPickerOptionsProps {
+  dateState: DateStateType | DateStateRangeType;
+  dateStateDispatch: (action: DateStateDispatcherAction) => void;
 }
 
-export const DatePickerDayOptions: FC<DateInputPickerDayOptionsProps> = ({ dateState, setDateState }) => {
+export const DatePickerDayOptions: FC<DateInputPickerOptionsProps> = ({ dateState, dateStateDispatch }) => {
   const { state } = useDatePickerContext();
 
   const options = getDatePickerDayOptions({ dateState, calendarState: state.calendarState });
@@ -32,7 +33,7 @@ export const DatePickerDayOptions: FC<DateInputPickerDayOptionsProps> = ({ dateS
       {options.map((week) => (
         <div className="row" key={week[0].timestamp + week[1].timestamp}>
           {week.map((day) => (
-            <DatePickerDayCell key={day.timestamp} dayCellProps={day} setDateState={setDateState} />
+            <DatePickerDayCell key={day.timestamp} dayCellProps={day} dateStateDispatch={dateStateDispatch} />
           ))}
         </div>
       ))}

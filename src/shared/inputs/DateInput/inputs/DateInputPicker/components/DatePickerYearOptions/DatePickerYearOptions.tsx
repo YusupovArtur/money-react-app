@@ -3,8 +3,15 @@ import { DATE_PICKER_CELL_SIZE, MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInp
 import { DatePickerYearCell } from './DatePickerYearCell.tsx';
 import { getDatePickerYearOptions } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerYearOptions.ts';
 import { useDatePickerContext } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
+import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateDispatcherAction } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
 
-export const DatePickerYearOptions: FC = () => {
+interface DateInputPickerOptionsProps {
+  dateState: DateStateType | DateStateRangeType;
+  dateStateDispatch: (action: DateStateDispatcherAction) => void;
+}
+
+export const DatePickerYearOptions: FC<DateInputPickerOptionsProps> = ({ dateState, dateStateDispatch }) => {
   const datePickerYearsFieldRef = useRef<HTMLInputElement>(null);
 
   const { state } = useDatePickerContext();
@@ -18,7 +25,7 @@ export const DatePickerYearOptions: FC = () => {
     }
   }, []);
 
-  const options = getDatePickerYearOptions({ calendarState: state.calendarState });
+  const options = getDatePickerYearOptions({ calendarState: state.calendarState, dateState: dateState });
 
   return (
     <div
@@ -33,7 +40,7 @@ export const DatePickerYearOptions: FC = () => {
       {options.map((row) => (
         <div className="row" key={`${row[0].year}${row[1].year}${row[2].year}`}>
           {row.map((year) => (
-            <DatePickerYearCell key={year.year} yearCellProps={year} />
+            <DatePickerYearCell key={year.year} yearCellProps={year} dateStateDispatch={dateStateDispatch} />
           ))}
         </div>
       ))}

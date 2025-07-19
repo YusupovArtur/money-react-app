@@ -1,23 +1,39 @@
 import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
-import { DatePickerState } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/DatePickerStateType.ts';
 import { MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
+import { DatePickerState } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
 
 export type DatePickerReducerAction =
   | { type: 'incrementCalendarState' | 'decrementCalendarState' }
   | { type: 'setCalendarLevel'; payload: keyof DateStateType }
   | { type: 'setCalendarState'; payload: Partial<Omit<DateStateType, 'day'>> }
   | { type: 'choseMonthCalendarLevel' }
-  | { type: 'choseYearCalendarLevel' };
+  | { type: 'choseYearCalendarLevel' }
+  | { type: 'setRangeLevel'; payload: keyof DateStateType };
 
 export const datePickerStateReducer = (state: DatePickerState, action: DatePickerReducerAction): DatePickerState => {
   const { year, month } = state.calendarState;
 
   switch (action.type) {
     case 'setCalendarLevel':
-      return { ...state, calendarLevel: action.payload };
+      if (state.rangeLevel === 'day') {
+        return { ...state, calendarLevel: action.payload };
+      }
+      if (state.rangeLevel === 'month' && action.payload !== 'day') {
+        return { ...state, calendarLevel: action.payload };
+      }
+      if (state.rangeLevel === 'year') {
+        return { ...state, calendarLevel: 'year' };
+      }
+      return state;
 
     case 'setCalendarState':
-      return { ...state, calendarState: { ...state.calendarState, ...action.payload } };
+      return {
+        ...state,
+        calendarState: {
+          month: action.payload.month !== undefined ? action.payload.month : state.calendarState.month,
+          year: action.payload.year !== undefined ? action.payload.year : state.calendarState.year,
+        },
+      };
 
     case 'incrementCalendarState':
       if (state.calendarLevel === 'day') {
@@ -54,16 +70,27 @@ export const datePickerStateReducer = (state: DatePickerState, action: DatePicke
       return state;
 
     case 'choseMonthCalendarLevel':
-      if (state.calendarLevel === 'month') {
+      if (state.rangeLevel === 'year') {
+        return { ...state, calendarLevel: 'year' };
+      }
+      if (state.calendarLevel === 'month' && state.rangeLevel === 'day') {
         return { ...state, calendarLevel: 'day' };
       }
       return { ...state, calendarLevel: 'month' };
 
     case 'choseYearCalendarLevel':
       if (state.calendarLevel === 'year') {
-        return { ...state, calendarLevel: 'day' };
+        if (state.rangeLevel === 'month') {
+          return { ...state, calendarLevel: 'month' };
+        }
+        if (state.rangeLevel === 'day') {
+          return { ...state, calendarLevel: 'day' };
+        }
       }
       return { ...state, calendarLevel: 'year' };
+
+    case 'setRangeLevel':
+      return { ...state, calendarLevel: action.payload, rangeLevel: action.payload };
 
     default:
       return state;

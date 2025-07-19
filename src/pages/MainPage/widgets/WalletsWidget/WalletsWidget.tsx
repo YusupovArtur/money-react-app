@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useAppSelector } from 'store/store.ts';
 // Components
 import { WalletWidgetSettings } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetSettings.tsx';
@@ -10,6 +10,8 @@ export const WalletsWidget: FC = () => {
   const errorMessageWallets = useAppSelector((state) => state.wallets.responseState.errorMessage);
   const isLoadingSettings = useAppSelector((state) => state.settings.responseState.isLoading);
   const errorMessageSettings = useAppSelector((state) => state.settings.responseState.errorMessage);
+
+  const [errorMessageWidgetItemChange, setErrorMessageWidgetItemChange] = useState('');
 
   return (
     <div className="d-flex flex-column">
@@ -26,11 +28,11 @@ export const WalletsWidget: FC = () => {
             ))}
           </>
         ) : (
-          <WalletWidgetItemsList />
+          <WalletWidgetItemsList setErrorMessage={setErrorMessageWidgetItemChange} />
         )}
-
-        <AlertMessage alertMessage={errorMessageWallets || errorMessageSettings} className="alert-danger mt-1 w-100" />
       </div>
+      <AlertMessage alertMessage={errorMessageWallets || errorMessageSettings} className="alert-danger mt-1 w-100" />
+      <AlertMessage alertMessage={errorMessageWidgetItemChange} className="alert-danger mt-1 w-100" />
     </div>
   );
 };

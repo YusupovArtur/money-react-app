@@ -1,5 +1,5 @@
 import { Dispatch, RefObject, SetStateAction } from 'react';
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { getSelectionByMouse } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/getSelectionByMouse.ts';
 import { setDateInputSelection } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/setDateInputSelection.ts';
 import { getClearedDateState } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/getClearedDateState.ts';
@@ -9,7 +9,11 @@ import {
   getNewDateStateFieldValueByKeyboard,
 } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/getNewDateStateFieldValue.ts';
 import { DigitChar } from 'shared/helpers';
-import { getValidatedDateStateValue } from 'shared/inputs/DateInput/inputs/DateTextInput/helpers/getValidatedDateStateValue.ts';
+import {
+  getValidDateStateRange,
+  getValidDateState,
+} from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/getValidDateState.ts';
+import { DateInputSelectionType } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/DateInputSelectionType.ts';
 
 type DateTextInputActions =
   | { type: 'setSelectionByMouse' }
@@ -19,12 +23,28 @@ type DateTextInputActions =
   | { type: 'setDateStateByDigitKey'; payload: DigitChar }
   | { type: 'blur' };
 
-export const useDateTextInputReducer = (props: {
+type PropsWithDate = {
+  dateState: DateStateType;
   setDateState: Dispatch<SetStateAction<DateStateType>>;
-  inputRef: RefObject<HTMLInputElement | null>;
-  selectionRef: RefObject<keyof DateStateType>;
-}) => {
-  const { setDateState, inputRef, selectionRef } = props;
+  dateStateRange?: never;
+  setDateStateRange?: never;
+};
+
+type PropsWithDateRange = {
+  dateState?: never;
+  setDateState?: never;
+  dateStateRange: DateStateRangeType;
+  setDateStateRange: Dispatch<SetStateAction<DateStateRangeType>>;
+};
+
+type PropsType = { inputRef: RefObject<HTMLInputElement | null>; selectionRef: RefObject<DateInputSelectionType> } & (
+  | PropsWithDate
+  | PropsWithDateRange
+);
+
+export const useDateTextInputReducer = (props: PropsType) => {
+  const { dateState, dateStateRange, setDateState, setDateStateRange, inputRef, selectionRef } = props;
+  const type: 'date' | 'range' = setDateState ? 'date' : 'range';
 
   return (action: DateTextInputActions) => {
     switch (action.type) {
@@ -36,52 +56,112 @@ export const useDateTextInputReducer = (props: {
         break;
 
       case 'setSelectionByKeyBoard':
-        selectionRef.current = getSelectionByKeyboard({ key: action.payload, selection: selectionRef.current });
+        selectionRef.current = getSelectionByKeyboard({ key: action.payload, selection: selectionRef.current, type: type });
         setDateInputSelection({ inputRef: inputRef, selection: selectionRef.current });
         break;
 
       case 'clear':
-        setDateState((state) => getClearedDateState({ key: action.payload, dateState: state, selection: selectionRef.current }));
+        if (setDateState) {
+          setDateState((state) =>
+            getClearedDateState({
+              key: action.payload,
+              dateState: state,
+              selection: selectionRef.current,
+            }),
+          );
+        }
+        if (setDateStateRange) {
+          setDateStateRange((state) =>
+            getClearedDateState({
+              key: action.payload,
+              dateState: state,
+              selection: selectionRef.current,
+            }),
+          );
+        }
         break;
 
       case 'adjustDateState':
-        setDateState((state) => {
-          const newDateStateFieldValue = getNewDateStateFieldValueByAdjust({
-            key: action.payload,
-            dateState: state,
-            selectedPart: selectionRef.current,
+        if (setDateState) {
+          setDateState((state) => {
+            const newFieldValue = getNewDateStateFieldValueByAdjust({
+              key: action.payload,
+              dateState: state,
+              selection: selectionRef.current,
+            });
+            return { ...state, [selectionRef.current.key]: newFieldValue };
           });
-          const currentSelectedPart = selectionRef.current;
+        }
 
-          return { ...state, [currentSelectedPart]: newDateStateFieldValue };
-        });
+        if (setDateStateRange) {
+          setDateStateRange((state) => {
+            const newFieldValue = getNewDateStateFieldValueByAdjust({
+              key: action.payload,
+              dateState: state,
+              selection: selectionRef.current,
+            });
+            return {
+              ...state,
+              [selectionRef.current.part]: { ...state[selectionRef.current.part], [selectionRef.current.key]: newFieldValue },
+            };
+          });
+        }
         break;
 
       case 'setDateStateByDigitKey':
-        let fieldValue = 0;
-
-        setDateState((state) => {
-          const newFieldValue = getNewDateStateFieldValueByKeyboard({
-            key: action.payload,
-            dateState: state,
-            selectedPart: selectionRef.current,
-          });
-          fieldValue = newFieldValue;
-          return { ...state, [selectionRef.current]: newFieldValue };
+        const fieldValue = getNewDateStateFieldValueByKeyboard({
+          key: action.payload,
+          dateState: dateState ?? dateStateRange,
+          selection: selectionRef.current,
         });
 
-        if (selectionRef.current === 'day' && fieldValue >= 4) {
-          console.log('KEY MONTH');
-          selectionRef.current = 'month';
-        } else if (selectionRef.current === 'month' && fieldValue >= 2) {
-          console.log('KEY YEAR');
-          selectionRef.current = 'year';
+        if (setDateState) {
+          setDateState((state) => {
+            const newFieldValue = getNewDateStateFieldValueByKeyboard({
+              key: action.payload,
+              dateState: state,
+              selection: selectionRef.current,
+            });
+            return { ...state, [selectionRef.current.key]: newFieldValue };
+          });
         }
-        setDateInputSelection({ inputRef: inputRef, selection: selectionRef.current });
+
+        if (setDateStateRange) {
+          setDateStateRange((state) => {
+            const newFieldValue = getNewDateStateFieldValueByKeyboard({
+              key: action.payload,
+              dateState: state,
+              selection: selectionRef.current,
+            });
+            return {
+              ...state,
+              [selectionRef.current.part]: { ...state[selectionRef.current.part], [selectionRef.current.key]: newFieldValue },
+            };
+          });
+        }
+
+        if (selectionRef.current.key === 'day' && fieldValue >= 4) {
+          requestAnimationFrame(() => {
+            selectionRef.current = getSelectionByKeyboard({ key: 'ArrowRight', selection: selectionRef.current, type: type });
+            setDateInputSelection({ inputRef: inputRef, selection: selectionRef.current });
+          });
+        } else {
+          if (selectionRef.current.key === 'month' && fieldValue >= 2) {
+            requestAnimationFrame(() => {
+              selectionRef.current = getSelectionByKeyboard({ key: 'ArrowRight', selection: selectionRef.current, type: type });
+              setDateInputSelection({ inputRef: inputRef, selection: selectionRef.current });
+            });
+          }
+        }
         break;
 
       case 'blur':
-        setDateState((state) => getValidatedDateStateValue(state));
+        if (setDateState) {
+          setDateState((state) => getValidDateState(state));
+        }
+        if (setDateStateRange) {
+          setDateStateRange((state) => getValidDateStateRange(state));
+        }
         break;
     }
   };

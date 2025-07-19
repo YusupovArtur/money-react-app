@@ -17,10 +17,16 @@ type ChangeActionType =
 const walletsWidgetOrderReducer = (state: string[], action: ChangeActionType): string[] => {
   switch (action.type) {
     case 'add':
+      if (action.payload !== undefined && !state.includes(action.payload)) {
+        return [...state, action.payload];
+      }
       return [...state, action.payload === undefined ? '' : action.payload];
     case 'delete':
       return state.filter((_, index) => index !== action.payload);
     case 'change':
+      if (state.includes(action.payload.id)) {
+        throw 'Нельзя вносить счета с одинаковыми id';
+      }
       return state.map((value, index) => (index === action.payload.index ? action.payload.id : value));
     case 'shift':
       return shiftIndexes({ order: state, index1: action.payload.index1, index2: action.payload.index2, isOldBehaviour: false });
@@ -47,12 +53,19 @@ export const changeWalletsWidgetSettings = createAsyncThunk<
 
     return await runTransaction(db, async (transaction) => {
       const widgetsSettingsSnapshot = await transaction.get(docRef);
+
       const widgetsSettings = getValidWidgetsSettings(widgetsSettingsSnapshot.data());
       const order = walletsWidgetOrderReducer(widgetsSettings.walletsWidget.order, action);
 
-      transaction.update(docRef, {
-        'walletsWidget.order': order,
-      });
+      if (widgetsSettingsSnapshot.exists()) {
+        transaction.update(docRef, {
+          'walletsWidget.order': order,
+        });
+      } else {
+        transaction.set(docRef, {
+          'walletsWidget.order': order,
+        });
+      }
 
       return { order: order };
     }).catch((error) => {

@@ -1,4 +1,4 @@
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import {
   Dispatch,
   DragEvent,
@@ -13,16 +13,44 @@ import {
 import { setDateInputSelection } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/setDateInputSelection.ts';
 import { useDateTextInputReducer } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/useDateTextInputReducer.ts';
 import { isDigitChar } from 'shared/helpers';
+import { DateInputSelectionType } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/DateInputSelectionType.ts';
 
-export const useDateTextInputHandlers = (props: {
+type PropsWithDate = {
+  dateState: DateStateType;
   setDateState: Dispatch<SetStateAction<DateStateType>>;
+  dateStateRange?: never;
+  setDateStateRange?: never;
+};
+
+type PropsWithDateRange = {
+  dateState?: never;
+  setDateState?: never;
+  dateStateRange: DateStateRangeType;
+  setDateStateRange: Dispatch<SetStateAction<DateStateRangeType>>;
+};
+
+type PropsType = {
   inputRef: RefObject<HTMLInputElement | null>;
   isModal: boolean;
-}) => {
-  const { setDateState, inputRef, isModal } = props;
-  const selectedPartRef = useRef<keyof DateStateType>('day');
+} & (PropsWithDate | PropsWithDateRange);
 
-  const dispatch = useDateTextInputReducer({ setDateState: setDateState, inputRef: inputRef, selectionRef: selectedPartRef });
+export const useDateTextInputHandlers = (props: PropsType) => {
+  const { dateState, dateStateRange, setDateState, setDateStateRange, inputRef, isModal } = props;
+  const selectedPartRef = useRef<DateInputSelectionType>({ part: 1, key: 'day' });
+
+  const dispatch = setDateState
+    ? useDateTextInputReducer({
+        dateState: dateState,
+        setDateState: setDateState,
+        inputRef: inputRef,
+        selectionRef: selectedPartRef,
+      })
+    : useDateTextInputReducer({
+        dateStateRange: dateStateRange,
+        setDateStateRange: setDateStateRange,
+        inputRef: inputRef,
+        selectionRef: selectedPartRef,
+      });
 
   useEffect(() => {
     setDateInputSelection({ inputRef: inputRef, selection: selectedPartRef.current });
@@ -33,8 +61,7 @@ export const useDateTextInputHandlers = (props: {
     if (!isModal) dispatch({ type: 'setSelectionByMouse' });
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    console.log('KEYDOWN', event.key);
+  const handleKey = (event: KeyboardEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       dispatch({ type: 'setSelectionByKeyBoard', payload: event.key });
@@ -64,5 +91,5 @@ export const useDateTextInputHandlers = (props: {
     event.bubbles = false;
   };
 
-  return { handleMouseUpAndDown, handleKeyDown, handleBlur, handlePreventDefault };
+  return { handleMouseUpAndDown, handleKey, handleBlur, handlePreventDefault };
 };

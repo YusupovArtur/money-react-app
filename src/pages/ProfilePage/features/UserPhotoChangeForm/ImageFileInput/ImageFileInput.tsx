@@ -19,11 +19,17 @@ export const ImageFileInput: FC<ImageInputProps> = ({ reader, disabled, classNam
   };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-      // if (setIsOpened) setIsOpened(true);
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Пожалуйста, выберите изображение');
       if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
     }
+
+    reader.readAsDataURL(file);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   return (

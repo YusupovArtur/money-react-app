@@ -42,13 +42,14 @@ export const addDeleteTransactionExtraReducers = (builder: ActionReducerMapBuild
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
     })
     .addCase(deleteTransaction.fulfilled, (state, action) => {
-      const transaction = { ...state.list[action.payload.id] };
-      delete state.list[action.payload.id];
-      addTransactionToWalletsTotals({ action: 'decrease', totals: state.walletsTransactionsTotals, transaction });
-
+      if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);
       if (action.meta.arg.setErrorMessage) action.meta.arg.setErrorMessage('');
-      if (action.meta.arg.onFulfilled) action.meta.arg.onFulfilled();
+
+      const transaction = { ...state.list[action.payload.id] };
+      addTransactionToWalletsTotals({ action: 'decrease', totals: state.walletsTransactionsTotals, transaction });
+
+      delete state.list[action.payload.id];
     })
     .addCase(deleteTransaction.rejected, (_state, action) => {
       if (action.meta.arg.setIsLoading) action.meta.arg.setIsLoading(false);

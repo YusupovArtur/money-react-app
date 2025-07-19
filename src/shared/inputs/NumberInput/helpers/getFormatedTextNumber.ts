@@ -1,5 +1,9 @@
-export const getFormatedTextNumber = (numberText: string): string => {
+export const getFormatedTextNumber = (numberText: string, isPositive: boolean = false): string => {
   let numberTextValid: string = numberText.replace(/[^-.,\d]/g, '').replace(/,/g, '.');
+
+  if (isPositive) {
+    numberTextValid = numberTextValid.replace('-', '');
+  }
 
   numberTextValid =
     numberTextValid.indexOf('-') > -1

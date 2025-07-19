@@ -8,31 +8,54 @@ import { DatePickerYearOptions } from './components/DatePickerYearOptions/DatePi
 import { DatePickerModalControlButtons } from './components/DatePickerModalControlButtons.tsx';
 // Types
 import { DATE_PICKER_CELL_SIZE } from 'shared/inputs/DateInput/constants/constants.ts';
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType, isDateStateRange } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import {
   DatePickerProvider,
   useDatePickerContext,
 } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
 import { useSwipeChangeCalendar } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useSwipeChangeCalendar.ts';
+import {
+  DateStateDispatcherAction,
+  useDateStateDispatcher,
+} from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
+import { DatePickerRangeLevelMenu } from 'shared/inputs/DateInput/inputs/DateInputPicker/components/DatePickerRangeLevelMenu.tsx';
 
-interface DateInputDatePickerProps {
+type DateStateProps = {
   dateState: DateStateType;
   setDateState: Dispatch<SetStateAction<DateStateType>>;
+  dateStateRange?: never;
+  setDateStateRange?: never;
+};
+
+type DateStateRangeProps = {
+  dateState?: never;
+  setDateState?: never;
+  dateStateRange: DateStateRangeType;
+  setDateStateRange: Dispatch<SetStateAction<DateStateRangeType>>;
+};
+
+interface DateInputDatePickerProps {
   setIsOpenedDatepicker: Dispatch<SetStateAction<boolean>>;
   isModal?: boolean;
 }
 
-export const DateInputPicker: FC<DateInputDatePickerProps> = ({
+export const DateInputPicker: FC<DateInputDatePickerProps & (DateStateProps | DateStateRangeProps)> = ({
   dateState,
   setDateState,
+  dateStateRange,
+  setDateStateRange,
   setIsOpenedDatepicker,
   isModal = false,
 }) => {
+  const dispatch = useDateStateDispatcher(
+    setDateState ? { setDateState: setDateState } : { setDateStateRange: setDateStateRange },
+  );
+
   return (
-    <DatePickerProvider initialDateState={dateState}>
+    <DatePickerProvider initialDateState={dateState || dateStateRange}>
       <DateInputPickerInner
-        dateState={dateState}
-        setDateState={setDateState}
+        dateState={dateState || dateStateRange}
+        dateStateDispatch={dispatch}
         setIsOpenedDatepicker={setIsOpenedDatepicker}
         isModal={isModal}
       />
@@ -40,9 +63,16 @@ export const DateInputPicker: FC<DateInputDatePickerProps> = ({
   );
 };
 
-const DateInputPickerInner: FC<DateInputDatePickerProps> = ({
+interface DateInputDatePickerInnerProps {
+  dateState: DateStateType | DateStateRangeType;
+  dateStateDispatch: (action: DateStateDispatcherAction) => void;
+  setIsOpenedDatepicker: Dispatch<SetStateAction<boolean>>;
+  isModal?: boolean;
+}
+
+const DateInputPickerInner: FC<DateInputDatePickerInnerProps> = ({
   dateState,
-  setDateState,
+  dateStateDispatch,
   setIsOpenedDatepicker,
   isModal = false,
 }) => {
@@ -51,6 +81,10 @@ const DateInputPickerInner: FC<DateInputDatePickerProps> = ({
 
   return (
     <div style={{ width: `${DATE_PICKER_CELL_SIZE * 7}rem` }} className="d-flex flex-column">
+      {isDateStateRange(dateState) && (
+        <DatePickerRangeLevelMenu dateState={dateState} dateStateDispatch={dateStateDispatch} isModal={isModal} />
+      )}
+
       {/*Label*/}
       {isModal && <DatePickerLabel dateState={dateState} />}
 
@@ -59,13 +93,17 @@ const DateInputPickerInner: FC<DateInputDatePickerProps> = ({
 
       {/* Options */}
       <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-        {state.calendarLevel === 'day' && <DatePickerDayOptions dateState={dateState} setDateState={setDateState} />}
-        {state.calendarLevel === 'month' && <DatePickerMonthOptions />}
-        {state.calendarLevel === 'year' && <DatePickerYearOptions />}
+        {state.calendarLevel === 'day' && <DatePickerDayOptions dateState={dateState} dateStateDispatch={dateStateDispatch} />}
+        {state.calendarLevel === 'month' && (
+          <DatePickerMonthOptions dateState={dateState} dateStateDispatch={dateStateDispatch} />
+        )}
+        {state.calendarLevel === 'year' && <DatePickerYearOptions dateState={dateState} dateStateDispatch={dateStateDispatch} />}
       </div>
 
       {/* Modal control buttons */}
-      {isModal && <DatePickerModalControlButtons setDateState={setDateState} setIsOpenedDatepicker={setIsOpenedDatepicker} />}
+      {isModal && (
+        <DatePickerModalControlButtons dateStateDispatch={dateStateDispatch} setIsOpenedDatepicker={setIsOpenedDatepicker} />
+      )}
     </div>
   );
 };

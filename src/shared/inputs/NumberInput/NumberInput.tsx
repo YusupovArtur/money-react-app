@@ -11,9 +11,18 @@ interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
   number: number;
   setNumber: (number: number) => any;
   isCanSetNaN?: boolean;
+  isPositive?: boolean;
 }
 
-export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, isCanSetNaN, onFocus, onBlur, ...props }) => {
+export const NumberInput: FC<NumberInputProps> = ({
+  number,
+  setNumber,
+  isCanSetNaN,
+  isPositive = false,
+  onFocus,
+  onBlur,
+  ...props
+}) => {
   const [textNumber, setTextNumber] = useState<string>('0');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,7 +41,7 @@ export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, isCanSetN
   }, [number]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const formatedTextNumber = getFormatedTextNumber(event.target.value);
+    const formatedTextNumber = getFormatedTextNumber(event.target.value, isPositive);
     const cursorPosition =
       event.target.selectionStart || event.target.selectionStart === 0
         ? event.target.selectionStart - getCursorShift(event.target.value, formatedTextNumber, event.target.selectionStart)
@@ -62,13 +71,17 @@ export const NumberInput: FC<NumberInputProps> = ({ number, setNumber, isCanSetN
       if (!textNumber) {
         setTextNumber('0');
       } else {
-        setTextNumber((state) => getNumberFromText({ numberString: getFormatedTextNumber(state), isCanSetNaN }).toString());
+        setTextNumber((state) =>
+          getNumberFromText({ numberString: getFormatedTextNumber(state, isPositive), isCanSetNaN }).toString(),
+        );
       }
     } else {
       if (isNaN(getNumberFromText({ numberString: textNumber, isCanSetNaN }))) {
         setTextNumber('');
       } else {
-        setTextNumber((state) => getNumberFromText({ numberString: getFormatedTextNumber(state), isCanSetNaN }).toString());
+        setTextNumber((state) =>
+          getNumberFromText({ numberString: getFormatedTextNumber(state, isPositive), isCanSetNaN }).toString(),
+        );
       }
     }
 

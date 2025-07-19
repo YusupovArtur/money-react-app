@@ -69,12 +69,13 @@ export const UsernameEditForm: FC = () => {
       onSubmit={(event) => {
         event.preventDefault();
       }}
-      className="mt-3"
+      className="mt-4"
     >
       <div className="position-relative mb-4">
         <label htmlFor="username" className="form-label text-body user-select-none mb-1">
           Имя
         </label>
+
         <div className="d-flex">
           <TextInput
             id="username"
@@ -88,6 +89,7 @@ export const UsernameEditForm: FC = () => {
             disabled={!isEdit}
             placeholder={!formData.username && !isEdit ? 'Нет имени' : undefined}
           />
+
           <ButtonWithIconAndSpinner
             onClick={handleEditButtonClick}
             disabled={(isEdit && !isValid) || isLoading}
@@ -103,8 +105,10 @@ export const UsernameEditForm: FC = () => {
             </ButtonWithIcon>
           )}
         </div>
+
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.username} className="align-items-start" />
       </div>
+
       <AlertMessage alertMessage={errorMessage} className="alert-danger mt-3" />
     </form>
   );

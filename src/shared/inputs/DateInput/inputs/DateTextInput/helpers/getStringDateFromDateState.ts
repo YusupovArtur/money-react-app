@@ -1,4 +1,4 @@
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { clamp } from 'shared/helpers';
 
 export const getStringDateFromDateState = (dateState: DateStateType): string => {
@@ -7,4 +7,8 @@ export const getStringDateFromDateState = (dateState: DateStateType): string => 
   const year = dateState.year ? clamp(dateState.year, 1, 9999).toString().padStart(4, '0') : 'гггг';
 
   return `${day}.${month}.${year}`;
+};
+
+export const getStringDateFromDateStateRange = (dateStateRange: DateStateRangeType): string => {
+  return `${getStringDateFromDateState(dateStateRange[1])}–${getStringDateFromDateState(dateStateRange[2])}`;
 };

@@ -1,5 +1,5 @@
 import { FC, useRef, useState } from 'react';
-import { CrossIcon, GearFillIcon, PlusIcon } from 'shared/icons';
+import { CrossIcon, GearFillIcon } from 'shared/icons';
 import { useAppDispatch, useAppSelector } from 'store/store.ts';
 import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
@@ -15,9 +15,9 @@ export const WalletWidgetSettings: FC = () => {
   const deleteHandler = (index: number) => () => {
     dispatch(changeWalletsWidgetSettings({ action: { type: 'delete', payload: index }, setIsLoading: setIsLoading }));
   };
-  const addHandler = () => {
-    dispatch(changeWalletsWidgetSettings({ action: { type: 'add' }, setIsLoading: setIsLoading }));
-  };
+  // const addHandler = () => {
+  //   dispatch(changeWalletsWidgetSettings({ action: { type: 'add' }, setIsLoading: setIsLoading }));
+  // };
 
   // noinspection DuplicatedCode
   const dragStartRef = useRef<number | null>(null);
@@ -50,29 +50,27 @@ export const WalletWidgetSettings: FC = () => {
         </ButtonWithIcon>
       }
       DropdownMenu={
-        order.length > 0 && (
-          <DropdownMenuWrapper className="align-items-start" style={{ minWidth: '14rem' }}>
-            {order.map((id, index) => {
-              return (
-                <div
-                  key={id + index.toString()}
-                  className={`d-flex justify-content-between align-items-center w-100 ${index ? 'pt-2' : ''}`}
-                  draggable={!isLoading}
-                  onDragStart={onDragStart(index)}
-                  onDrop={onDrop(index)}
-                >
-                  <WalletShortInfo id={id} />
-                  <ButtonWithIcon disabled={isLoading} onClick={deleteHandler(index)} className="btn-outline-danger ms-1 p-1">
-                    <CrossIcon iconSize="1rem" />
-                  </ButtonWithIcon>
-                </div>
-              );
-            })}
-            <ButtonWithIcon onClick={addHandler} disabled={isLoading} className="btn-outline-primary p-1 mt-3 w-100">
-              <PlusIcon iconSize="1rem" />
-            </ButtonWithIcon>
-          </DropdownMenuWrapper>
-        )
+        <DropdownMenuWrapper className="align-items-start" style={{ minWidth: '14rem' }}>
+          {order.map((id, index) => {
+            return (
+              <div
+                key={id + index.toString()}
+                className={`d-flex justify-content-between align-items-center w-100 ${index ? 'pt-2' : ''}`}
+                draggable={!isLoading}
+                onDragStart={onDragStart(index)}
+                onDrop={onDrop(index)}
+              >
+                <WalletShortInfo id={id} />
+                <ButtonWithIcon disabled={isLoading} onClick={deleteHandler(index)} className="btn-outline-danger ms-1 p-1">
+                  <CrossIcon iconSize="1rem" />
+                </ButtonWithIcon>
+              </div>
+            );
+          })}
+          {/*<ButtonWithIcon onClick={addHandler} disabled={isLoading} className="btn-outline-primary p-1 mt-3 w-100">*/}
+          {/*  <PlusIcon iconSize="1rem" />*/}
+          {/*</ButtonWithIcon>*/}
+        </DropdownMenuWrapper>
       }
     />
   );

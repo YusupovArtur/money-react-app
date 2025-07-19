@@ -9,7 +9,6 @@ import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entitie
 import { WalletsIDForm } from './components/WalletsIDForm.tsx';
 import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
-import { getTodayTimestamp } from 'shared/helpers';
 import { OptionalPrimitiveKeysType } from 'shared/types';
 
 interface TransactionFormProps {
@@ -28,17 +27,8 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
   const dateInputID = useId();
   const descriptionInputID = useId();
 
-  const onClear = () => {
-    setFormData((state) => ({
-      ...state,
-      sum: 0,
-      time: getTodayTimestamp(),
-      fromWallet: '',
-      toWallet: '',
-      category: '',
-      subcategory: '',
-      description: '',
-    }));
+  const onTypeChangeClear = () => {
+    setFormData((state) => ({ ...state, fromWallet: '', toWallet: '', category: '', subcategory: '' }));
   };
 
   return (
@@ -53,7 +43,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
             id={typeInputID}
             type={formData.type}
             setType={(type: TransactionType['type']) => setFormData((state) => ({ ...state, type }))}
-            onClear={onClear}
+            onClear={onTypeChangeClear}
           ></TransactionTypeInput>
         ) : (
           <div className="d-flex align-items-center">
@@ -72,12 +62,13 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
         </FormLabel>
         <NumberInput
           id={sumInputID}
+          isPositive={true}
+          className={getValidityClassName(fieldValidities.sum)}
           number={formData.sum}
           setNumber={(number: number) => {
             setFormData((state) => ({ ...state, sum: number }));
             setIsValidate((state) => ({ ...state, sum: true }));
           }}
-          className={getValidityClassName(fieldValidities.sum)}
           onBlur={() => {
             setIsValidate((state) => ({ ...state, sum: true }));
           }}
@@ -90,7 +81,12 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
         <FormLabel htmlFor={dateInputID}>Дата</FormLabel>
         <DateInput
           timestamp={formData.time}
-          setTimestamp={(timestamp: number) => setFormData((state) => ({ ...state, time: timestamp }))}
+          setTimestamp={(value) =>
+            setFormData((state) => ({
+              ...state,
+              time: typeof value === 'function' ? value(state.time) : value,
+            }))
+          }
           isModalDropdownContainerForMobileDevice={true}
           className={getValidityClassName(fieldValidities.time)}
           dateTextInputProps={{ id: dateInputID }}

@@ -1,21 +1,36 @@
 import React, { FC, HTMLAttributes, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 // Model
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 // Components
 import { DateTextInput } from './inputs/DateTextInput/DateTextInput.tsx';
 // Helpers
 import { deepEqual, getDeviceType } from 'shared/helpers';
-import { getDateStateFromTimestamp } from './helpers/getDateStateFromTimestamp.ts';
-import { getTimestampFromDateState } from './helpers/getTimestampFromDateState.ts';
+import { getDateStateFromTimestamp, getDateStateRangeFromTimestampRange } from './helpers/getDateStateFromTimestamp.ts';
+import { getTimestampFromDateState, getTimestampRangeFromDateStateRange } from './helpers/getTimestampFromDateState.ts';
 // UI
 import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 import { CalendarIcon } from 'shared/inputs/DateInput/ui/CalendarIcon.tsx';
 import { DateInputPicker } from 'shared/inputs/DateInput/inputs/DateInputPicker/DateInputPicker.tsx';
+import { SetStateCallbackType } from 'shared/types/SetStateCallbackType.ts';
+import { RangeType } from 'shared/types';
+
+// (value: number | ((prev: number) => number)) => any
+type DateStateProps = {
+  timestamp: number;
+  setTimestamp: SetStateCallbackType<number>;
+  timestampRange?: never;
+  setTimestampRange?: never;
+};
+
+type DateStateRangeProps = {
+  timestamp?: never;
+  setTimestamp?: never;
+  timestampRange: RangeType<number>;
+  setTimestampRange: SetStateCallbackType<RangeType<number>>;
+};
 
 interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'style'> {
-  timestamp: number;
-  setTimestamp: (timestamp: number) => any;
   disabled?: boolean;
 
   isModalDropdownContainerForMobileDevice?: boolean;
@@ -30,9 +45,12 @@ interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'va
   };
 }
 
-export const DateInput: FC<DateInputProps> = ({
+export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProps)> = ({
   timestamp,
   setTimestamp,
+  timestampRange,
+  setTimestampRange,
+
   disabled,
 
   isModalDropdownContainerForMobileDevice = false,
@@ -42,23 +60,53 @@ export const DateInput: FC<DateInputProps> = ({
   dateInputsDivContainersProps,
   dateTextInputProps,
 }) => {
-  const [dateState, setDateState] = useState<DateStateType>(getDateStateFromTimestamp(timestamp));
+  const [dateState, setDateState] =
+    timestamp !== undefined ? useState<DateStateType>(getDateStateFromTimestamp(timestamp)) : [undefined, undefined];
+
+  const [dateStateRange, setDateStateRange] = timestampRange
+    ? useState<DateStateRangeType>(getDateStateRangeFromTimestampRange(timestampRange))
+    : [undefined, undefined];
 
   const dateTextInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setTimestamp(getTimestampFromDateState(dateState));
+    if (dateState && setTimestamp) {
+      if (!deepEqual(getTimestampFromDateState(dateState), timestamp)) {
+        setTimestamp(getTimestampFromDateState(dateState));
+      }
+    }
   }, [dateState]);
+  useEffect(() => {
+    if (timestamp !== undefined && setDateState) {
+      setDateState((state) => {
+        const dateStateTimestamp = getTimestampFromDateState(state);
+        if (!deepEqual(timestamp, dateStateTimestamp)) {
+          return getDateStateFromTimestamp(timestamp);
+        }
+        return state;
+      });
+    }
+  }, [timestamp]);
 
   useEffect(() => {
-    setDateState((state) => {
-      const dateStateTimestamp = getTimestampFromDateState(state);
-      if (!deepEqual(timestamp, dateStateTimestamp)) {
-        return getDateStateFromTimestamp(timestamp);
+    if (dateStateRange && setTimestampRange) {
+      if (!deepEqual(getTimestampRangeFromDateStateRange(dateStateRange), timestampRange)) {
+        setTimestampRange(getTimestampRangeFromDateStateRange(dateStateRange));
       }
-      return state;
-    });
-  }, [timestamp]);
+    }
+  }, [dateStateRange]);
+
+  useEffect(() => {
+    if (timestampRange && setDateStateRange) {
+      setDateStateRange((state) => {
+        const dateStateRangeTimestampRange = getTimestampRangeFromDateStateRange(state);
+        if (!deepEqual(timestampRange, dateStateRangeTimestampRange)) {
+          return getDateStateRangeFromTimestampRange(timestampRange);
+        }
+        return state;
+      });
+    }
+  }, [timestampRange]);
 
   // For text field
   const [isOpenedDatePicker, setIsOpenedDatePicker] = useState<boolean>(false);
@@ -92,24 +140,49 @@ export const DateInput: FC<DateInputProps> = ({
         }
         DropdownMenu={
           <DropdownMenuWrapper>
-            <DateInputPicker
-              dateState={dateState}
-              setDateState={setDateState}
-              setIsOpenedDatepicker={setIsOpenedDatePicker}
-              isModal={isMobile}
-            />
+            {dateState && setDateState && (
+              <DateInputPicker
+                dateState={dateState}
+                setDateState={setDateState}
+                setIsOpenedDatepicker={setIsOpenedDatePicker}
+                isModal={isMobile}
+              />
+            )}
+            {dateStateRange && setDateStateRange && (
+              <DateInputPicker
+                dateStateRange={dateStateRange}
+                setDateStateRange={setDateStateRange}
+                setIsOpenedDatepicker={setIsOpenedDatePicker}
+                isModal={isMobile}
+              />
+            )}
           </DropdownMenuWrapper>
         }
       ></DropdownContainer>
-      <DateTextInput
-        dateState={dateState}
-        setDateState={setDateState}
-        isModal={isMobile}
-        disabled={disabled}
-        setIsOpenedDatePicker={setIsOpenedDatePicker}
-        dateTextInputRef={dateTextInputRef}
-        {...dateTextInputProps}
-      />
+
+      {dateState && setDateState && (
+        <DateTextInput
+          dateState={dateState}
+          setDateState={setDateState}
+          isModal={isMobile}
+          disabled={disabled}
+          setIsOpenedDatePicker={setIsOpenedDatePicker}
+          dateTextInputRef={dateTextInputRef}
+          {...dateTextInputProps}
+        />
+      )}
+
+      {dateStateRange && setDateStateRange && (
+        <DateTextInput
+          dateStateRange={dateStateRange}
+          setDateStateRange={setDateStateRange}
+          isModal={isMobile}
+          disabled={disabled}
+          setIsOpenedDatePicker={setIsOpenedDatePicker}
+          dateTextInputRef={dateTextInputRef}
+          {...dateTextInputProps}
+        />
+      )}
     </div>
   );
 };

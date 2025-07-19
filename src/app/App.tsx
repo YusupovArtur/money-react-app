@@ -7,6 +7,7 @@ import { useFirestoreListener } from 'store/listener';
 import { AppWrapper } from 'app/AppWrapper';
 import { Navbar } from 'widgets/Navbar';
 import { PageLoadingSpinner } from 'shared/ui';
+import { useSignInTestAccount } from 'app/useSignInTestAccount.ts';
 // Pages
 const MainPage = lazy(() => import('pages/MainPage'));
 const TransactionsPage = lazy(() => import('pages/TransactionsPage'));
@@ -17,6 +18,8 @@ const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
 const App: FC = () => {
   useFirestoreListener();
+
+  useSignInTestAccount();
 
   return (
     <AppWrapper>

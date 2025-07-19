@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'store';
 import { signinUserWithEmailAndPassword, signupUserWithEmailAndPassword } from 'store/slices/userSlice';
 // Router
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 // Forms
 import { SigninForm } from './forms/SigninForm/SigninForm';
 import { SignupForm } from './forms/SignupForm/SignupForm';
@@ -16,6 +16,7 @@ import { SignupFormDataType } from './types/SignupFormDataType';
 
 export const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isAuthorised = useAppSelector((state) => state.user.userState.isUserAuthorised);
   const [page, setPage] = useState<'signin' | 'signup'>('signin');
@@ -30,14 +31,18 @@ export const LoginPage: FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const onFulfilled = () => {
+    navigate('/');
+  };
 
   const handleSignin = () => {
     dispatch(
       signinUserWithEmailAndPassword({
         email: signinFormData.email,
         password: signinFormData.password,
-        setIsLoading,
-        setErrorMessage,
+        setIsLoading: setIsLoading,
+        setErrorMessage: setErrorMessage,
+        onFulfilled: onFulfilled,
       }),
     );
   };
@@ -48,8 +53,9 @@ export const LoginPage: FC = () => {
         email: signupFormData.email,
         password: signupFormData.password,
         username: signupFormData.username,
-        setIsLoading,
-        setErrorMessage,
+        setIsLoading: setIsLoading,
+        setErrorMessage: setErrorMessage,
+        onFulfilled: onFulfilled,
       }),
     );
   };
@@ -84,7 +90,7 @@ export const LoginPage: FC = () => {
         {page === 'signup' ? '←Войти' : 'Зарегистрироваться→'}
       </button>
 
-      <SigninWithPopupButtons setIsLoading={setIsLoading} setErrorMessage={setErrorMessage} />
+      <SigninWithPopupButtons setIsLoading={setIsLoading} setErrorMessage={setErrorMessage} onFulfilled={onFulfilled} />
       <AlertMessage alertMessage={errorMessage} className="alert-danger mt-2" />
     </PageContentWrapper>
   );

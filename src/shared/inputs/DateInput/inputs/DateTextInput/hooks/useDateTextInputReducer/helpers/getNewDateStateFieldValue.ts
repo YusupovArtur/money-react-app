@@ -1,12 +1,18 @@
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType, isDateState } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
 import { clamp, DigitChar, isDigitChar } from 'shared/helpers';
+import { DateInputSelectionType } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/DateInputSelectionType.ts';
 
-const getDateStatePart = (props: { dateState: DateStateType; selectedPart: keyof DateStateType }): number => {
-  const { dateState, selectedPart } = props;
+const getDateStatePart = (props: {
+  dateState: DateStateType | DateStateRangeType;
+  selection: DateInputSelectionType;
+  isZeroPart?: boolean;
+}): number => {
+  const { dateState, selection, isZeroPart = true } = props;
+  const currentDateState = isDateState(dateState) ? dateState : dateState[selection.part];
 
-  if (dateState[selectedPart] <= 0) {
-    switch (selectedPart) {
+  if (!isZeroPart && currentDateState[selection.key] <= 0) {
+    switch (selection.key) {
       case 'day':
         return new Date().getDate();
       case 'month':
@@ -18,21 +24,23 @@ const getDateStatePart = (props: { dateState: DateStateType; selectedPart: keyof
     }
   }
 
-  return dateState[selectedPart];
+  return currentDateState[selection.key];
 };
 
 export const getNewDateStateFieldValueByAdjust = (props: {
   key: 'ArrowUp' | 'ArrowDown';
-  dateState: DateStateType;
-  selectedPart: keyof DateStateType;
+  dateState: DateStateType | DateStateRangeType;
+  selection: DateInputSelectionType;
 }): number => {
-  const { dateState, selectedPart, key } = props;
+  const { dateState, selection, key } = props;
 
   if (key === 'ArrowUp' || key === 'ArrowDown') {
-    const change = dateState[selectedPart] ? (key === 'ArrowUp' ? 1 : key === 'ArrowDown' ? -1 : 0) : 0;
-    const newPartValue = getDateStatePart({ dateState, selectedPart }) + change;
+    const change = key === 'ArrowUp' ? 1 : key === 'ArrowDown' ? -1 : 0;
+    const isChange = getDateStatePart({ dateState: dateState, selection: selection }) > 0 ? 1 : 0;
 
-    switch (selectedPart) {
+    const newPartValue = getDateStatePart({ dateState: dateState, selection: selection, isZeroPart: false }) + change * isChange;
+
+    switch (selection.key) {
       case 'day':
         return clamp(newPartValue, 1, 31);
       case 'month':
@@ -42,19 +50,19 @@ export const getNewDateStateFieldValueByAdjust = (props: {
     }
   }
 
-  return dateState[selectedPart];
+  return getDateStatePart({ dateState: dateState, selection: selection });
 };
 
 export const getNewDateStateFieldValueByKeyboard = (props: {
   key: DigitChar;
-  dateState: DateStateType;
-  selectedPart: keyof DateStateType;
+  dateState: DateStateType | DateStateRangeType;
+  selection: DateInputSelectionType;
 }): number => {
-  const { dateState, selectedPart, key } = props;
+  const { dateState, selection, key } = props;
 
   if (isDigitChar(key)) {
-    const newPartValue = dateState[selectedPart] * 10 + parseInt(key);
-    switch (selectedPart) {
+    const newPartValue = getDateStatePart({ dateState: dateState, selection: selection }) * 10 + parseInt(key);
+    switch (selection.key) {
       case 'day':
         if (newPartValue > 31) {
           return parseInt(key);
@@ -75,5 +83,5 @@ export const getNewDateStateFieldValueByKeyboard = (props: {
     return newPartValue;
   }
 
-  return dateState[selectedPart];
+  return getDateStatePart({ dateState: dateState, selection: selection });
 };

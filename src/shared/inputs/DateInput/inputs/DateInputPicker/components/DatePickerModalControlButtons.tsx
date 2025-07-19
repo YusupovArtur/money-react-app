@@ -1,13 +1,13 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateDispatcherAction } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
 
 interface DatePickerModalControlButtonsProps {
-  setDateState: Dispatch<SetStateAction<DateStateType>>;
+  dateStateDispatch: (action: DateStateDispatcherAction) => void;
   setIsOpenedDatepicker: Dispatch<SetStateAction<boolean>>;
 }
 
 export const DatePickerModalControlButtons: FC<DatePickerModalControlButtonsProps> = ({
-  setDateState,
+  dateStateDispatch,
   setIsOpenedDatepicker,
 }) => {
   return (
@@ -22,7 +22,7 @@ export const DatePickerModalControlButtons: FC<DatePickerModalControlButtonsProp
       </button>
       <button
         onClick={() => {
-          setDateState({ day: 0, month: 0, year: 0 });
+          dateStateDispatch({ type: 'clear' });
         }}
         className="btn btn-secondary"
       >

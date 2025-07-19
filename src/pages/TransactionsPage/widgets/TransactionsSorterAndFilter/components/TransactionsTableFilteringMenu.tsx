@@ -13,13 +13,11 @@ import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAnd
 // Types
 import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/FilterDispatcherType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import {
-  RangeFilterType,
-  TransactionsFilterType,
-} from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getCurrentFilter.ts';
 import { TrashFillIcon } from 'shared/icons';
+import { RangeType } from 'shared/types';
 
 interface TransactionsTableFilteringMenuProps<T extends keyof TransactionType> {
   fieldKey: T;
@@ -72,27 +70,49 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
     };
 
   // Range filter logics
-  const [rangeFilter, setRangeFilter] = useState<RangeFilterType>(getRangeFilterFromFilter({ fieldKey, filter }));
-  const setRangeFilterHandler = (field: 'min' | 'max') => (value: number) => {
-    setRangeFilter((state) => ({ ...state, [field]: value }));
-  };
+  const [minRange, setMinRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter }).min);
+  const [maxRange, setMaxRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter }).max);
+  const [timestampRange, setTimestampRange] = useState<RangeType<number>>({ 1: NaN, 2: NaN });
+
+  // timestampRange effects
   useEffect(() => {
-    if (!isNaN(rangeFilter.min) || !isNaN(rangeFilter.max)) {
-      filterDispatch({ type: 'range', payload: rangeFilter });
+    if (!isNaN(timestampRange[1]) || !isNaN(timestampRange[1])) {
+      filterDispatch({ type: 'range', payload: { min: timestampRange[1], max: timestampRange[2] } });
+    }
+  }, [timestampRange]);
+  useEffect(() => {
+    const currentFilter = getCurrentFilter({ fieldKey, filters: filter });
+    if (currentFilter.filter === null || currentFilter.filter instanceof Set) {
+      setTimestampRange({ 1: NaN, 2: NaN });
+    }
+    if (isRangeFilterObject(filter.filter)) {
+      if (!deepEqual(filter.filter, { min: timestampRange[1], max: timestampRange[2] })) {
+        setTimestampRange({ 1: filter.filter.min, 2: filter.filter.max });
+      }
+    }
+  }, [filter]);
+
+  // minRange maxRange effects
+  useEffect(() => {
+    if (!isNaN(maxRange) || !isNaN(minRange)) {
+      console.log(minRange, maxRange);
+      filterDispatch({ type: 'range', payload: { min: minRange, max: maxRange } });
     } else {
       if (isRangeFilterObject(filter.filter)) {
         filterDispatch({ type: 'setAll' });
       }
     }
-  }, [rangeFilter.min, rangeFilter.max]);
+  }, [minRange, maxRange]);
   useEffect(() => {
     const currentFilter = getCurrentFilter({ fieldKey, filters: filter });
     if (currentFilter.filter === null || currentFilter.filter instanceof Set) {
-      setRangeFilter({ min: NaN, max: NaN });
+      setMinRange(NaN);
+      setMaxRange(NaN);
     }
     if (isRangeFilterObject(filter.filter)) {
-      if (!deepEqual(filter.filter, rangeFilter)) {
-        setRangeFilter(filter.filter);
+      if (!deepEqual(filter.filter, { min: minRange, max: maxRange })) {
+        setMinRange(filter.filter.min);
+        setMaxRange(filter.filter.max);
       }
     }
   }, [filter]);
@@ -116,20 +136,10 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
 
       {fieldKey === 'time' && (
         <>
-          <EntityFieldLabel className="align-self-start mx-1">До</EntityFieldLabel>
+          <EntityFieldLabel className="align-self-start mx-1">Период</EntityFieldLabel>
           <DateInput
-            timestamp={rangeFilter.max}
-            setTimestamp={setRangeFilterHandler('max')}
-            isModalDropdownContainerForMobileDevice={true}
-            disabled={rangeInputDisabled}
-            dateTextInputProps={{ id: rangeInputId1, style: { fontSize: '1rem' } }}
-            portalContainerForDropdownContainer={portalContainerForInternalDropdowns}
-            dropdownContainerZIndex={4}
-          />
-          <EntityFieldLabel className="align-self-start mx-1">От</EntityFieldLabel>
-          <DateInput
-            timestamp={rangeFilter.min}
-            setTimestamp={setRangeFilterHandler('min')}
+            timestampRange={timestampRange}
+            setTimestampRange={setTimestampRange}
             isModalDropdownContainerForMobileDevice={true}
             disabled={rangeInputDisabled}
             dateTextInputProps={{ id: rangeInputId2, style: { fontSize: '1rem' } }}
@@ -145,8 +155,8 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
           <EntityFieldLabel className="align-self-start mx-1">До</EntityFieldLabel>
           <NumberInput
             id={rangeInputId1}
-            number={rangeFilter.max}
-            setNumber={setRangeFilterHandler('max')}
+            number={maxRange}
+            setNumber={setMaxRange}
             isCanSetNaN={true}
             disabled={rangeInputDisabled}
             style={{ fontSize: '0.9rem' }}
@@ -154,8 +164,8 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
           <EntityFieldLabel className="align-self-start mx-1">От</EntityFieldLabel>
           <NumberInput
             id={rangeInputId2}
-            number={rangeFilter.min}
-            setNumber={setRangeFilterHandler('min')}
+            number={minRange}
+            setNumber={setMinRange}
             isCanSetNaN={true}
             disabled={rangeInputDisabled}
             style={{ fontSize: '0.9rem' }}

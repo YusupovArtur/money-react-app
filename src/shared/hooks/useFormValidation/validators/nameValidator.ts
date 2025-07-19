@@ -9,7 +9,7 @@ export const nameValidator = <T extends HasName>(formData: T): ValidatorReturnTy
   const name = formData.name;
 
   if (!name) {
-    return { isValid: false, feedback: 'Имя должно быть заполно' };
+    return { isValid: false, feedback: 'Имя должно быть заполнено' };
   }
   if (!NAME_REGULAR_EXPRESSION.test(name)) {
     return { isValid: false, feedback: 'Некорректный формат имени' };

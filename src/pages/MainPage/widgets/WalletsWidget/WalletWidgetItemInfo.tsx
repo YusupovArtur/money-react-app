@@ -5,6 +5,7 @@ import { selectWalletTransactionsTotal } from 'store/slices/transactionsSlice';
 import { EntityIcon } from 'entities/EntityIcon';
 import { getStringCurrencyValue } from 'shared/helpers';
 import { CaretDownFillIcon } from 'shared/icons';
+import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
 
 interface WalletWidgetItemInfoProps {
   id: string;
@@ -19,6 +20,9 @@ export const WalletWidgetItemInfo: FC<WalletWidgetItemInfoProps> = ({ id, onDrag
   const balance = wallet.balance + totalBalance;
   const balanceColor = balance < 0 ? 'text-danger' : '';
 
+  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const color = id ? wallet.color : bodyColor;
+
   return (
     <div
       draggable={true}
@@ -29,7 +33,7 @@ export const WalletWidgetItemInfo: FC<WalletWidgetItemInfoProps> = ({ id, onDrag
     >
       <div className="d-flex flex-column me-1">
         <div className="d-flex align-items-center">
-          <EntityIcon iconName={wallet.iconName} color={wallet.color} iconSize="1.5rem" />
+          <EntityIcon iconName={wallet.iconName} color={color} iconSize="1.5rem" />
           <span className="ms-1">{wallet.name}</span>
         </div>
         <span style={{ fontSize: '1.1rem', fontWeight: 500 }} className={`align-self-end ${balanceColor}`}>

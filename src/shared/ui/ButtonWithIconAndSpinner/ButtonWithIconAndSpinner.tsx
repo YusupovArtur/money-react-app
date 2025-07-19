@@ -22,7 +22,14 @@ export const ButtonWithIconAndSpinner: FC<ButtonWithIconAndSpinnerProps> = ({
         {isLoading ? (
           <div
             className="spinner-border"
-            style={{ width: spinnerSize, height: spinnerSize, borderWidth: spinnerThickness, color: 'inherit' }}
+            style={{
+              width: spinnerSize,
+              height: spinnerSize,
+              borderWidth: spinnerThickness,
+              color: 'inherit',
+              display: 'inline-block',
+              flexShrink: 0,
+            }}
             role="status"
           >
             <span className="visually-hidden">Loading...</span>

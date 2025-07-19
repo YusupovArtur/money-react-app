@@ -1,10 +1,16 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
-import { DatePickerState } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/DatePickerStateType.ts';
 import {
   DatePickerReducerAction,
   datePickerStateReducer,
 } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/datePickerStateReducer.ts';
-import { DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
+import { DateStateRangeType, DateStateType, isDateState, isDateStateRange } from 'shared/inputs/DateInput/types/DateStateType.ts';
+
+export type DatePickerState = {
+  calendarState: Omit<DateStateType, 'day'>;
+  calendarLevel: keyof DateStateType;
+  rangeLevel: keyof DateStateType;
+  isRange: boolean;
+};
 
 interface ContextProps {
   state: DatePickerState;
@@ -16,16 +22,20 @@ const DatePickerContext = createContext<ContextProps | undefined>(undefined);
 // Provider
 interface ProviderProps {
   children: ReactNode;
-  initialDateState: DateStateType;
+  initialDateState: DateStateType | DateStateRangeType;
 }
 
 export const DatePickerProvider: FC<ProviderProps> = ({ children, initialDateState }) => {
+  const dateState = isDateState(initialDateState) ? initialDateState : initialDateState[1];
+
   const initialState: DatePickerState = {
     calendarLevel: 'day',
     calendarState: {
-      month: initialDateState.month || new Date().getMonth() + 1,
-      year: initialDateState.year || new Date().getFullYear(),
+      month: dateState.month || new Date().getMonth() + 1,
+      year: dateState.year || new Date().getFullYear(),
     },
+    rangeLevel: 'day',
+    isRange: isDateStateRange(initialDateState),
   };
 
   const [state, dispatchDatePicker] = useReducer(datePickerStateReducer, initialState);
