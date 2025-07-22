@@ -16,7 +16,7 @@ export const WalletsWidget: FC = () => {
   return (
     <div className="d-flex flex-column">
       <div className="d-flex justify-content-between align-items-center">
-        <span style={{ fontSize: '1.2rem', fontWeight: 500 }}>Мои счета</span>
+        <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>Мои счета</span>
         <WalletWidgetSettings />
       </div>
 

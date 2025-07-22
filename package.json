@@ -7,9 +7,12 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-and-deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "@nivo/core": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.8.2",
     "bootstrap": "^5.3.2",

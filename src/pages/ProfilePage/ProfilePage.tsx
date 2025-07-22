@@ -22,7 +22,7 @@ export const ProfilePage: FC = () => {
       <UserPhoto iconSize="18rem" className="align-self-center" />
       <UserPhotoChangeForm />
       <UsernameEditForm />
-      <UserLogoutButton className="btn-outline-danger align-self-center px-5" style={{ marginTop: '2rem' }} iconSize="1.5rem" />
+      <UserLogoutButton className="btn-danger align-self-center px-5" style={{ marginTop: '2rem' }} iconSize="1.5rem" />
     </PageContentWrapper>
   );
 };

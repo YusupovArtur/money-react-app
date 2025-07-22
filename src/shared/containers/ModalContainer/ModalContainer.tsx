@@ -2,13 +2,14 @@ import { FC, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode, useEffect
 import { createPortal } from 'react-dom';
 import { useMounted } from './hooks/useMounted';
 import './style/modal-animations.scss';
+import { SetStateCallbackType } from 'shared/types';
 
 export const MODAL_CONTAINER_ANIMATION_DURATION = 150;
 
 interface ModalContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   isOpened: boolean;
-  onCollapse?: (value: boolean | ((prev: boolean) => boolean)) => any;
+  onCollapse?: SetStateCallbackType<boolean>;
   zIndex?: number;
   animated?: boolean;
 }

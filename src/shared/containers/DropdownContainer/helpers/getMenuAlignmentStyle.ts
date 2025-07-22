@@ -17,15 +17,15 @@ export const getMenuAlignmentStyle: GetMenuAlignmentStyleType = (props) => {
     const menuRect = menuRef.current.getBoundingClientRect();
 
     if (y === 'bottom') {
-      style.top = toggleRect.bottom;
+      style.top = toggleRect.bottom + window.scrollY;
     } else {
-      style.top = toggleRect.top - menuRect.height;
+      style.top = toggleRect.top - menuRect.height + window.scrollY;
     }
 
     if (x === 'left') {
-      style.left = toggleRect.right - menuRect.width;
+      style.left = toggleRect.right - menuRect.width + window.scrollX;
     } else {
-      style.left = toggleRect.left;
+      style.left = toggleRect.left + window.scrollX;
     }
   }
 

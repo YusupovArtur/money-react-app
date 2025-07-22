@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { JSX, memo } from 'react';
 // Helpers
 import { getStringDate } from 'shared/helpers';
 import { getTransactionFormatedSum } from 'pages/TransactionsPage/helpers/getTransactionFormatedSum.ts';
@@ -6,8 +6,8 @@ import { getTransactionFormatedSum } from 'pages/TransactionsPage/helpers/getTra
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
 import { CategoryShortInfo } from 'pages/TransactionsPage/ui/CategoryShortInfo.tsx';
 import { SubcategoryShortInfo } from 'pages/TransactionsPage/ui/SubcategoryShortInfo.tsx';
-import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
 import { useMediaQuery } from 'shared/hooks';
+import { ArrowRightIcon } from 'shared/icons';
 import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
 import { MEDIUM_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/widgets/TransactionsTable/constants/MEDIA_QUERY_CONSTANTS.ts';
 import { TRANSACTION_TABLE_PROPORTIONS } from 'pages/TransactionsPage/widgets/TransactionsTable/constants/TRANSACTION_TABLE_PROPORTIONS.ts';
@@ -20,7 +20,7 @@ interface TransactionsTableRowProps {
   setTransactionID: (id: string) => any;
 }
 
-export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transaction, setTransactionID }) => {
+export const TransactionsTableRow = memo(({ id, transaction, setTransactionID }: TransactionsTableRowProps): JSX.Element => {
   const { time, type, fromWallet, toWallet, category, subcategory } = transaction;
 
   const handleSetTransactionID = () => {
@@ -29,13 +29,6 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
 
   const isMedium = useMediaQuery(MEDIUM_WINDOW_MEDIA_QUERY);
   const { formatedSum, color } = getTransactionFormatedSum(transaction);
-
-  // Time
-  // Icon
-  // Sum
-  // Wallets
-  // Category
-  // Subcategory
 
   return (
     <tr onClick={handleSetTransactionID}>
@@ -114,4 +107,4 @@ export const TransactionsTableRow: FC<TransactionsTableRowProps> = ({ id, transa
       )}
     </tr>
   );
-};
+});

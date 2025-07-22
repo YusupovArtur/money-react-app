@@ -12,7 +12,7 @@ import { DropdownContainer } from 'shared/containers';
 import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 import { CalendarIcon } from 'shared/inputs/DateInput/ui/CalendarIcon.tsx';
 import { DateInputPicker } from 'shared/inputs/DateInput/inputs/DateInputPicker/DateInputPicker.tsx';
-import { SetStateCallbackType } from 'shared/types/SetStateCallbackType.ts';
+import { SetStateCallbackType } from 'shared/types';
 import { RangeType } from 'shared/types';
 
 // (value: number | ((prev: number) => number)) => any
@@ -69,13 +69,20 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
 
   const dateTextInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (dateState && setTimestamp) {
-      if (!deepEqual(getTimestampFromDateState(dateState), timestamp)) {
-        setTimestamp(getTimestampFromDateState(dateState));
+  const setDateStateWithCallback: SetStateCallbackType<DateStateType> = (updater) => {
+    if (setDateState && setTimestamp) {
+      if (typeof updater === 'function') {
+        setDateState((state) => {
+          const newState = updater(state);
+          setTimestamp(getTimestampFromDateState(newState));
+          return newState;
+        });
+      } else {
+        setDateState(updater);
+        setTimestamp(getTimestampFromDateState(updater));
       }
     }
-  }, [dateState]);
+  };
   useEffect(() => {
     if (timestamp !== undefined && setDateState) {
       setDateState((state) => {
@@ -88,14 +95,20 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
     }
   }, [timestamp]);
 
-  useEffect(() => {
-    if (dateStateRange && setTimestampRange) {
-      if (!deepEqual(getTimestampRangeFromDateStateRange(dateStateRange), timestampRange)) {
-        setTimestampRange(getTimestampRangeFromDateStateRange(dateStateRange));
+  const setDateStateRangeWithCallback: SetStateCallbackType<DateStateRangeType> = (updater) => {
+    if (setDateStateRange && setTimestampRange) {
+      if (typeof updater === 'function') {
+        setDateStateRange((state) => {
+          const newState = updater(state);
+          setTimestampRange(getTimestampRangeFromDateStateRange(newState));
+          return newState;
+        });
+      } else {
+        setDateStateRange(updater);
+        setTimestampRange(getTimestampRangeFromDateStateRange(updater));
       }
     }
-  }, [dateStateRange]);
-
+  };
   useEffect(() => {
     if (timestampRange && setDateStateRange) {
       setDateStateRange((state) => {
@@ -125,7 +138,7 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
         isModalDropdownContainerForMobileDevice={isModalDropdownContainerForMobileDevice}
         portalContainer={portalContainerForDropdownContainer}
         isInsideClickClose={false}
-        menuAlignment={{ x: 'right', y: 'top' }}
+        menuAlignment={{ x: 'right', y: 'bottom' }}
         zIndex={dropdownContainerZIndex}
         dropdownDivContainerProps={{ style: { width: undefined, height: undefined } }}
         additionalRefsForClickOutsideIgnore={[dateTextInputRef]}
@@ -140,18 +153,18 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
         }
         DropdownMenu={
           <DropdownMenuWrapper>
-            {dateState && setDateState && (
+            {dateState && (
               <DateInputPicker
                 dateState={dateState}
-                setDateState={setDateState}
+                setDateState={setDateStateWithCallback}
                 setIsOpenedDatepicker={setIsOpenedDatePicker}
                 isModal={isMobile}
               />
             )}
-            {dateStateRange && setDateStateRange && (
+            {dateStateRange && (
               <DateInputPicker
                 dateStateRange={dateStateRange}
-                setDateStateRange={setDateStateRange}
+                setDateStateRange={setDateStateRangeWithCallback}
                 setIsOpenedDatepicker={setIsOpenedDatePicker}
                 isModal={isMobile}
               />
@@ -160,10 +173,10 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
         }
       ></DropdownContainer>
 
-      {dateState && setDateState && (
+      {dateState && (
         <DateTextInput
           dateState={dateState}
-          setDateState={setDateState}
+          setDateState={setDateStateWithCallback}
           isModal={isMobile}
           disabled={disabled}
           setIsOpenedDatePicker={setIsOpenedDatePicker}
@@ -172,10 +185,10 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
         />
       )}
 
-      {dateStateRange && setDateStateRange && (
+      {dateStateRange && (
         <DateTextInput
           dateStateRange={dateStateRange}
-          setDateStateRange={setDateStateRange}
+          setDateStateRange={setDateStateRangeWithCallback}
           isModal={isMobile}
           disabled={disabled}
           setIsOpenedDatePicker={setIsOpenedDatePicker}

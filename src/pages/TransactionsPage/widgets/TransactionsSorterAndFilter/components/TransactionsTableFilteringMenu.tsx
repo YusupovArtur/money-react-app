@@ -3,55 +3,61 @@ import { ChangeEvent, ReactNode, useEffect, useId, useState } from 'react';
 import { DateInput, NumberInput } from 'shared/inputs';
 import { TransactionsFilterMenuOption } from './TransactionsFilterMenuOption.tsx';
 import { ButtonWithIcon, EntityFieldLabel } from 'shared/ui';
+// Hooks
+import { useFilterDispatch } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/useFilterDispatch.ts';
+import { useTransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
 // Helpers
 import { deepEqual, isSet, isSubset } from 'shared/helpers';
 import { getUndefinedFilterOptionsSet } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getUndefinedFilterOptionsSet.ts';
 import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/isRangeFilterObject.ts';
 import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getRangeFilterFromFilter.ts';
+import { getTransactionsFilterOptionsList } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getTransactionsFilterOptionsList.ts';
 // UI
 import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
 // Types
-import { FilterDispatcherType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/FilterDispatcherType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
-import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getCurrentFilter.ts';
 import { TrashFillIcon } from 'shared/icons';
-import { RangeType } from 'shared/types';
+import { RangeType, SetStateCallbackType } from 'shared/types';
+import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 
 interface TransactionsTableFilteringMenuProps<T extends keyof TransactionType> {
   fieldKey: T;
-  options: TransactionType[T][];
-  optionKeys: Record<TransactionType[T], TransactionFieldCaptionKeyType<T>>;
-  filter: TransactionsFilterType<T>;
-  filterDispatch: FilterDispatcherType<T>;
-  filtersLength?: number;
   portalContainerForInternalDropdowns?: HTMLElement | null;
 }
 
 export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>({
   fieldKey,
-  options,
-  optionKeys,
-  filter,
-  filterDispatch,
-  filtersLength,
   portalContainerForInternalDropdowns,
 }: TransactionsTableFilteringMenuProps<T>): ReactNode => {
-  const allChecked = filter.filter === null || (isSet(filter.filter) && filter.filter.size === 0);
-  const rangeInputDisabled = isSet(filter.filter) && filter.filter.size > 0;
-  const optionsInputDisabled = isRangeFilterObject(filter.filter) && (!isNaN(filter.filter.min) || !isNaN(filter.filter.max));
+  const { currentFilters, filters, setFilters, ordersForFilterOptions, transactions } = useTransactionsFilteringContext();
+
+  const { options, optionKeys } = getTransactionsFilterOptionsList({
+    fieldKey: fieldKey,
+    order: ordersForFilterOptions[fieldKey],
+    list: transactions,
+  });
+
+  const filterDispatch = useFilterDispatch({ fieldKey: fieldKey, setFilters: setFilters });
+  const filter = currentFilters[fieldKey] !== undefined ? currentFilters[fieldKey].filter : null;
+  const currentFilter: TransactionsFilterType<T> = currentFilters[fieldKey] || { key: fieldKey, filter: null as any };
+
+  const allChecked =
+    filter === null ||
+    (isSet(filter) && filter.size === 0) ||
+    (isRangeFilterObject(filter) && isNaN(filter.min) && isNaN(filter.max));
+  const rangeInputDisabled = filter !== null && isSet(filter) && filter.size > 0;
+  const optionsInputDisabled = filter !== null && isRangeFilterObject(filter) && (!isNaN(filter.min) || !isNaN(filter.max));
 
   // Undefined options logics
   const undefinedOptionsSet = getUndefinedFilterOptionsSet({ fieldKey, options, optionKeys });
-  const undefinedChecked = filter.filter === null || (isSet(filter.filter) && !isSubset(filter.filter, undefinedOptionsSet));
+  const undefinedChecked = filter === null || (isSet(filter) && !isSubset(filter, undefinedOptionsSet));
 
   // Menu handlers
   const deleteFilterHandler = () => {
     filterDispatch({ type: 'delete' });
   };
   const deleteAllFiltersHandler = () => {
-    if (filtersLength && filtersLength > 1) filterDispatch({ type: 'deleteAll' });
+    if (filters.length > 1) filterDispatch({ type: 'deleteAll' });
   };
   const clearFilterHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -70,49 +76,76 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
     };
 
   // Range filter logics
-  const [minRange, setMinRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter }).min);
-  const [maxRange, setMaxRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter }).max);
+  const [minRange, setMinRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter: currentFilter }).min);
+  const [maxRange, setMaxRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter: currentFilter }).max);
   const [timestampRange, setTimestampRange] = useState<RangeType<number>>({ 1: NaN, 2: NaN });
 
-  // timestampRange effects
-  useEffect(() => {
-    if (!isNaN(timestampRange[1]) || !isNaN(timestampRange[1])) {
-      filterDispatch({ type: 'range', payload: { min: timestampRange[1], max: timestampRange[2] } });
+  const setTimestampRangeWithCallback: SetStateCallbackType<RangeType<number>> = (updater) => {
+    if (typeof updater === 'function') {
+      setTimestampRange((state) => {
+        const newState = updater(state);
+        if (!isNaN(newState[1]) || !isNaN(newState[2])) {
+          filterDispatch({ type: 'setRange', payload: { min: newState[1], max: newState[2] } });
+        } else {
+          filterDispatch({ type: 'setRange', payload: { min: NaN, max: NaN } });
+        }
+        return newState;
+      });
+    } else {
+      setTimestampRange(updater);
+      if (!isNaN(updater[1]) || !isNaN(updater[2])) {
+        filterDispatch({ type: 'setRange', payload: { min: updater[1], max: updater[2] } });
+      } else {
+        filterDispatch({ type: 'setRange', payload: { min: NaN, max: NaN } });
+      }
     }
-  }, [timestampRange]);
+  };
   useEffect(() => {
-    const currentFilter = getCurrentFilter({ fieldKey, filters: filter });
-    if (currentFilter.filter === null || currentFilter.filter instanceof Set) {
-      setTimestampRange({ 1: NaN, 2: NaN });
-    }
-    if (isRangeFilterObject(filter.filter)) {
-      if (!deepEqual(filter.filter, { min: timestampRange[1], max: timestampRange[2] })) {
-        setTimestampRange({ 1: filter.filter.min, 2: filter.filter.max });
+    const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
+    if (!deepEqual(rangeFilter, { min: timestampRange[1], max: timestampRange[2] })) {
+      if (filter === null || isSet(filter)) {
+        setTimestampRange({ 1: NaN, 2: NaN });
+      }
+      if (isRangeFilterObject(filter)) {
+        setTimestampRange({ 1: filter.min, 2: filter.max });
       }
     }
   }, [filter]);
 
-  // minRange maxRange effects
-  useEffect(() => {
-    if (!isNaN(maxRange) || !isNaN(minRange)) {
-      console.log(minRange, maxRange);
-      filterDispatch({ type: 'range', payload: { min: minRange, max: maxRange } });
+  const setMinRangeWithCallback: SetStateCallbackType<number> = (updater) => {
+    if (typeof updater === 'function') {
+      setMinRange((state) => {
+        const newState = updater(state);
+        filterDispatch({ type: 'setRange', payload: { min: newState } });
+        return newState;
+      });
     } else {
-      if (isRangeFilterObject(filter.filter)) {
-        filterDispatch({ type: 'setAll' });
-      }
+      setMinRange(updater);
+      filterDispatch({ type: 'setRange', payload: { min: updater } });
     }
-  }, [minRange, maxRange]);
+  };
+  const setMaxRangeWithCallback: SetStateCallbackType<number> = (updater) => {
+    if (typeof updater === 'function') {
+      setMaxRange((state) => {
+        const newState = updater(state);
+        filterDispatch({ type: 'setRange', payload: { max: newState } });
+        return newState;
+      });
+    } else {
+      setMaxRange(updater);
+      filterDispatch({ type: 'setRange', payload: { max: updater } });
+    }
+  };
   useEffect(() => {
-    const currentFilter = getCurrentFilter({ fieldKey, filters: filter });
-    if (currentFilter.filter === null || currentFilter.filter instanceof Set) {
-      setMinRange(NaN);
-      setMaxRange(NaN);
-    }
-    if (isRangeFilterObject(filter.filter)) {
-      if (!deepEqual(filter.filter, { min: minRange, max: maxRange })) {
-        setMinRange(filter.filter.min);
-        setMaxRange(filter.filter.max);
+    const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
+    if (!deepEqual(rangeFilter, { min: maxRange, max: maxRange })) {
+      if (filter === null || isSet(filter)) {
+        setMinRange(NaN);
+        setMaxRange(NaN);
+      }
+      if (isRangeFilterObject(filter)) {
+        setMinRange(filter.min);
+        setMaxRange(filter.max);
       }
     }
   }, [filter]);
@@ -123,12 +156,12 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   const checkUndefinedOptionsInputId = useId();
   return (
     <>
-      <div className="d-flex mt-3 mb-1">
+      <div className="d-flex mb-1">
         <ButtonWithIcon className="flex-grow-1 btn btn-body me-1" caption="Удалить фильтр" onClick={deleteFilterHandler}>
-          <FilterIcon filter={filter} iconSize="1rem" isIconForDeleteFilterButton={true} />
+          <FilterIcon filter={currentFilter} iconSize="1rem" isIconForDeleteFilterButton={true} />
         </ButtonWithIcon>
-        {filtersLength !== undefined && (
-          <ButtonWithIcon onClick={deleteAllFiltersHandler} className={`btn btn-body me-1 ${filtersLength > 1 && 'text-danger'}`}>
+        {filters.length !== undefined && (
+          <ButtonWithIcon onClick={deleteAllFiltersHandler} className={`btn btn-body ${filters.length > 1 && 'text-danger'}`}>
             <TrashFillIcon iconSize="1rem" />
           </ButtonWithIcon>
         )}
@@ -139,13 +172,13 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
           <EntityFieldLabel className="align-self-start mx-1">Период</EntityFieldLabel>
           <DateInput
             timestampRange={timestampRange}
-            setTimestampRange={setTimestampRange}
+            setTimestampRange={setTimestampRangeWithCallback}
             isModalDropdownContainerForMobileDevice={true}
             disabled={rangeInputDisabled}
             dateTextInputProps={{ id: rangeInputId2, style: { fontSize: '1rem' } }}
             dateInputsDivContainersProps={{ className: 'mb-2' }}
             portalContainerForDropdownContainer={portalContainerForInternalDropdowns}
-            dropdownContainerZIndex={4}
+            dropdownContainerZIndex={3}
           />
         </>
       )}
@@ -156,7 +189,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
           <NumberInput
             id={rangeInputId1}
             number={maxRange}
-            setNumber={setMaxRange}
+            setNumber={setMaxRangeWithCallback}
             isCanSetNaN={true}
             disabled={rangeInputDisabled}
             style={{ fontSize: '0.9rem' }}
@@ -165,7 +198,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
           <NumberInput
             id={rangeInputId2}
             number={minRange}
-            setNumber={setMinRange}
+            setNumber={setMinRangeWithCallback}
             isCanSetNaN={true}
             disabled={rangeInputDisabled}
             style={{ fontSize: '0.9rem' }}
@@ -190,7 +223,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
       {options.map((option, index) => {
         if (!undefinedOptionsSet.has(option)) {
           const key = fieldKey + index.toString() + option.toString();
-          const checked = filter.filter === null ? true : isSet(filter.filter) ? !(filter.filter as Set<any>).has(option) : true;
+          const checked = filter === null ? true : isSet(filter) ? !(filter as Set<any>).has(option) : true;
 
           return (
             <div className="form-check" key={key}>
@@ -227,7 +260,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
             <TransactionsFilterMenuOption
               fieldKey={fieldKey}
               optionKey={optionKeys[undefinedOptionsSet.values().next().value as TransactionType[T]]}
-            ></TransactionsFilterMenuOption>
+            />
           </label>
         </div>
       )}

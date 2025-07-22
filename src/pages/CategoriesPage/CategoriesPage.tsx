@@ -31,7 +31,7 @@ export const CategoriesPage: FC = () => {
 
   return (
     <>
-      <PageContentWrapper style={{ margin: '0 auto' }}>
+      <PageContentWrapper style={{ margin: '0 auto' }} className="mt-2">
         <div className="d-flex justify-content-between flex-wrap-reverse">
           <div className="mb-2">
             <CategoriesFilter filter={filter} setFilter={setFilter} />

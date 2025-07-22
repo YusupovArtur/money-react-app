@@ -1,7 +1,11 @@
-import { FC, useDeferredValue, useMemo, useState } from 'react';
+import { FC, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Store
 import { useAppSelector } from 'store/store.ts';
+// Hooks
+import { useFilterDispatch } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/useFilterDispatch.ts';
+import { TransactionsSortingContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsSortingContext.ts';
+import { TransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
 // Components
 import { TransactionsTableRow } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTableRow.tsx';
 import { TransactionsTableHead } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsTableHead.tsx';
@@ -39,7 +43,7 @@ export const TransactionsTable: FC = () => {
   const orderedList = useMemo(() => {
     return {
       list: transactions,
-      order: filtrationCalculationsObject.order,
+      order: filtrationCalculationsObject.filteredOrder,
     };
   }, [transactions, filtrationCalculationsObject]);
   const orderSorted = useMemo(() => {
@@ -56,6 +60,14 @@ export const TransactionsTable: FC = () => {
   };
 
   const isSmall = useMediaQuery(SMALL_WINDOW_MEDIA_QUERY);
+  useEffect(() => {
+    if (isSmall) {
+      const walletReducer = useFilterDispatch({ fieldKey: 'subcategory', setFilters: setFilters });
+      walletReducer({ type: 'delete' });
+      const subcategoryReducer = useFilterDispatch({ fieldKey: 'subcategory', setFilters: setFilters });
+      subcategoryReducer({ type: 'delete' });
+    }
+  }, [isSmall]);
   const errorMessage = useAppSelector((state) => state.transactions.responseState.errorMessage);
 
   return (
@@ -63,14 +75,13 @@ export const TransactionsTable: FC = () => {
       {/*Desktop table*/}
       {!isSmall && (
         <table className="transactions-table table-hover">
-          <TransactionsTableHead
-            transactions={transactions}
-            filtrationCalculationsObject={filtrationCalculationsObject}
-            sortingOrder={sortingOrder}
-            setSortingOrder={setSortingOrder}
-            filter={filters}
-            setFilter={setFilters}
-          />
+          <TransactionsFilteringContext.Provider
+            value={{ transactions: transactions, filters: filters, setFilters: setFilters, ...filtrationCalculationsObject }}
+          >
+            <TransactionsSortingContext.Provider value={{ sortingOrder: sortingOrder, setSortingOrder: setSortingOrder }}>
+              <TransactionsTableHead />
+            </TransactionsSortingContext.Provider>
+          </TransactionsFilteringContext.Provider>
           <tbody>
             {orderSorted.map((id) => (
               <TransactionsTableRow key={id} id={id} transaction={transactions[id]} setTransactionID={handleSetID} />
@@ -82,14 +93,13 @@ export const TransactionsTable: FC = () => {
       {/*Mobile list*/}
       {isSmall && (
         <>
-          <TransactionsListHead
-            transactions={transactions}
-            filtrationCalculationsObject={filtrationCalculationsObject}
-            sortingOrder={sortingOrder}
-            setSortingOrder={setSortingOrder}
-            filter={filters}
-            setFilter={setFilters}
-          />
+          <TransactionsFilteringContext.Provider
+            value={{ transactions: transactions, filters: filters, setFilters: setFilters, ...filtrationCalculationsObject }}
+          >
+            <TransactionsSortingContext.Provider value={{ sortingOrder: sortingOrder, setSortingOrder: setSortingOrder }}>
+              <TransactionsListHead />
+            </TransactionsSortingContext.Provider>
+          </TransactionsFilteringContext.Provider>
           {orderSorted.map((id) => (
             <TransactionsListItem key={id} id={id} transaction={transactions[id]} setTransactionID={handleSetID} />
           ))}

@@ -20,7 +20,7 @@ export const Navbar: FC = () => {
   const UserLinkIcon = isAuthorised ? <UserPhoto iconSize="1.4rem" /> : <BoxArrowInRightIcon iconSize="1.4rem" />;
 
   return (
-    <nav className="sticky-top navbar bg-body-tertiary shadow-sm z-2">
+    <nav className="sticky-top navbar bg-body-tertiary shadow-sm z-1">
       <div className="container-fluid flex-nowrap">
         <Link className="navbar-brand d-flex align-items-center p-0 m-0 me-2" to="/">
           <img style={{ width: '1.8rem', height: '1.8rem' }} src="/images/chart-icon.png" alt="2Money" />

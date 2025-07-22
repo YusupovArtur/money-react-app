@@ -41,7 +41,7 @@ export const WalletsPage: FC = () => {
 
   return (
     <>
-      <PageContentWrapper style={{ margin: '0 auto' }}>
+      <PageContentWrapper style={{ margin: '0 auto' }} className="mt-2">
         <div className="d-flex justify-content-between mb-2">
           <ButtonWithIcon caption="Перевод" onClick={() => setIsOpenedTransactionInput(true)} className="btn-primary">
             <ArrowLeftRightIcon iconSize="1.2rem" />

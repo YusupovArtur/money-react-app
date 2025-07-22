@@ -1,8 +1,7 @@
 import { Dispatch, FC, SetStateAction, useId } from 'react';
 import { WalletIDInput } from 'pages/TransactionsPage/inputs/WalletIDInput.tsx';
-import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { ValidityIcon, WalletIcon } from 'shared/icons';
+import { ArrowRightIcon, ValidityIcon, WalletIcon } from 'shared/icons';
 import { FormLabel } from 'shared/ui';
 import { OptionalPrimitiveKeysType } from 'shared/types';
 

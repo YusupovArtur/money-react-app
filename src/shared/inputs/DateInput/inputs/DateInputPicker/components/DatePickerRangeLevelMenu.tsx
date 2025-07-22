@@ -41,7 +41,7 @@ export const DatePickerRangeLevelMenu: FC<DatePickerRangeLevelMenuProps> = ({ da
   const handleClean = () => {
     dateStateDispatch({ type: 'clear' });
   };
-  const buttonDisabled = isNaN(getTimestampFromDateState(dateState[1])) && isNaN(getTimestampFromDateState(dateState[1]));
+  const buttonDisabled = isNaN(getTimestampFromDateState(dateState[1])) && isNaN(getTimestampFromDateState(dateState[2]));
 
   return (
     <div className="d-flex justify-content-between mb-3">

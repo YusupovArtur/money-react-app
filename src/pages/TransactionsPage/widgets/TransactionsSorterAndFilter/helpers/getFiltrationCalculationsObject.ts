@@ -3,9 +3,10 @@ import { TransactionsListType, TransactionType } from 'store/slices/transactions
 import { getFilteredTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFilteredTransactionsOrder.ts';
 
 export type FiltrationCalculationsObjectType = {
-  order: string[];
+  filteredOrder: string[];
   ordersForFilterOptions: Record<keyof TransactionType, string[]>;
-  filteringOrdersNumeration: Partial<Record<keyof TransactionType, number>>;
+  filteringRanks: Partial<Record<keyof TransactionType, number>>;
+  currentFilters: { [K in keyof TransactionType]?: TransactionsFilterType<K> };
 };
 
 interface GetFiltrationCalculationsObject {
@@ -32,13 +33,15 @@ export const getFiltrationCalculationsObject: GetFiltrationCalculationsObject = 
     subcategory: [],
     description: [],
   };
-  const filterNumeration: Partial<Record<keyof TransactionType, number>> = {};
+  const filteringRanks: Partial<Record<keyof TransactionType, number>> = {};
+  const currentFilters: { [K in keyof TransactionType]?: TransactionsFilterType<K> } = {};
 
   for (const [index, filter] of filters.entries()) {
     ordersForFilterOptions[filter.key] = currentOrder;
-    filterNumeration[filter.key] = index + 1;
-
     currentOrder = getFilteredTransactionsOrder({ filter, order: currentOrder, list });
+
+    filteringRanks[filter.key] = index + 1;
+    currentFilters[filter.key as keyof TransactionType] = filter as any;
   }
 
   for (const key of transactionKeys) {
@@ -48,8 +51,9 @@ export const getFiltrationCalculationsObject: GetFiltrationCalculationsObject = 
   }
 
   return {
-    order: currentOrder,
+    filteredOrder: currentOrder,
     ordersForFilterOptions: ordersForFilterOptions,
-    filteringOrdersNumeration: filterNumeration,
+    currentFilters: currentFilters,
+    filteringRanks: filteringRanks,
   };
 };

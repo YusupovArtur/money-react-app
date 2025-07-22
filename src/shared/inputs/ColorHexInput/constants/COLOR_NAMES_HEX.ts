@@ -1,5 +1,6 @@
 export const COLOR_NAMES_HEX: Record<
   | 'body-tertiary-dark'
+  | 'text-body-color-dark'
   | 'white'
   | 'gray-100'
   | 'gray-400'
@@ -33,6 +34,7 @@ export const COLOR_NAMES_HEX: Record<
   string
 > = {
   'body-tertiary-dark': '#2b3035',
+  'text-body-color-dark': '#dee2e6',
 
   white: '#ffffff',
   'gray-100': '#f8f9fa',

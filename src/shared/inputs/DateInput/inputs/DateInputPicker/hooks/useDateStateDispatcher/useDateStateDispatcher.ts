@@ -48,7 +48,7 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
             const timestampRange = getTimestampRangeFromDateStateRange(validRange);
 
             if (isNaN(timestampRange[1]) && isNaN(timestampRange[2])) {
-              return { 1: action.payload, 2: defaultValue };
+              return { 1: action.payload, 2: action.payload };
             }
             if (!isNaN(timestampRange[1]) && isNaN(timestampRange[2])) {
               if (deepEqual(validRange['1'], action.payload)) {
@@ -58,6 +58,14 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
               }
             }
 
+            if (deepEqual(validRange[1], validRange[2]) && !deepEqual(validRange[1], action.payload)) {
+              return getValidDateStateRange({ 1: validRange[1], 2: action.payload });
+            }
+
+            if (deepEqual(validRange[1], validRange[2]) && deepEqual(validRange[1], action.payload)) {
+              return getValidDateStateRange({ 1: defaultValue, 2: defaultValue });
+            }
+
             if (deepEqual(validRange[1], action.payload)) {
               return { 1: defaultValue, 2: validRange[2] };
             }
@@ -65,7 +73,8 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
               return { 1: validRange[1], 2: defaultValue };
             }
 
-            return { 1: action.payload, 2: defaultValue };
+            console.log('set new');
+            return { 1: action.payload, 2: action.payload };
           });
         }
         break;

@@ -15,7 +15,7 @@ interface SignatureWithFilterArray {
   setFilters: Dispatch<SetStateAction<TransactionsFilterType<keyof TransactionType>[]>>;
 }
 
-export const useFilterReducer = <T extends keyof TransactionType>(
+export const useFilterDispatch = <T extends keyof TransactionType>(
   props: {
     fieldKey: T;
   } & (SignatureWithFilter | SignatureWithFilterArray),
