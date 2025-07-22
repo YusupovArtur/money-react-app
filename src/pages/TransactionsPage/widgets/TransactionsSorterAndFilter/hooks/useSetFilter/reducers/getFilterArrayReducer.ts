@@ -2,6 +2,7 @@ import { getAddAndRemoveActionFilterReducer } from 'pages/TransactionsPage/widge
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { FilterReducerActionType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/FilterDispatcherType.ts';
+import { getSetRangeActionFilterReducer } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/reducers/getSetRangeActionFilterReducer.ts';
 
 export const getFilterArrayReducer = <T extends keyof TransactionType>(fieldKey: T) => {
   return (
@@ -18,6 +19,16 @@ export const getFilterArrayReducer = <T extends keyof TransactionType>(fieldKey:
 
       case 'deleteAll':
         newFilters = [];
+        break;
+
+      case 'setNull':
+        newFilters = newFilters.map((filter) => {
+          if (filter.key !== fieldKey) {
+            return filter;
+          } else {
+            return { key: fieldKey, filter: null };
+          }
+        });
         break;
 
       case 'setAll':
@@ -51,18 +62,19 @@ export const getFilterArrayReducer = <T extends keyof TransactionType>(fieldKey:
         }
         break;
 
-      case 'range':
+      case 'setRange':
         flag = true;
         newFilters = newFilters.map((filter) => {
           if (filter.key !== fieldKey) {
             return filter;
           } else {
             flag = false;
-            return { key: fieldKey, filter: action.payload };
+            return getSetRangeActionFilterReducer(fieldKey)(filter, action);
           }
         });
         if (flag) {
-          newFilters.push({ key: fieldKey, filter: action.payload });
+          // newFilters.push({ key: fieldKey, filter: action.payload });
+          newFilters.push(getSetRangeActionFilterReducer(fieldKey)({ key: fieldKey, filter: null }, action));
         }
         break;
     }

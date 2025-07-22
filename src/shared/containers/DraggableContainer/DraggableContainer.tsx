@@ -3,6 +3,7 @@ import { OpenableContainer } from 'shared/containers/DraggableContainer/Openable
 import { useContainerPositionAnimation } from './hooks/useContainerPositionAnimation.ts';
 import { dragStartPreventDefault } from './helpers/dragStartPreventDefault.ts';
 import { AnimationStyleType } from 'shared/containers/DraggableContainer/OpenableContainer/types/AnimationStyleType.ts';
+import { SetStateCallbackType } from 'shared/types';
 
 interface SignatureWithStyle {
   style1: AnimationStyleType;
@@ -20,8 +21,8 @@ interface DraggableItemRestProps<T> {
   draggable?: boolean;
   isOpened: { up: boolean; down: boolean };
   startIndex: T;
-  setStartIndex: (value: T | ((prev: T) => T)) => any;
-  setOverIndex: (value: T | ((prev: T) => T)) => any;
+  setStartIndex: SetStateCallbackType<T>;
+  setOverIndex: SetStateCallbackType<T>;
   onDrop?: (index: T) => any;
   zIndex?: number;
 }

@@ -17,8 +17,8 @@ type ChangeActionType =
 const walletsWidgetOrderReducer = (state: string[], action: ChangeActionType): string[] => {
   switch (action.type) {
     case 'add':
-      if (action.payload !== undefined && !state.includes(action.payload)) {
-        return [...state, action.payload];
+      if (action.payload !== undefined && state.includes(action.payload)) {
+        throw 'Нельзя вносить счета с одинаковыми id';
       }
       return [...state, action.payload === undefined ? '' : action.payload];
     case 'delete':

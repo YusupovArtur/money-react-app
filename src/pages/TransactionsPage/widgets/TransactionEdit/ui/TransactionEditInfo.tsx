@@ -4,13 +4,12 @@ import { TransactionType } from 'store/slices/transactionsSlice';
 // UI
 import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
 import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
-import { CategoryIcon, WalletIcon } from 'shared/icons';
+import { ArrowRightIcon, CategoryIcon, WalletIcon } from 'shared/icons';
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
 import { CategoryShortInfo } from 'pages/TransactionsPage/ui/CategoryShortInfo.tsx';
 import { SubcategoryShortInfo } from 'pages/TransactionsPage/ui/SubcategoryShortInfo.tsx';
 // Helpers
 import { getStringDate } from 'shared/helpers';
-import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
 import { getTransactionFormatedSum } from 'pages/TransactionsPage/helpers/getTransactionFormatedSum.ts';
 
 export const TransactionEditInfo: FC<{ transaction: TransactionType }> = ({ transaction }) => {

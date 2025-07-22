@@ -1,7 +1,9 @@
 export { ContentIcon } from '../icons/ContentIcon/ContentIcon.tsx';
 export { ValidityIcon } from './ValidityIcon/ValidityIcon.tsx';
 
+export { ArrowLeftIcon } from './ArrowLeftIcon.tsx';
 export { ArrowLeftRightIcon } from './ArrowLeftRightIcon.tsx';
+export { ArrowRightIcon } from './ArrowRight.tsx';
 export { CaretDownFillIcon } from './CaretDownFillIcon.tsx';
 export { CategoryIcon } from './CategoryIcon.tsx';
 export { CheckIcon } from './CheckIcon.tsx';

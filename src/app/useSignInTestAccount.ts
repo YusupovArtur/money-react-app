@@ -9,7 +9,6 @@ export const useSignInTestAccount = () => {
   const hasAttempted = useRef(false);
 
   useEffect(() => {
-    console.log(isUser);
     if (isUser) hasAttempted.current = true;
 
     if (!isUser && !hasAttempted.current) {

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ContentIcon } from 'shared/icons';
-import { getTextColor } from './helpers/getTextColor.ts';
 import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAMES_HEX.ts';
+import { getTextColorType } from 'shared/helpers';
 
 interface EntityIconProps {
   iconName?: string;
@@ -14,7 +14,7 @@ export const EntityIcon: FC<EntityIconProps> = ({ iconName, color, iconSize }) =
   const validatedColor = color || COLOR_NAMES_HEX['red-500'];
 
   const numberRemSize = parseFloat(iconSize) ? parseFloat(iconSize) : 0;
-  const textColor = getTextColor(validatedColor);
+  const textColor = getTextColorType(validatedColor);
   const textColorClassName = textColor ? (textColor === 'light' ? 'text-light' : 'text-dark') : 'text-body';
 
   return (

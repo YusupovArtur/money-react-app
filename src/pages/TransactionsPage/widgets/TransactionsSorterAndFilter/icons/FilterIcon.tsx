@@ -7,7 +7,7 @@ import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAM
 
 interface FilterIconProps {
   iconSize?: `${number}rem`;
-  filter: TransactionsFilterType<keyof TransactionType>;
+  filter: TransactionsFilterType<keyof TransactionType> | undefined;
   filtrationOrder?: number;
   isIconForDeleteFilterButton?: boolean;
 }
@@ -18,7 +18,7 @@ export const FilterIcon: FC<FilterIconProps> = ({
   filtrationOrder,
   isIconForDeleteFilterButton = false,
 }) => {
-  if (filter.filter === null) {
+  if (!filter || filter.filter === null) {
     if (isIconForDeleteFilterButton) {
       return <FilterEmptyIcon iconSize={iconSize} />;
     } else {

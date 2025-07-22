@@ -20,10 +20,10 @@ export const getPositionedMenuAlignment: GetPositionedMenuAlignmentType = (props
     const menuRect = menuRef.current.getBoundingClientRect();
     const view = window.visualViewport;
 
-    const leftSpace = toggleRect.left + toggleRect.width - view.pageLeft;
-    const rightSpace = view.width + view.pageLeft - toggleRect.left;
-    const topSpace = toggleRect.top - view.pageTop;
-    const bottomSpace = view.height + view.pageTop - toggleRect.bottom;
+    const topSpace = toggleRect.top - view.offsetTop;
+    const bottomSpace = view.height - toggleRect.bottom + view.offsetTop;
+    const leftSpace = toggleRect.left + toggleRect.width - view.offsetLeft;
+    const rightSpace = view.width - toggleRect.left + view.offsetLeft;
 
     const maxHeight: number | undefined = Math.max(bottomSpace, topSpace) - 10;
 

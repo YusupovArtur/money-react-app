@@ -9,6 +9,7 @@ import { getMenuAlignmentStyle } from './helpers/getMenuAlignmentStyle';
 import { getPositionedMenuAlignment } from './helpers/getPositionedMenuAlignmentType.ts';
 import { getDeviceType } from 'shared/helpers';
 import { createPortal } from 'react-dom';
+import { SetStateCallbackType } from 'shared/types';
 
 interface BaseDropdownContainerProps {
   DropdownToggle: ReactNode;
@@ -31,7 +32,7 @@ interface BaseDropdownContainerProps {
 
 interface WithStateDropdownContainerProps extends BaseDropdownContainerProps {
   isOpened: boolean;
-  setIsOpened: (value: boolean | ((prev: boolean) => boolean)) => any;
+  setIsOpened: SetStateCallbackType<boolean>;
 }
 
 interface WithoutStateDropdownContainerProps extends BaseDropdownContainerProps {

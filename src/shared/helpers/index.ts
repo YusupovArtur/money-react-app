@@ -14,3 +14,6 @@ export { getStringDate } from './date/getStringDate.ts';
 export { getToday } from 'shared/helpers/date/getToday.ts';
 export { getTodayTimestamp } from 'shared/helpers/date/getTodayTimestamp.ts';
 export { DateUTC } from './date/DateUTC.ts';
+
+export { getTextColorType } from './colors/getTextColorType.ts';
+export { TEXT_COLORS } from './colors/TEXT_COLORS.ts';

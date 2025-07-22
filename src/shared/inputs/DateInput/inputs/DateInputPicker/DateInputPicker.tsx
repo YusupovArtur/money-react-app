@@ -19,10 +19,11 @@ import {
   useDateStateDispatcher,
 } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
 import { DatePickerRangeLevelMenu } from 'shared/inputs/DateInput/inputs/DateInputPicker/components/DatePickerRangeLevelMenu.tsx';
+import { SetStateCallbackType } from 'shared/types';
 
 type DateStateProps = {
   dateState: DateStateType;
-  setDateState: Dispatch<SetStateAction<DateStateType>>;
+  setDateState: SetStateCallbackType<DateStateType>;
   dateStateRange?: never;
   setDateStateRange?: never;
 };
@@ -31,7 +32,7 @@ type DateStateRangeProps = {
   dateState?: never;
   setDateState?: never;
   dateStateRange: DateStateRangeType;
-  setDateStateRange: Dispatch<SetStateAction<DateStateRangeType>>;
+  setDateStateRange: SetStateCallbackType<DateStateRangeType>;
 };
 
 interface DateInputDatePickerProps {

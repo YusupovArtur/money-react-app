@@ -26,7 +26,7 @@ export const TransactionsTableSortingMenu: FC<TransactionsTableSortingMenuProps>
   };
 
   return (
-    <ButtonWithIcon className="btn btn-body" caption="Сортировать" onClick={handleSetOrder}>
+    <ButtonWithIcon className="btn btn-body mb-3" caption="Сортировать" onClick={handleSetOrder}>
       <SortingIcon fieldKey={fieldKey} sortingOrder={sortingOrder} iconSize="1rem" isIconForSetSortingOrderButton={true} />
     </ButtonWithIcon>
   );

@@ -8,7 +8,7 @@ import { EntityIcon } from 'entities/EntityIcon';
 import { getTransactionFormatedSum } from 'pages/TransactionsPage/helpers/getTransactionFormatedSum.ts';
 import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
 import { getStringDate } from 'shared/helpers';
-import { ArrowRightIcon } from 'pages/TransactionsPage/forms/TransactionForm/ui/ArrowRight.tsx';
+import { ArrowRightIcon } from 'shared/icons';
 
 interface TransactionsListItemProps {
   id: string;

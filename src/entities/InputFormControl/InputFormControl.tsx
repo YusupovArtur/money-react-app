@@ -4,13 +4,14 @@ import { ResponseHooksType } from 'store';
 // UI imports
 import { AlertMessage, ButtonWithIconAndSpinner } from 'shared/ui';
 import { PlusIcon } from 'shared/icons';
+import { SetStateCallbackType } from 'shared/types';
 
 interface InputFormControlProps {
   caption: string;
   disabled?: boolean;
   setValidate?: () => any;
 
-  setIsOpened: (value: boolean | ((prev: boolean) => boolean)) => any;
+  setIsOpened: SetStateCallbackType<boolean>;
   onAdd: (statusHooks: ResponseHooksType) => any;
   onClear: () => any;
 }

@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, InputHTMLAttributes, SetStateAction, useRef } from 'react';
+import React, { FC, InputHTMLAttributes, useRef } from 'react';
 // Types
 import { DateStateRangeType, DateStateType } from '../../types/DateStateType.ts';
 // Helpers
@@ -6,10 +6,11 @@ import { getStringDateFromDateState, getStringDateFromDateStateRange } from './h
 // UI
 import { TextInput } from 'shared/inputs';
 import { useDateTextInputHandlers } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputHandlers.ts';
+import { SetStateCallbackType } from 'shared/types';
 
 type DateStateProps = {
   dateState: DateStateType;
-  setDateState: Dispatch<SetStateAction<DateStateType>>;
+  setDateState: SetStateCallbackType<DateStateType>;
   dateStateRange?: never;
   setDateStateRange?: never;
 };
@@ -18,7 +19,7 @@ type DateStateRangeProps = {
   dateState?: never;
   setDateState?: never;
   dateStateRange: DateStateRangeType;
-  setDateStateRange: Dispatch<SetStateAction<DateStateRangeType>>;
+  setDateStateRange: SetStateCallbackType<DateStateRangeType>;
 };
 
 interface DateTextInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value'> {

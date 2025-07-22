@@ -1,6 +1,7 @@
 import { FC, HTMLAttributes, ReactNode } from 'react';
 import { ModalContainer } from 'shared/containers';
 import { ModalContainerWrapper } from 'shared/ui';
+import { SetStateCallbackType } from 'shared/types';
 
 /**
  * @param {onClose} props.onClose Callback for closing when close button clicked
@@ -10,9 +11,9 @@ interface ModalWindowContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   isOpened: boolean;
   /** Callback for closing when close button clicked */
-  onClose?: (value: boolean | ((prev: boolean) => boolean)) => any;
+  onClose?: SetStateCallbackType<boolean>;
   /** Callback for close when outside clicked */
-  onCollapse?: (value: boolean | ((prev: boolean) => boolean)) => any;
+  onCollapse?: SetStateCallbackType<boolean>;
   zIndex?: number;
   animated?: boolean;
 }
