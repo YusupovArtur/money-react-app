@@ -45,7 +45,7 @@ export const DatePickerProvider: FC<ProviderProps> = ({ children, initialDateSta
 export const useDatePickerContext = () => {
   const context = useContext(DatePickerContext);
   if (!context) {
-    throw new Error('useDatePickerContext must be used within a MyProvider');
+    throw new Error('useDatePickerContext must be used within a DatePickerContext.Provider');
   }
   return context;
 };

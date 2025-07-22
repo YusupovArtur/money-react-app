@@ -1,4 +1,4 @@
-import { FC, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { FC, useDeferredValue, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Store
 import { useAppSelector } from 'store/store.ts';
@@ -12,7 +12,6 @@ import { TransactionsTableHead } from 'pages/TransactionsPage/widgets/Transactio
 import { useMediaQuery } from 'shared/hooks';
 // Helpers
 import { getSortedTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getSortedTransactionsOrder.ts';
-import { TransactionsSortingOrderType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsSortingOrderType.ts';
 // Types
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
@@ -23,15 +22,17 @@ import { TransactionsListItem } from 'pages/TransactionsPage/widgets/Transaction
 import { TransactionsListHead } from 'pages/TransactionsPage/widgets/TransactionsTable/TransactionsListHead.tsx';
 import { AlertMessage } from 'shared/ui';
 import { getFiltrationCalculationsObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFiltrationCalculationsObject.ts';
+import { useTransactionsPageFilterContext } from 'app/hooks/useAppContext/useTransactionsPageFilterContext.tsx';
+import { useTransactionsPageSortContext } from 'app/hooks/useAppContext/useTransactionsPageSortContext.tsx';
 
 export const TransactionsTable: FC = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
   const order = useMemo(() => Object.keys(transactions), [transactions]);
 
-  const [sortingOrder, setSortingOrder] = useState<TransactionsSortingOrderType>({ key: 'time', order: 'desc' });
+  const { sortingOrder, setSortingOrder } = useTransactionsPageSortContext();
   const sortingOrderDeferred = useDeferredValue(sortingOrder);
 
-  const [filters, setFilters] = useState<TransactionsFilterType<keyof TransactionType>[]>([]);
+  const { filters, setFilters } = useTransactionsPageFilterContext();
   const filtersDeferred = useDeferredValue<TransactionsFilterType<keyof TransactionType>[]>(filters);
 
   // Filtering

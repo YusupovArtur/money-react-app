@@ -7,7 +7,8 @@ import { useFirestoreListener } from 'store/listener';
 import { AppWrapper } from 'app/AppWrapper';
 import { Navbar } from 'widgets/Navbar';
 import { PageLoadingSpinner } from 'shared/ui';
-import { useSignInTestAccount } from 'app/useSignInTestAccount.ts';
+import { useSignInTestAccount } from 'app/hooks/useSignInTestAccount.ts';
+import { AppContextProvider } from 'app/hooks/useAppContext/AppContextProvider.tsx';
 // Pages
 const MainPage = lazy(() => import('pages/MainPage'));
 const TransactionsPage = lazy(() => import('pages/TransactionsPage'));
@@ -18,22 +19,23 @@ const ProfilePage = lazy(() => import('pages/ProfilePage'));
 
 const App: FC = () => {
   useFirestoreListener();
-
   useSignInTestAccount();
 
   return (
     <AppWrapper>
       <Navbar />
-      <Suspense fallback={<PageLoadingSpinner />}>
-        <Routes>
-          <Route path="/" Component={MainPage} />
-          <Route path="/transactions" Component={TransactionsPage} />
-          <Route path="/wallets" Component={WalletsPage} />
-          <Route path="/categories" Component={CategoriesPage} />
-          <Route path="/login" Component={LoginPage} />
-          <Route path="/profile" Component={ProfilePage} />
-        </Routes>
-      </Suspense>
+      <AppContextProvider>
+        <Suspense fallback={<PageLoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/wallets" Component={WalletsPage} />
+            <Route path="/categories" Component={CategoriesPage} />
+            <Route path="/login" Component={LoginPage} />
+            <Route path="/profile" Component={ProfilePage} />
+          </Routes>
+        </Suspense>
+      </AppContextProvider>
     </AppWrapper>
   );
 };

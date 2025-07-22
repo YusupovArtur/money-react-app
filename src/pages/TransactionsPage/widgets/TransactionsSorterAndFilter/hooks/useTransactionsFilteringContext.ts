@@ -15,7 +15,7 @@ export const useTransactionsFilteringContext = () => {
   const context = useContext(TransactionsFilteringContext);
 
   if (!context) {
-    throw new Error('useTransactionsFilteringContext must be used within TransactionsProvider');
+    throw new Error('useTransactionsFilteringContext must be used within TransactionsFilteringContext.Provider');
   }
 
   return context;

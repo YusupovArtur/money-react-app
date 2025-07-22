@@ -1,4 +1,4 @@
-import { FC, useDeferredValue, useMemo, useState } from 'react';
+import { FC, useDeferredValue, useMemo } from 'react';
 // Store
 import { useAppSelector } from 'store/store.ts';
 // Components
@@ -10,22 +10,20 @@ import { getPieChartData } from 'pages/MainPage/widgets/PieChartWidget/component
 import { getFiltrationCalculationsObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFiltrationCalculationsObject.ts';
 import { getFilteredTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFilteredTransactionsOrder.ts';
 import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getCurrentFilter.ts';
-import { getInitialPieChartTimeFilter } from 'pages/MainPage/widgets/PieChartWidget/helpers/getInitialPieChartTimeFilter.ts';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
 // Hooks
 import { TransactionsSortingContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsSortingContext.ts';
 import { TransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
+import { useMainPagePieChartFilterContext } from 'app/hooks/useAppContext/useMainPagePieChartFilterContext.tsx';
 
 interface ChartWidgetProps {}
 
 export const PieChartWidget: FC<ChartWidgetProps> = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
 
-  const [filters, setFilters] = useState<TransactionsFilterType<keyof TransactionType>[]>([
-    { key: 'time', filter: getInitialPieChartTimeFilter('month') },
-  ]);
+  const { filters, setFilters } = useMainPagePieChartFilterContext();
   const filtersDeferred = useDeferredValue<TransactionsFilterType<keyof TransactionType>[]>(filters);
 
   const { filtrationCalculationsObject, expensesData, incomesData, result } = useMemo(() => {

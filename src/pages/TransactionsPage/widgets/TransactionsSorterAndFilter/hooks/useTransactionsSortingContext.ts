@@ -17,7 +17,7 @@ export const useTransactionsSortingContext = () => {
   const context = useContext(TransactionsSortingContext);
 
   if (!context) {
-    throw new Error('useTransactionsSortingContext must be used within TransactionsProvider');
+    throw new Error('useTransactionsSortingContext must be used within TransactionsSortingContext.Provider');
   }
 
   return context;

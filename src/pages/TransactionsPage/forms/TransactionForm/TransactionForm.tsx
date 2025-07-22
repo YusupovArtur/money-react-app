@@ -27,10 +27,6 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
   const dateInputID = useId();
   const descriptionInputID = useId();
 
-  const onTypeChangeClear = () => {
-    setFormData((state) => ({ ...state, fromWallet: '', toWallet: '', category: '', subcategory: '' }));
-  };
-
   return (
     <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column mb-3">
       {/*Type*/}
@@ -39,12 +35,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
           Тип транзакции
         </FormLabel>
         {type === null ? (
-          <TransactionTypeInput
-            id={typeInputID}
-            type={formData.type}
-            setType={(type: TransactionType['type']) => setFormData((state) => ({ ...state, type }))}
-            onClear={onTypeChangeClear}
-          ></TransactionTypeInput>
+          <TransactionTypeInput id={typeInputID} type={formData.type} setFormData={setFormData}></TransactionTypeInput>
         ) : (
           <div className="d-flex align-items-center">
             <input id={typeInputID} type="text" value={type || ''} readOnly={true} style={{ display: 'none' }} />
