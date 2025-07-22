@@ -77,10 +77,10 @@ export const PieChartWidget: FC<ChartWidgetProps> = () => {
       {/*Charts*/}
       <div className="d-flex justify-content-center align-self-center flex-wrap gap-2">
         <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>
-          <PieChart data={expensesData} colorMode={'reds'} />
+          <PieChart data={incomesData} colorMode={'greens'} />
         </div>
         <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>
-          <PieChart data={incomesData} colorMode={'greens'} />
+          <PieChart data={expensesData} colorMode={'reds'} />
         </div>
       </div>
     </div>

@@ -54,7 +54,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
   isOutsideClickClose = true,
 
   menuAlignment = { y: 'bottom', x: 'right' },
-  zIndex = 3,
+  zIndex = 2,
   dropdownDivContainerProps,
   isModalDropdownContainerForMobileDevice = false,
   portalContainer,
@@ -95,7 +95,7 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
       const alignmentStyle = getMenuAlignmentStyle({ menuAlignment: alignment, menuRef, toggleRef });
       setMenuAlignmentStyle({ ...alignmentStyle, maxHeight });
     }
-  }, 100);
+  }, 50);
 
   useClickOutside({
     elementRef: [toggleRef, menuRef, ...(additionalRefsForClickOutsideIgnore ?? [])],

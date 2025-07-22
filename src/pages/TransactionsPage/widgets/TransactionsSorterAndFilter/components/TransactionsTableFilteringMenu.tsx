@@ -178,7 +178,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
             dateTextInputProps={{ id: rangeInputId2, style: { fontSize: '1rem' } }}
             dateInputsDivContainersProps={{ className: 'mb-2' }}
             portalContainerForDropdownContainer={portalContainerForInternalDropdowns}
-            dropdownContainerZIndex={4}
+            dropdownContainerZIndex={3}
           />
         </>
       )}

@@ -25,7 +25,7 @@ export const getPositionedMenuAlignment: GetPositionedMenuAlignmentType = (props
     const leftSpace = toggleRect.left + toggleRect.width - view.offsetLeft;
     const rightSpace = view.width - toggleRect.left + view.offsetLeft;
 
-    const maxHeight: number | undefined = Math.max(bottomSpace, topSpace) - 10;
+    const maxHeight: number | undefined = Math.max(bottomSpace, topSpace) - 5;
 
     if (
       (menuAlignment.y === 'bottom' && bottomSpace < menuRect.height && topSpace > menuRect.height) ||

@@ -138,7 +138,7 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
         isModalDropdownContainerForMobileDevice={isModalDropdownContainerForMobileDevice}
         portalContainer={portalContainerForDropdownContainer}
         isInsideClickClose={false}
-        menuAlignment={{ x: 'right', y: 'top' }}
+        menuAlignment={{ x: 'right', y: 'bottom' }}
         zIndex={dropdownContainerZIndex}
         dropdownDivContainerProps={{ style: { width: undefined, height: undefined } }}
         additionalRefsForClickOutsideIgnore={[dateTextInputRef]}
