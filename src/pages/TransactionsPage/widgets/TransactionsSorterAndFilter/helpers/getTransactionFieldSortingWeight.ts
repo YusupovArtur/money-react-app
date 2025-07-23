@@ -129,7 +129,7 @@ export const getTransactionFieldSortingWeight: GetTransactionFieldSortingWeightS
     }
     if (transactionFieldCaptionKey) {
       return getWeightFromCategory(
-        transactionFieldCaptionKey as TransactionFieldCaptionKeyType<'category'>,
+        (transactionFieldCaptionKey as TransactionFieldCaptionKeyType<'category'>).categoryID,
       ) as TransactionSortWeightType<T>;
     }
   }

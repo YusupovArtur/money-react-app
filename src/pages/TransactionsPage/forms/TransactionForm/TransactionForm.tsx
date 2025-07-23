@@ -5,7 +5,7 @@ import { DateInput, NumberInput, TextInput } from 'shared/inputs';
 import { TransactionTypeInput } from 'pages/TransactionsPage/inputs/TransactionTypeInput.tsx';
 // Icons
 import { EntityFieldValue, FormLabel, FormValidationFeedback } from 'shared/ui';
-import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { getTransactionEntityTypeName, TypeIcon } from 'entities/EntitiesComponents';
 import { WalletsIDForm } from './components/WalletsIDForm.tsx';
 import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
@@ -39,7 +39,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
         ) : (
           <div className="d-flex align-items-center">
             <input id={typeInputID} type="text" value={type || ''} readOnly={true} style={{ display: 'none' }} />
-            <TransactionEntityTypeIcon type={formData.type} />
+            <TypeIcon type={formData.type} />
             <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(formData.type)}</EntityFieldValue>
           </div>
         )}

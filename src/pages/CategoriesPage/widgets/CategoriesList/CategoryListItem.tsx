@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'store/store.ts';
 // UI
 import { ListItemFieldValue, ListItemWrapper } from 'shared/ui';
-import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { TypeIcon } from 'entities/EntitiesComponents';
 import { EntityIcon } from 'entities/EntityIcon';
 import { selectCategory } from 'store/slices/categoriesSlice';
 
@@ -35,7 +35,7 @@ export const CategoryListItem: FC<CategoryItemProps> = ({ id, disabled, loading 
         {category.name}
       </ListItemFieldValue>
 
-      <TransactionEntityTypeIcon type={category.type} />
+      <TypeIcon type={category.type} />
     </ListItemWrapper>
   );
 };

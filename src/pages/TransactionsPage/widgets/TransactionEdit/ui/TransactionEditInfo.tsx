@@ -2,7 +2,7 @@ import { FC } from 'react';
 // Store
 import { TransactionType } from 'store/slices/transactionsSlice';
 // UI
-import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { getTransactionEntityTypeName, TypeIcon } from 'entities/EntitiesComponents';
 import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
 import { ArrowRightIcon, CategoryIcon, WalletIcon } from 'shared/icons';
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
@@ -23,7 +23,7 @@ export const TransactionEditInfo: FC<{ transaction: TransactionType }> = ({ tran
       {/*Type*/}
       <EntityFieldLabel>Тип транзакции</EntityFieldLabel>
       <div className="d-flex align-items-center">
-        <TransactionEntityTypeIcon type={type} />
+        <TypeIcon type={type} />
         <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(type)}</EntityFieldValue>
       </div>
 

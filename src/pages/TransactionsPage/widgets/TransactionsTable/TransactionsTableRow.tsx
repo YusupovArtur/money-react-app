@@ -8,7 +8,7 @@ import { CategoryShortInfo } from 'pages/TransactionsPage/ui/CategoryShortInfo.t
 import { SubcategoryShortInfo } from 'pages/TransactionsPage/ui/SubcategoryShortInfo.tsx';
 import { useMediaQuery } from 'shared/hooks';
 import { ArrowRightIcon } from 'shared/icons';
-import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { TypeIcon } from 'entities/EntitiesComponents';
 import { MEDIUM_WINDOW_MEDIA_QUERY } from 'pages/TransactionsPage/widgets/TransactionsTable/constants/MEDIA_QUERY_CONSTANTS.ts';
 import { TRANSACTION_TABLE_PROPORTIONS } from 'pages/TransactionsPage/widgets/TransactionsTable/constants/TRANSACTION_TABLE_PROPORTIONS.ts';
 // Types
@@ -40,7 +40,7 @@ export const TransactionsTableRow = memo(({ id, transaction, setTransactionID }:
       {/*Type*/}
       <td style={{ width: TRANSACTION_TABLE_PROPORTIONS.typeWidth, padding: '7px 5px' }}>
         <div className="d-flex justify-content-center align-items-center">
-          <TransactionEntityTypeIcon type={type} iconSize="1.2rem" />
+          <TypeIcon type={type} iconSize="1.2rem" />
         </div>
       </td>
 
@@ -61,33 +61,31 @@ export const TransactionsTableRow = memo(({ id, transaction, setTransactionID }:
 
       {/*Wallets*/}
       {type === 'expense' ? (
-        <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan} style={{ maxWidth: '10%' }}>
+        <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan}>
           <div className="d-flex justify-content-start">
             <WalletShortInfo id={fromWallet}></WalletShortInfo>
           </div>
         </td>
       ) : type === 'income' ? (
-        <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan} style={{ maxWidth: '10%' }}>
+        <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan}>
           <div className="d-flex justify-content-start">
             <WalletShortInfo id={toWallet}></WalletShortInfo>
           </div>
         </td>
       ) : (
-        <>
-          <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan / 2} style={{ maxWidth: '5%', paddingRight: 24.6 }}>
-            <div className="d-flex justify-content-between align-items-center position-relative">
+        <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan}>
+          <div className="d-flex justify-content-start align-items-center w-100">
+            <div className="d-flex justify-content-between align-items-center" style={{ width: 'calc(50% - 0.75rem)' }}>
               <WalletShortInfo id={fromWallet} className="me-1" />
-              <div className="d-flex align-items-center position-absolute" style={{ right: -24.6 }}>
-                <ArrowRightIcon iconSize="1.2rem" />
-              </div>
             </div>
-          </td>
-          <td colSpan={TRANSACTION_TABLE_PROPORTIONS.walletsColSpan / 2} style={{ maxWidth: '5%', paddingLeft: 5.4 }}>
-            <div className="d-flex justify-content-start">
+            <div className="d-flex align-items-center flex-shrink-0">
+              <ArrowRightIcon iconSize="1.2rem" />
+            </div>
+            <div className="d-flex justify-content-start align-items-center" style={{ width: 'calc(50% - 0.75rem)' }}>
               <WalletShortInfo id={toWallet} className="ms-1" />
             </div>
-          </td>
-        </>
+          </div>
+        </td>
       )}
 
       {/*Category*/}

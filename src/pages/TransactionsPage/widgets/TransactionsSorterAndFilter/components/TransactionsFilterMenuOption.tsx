@@ -1,68 +1,34 @@
-import { ReactNode } from 'react';
-import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { getStringDate } from 'shared/helpers';
-import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
-import { CategoryShortInfo } from 'pages/TransactionsPage/ui/CategoryShortInfo.tsx';
-import { SubcategoryShortInfo } from 'pages/TransactionsPage/ui/SubcategoryShortInfo.tsx';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
+import { ChangeEvent, useId } from 'react';
+import { TransactionsFilterMenuOptionLabel } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsFilterMenuOptionLabel.tsx';
 
 interface TransactionsFilterMenuOptionProps<T extends keyof TransactionType> {
   fieldKey: T;
+  // option: TransactionType[T];
   optionKey: TransactionFieldCaptionKeyType<T>;
+  checked: boolean;
+  // filter: TransactionFilterRuleType<T> | null;
+  disabled: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const TransactionsFilterMenuOption = <T extends keyof TransactionType>({
   fieldKey,
+  // option,
   optionKey,
-}: TransactionsFilterMenuOptionProps<T>): ReactNode => {
-  if (fieldKey === 'fromWallet' || fieldKey === 'toWallet') {
-  }
-
-  // Time
-  if (fieldKey === 'time') {
-    return <div>{getStringDate(optionKey as TransactionFieldCaptionKeyType<'time'>)}</div>;
-  }
-
-  // Type
-  if (fieldKey === 'type') {
-    if (optionKey === 'expense') {
-      return 'Расходы';
-    } else if (optionKey === 'income') {
-      return 'Доходы';
-    } else {
-      return 'Переводы';
-    }
-  }
-
-  // Sum
-  if (fieldKey === 'sum') {
-    return (
-      <div>
-        {(optionKey as TransactionFieldCaptionKeyType<'sum'>).sum *
-          ((optionKey as TransactionFieldCaptionKeyType<'sum'>).type === 'expense' ? -1 : 1)}
-      </div>
-    );
-  }
-
-  // Wallets
-  if (fieldKey === 'fromWallet' || fieldKey === 'toWallet') {
-    return <WalletShortInfo id={optionKey as TransactionFieldCaptionKeyType<'fromWallet'>}></WalletShortInfo>;
-  }
-
-  // Categories
-  if (fieldKey === 'category') {
-    return <CategoryShortInfo id={optionKey as TransactionFieldCaptionKeyType<'category'>} type={'transfer'} />;
-  }
-
-  // Subcategories
-  if (fieldKey === 'subcategory') {
-    return (
-      <SubcategoryShortInfo
-        categoryID={(optionKey as TransactionFieldCaptionKeyType<'subcategory'>).categoryID}
-        subcategoryID={(optionKey as TransactionFieldCaptionKeyType<'subcategory'>).subcategoryID}
-      ></SubcategoryShortInfo>
-    );
-  }
-
-  return <div>{JSON.stringify(optionKey)}</div>;
+  checked,
+  disabled,
+  onChange,
+}: TransactionsFilterMenuOptionProps<T>) => {
+  // const checked = !filter || isRangeFilter(filter) || (isSet(filter) && !(filter as Set<any>).has(option));
+  const id = useId();
+  return (
+    <div className="form-check">
+      <input type="checkbox" checked={checked} onChange={onChange} disabled={disabled} id={id} className="form-check-input" />
+      <label className="form-check-label flex-grow-1 w-100 d-flex justify-content-start" htmlFor={id}>
+        <TransactionsFilterMenuOptionLabel fieldKey={fieldKey} optionKey={optionKey} />
+      </label>
+    </div>
+  );
 };

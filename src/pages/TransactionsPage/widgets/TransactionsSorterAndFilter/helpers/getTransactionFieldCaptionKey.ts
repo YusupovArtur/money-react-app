@@ -12,7 +12,6 @@ export const getTransactionFieldCaptionKey = <T extends keyof TransactionType>(p
     fieldKey === 'type' ||
     fieldKey === 'fromWallet' ||
     fieldKey === 'toWallet' ||
-    fieldKey === 'category' ||
     fieldKey === 'description'
   ) {
     return transaction[fieldKey] as TransactionFieldCaptionKeyType<T>;
@@ -22,8 +21,16 @@ export const getTransactionFieldCaptionKey = <T extends keyof TransactionType>(p
     return { type: transaction.type, sum: transaction.sum } as TransactionFieldCaptionKeyType<T>;
   }
 
+  if (fieldKey === 'category') {
+    return {
+      type: transaction.type,
+      categoryID: transaction.category,
+    } as TransactionFieldCaptionKeyType<T>;
+  }
+
   if (fieldKey === 'subcategory') {
     return {
+      type: transaction.type,
       categoryID: transaction.category,
       subcategoryID: transaction.subcategory,
     } as TransactionFieldCaptionKeyType<T>;

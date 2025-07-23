@@ -6,7 +6,7 @@ import { selectWallet, WalletType } from 'store/slices/walletsSlice';
 import { useGetDisplayedCategory } from 'store/slices/categoriesSlice';
 import { EntityIcon } from 'entities/EntityIcon';
 import { getTransactionFormatedSum } from 'pages/TransactionsPage/helpers/getTransactionFormatedSum.ts';
-import { TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { TypeIcon } from 'entities/EntitiesComponents';
 import { getStringDate } from 'shared/helpers';
 import { ArrowRightIcon } from 'shared/icons';
 
@@ -87,7 +87,7 @@ export const TransactionsListItem: FC<TransactionsListItemProps> = ({ id, transa
           <ListItemFieldValue className={`me-2 ${color}`} style={{ fontWeight: 500, ...nowrapStyle }}>
             {formatedSum}
           </ListItemFieldValue>
-          <TransactionEntityTypeIcon type={type} iconSize="1.2rem" />
+          <TypeIcon type={type} iconSize="1.2rem" />
         </div>
         <span className="text-body-tertiary" style={{ fontSize: fontSizeSmall, ...nowrapStyle }}>
           {getStringDate(time)}

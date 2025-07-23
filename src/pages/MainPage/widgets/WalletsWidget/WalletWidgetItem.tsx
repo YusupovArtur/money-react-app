@@ -5,7 +5,7 @@ import { IDInputDropdown, IDOptionType } from 'shared/inputs';
 import { DropdownContainer } from 'shared/containers';
 import { changeWalletsWidgetSettings } from 'store/slices/settingsSlice';
 import { WalletWidgetItemInfo } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetItemInfo.tsx';
-import { selectBodyBackgroundColor, selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
+import { selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
 
 interface WalletWidgetItemProps {
   id: string;

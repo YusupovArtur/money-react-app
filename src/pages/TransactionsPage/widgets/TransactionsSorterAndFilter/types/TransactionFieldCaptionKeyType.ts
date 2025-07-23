@@ -5,11 +5,12 @@ export type TransactionFieldCaptionKeyType<T extends keyof TransactionType> = T 
   | 'type'
   | 'fromWallet'
   | 'toWallet'
-  | 'category'
   | 'description'
   ? TransactionType[T]
   : T extends 'sum'
     ? { sum: number; type: TransactionType['type'] }
-    : T extends 'subcategory'
-      ? { categoryID: string; subcategoryID: string }
-      : never;
+    : T extends 'category'
+      ? { type: TransactionType['type']; categoryID: string }
+      : T extends 'subcategory'
+        ? { type: TransactionType['type']; categoryID: string; subcategoryID: string }
+        : never;

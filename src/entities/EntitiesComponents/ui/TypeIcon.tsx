@@ -10,7 +10,7 @@ interface TransactionEntityTypeIconProps {
   iconSize?: `${number}rem`;
 }
 
-export const TransactionEntityTypeIcon: FC<TransactionEntityTypeIconProps> = ({ type, iconSize = '1.4rem' }) => {
+export const TypeIcon: FC<TransactionEntityTypeIconProps> = ({ type, iconSize = '1.4rem' }) => {
   switch (type) {
     case 'expense':
       return <ArrowDownRightIcon iconSize={iconSize} color={COLOR_NAMES_HEX['red-500']} />;

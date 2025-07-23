@@ -2,7 +2,7 @@ import { TransactionType } from 'store/slices/transactionsSlice';
 
 export type RangeFilterType = { max: number; min: number };
 
-type FilterType<T extends keyof TransactionType> = T extends
+export type TransactionFilterRuleType<T extends keyof TransactionType> = T extends
   | 'type'
   | 'fromWallet'
   | 'toWallet'
@@ -16,5 +16,5 @@ type FilterType<T extends keyof TransactionType> = T extends
 
 export type TransactionsFilterType<T extends keyof TransactionType> = {
   key: T;
-  filter: FilterType<T>;
+  filter: TransactionFilterRuleType<T>;
 };

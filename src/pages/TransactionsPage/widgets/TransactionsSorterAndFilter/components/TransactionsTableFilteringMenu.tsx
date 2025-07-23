@@ -1,7 +1,6 @@
 import { ChangeEvent, ReactNode, useEffect, useId, useState } from 'react';
 // Components
 import { DateInput, NumberInput } from 'shared/inputs';
-import { TransactionsFilterMenuOption } from './TransactionsFilterMenuOption.tsx';
 import { ButtonWithIcon, EntityFieldLabel } from 'shared/ui';
 // Hooks
 import { useFilterDispatch } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/useFilterDispatch.ts';
@@ -9,16 +8,19 @@ import { useTransactionsFilteringContext } from 'pages/TransactionsPage/widgets/
 // Helpers
 import { deepEqual, isSet, isSubset } from 'shared/helpers';
 import { getUndefinedFilterOptionsSet } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getUndefinedFilterOptionsSet.ts';
-import { isRangeFilterObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/isRangeFilterObject.ts';
+import { isRangeFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/isRangeFilter.ts';
 import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getRangeFilterFromFilter.ts';
 import { getTransactionsFilterOptionsList } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getTransactionsFilterOptionsList.ts';
 // UI
 import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TrashFillIcon } from 'shared/icons';
+import { ExclamationIcon, TrashFillIcon } from 'shared/icons';
 import { RangeType, SetStateCallbackType } from 'shared/types';
 import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { TransactionsFilterMenuOption } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsFilterMenuOption.tsx';
+import { TransactionFieldCaptionKeyType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionFieldCaptionKeyType.ts';
+import { TypeIcon } from 'entities/EntitiesComponents';
 
 interface TransactionsTableFilteringMenuProps<T extends keyof TransactionType> {
   fieldKey: T;
@@ -42,15 +44,33 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   const currentFilter: TransactionsFilterType<T> = currentFilters[fieldKey] || { key: fieldKey, filter: null as any };
 
   const allChecked =
-    filter === null ||
-    (isSet(filter) && filter.size === 0) ||
-    (isRangeFilterObject(filter) && isNaN(filter.min) && isNaN(filter.max));
+    filter === null || (isSet(filter) && filter.size === 0) || (isRangeFilter(filter) && isNaN(filter.min) && isNaN(filter.max));
   const rangeInputDisabled = filter !== null && isSet(filter) && filter.size > 0;
-  const optionsInputDisabled = filter !== null && isRangeFilterObject(filter) && (!isNaN(filter.min) || !isNaN(filter.max));
+  const optionsInputDisabled = filter !== null && isRangeFilter(filter) && (!isNaN(filter.min) || !isNaN(filter.max));
 
   // Undefined options logics
   const undefinedOptionsSet = getUndefinedFilterOptionsSet({ fieldKey, options, optionKeys });
   const undefinedChecked = filter === null || (isSet(filter) && !isSubset(filter, undefinedOptionsSet));
+
+  // For category and subcategory split by type
+  const expenseCategoryTypeOptions: TransactionType[T][] = [];
+  const incomeCategoryTypeOptions: TransactionType[T][] = [];
+  const transferCategoryTypeOptions: TransactionType[T][] = [];
+  if (fieldKey === 'category' || fieldKey === 'subcategory') {
+    for (let option of options) {
+      const optionKey = optionKeys[option];
+      switch ((optionKey as TransactionFieldCaptionKeyType<'category' | 'subcategory'>).type) {
+        case 'expense':
+          expenseCategoryTypeOptions.push(option);
+          break;
+        case 'income':
+          incomeCategoryTypeOptions.push(option);
+          break;
+        case 'transfer':
+          transferCategoryTypeOptions.push(option);
+      }
+    }
+  }
 
   // Menu handlers
   const deleteFilterHandler = () => {
@@ -86,7 +106,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
       if (filter === null || isSet(filter)) {
         setTimestampRange({ 1: NaN, 2: NaN });
       }
-      if (isRangeFilterObject(filter)) {
+      if (isRangeFilter(filter)) {
         setTimestampRange({ 1: filter.min, 2: filter.max });
       }
     }
@@ -95,7 +115,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
         setMinRange(NaN);
         setMaxRange(NaN);
       }
-      if (isRangeFilterObject(filter)) {
+      if (isRangeFilter(filter)) {
         setMinRange(filter.min);
         setMaxRange(filter.max);
       }
@@ -150,7 +170,6 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   const rangeInputId1 = useId();
   const rangeInputId2 = useId();
   const checkAllInputId = useId();
-  const checkUndefinedOptionsInputId = useId();
   return (
     <>
       <div className="d-flex mb-1">
@@ -217,49 +236,118 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
         </label>
       </div>
 
-      {options.map((option, index) => {
-        if (!undefinedOptionsSet.has(option)) {
-          const key = fieldKey + index.toString() + option.toString();
-          const checked = filter === null ? true : isSet(filter) ? !(filter as Set<any>).has(option) : true;
-
-          return (
-            <div className="form-check" key={key}>
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={optionChangeHandler(option)}
-                disabled={optionsInputDisabled}
-                id={key}
-                className="form-check-input"
-              />
-              <label className="form-check-label flex-grow-1 w-100 d-flex justify-content-start" htmlFor={key}>
-                <TransactionsFilterMenuOption fieldKey={fieldKey} optionKey={optionKeys[option]}></TransactionsFilterMenuOption>
-              </label>
-            </div>
-          );
-        }
-      })}
-
-      {undefinedOptionsSet.size > 0 && (
-        <div className="form-check" key={checkUndefinedOptionsInputId}>
-          <input
-            type="checkbox"
-            checked={undefinedChecked}
-            onChange={optionChangeHandler(undefinedOptionsSet)}
-            id={checkUndefinedOptionsInputId}
-            disabled={optionsInputDisabled}
-            className="form-check-input"
-          />
-          <label
-            className="form-check-label flex-grow-1 w-100 d-flex justify-content-start"
-            htmlFor={checkUndefinedOptionsInputId}
-          >
+      {fieldKey !== 'category' && fieldKey !== 'subcategory' && (
+        <>
+          {options.map((option, index) => {
+            if (!undefinedOptionsSet.has(option)) {
+              return (
+                <TransactionsFilterMenuOption
+                  key={index.toString() + option.toString()}
+                  fieldKey={fieldKey}
+                  checked={!filter || isRangeFilter(filter) || (isSet(filter) && !(filter as Set<any>).has(option))}
+                  optionKey={optionKeys[option]}
+                  disabled={optionsInputDisabled}
+                  onChange={optionChangeHandler(option)}
+                />
+              );
+            }
+          })}
+          {undefinedOptionsSet.size > 0 && (
             <TransactionsFilterMenuOption
               fieldKey={fieldKey}
+              checked={undefinedChecked}
               optionKey={optionKeys[undefinedOptionsSet.values().next().value as TransactionType[T]]}
+              disabled={optionsInputDisabled}
+              onChange={optionChangeHandler(undefinedOptionsSet)}
             />
-          </label>
-        </div>
+          )}
+        </>
+      )}
+
+      {(fieldKey === 'category' || fieldKey === 'subcategory') && (
+        <>
+          {expenseCategoryTypeOptions.length > 0 && (
+            <>
+              <span className="d-flex align-items-center">
+                <TypeIcon type="expense" iconSize="1rem" />
+                <span className="ms-1">Расходы</span>
+              </span>
+              {expenseCategoryTypeOptions.map((option, index) => {
+                if (!undefinedOptionsSet.has(option)) {
+                  return (
+                    <TransactionsFilterMenuOption
+                      key={index.toString() + option.toString()}
+                      fieldKey={fieldKey}
+                      checked={!filter || isRangeFilter(filter) || (isSet(filter) && !(filter as Set<any>).has(option))}
+                      optionKey={optionKeys[option]}
+                      disabled={optionsInputDisabled}
+                      onChange={optionChangeHandler(option)}
+                    />
+                  );
+                }
+              })}
+            </>
+          )}
+          {incomeCategoryTypeOptions.length > 0 && (
+            <>
+              <span className="d-flex align-items-center">
+                <TypeIcon type="income" iconSize="1rem" />
+                <span className="ms-1">Доходы</span>
+              </span>
+              {incomeCategoryTypeOptions.map((option, index) => {
+                if (!undefinedOptionsSet.has(option)) {
+                  return (
+                    <TransactionsFilterMenuOption
+                      key={index.toString() + option.toString()}
+                      fieldKey={fieldKey}
+                      checked={!filter || isRangeFilter(filter) || (isSet(filter) && !(filter as Set<any>).has(option))}
+                      optionKey={optionKeys[option]}
+                      disabled={optionsInputDisabled}
+                      onChange={optionChangeHandler(option)}
+                    />
+                  );
+                }
+              })}
+            </>
+          )}
+          {transferCategoryTypeOptions.length > 0 && (
+            <>
+              <span className="d-flex align-items-center">
+                <TypeIcon type="transfer" iconSize="1rem" />
+                <span className="ms-1">Переводы</span>
+              </span>
+              {transferCategoryTypeOptions.map((option, index) => {
+                if (!undefinedOptionsSet.has(option)) {
+                  return (
+                    <TransactionsFilterMenuOption
+                      key={index.toString() + option.toString()}
+                      fieldKey={fieldKey}
+                      checked={!filter || isRangeFilter(filter) || (isSet(filter) && !(filter as Set<any>).has(option))}
+                      optionKey={optionKeys[option]}
+                      disabled={optionsInputDisabled}
+                      onChange={optionChangeHandler(option)}
+                    />
+                  );
+                }
+              })}
+            </>
+          )}
+          {undefinedOptionsSet.size > 0 && (
+            <>
+              <span className="d-flex align-items-center">
+                <ExclamationIcon iconSize="1rem" className="text-danger" />
+                <span className="ms-1">Неизвестные</span>
+              </span>
+              <TransactionsFilterMenuOption
+                fieldKey={fieldKey}
+                checked={undefinedChecked}
+                optionKey={optionKeys[undefinedOptionsSet.values().next().value as TransactionType[T]]}
+                disabled={optionsInputDisabled}
+                onChange={optionChangeHandler(undefinedOptionsSet)}
+              />
+            </>
+          )}
+        </>
       )}
     </>
   );
