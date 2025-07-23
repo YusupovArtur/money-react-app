@@ -12,12 +12,13 @@ export const WalletsWidget: FC = () => {
   const errorMessageSettings = useAppSelector((state) => state.settings.responseState.errorMessage);
 
   const [errorMessageWidgetItemChange, setErrorMessageWidgetItemChange] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="d-flex flex-column">
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex justify-content-between align-items-start">
         <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>Мои счета</span>
-        <WalletWidgetSettings />
+        <WalletWidgetSettings isLoading={isLoading} setIsLoading={setIsLoading} />
       </div>
 
       <div className="d-flex flex-wrap align-items-center gap-2 placeholder-wave">
@@ -28,7 +29,11 @@ export const WalletsWidget: FC = () => {
             ))}
           </>
         ) : (
-          <WalletWidgetItemsList setErrorMessage={setErrorMessageWidgetItemChange} />
+          <WalletWidgetItemsList
+            setErrorMessage={setErrorMessageWidgetItemChange}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
         )}
       </div>
       <AlertMessage alertMessage={errorMessageWallets || errorMessageSettings} className="alert-danger mt-1 w-100" />

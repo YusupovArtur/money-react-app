@@ -1,4 +1,4 @@
-import { JSX, memo, useDeferredValue, useEffect, useState } from 'react';
+import { FC, JSX, memo, ReactNode, useDeferredValue, useEffect, useState } from 'react';
 // Store
 import { useAppSelector } from 'store/store.ts';
 import { selectTextBodyColor } from 'store/slices/themeSlice/selectors/selectTextBodyColor.ts';
@@ -14,14 +14,15 @@ import { ButtonWithIcon } from 'shared/ui';
 import { ArrowLeftIcon } from 'shared/icons';
 import { PieChartLegend } from 'pages/MainPage/widgets/PieChartWidget/components/PieChart/PieChartLegend.tsx';
 
-interface ExpensesPieChartProps {
+interface PieChartProps {
   data: PieChartData[];
   colorMode?: 'greens' | 'reds';
 }
 
-export const PieChart = memo(({ data: innerData, colorMode }: ExpensesPieChartProps): JSX.Element => {
+export const PieChart = memo(({ data: innerData, colorMode }: PieChartProps): JSX.Element => {
   const [data, setData] = useState<PieChartData[]>(innerData.length ? innerData : [{ id: '', value: 0, label: 'Нет данных' }]);
   const dataDeferred = useDeferredValue(data);
+
   const [selectedId, setSelectedId] = useState<string | number | null>(null);
   const [selectedName, setSelectedName] = useState<string>('');
 
@@ -62,16 +63,22 @@ export const PieChart = memo(({ data: innerData, colorMode }: ExpensesPieChartPr
   // Color schema
   const colorSchema = getColorSchema({ data: dataDeferred, colorMode: colorMode });
 
+  const PieChartWrapper: FC<{ children: ReactNode }> = ({ children }) => {
+    return <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>{children}</div>;
+  };
+
   if (isLoading) {
     return (
-      <div className="placeholder-wave p-5" style={{ width: '100%', height: '100%' }}>
-        <div className="placeholder" style={{ width: '100%', height: '100%' }}></div>
-      </div>
+      <PieChartWrapper>
+        <div className="placeholder-wave p-5" style={{ width: '100%', height: '100%' }}>
+          <div className="placeholder" style={{ width: '100%', height: '100%' }}></div>
+        </div>
+      </PieChartWrapper>
     );
   }
 
   return (
-    <>
+    <PieChartWrapper>
       <div style={{ width: '100%', height: '100%', position: 'relative' }}>
         <ResponsivePieCanvas
           // Chart props
@@ -120,7 +127,7 @@ export const PieChart = memo(({ data: innerData, colorMode }: ExpensesPieChartPr
         {/*Legend*/}
         <PieChartLegend data={dataDeferred} colorMode={colorMode} colorSchema={colorSchema} />
       </div>
-    </>
+    </PieChartWrapper>
   );
 });
 

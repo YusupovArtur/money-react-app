@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useRef } from 'react';
 import { WalletWidgetItem } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetItem.tsx';
 import { useAppDispatch, useAppSelector } from 'store/store.ts';
 import { changeWalletsWidgetSettings } from 'store/slices/settingsSlice';
@@ -6,15 +6,18 @@ import { ButtonWithIcon } from 'shared/ui';
 import { PlusIcon } from 'shared/icons';
 
 interface WalletWidgetItemsListProps {
-  setErrorMessage?: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-export const WalletWidgetItemsList: FC<WalletWidgetItemsListProps> = ({ setErrorMessage }) => {
-  const order = useAppSelector((state) => state.settings.settings.widgetsSettings.walletsWidget.order);
-  const orderSet = new Set(order);
+export const WalletWidgetItemsList: FC<WalletWidgetItemsListProps> = ({ setErrorMessage, isLoading, setIsLoading }) => {
+  const widgetWalletsOrder = useAppSelector((state) => state.settings.settings.widgetsSettings.walletsWidget.order);
+  const emptiesNum = widgetWalletsOrder.reduce((acc, cur) => acc + (cur ? 0 : 1), 0);
+
+  const widgetWalletsOrderSet = new Set(widgetWalletsOrder);
 
   const dispatch = useAppDispatch();
-  const [_, setIsLoading] = useState<boolean>(false);
 
   // noinspection DuplicatedCode
   const dragStartRef = useRef<number | null>(null);
@@ -30,6 +33,7 @@ export const WalletWidgetItemsList: FC<WalletWidgetItemsListProps> = ({ setError
             payload: { index1: dragStartRef.current, index2: index },
           },
           setIsLoading: setIsLoading,
+          setErrorMessage: setErrorMessage,
         }),
       );
       dragStartRef.current = null;
@@ -37,25 +41,38 @@ export const WalletWidgetItemsList: FC<WalletWidgetItemsListProps> = ({ setError
   };
 
   const addHandler = () => {
-    dispatch(changeWalletsWidgetSettings({ action: { type: 'add' } }));
+    dispatch(
+      changeWalletsWidgetSettings({
+        action: { type: 'add' },
+        setIsLoading: setIsLoading,
+        setErrorMessage: setErrorMessage,
+      }),
+    );
   };
 
   return (
     <>
-      {order.map((id, index) => {
+      {widgetWalletsOrder.map((id, index) => {
         return (
           <WalletWidgetItem
             key={id + index.toString()}
             id={id}
-            orderSet={orderSet}
+            widgetWalletsOrderSet={widgetWalletsOrderSet}
             index={index}
             onDragStart={onDragStart(index)}
             onDrop={onDrop(index)}
             setErrorMessage={setErrorMessage}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         );
       })}
-      <ButtonWithIcon onClick={addHandler} className="btn-body-tertiary rounded-circle" style={{ padding: 6 }}>
+      <ButtonWithIcon
+        disabled={isLoading || emptiesNum > 0}
+        onClick={addHandler}
+        className="btn-body-tertiary rounded-circle"
+        style={{ padding: 6 }}
+      >
         <PlusIcon iconSize="1.5rem" />
       </ButtonWithIcon>
     </>

@@ -23,7 +23,7 @@ export const NumberInput: FC<NumberInputProps> = ({
   onBlur,
   ...props
 }) => {
-  const [textNumber, setTextNumber] = useState<string>('0');
+  const [textNumber, setTextNumber] = useState<string>(isCanSetNaN ? '' : '0');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

@@ -5,48 +5,83 @@ import { IDInputDropdown, IDOptionType } from 'shared/inputs';
 import { DropdownContainer } from 'shared/containers';
 import { changeWalletsWidgetSettings } from 'store/slices/settingsSlice';
 import { WalletWidgetItemInfo } from 'pages/MainPage/widgets/WalletsWidget/WalletWidgetItemInfo.tsx';
-import { DropdownMenuWrapper } from 'shared/ui';
+import { selectBodyBackgroundColor, selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
 
 interface WalletWidgetItemProps {
   id: string;
   index: number;
-  orderSet: Set<string>;
+  widgetWalletsOrderSet: Set<string>;
   onDragStart: DragEventHandler<HTMLDivElement>;
   onDrop: DragEventHandler<HTMLDivElement>;
-  setErrorMessage?: Dispatch<SetStateAction<string>>;
+  setErrorMessage: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export const WalletWidgetItem: FC<WalletWidgetItemProps> = ({ id, index, orderSet, onDragStart, onDrop, setErrorMessage }) => {
+export const WalletWidgetItem: FC<WalletWidgetItemProps> = ({
+  id,
+  index,
+  widgetWalletsOrderSet,
+  onDragStart,
+  onDrop,
+  setErrorMessage,
+  isLoading,
+  setIsLoading,
+}) => {
   const dispatch = useAppDispatch();
 
   const wallets = useAppSelector(selectWalletsList);
   const walletsOrder = useAppSelector(selectWalletsOrder);
-  const uniqueWalletsOrder = walletsOrder.filter((id) => !orderSet.has(id));
-  const options: IDOptionType[] = uniqueWalletsOrder.map((id) => ({
-    id,
-    name: wallets[id].name,
-    color: wallets[id].color,
-    iconName: wallets[id].iconName,
-  }));
+  const uniqueWalletsOrder = walletsOrder.filter((id) => !widgetWalletsOrderSet.has(id));
+
+  const bodyColor = useAppSelector(selectBodyTertiaryBackgroundColor);
+  const DELETE_ACTION_ID = 'THIS_ID_FOR_DELETE_ITEM_FROM_WIDGET';
+  const options: IDOptionType[] = [
+    { id: DELETE_ACTION_ID, name: 'Скрыть', iconName: 'EyeSlashFill', color: bodyColor },
+    ...uniqueWalletsOrder.map((id) => ({
+      id,
+      name: wallets[id].name,
+      color: wallets[id].color,
+      iconName: wallets[id].iconName,
+    })),
+  ];
 
   const setId = (id: string) => {
-    dispatch(changeWalletsWidgetSettings({ action: { type: 'change', payload: { id: id, index: index } }, setErrorMessage }));
+    if (id === DELETE_ACTION_ID) {
+      dispatch(
+        changeWalletsWidgetSettings({
+          action: { type: 'delete', payload: index },
+          setIsLoading: setIsLoading,
+          setErrorMessage: setErrorMessage,
+        }),
+      );
+    } else {
+      dispatch(
+        changeWalletsWidgetSettings({
+          action: { type: 'change', payload: { id: id, index: index } },
+          setErrorMessage: setErrorMessage,
+          setIsLoading: setIsLoading,
+        }),
+      );
+    }
   };
 
   return (
     <>
       <DropdownContainer
-        DropdownToggle={<WalletWidgetItemInfo id={id} onDragStart={onDragStart} onDrop={onDrop} />}
+        disabled={isLoading}
+        DropdownToggle={<WalletWidgetItemInfo id={id} onDragStart={onDragStart} onDrop={onDrop} isLoading={isLoading} />}
         DropdownMenu={
-          <>
-            {uniqueWalletsOrder.length > 0 ? (
-              <IDInputDropdown setID={setId} option={id} options={options} />
-            ) : (
-              <DropdownMenuWrapper>
-                <span className="m-2">Все счета уже внесены</span>
-              </DropdownMenuWrapper>
-            )}
-          </>
+          <IDInputDropdown setID={setId} option={id} options={options} />
+          // <>
+          //   {uniqueWalletsOrder.length > 0 ? (
+          //     <IDInputDropdown setID={setId} option={id} options={options} />
+          //   ) : (
+          //     <DropdownMenuWrapper>
+          //       <span className="m-2">Все счета уже внесены</span>
+          //     </DropdownMenuWrapper>
+          //   )}
+          // </>
         }
         isModalDropdownContainerForMobileDevice={true}
       ></DropdownContainer>

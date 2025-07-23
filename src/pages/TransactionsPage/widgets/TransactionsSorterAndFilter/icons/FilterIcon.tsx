@@ -18,7 +18,7 @@ export const FilterIcon: FC<FilterIconProps> = ({
   filtrationOrder,
   isIconForDeleteFilterButton = false,
 }) => {
-  if (!filter || filter.filter === null) {
+  if (!filter) {
     if (isIconForDeleteFilterButton) {
       return <FilterEmptyIcon iconSize={iconSize} />;
     } else {

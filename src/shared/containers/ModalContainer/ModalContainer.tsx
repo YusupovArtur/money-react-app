@@ -73,7 +73,7 @@ export const ModalContainer: FC<ModalContainerProps> = ({
         bottom: 0,
         right: 0,
         zIndex: zIndex,
-        maxHeight: '100vh',
+        height: '100dvh',
         overflow: 'auto',
       }}
       className={`bg-body-backout d-flex ${backgroundClassName}`}

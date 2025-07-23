@@ -1,6 +1,6 @@
 import { useAppSelector } from 'store/store.ts';
 import { selectCategory, selectSubcategory, SubcategoryType } from 'store/slices/categoriesSlice';
-import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
+import { selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
 
 const defaultProps = {
   description: '',
@@ -18,7 +18,7 @@ export const useGetDisplayedSubcategory = (props: {
   const { categoryID, subcategoryID } = props;
   const category = useAppSelector(selectCategory(categoryID));
   const subcategory = useAppSelector(selectSubcategory({ categoryID, subcategoryID }));
-  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const bodyColor = useAppSelector(selectBodyTertiaryBackgroundColor);
   const categoryColor = category ? category.color : bodyColor;
 
   if (subcategory) {

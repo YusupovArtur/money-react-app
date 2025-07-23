@@ -35,7 +35,8 @@ export const TransactionsTableSortingFilteringMenu = <T extends keyof Transactio
       isInsideClickClose={false}
       isModalDropdownContainerForMobileDevice={true}
       toggleRef={divRef}
-      dropdownDivContainerProps={{ style: { width: '100%', height: '100%' } }}
+      toggleDivStyleProps={{ style: { width: '100%', height: '100%' } }}
+      menuDivStyleProps={{ style: { maxHeight: '80vh', overflow: 'auto' } }}
       DropdownToggle={DropdownToggle ? DropdownToggle : <TableHeadCellButton fieldKey={fieldKey} />}
       DropdownMenu={
         <DropdownMenuWrapper style={{ fontWeight: 'normal' }}>

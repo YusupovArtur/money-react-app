@@ -71,7 +71,7 @@ export const DatePickerTimeFilteringMenu: FC = () => {
   return (
     <DropdownContainer
       isInsideClickClose={false}
-      dropdownDivContainerProps={{ style: { width: '100%', height: '100%' } }}
+      toggleDivStyleProps={{ style: { width: '100%', height: '100%' } }}
       isOpened={isOpenedDatePicker}
       setIsOpened={setIsOpenedDatePicker}
       isModalDropdownContainerForMobileDevice={true}

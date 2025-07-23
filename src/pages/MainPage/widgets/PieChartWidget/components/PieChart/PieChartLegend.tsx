@@ -25,14 +25,14 @@ export const PieChartLegend: FC<PieChartLegendProps> = ({ data, colorMode, color
       <span style={{ fontSize: '1.1rem', fontWeight: 700 }} className={resultColor}>
         {resultLabel}
       </span>
-      <div className="d-flex align-self-center justify-content-center flex-wrap gap-3">
+      <div className="d-flex align-self-center justify-content-center flex-wrap column-gap-2 row-gap-1">
         {data
           .sort((a, b) => b.value - a.value)
           .map((datum, index) => (
             <div key={datum.id + index.toString()} className="d-flex align-items-center">
               <div className="me-1" style={{ height: 8, width: 8, backgroundColor: colorSchema(datum) }}></div>
               <span
-                style={{ fontSize: getDeviceType() === 'mobile' ? '0.7rem' : '1rem' }}
+                style={{ fontSize: getDeviceType() === 'mobile' ? '0.7rem' : '0.9rem' }}
               >{`${datum.label || 'Категория без имени'}`}</span>
             </div>
           ))}

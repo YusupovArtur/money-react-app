@@ -14,6 +14,7 @@ export const signinUserWithEmailAndPassword = createAsyncThunk<
 >('user/signinWithEmailAndPassword', async function (props, { rejectWithValue }) {
   const { email, password } = props;
   const auth = getAuth();
+  console.log(email, password);
 
   return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {

@@ -5,13 +5,13 @@ import { getPieChartResults } from 'pages/MainPage/widgets/PieChartWidget/helper
 import { getStringCurrencyValue } from 'shared/helpers';
 import { useAppSelector } from 'store/store.ts';
 
-interface ChartWidgetResultsProps {
+interface PieChartWidgetResultsProps {
   result: number;
-  filter: TransactionsFilterType<'time'>;
+  timeFilter: TransactionsFilterType<'time'>;
 }
 
-export const ChartWidgetResults: FC<ChartWidgetResultsProps> = ({ result, filter }) => {
-  const rangeFilter = getRangeFilterFromFilter({ fieldKey: 'time', filter: filter });
+export const PieChartWidgetResults: FC<PieChartWidgetResultsProps> = ({ result, timeFilter }) => {
+  const rangeFilter = getRangeFilterFromFilter({ fieldKey: 'time', filter: timeFilter });
   const dateLabel = getPieChartResults({
     timestampRange: { 1: rangeFilter.min, 2: rangeFilter.max },
     rangeLevel: 'year',

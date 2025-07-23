@@ -4,7 +4,7 @@ import { useAppSelector } from 'store/store.ts';
 // Components
 import { PieChart } from 'pages/MainPage/widgets/PieChartWidget/components/PieChart/PieChart.tsx';
 import { PieChartFilteringMenu } from 'pages/MainPage/widgets/PieChartWidget/components/PieChartFilteringMenu/PieChartFilteringMenu.tsx';
-import { ChartWidgetResults } from 'pages/MainPage/widgets/PieChartWidget/components/ChartWidgetResults.tsx';
+import { PieChartWidgetResults } from 'pages/MainPage/widgets/PieChartWidget/components/PieChartWidgetResults.tsx';
 // Helpers
 import { getPieChartData } from 'pages/MainPage/widgets/PieChartWidget/components/PieChart/helpers/getPieChartData.ts';
 import { getFiltrationCalculationsObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFiltrationCalculationsObject.ts';
@@ -18,9 +18,7 @@ import { TransactionsSortingContext } from 'pages/TransactionsPage/widgets/Trans
 import { TransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
 import { useMainPagePieChartFilterContext } from 'app/hooks/useAppContext/useMainPagePieChartFilterContext.tsx';
 
-interface ChartWidgetProps {}
-
-export const PieChartWidget: FC<ChartWidgetProps> = () => {
+export const PieChartWidget: FC = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
 
   const { filters, setFilters } = useMainPagePieChartFilterContext();
@@ -61,7 +59,7 @@ export const PieChartWidget: FC<ChartWidgetProps> = () => {
   return (
     <div>
       {/*Results*/}
-      <ChartWidgetResults filter={getCurrentFilter({ fieldKey: 'time', filters: filters })} result={result} />
+      <PieChartWidgetResults timeFilter={getCurrentFilter({ fieldKey: 'time', filters: filters })} result={result} />
 
       {/*Chart filtering*/}
       <TransactionsFilteringContext.Provider
@@ -74,12 +72,8 @@ export const PieChartWidget: FC<ChartWidgetProps> = () => {
 
       {/*Charts*/}
       <div className="d-flex justify-content-center align-self-center flex-wrap gap-2">
-        <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>
-          <PieChart data={incomesData} colorMode={'greens'} />
-        </div>
-        <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>
-          <PieChart data={expensesData} colorMode={'reds'} />
-        </div>
+        <PieChart data={incomesData} colorMode={'greens'} />
+        <PieChart data={expensesData} colorMode={'reds'} />
       </div>
     </div>
   );

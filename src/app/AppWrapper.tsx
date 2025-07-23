@@ -9,7 +9,8 @@ export const AppWrapper: FC<AppWrapperProps> = ({ children }) => {
     <div
       onDragOver={(event) => event.preventDefault()}
       onDragEnter={(event) => event.preventDefault()}
-      className="min-vh-100 bg-body-secondary d-flex flex-column"
+      className="bg-body-secondary d-flex flex-column"
+      style={{ height: '100dvh' }}
     >
       {children}
     </div>

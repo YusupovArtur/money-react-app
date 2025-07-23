@@ -21,7 +21,8 @@ interface BaseDropdownContainerProps {
 
   menuAlignment?: MenuAlignmentType;
   zIndex?: number;
-  dropdownDivContainerProps?: { style?: CSSProperties; className?: string };
+  toggleDivStyleProps?: { style?: CSSProperties; className?: string };
+  menuDivStyleProps?: { style?: CSSProperties; className?: string };
   isModalDropdownContainerForMobileDevice?: boolean;
   portalContainer?: HTMLElement | null;
 
@@ -55,7 +56,8 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
 
   menuAlignment = { y: 'bottom', x: 'right' },
   zIndex = 2,
-  dropdownDivContainerProps,
+  toggleDivStyleProps,
+  menuDivStyleProps,
   isModalDropdownContainerForMobileDevice = false,
   portalContainer,
   toggleRef: innerToggleRef,
@@ -126,8 +128,8 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
       <div
         ref={toggleRef}
         onClick={handleToggleClick}
-        style={{ width: 'fit-content', height: 'fit-content', ...dropdownDivContainerProps?.style }}
-        className={dropdownDivContainerProps?.className}
+        style={{ width: 'fit-content', height: 'fit-content', ...toggleDivStyleProps?.style }}
+        className={toggleDivStyleProps?.className}
       >
         {DropdownToggle}
       </div>
@@ -138,12 +140,14 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
           <div
             ref={menuRef}
             onClick={handleMenuClick}
+            className={menuDivStyleProps?.className}
             style={{
               width: 'fit-content',
               height: 'fit-content',
               position: 'absolute',
               zIndex: zIndex,
               overflowY: 'auto',
+              ...menuDivStyleProps?.style,
               ...menuAlignmentStyle,
             }}
           >
@@ -158,7 +162,8 @@ export const DropdownContainer: FC<DropdownContainerProps> = ({
           onCollapse={isOutsideClickClose ? setIsOpened : undefined}
           onClick={handleMenuClick}
           zIndex={zIndex}
-          style={{ margin: 'auto' }}
+          className={menuDivStyleProps?.className}
+          style={{ margin: 'auto', ...menuDivStyleProps?.style }}
         >
           {DropdownMenu}
         </ModalContainer>

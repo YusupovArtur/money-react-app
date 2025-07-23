@@ -67,7 +67,7 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
     }
   };
   const optionChangeHandler =
-    (option: TransactionType[T] | Set<TransactionType[T]>) => (event: ChangeEvent<HTMLInputElement>) => {
+    (option: TransactionType[T] | TransactionType[T][] | Set<TransactionType[T]>) => (event: ChangeEvent<HTMLInputElement>) => {
       if (event.target.checked) {
         filterDispatch({ type: 'add', payload: option });
       } else {
@@ -79,6 +79,28 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
   const [minRange, setMinRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter: currentFilter }).min);
   const [maxRange, setMaxRange] = useState<number>(getRangeFilterFromFilter({ fieldKey, filter: currentFilter }).max);
   const [timestampRange, setTimestampRange] = useState<RangeType<number>>({ 1: NaN, 2: NaN });
+
+  useEffect(() => {
+    const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
+    if (!deepEqual(rangeFilter, { min: timestampRange[1], max: timestampRange[2] })) {
+      if (filter === null || isSet(filter)) {
+        setTimestampRange({ 1: NaN, 2: NaN });
+      }
+      if (isRangeFilterObject(filter)) {
+        setTimestampRange({ 1: filter.min, 2: filter.max });
+      }
+    }
+    if (!deepEqual(rangeFilter, { min: maxRange, max: maxRange })) {
+      if (filter === null || isSet(filter)) {
+        setMinRange(NaN);
+        setMaxRange(NaN);
+      }
+      if (isRangeFilterObject(filter)) {
+        setMinRange(filter.min);
+        setMaxRange(filter.max);
+      }
+    }
+  }, [filter]);
 
   const setTimestampRangeWithCallback: SetStateCallbackType<RangeType<number>> = (updater) => {
     if (typeof updater === 'function') {
@@ -100,18 +122,6 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
       }
     }
   };
-  useEffect(() => {
-    const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
-    if (!deepEqual(rangeFilter, { min: timestampRange[1], max: timestampRange[2] })) {
-      if (filter === null || isSet(filter)) {
-        setTimestampRange({ 1: NaN, 2: NaN });
-      }
-      if (isRangeFilterObject(filter)) {
-        setTimestampRange({ 1: filter.min, 2: filter.max });
-      }
-    }
-  }, [filter]);
-
   const setMinRangeWithCallback: SetStateCallbackType<number> = (updater) => {
     if (typeof updater === 'function') {
       setMinRange((state) => {
@@ -136,19 +146,6 @@ export const TransactionsTableFilteringMenu = <T extends keyof TransactionType>(
       filterDispatch({ type: 'setRange', payload: { max: updater } });
     }
   };
-  useEffect(() => {
-    const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
-    if (!deepEqual(rangeFilter, { min: maxRange, max: maxRange })) {
-      if (filter === null || isSet(filter)) {
-        setMinRange(NaN);
-        setMaxRange(NaN);
-      }
-      if (isRangeFilterObject(filter)) {
-        setMinRange(filter.min);
-        setMaxRange(filter.max);
-      }
-    }
-  }, [filter]);
 
   const rangeInputId1 = useId();
   const rangeInputId2 = useId();

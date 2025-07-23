@@ -140,7 +140,7 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
         isInsideClickClose={false}
         menuAlignment={{ x: 'right', y: 'bottom' }}
         zIndex={dropdownContainerZIndex}
-        dropdownDivContainerProps={{ style: { width: undefined, height: undefined } }}
+        toggleDivStyleProps={{ style: { width: undefined, height: undefined } }}
         additionalRefsForClickOutsideIgnore={[dateTextInputRef]}
         DropdownToggle={
           <ButtonWithIcon

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useId, useState } from 'react';
 // Store
 import { useAppDispatch, useAppSelector } from 'store';
 import { setIsRemember } from 'store/slices/userSlice';
@@ -22,6 +22,8 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
   const dispatch = useAppDispatch();
   const isShouldRemember: boolean = useAppSelector((state) => state.user.isShouldRemember);
 
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
   const [isValidate, setIsValidate] = useState<OptionalPrimitiveKeysType<SignupFormDataType, boolean>>({
     email: Boolean(formData.email),
     username: Boolean(formData.username),
@@ -38,6 +40,9 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
     },
     isValidate,
   });
+
+  const rememberMeId = useId();
+  const showPasswordId = useId();
 
   return (
     <form
@@ -96,7 +101,7 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
           Пароль
         </label>
         <TextInput
-          type="password"
+          type={isShowPassword ? 'text' : 'password'}
           value={formData.password}
           onChange={(event) => {
             setFormData((state) => ({ ...state, password: event.target.value }));
@@ -118,7 +123,7 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
           Повторите пароль
         </label>
         <TextInput
-          type="password"
+          type={isShowPassword ? 'text' : 'password'}
           value={formData.password2}
           onChange={(event) => {
             setFormData((state) => ({ ...state, password2: event.target.value }));
@@ -135,19 +140,36 @@ export const SignupForm: FC<SignupFormProps> = ({ formData, setFormData, onSubmi
       </div>
 
       {/*Checkbox*/}
-      <div className="mb-3 form-check">
-        <input
-          type="checkbox"
-          checked={isShouldRemember}
-          onChange={(event) => dispatch(setIsRemember(event.target.checked))}
-          className="form-check-input"
-          name="rememberCheckbox"
-          id="rememberCheckbox"
-        />
-        <label className="form-check-label text-body user-select-none" htmlFor="rememberCheckbox">
-          Запомнить меня
-        </label>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="form-check">
+          <input
+            type="checkbox"
+            checked={isShouldRemember}
+            onChange={(event) => dispatch(setIsRemember(event.target.checked))}
+            className="form-check-input"
+            name="rememberCheckbox"
+            id={rememberMeId}
+          />
+          <label className="form-check-label text-body user-select-none" htmlFor={rememberMeId}>
+            Запомнить меня
+          </label>
+        </div>
+        <div className="form-check">
+          <input
+            type="checkbox"
+            checked={isShowPassword}
+            onChange={(event) => setIsShowPassword(event.target.checked)}
+            className="form-check-input"
+            name="rememberCheckbox"
+            id={showPasswordId}
+          />
+          <label className="form-check-label text-body user-select-none" htmlFor={showPasswordId}>
+            Показать пароль
+          </label>
+        </div>
       </div>
+
+      {/*Submit*/}
       <div
         onClick={() => setIsValidate({ email: true, username: true, password: true, password2: true })}
         style={{ cursor: 'pointer' }}

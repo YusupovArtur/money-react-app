@@ -1,10 +1,10 @@
 export const COLOR_NAMES_HEX: Record<
-  | 'body-tertiary-dark'
-  | 'text-body-color-dark'
   | 'white'
   | 'gray-100'
+  | 'gray-300'
   | 'gray-400'
   | 'gray-600'
+  | 'gray-850'
   | 'gray-900'
   | 'black'
   | 'blue-300'
@@ -33,8 +33,8 @@ export const COLOR_NAMES_HEX: Record<
   | 'orange-700',
   string
 > = {
-  'body-tertiary-dark': '#2b3035',
-  'text-body-color-dark': '#dee2e6',
+  'gray-850': '#2b3035',
+  'gray-300': '#dee2e6',
 
   white: '#ffffff',
   'gray-100': '#f8f9fa',
