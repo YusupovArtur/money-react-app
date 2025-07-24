@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
 import { CategoryType } from 'store/slices/categoriesSlice';
 import { EntityIcon } from 'entities/EntityIcon';
-import { getTransactionEntityTypeName, TypeIcon } from 'entities/EntitiesComponents';
+import { getTypeCaption, TypeIcon } from 'entities/EntitiesComponents';
 
 export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) => {
   return (
@@ -11,7 +11,7 @@ export const CategoryEditInfo: FC<{ category: CategoryType }> = ({ category }) =
       <EntityFieldLabel className="mt-3">Тип категории</EntityFieldLabel>
       <div className="d-flex align-items-center">
         <TypeIcon type={category.type} />
-        <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(category.type)}</EntityFieldValue>
+        <EntityFieldValue className="ms-2">{getTypeCaption(category.type)}</EntityFieldValue>
       </div>
 
       {/*Name*/}

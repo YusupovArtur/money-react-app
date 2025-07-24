@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { getTransactionEntityTypeName } from 'entities/EntitiesComponents';
+import { getTypeCaption } from 'entities/EntitiesComponents';
 import { RadioButtonGroup, RadioOptions } from 'shared/inputs';
 import { CategoryType } from 'store/slices/categoriesSlice';
 
@@ -12,9 +12,9 @@ interface TransactionTypeToggleProps {
 
 export const TransactionTypeInput: FC<TransactionTypeToggleProps> = ({ id, type, setFormData }) => {
   const options: RadioOptions<CategoryType['type']> = [
-    { value: 'expense', label: getTransactionEntityTypeName('expense'), className: 'btn-outline-danger' },
-    { value: 'income', label: getTransactionEntityTypeName('income'), className: 'btn-outline-success' },
-    { value: 'transfer', label: getTransactionEntityTypeName('transfer'), className: 'btn-outline-primary' },
+    { value: 'expense', label: getTypeCaption('expense'), className: 'btn-outline-danger' },
+    { value: 'income', label: getTypeCaption('income'), className: 'btn-outline-success' },
+    { value: 'transfer', label: getTypeCaption('transfer'), className: 'btn-outline-primary' },
   ];
 
   const handleSetType = (type: TransactionType['type']) => {

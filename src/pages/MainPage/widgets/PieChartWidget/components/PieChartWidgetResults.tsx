@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
-import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getRangeFilterFromFilter.ts';
+import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
+import { getRangeFilterFromFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getRangeFilterFromFilter.ts';
 import { getPieChartResults } from 'pages/MainPage/widgets/PieChartWidget/helpers/getPieChartResults.ts';
 import { getStringCurrencyValue } from 'shared/helpers';
 import { useAppSelector } from 'store/store.ts';

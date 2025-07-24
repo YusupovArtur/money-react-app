@@ -1,4 +1,4 @@
 export { TypeIcon } from './ui/TypeIcon.tsx';
 
-export { getTransactionEntityTypeName } from './helpers/getTransactionEntityTypeName.ts';
+export { getTypeCaption } from './helpers/getTypeCaption.ts';
 export { typeValidator } from './helpers/typeValidator.ts';

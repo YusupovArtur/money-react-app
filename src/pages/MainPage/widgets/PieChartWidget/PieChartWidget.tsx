@@ -7,15 +7,15 @@ import { PieChartFilteringMenu } from 'pages/MainPage/widgets/PieChartWidget/com
 import { PieChartWidgetResults } from 'pages/MainPage/widgets/PieChartWidget/components/PieChartWidgetResults.tsx';
 // Helpers
 import { getPieChartData } from 'pages/MainPage/widgets/PieChartWidget/components/PieChart/helpers/getPieChartData.ts';
-import { getFiltrationCalculationsObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFiltrationCalculationsObject.ts';
-import { getFilteredTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFilteredTransactionsOrder.ts';
-import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getCurrentFilter.ts';
+import { getFiltrationCalculationsObject } from 'widgets/TransactionsSortingFilteringMenu/helpers/getFiltrationCalculationsObject.ts';
+import { getFilteredTransactionsOrder } from 'widgets/TransactionsSortingFilteringMenu/helpers/getFilteredTransactionsOrder.ts';
+import { getCurrentFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getCurrentFilter.ts';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 // Hooks
-import { TransactionsSortingContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsSortingContext.ts';
-import { TransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
+import { TransactionsSortingContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsSortingContext.ts';
+import { TransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 import { useMainPagePieChartFilterContext } from 'app/hooks/useAppContext/useMainPagePieChartFilterContext.tsx';
 
 export const PieChartWidget: FC = () => {

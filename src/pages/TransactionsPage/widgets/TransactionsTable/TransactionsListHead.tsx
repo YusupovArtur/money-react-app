@@ -1,6 +1,6 @@
 import { FC } from 'react';
 // Components
-import { TransactionsTableSortingFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsTableSortingFilteringMenu.tsx';
+import { TransactionsTableSortingFilteringMenu } from 'widgets/TransactionsSortingFilteringMenu/TransactionsSortingFilteringMenu.tsx';
 
 export const TransactionsListHead: FC = () => {
   return (

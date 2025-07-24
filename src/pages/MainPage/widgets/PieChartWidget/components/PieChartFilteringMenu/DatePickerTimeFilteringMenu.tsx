@@ -1,18 +1,18 @@
 import { FC, useEffect, useState } from 'react';
 // Hooks
-import { useFilterDispatch } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useSetFilter/useFilterDispatch.ts';
-import { useTransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
+import { useFilterDispatch } from 'widgets/TransactionsSortingFilteringMenu/hooks/useSetFilter/useFilterDispatch.ts';
+import { useTransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 // Components
 import { DropdownContainer } from 'shared/containers';
-import { TableHeadCellButton } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TableHeadCellButton.tsx';
+import { SortingFilteringToggle } from 'widgets/TransactionsSortingFilteringMenu/components/SortingFilteringToggle.tsx';
 import { DateInputPicker } from 'shared/inputs/DateInput/inputs/DateInputPicker/DateInputPicker.tsx';
 // Helpers
 import { deepEqual, getDeviceType } from 'shared/helpers';
-import { getRangeFilterFromFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getRangeFilterFromFilter.ts';
+import { getRangeFilterFromFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getRangeFilterFromFilter.ts';
 import { getTimestampFromDateState } from 'shared/inputs/DateInput/helpers/getTimestampFromDateState.ts';
 import { getDateStateRangeFromTimestampRange } from 'shared/inputs/DateInput/helpers/getDateStateFromTimestamp.ts';
 // UI
-import { FilterIcon } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/icons/FilterIcon.tsx';
+import { FilterIcon } from 'widgets/TransactionsSortingFilteringMenu/icons/FilterIcon.tsx';
 import { TrashFillIcon } from 'shared/icons';
 import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 // Types
@@ -75,7 +75,7 @@ export const DatePickerTimeFilteringMenu: FC = () => {
       isOpened={isOpenedDatePicker}
       setIsOpened={setIsOpenedDatePicker}
       isModalDropdownContainerForMobileDevice={true}
-      DropdownToggle={<TableHeadCellButton fieldKey={'time'} />}
+      DropdownToggle={<SortingFilteringToggle fieldKey={'time'} />}
       DropdownMenu={
         <DropdownMenuWrapper>
           <div className="d-flex mb-3">

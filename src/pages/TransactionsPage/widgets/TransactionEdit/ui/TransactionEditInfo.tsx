@@ -2,7 +2,7 @@ import { FC } from 'react';
 // Store
 import { TransactionType } from 'store/slices/transactionsSlice';
 // UI
-import { getTransactionEntityTypeName, TypeIcon } from 'entities/EntitiesComponents';
+import { getTypeCaption, TypeIcon } from 'entities/EntitiesComponents';
 import { EntityFieldLabel, EntityFieldValue } from 'shared/ui';
 import { ArrowRightIcon, CategoryIcon, WalletIcon } from 'shared/icons';
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
@@ -24,7 +24,7 @@ export const TransactionEditInfo: FC<{ transaction: TransactionType }> = ({ tran
       <EntityFieldLabel>Тип транзакции</EntityFieldLabel>
       <div className="d-flex align-items-center">
         <TypeIcon type={type} />
-        <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(type)}</EntityFieldValue>
+        <EntityFieldValue className="ms-2">{getTypeCaption(type)}</EntityFieldValue>
       </div>
 
       {/*Sum*/}
@@ -38,9 +38,7 @@ export const TransactionEditInfo: FC<{ transaction: TransactionType }> = ({ tran
       {/*Wallets*/}
       <div className="d-flex align-items-center mt-3">
         <WalletIcon iconSize="1rem"></WalletIcon>
-        <EntityFieldLabel className="ms-1">
-          {type === 'expense' ? 'Счет расхода' : type === 'income' ? 'Счет дохода' : 'Счета перевода'}
-        </EntityFieldLabel>
+        <EntityFieldLabel className="ms-1">{`Счет ${getTypeCaption(type, 'а').toLowerCase()}`}</EntityFieldLabel>
       </div>
       {type === 'expense' && <WalletShortInfo id={fromWallet} iconSize={iconSize} />}
       {type === 'income' && <WalletShortInfo id={toWallet} iconSize={iconSize} />}

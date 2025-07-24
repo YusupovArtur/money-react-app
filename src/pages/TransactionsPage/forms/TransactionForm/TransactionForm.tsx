@@ -5,7 +5,7 @@ import { DateInput, NumberInput, TextInput } from 'shared/inputs';
 import { TransactionTypeInput } from 'pages/TransactionsPage/inputs/TransactionTypeInput.tsx';
 // Icons
 import { EntityFieldValue, FormLabel, FormValidationFeedback } from 'shared/ui';
-import { getTransactionEntityTypeName, TypeIcon } from 'entities/EntitiesComponents';
+import { getTypeCaption, TypeIcon } from 'entities/EntitiesComponents';
 import { WalletsIDForm } from './components/WalletsIDForm.tsx';
 import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
@@ -40,7 +40,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
           <div className="d-flex align-items-center">
             <input id={typeInputID} type="text" value={type || ''} readOnly={true} style={{ display: 'none' }} />
             <TypeIcon type={formData.type} />
-            <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(formData.type)}</EntityFieldValue>
+            <EntityFieldValue className="ms-2">{getTypeCaption(formData.type)}</EntityFieldValue>
           </div>
         )}
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.type} className="align-items-start" />
@@ -48,9 +48,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
 
       {/*Sum*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor={sumInputID}>
-          {formData.type === 'expense' ? 'Сумма расхода' : formData.type === 'income' ? 'Сумма дохода' : 'Сумма перевода'}
-        </FormLabel>
+        <FormLabel htmlFor={sumInputID}>{`Сумма ${getTypeCaption(formData.type, 'а')}`}</FormLabel>
         <NumberInput
           id={sumInputID}
           isPositive={true}
