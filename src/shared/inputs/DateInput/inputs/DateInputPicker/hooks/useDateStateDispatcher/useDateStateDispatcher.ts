@@ -141,11 +141,11 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
             }
 
             if (deepEqual(year1, action.payload) && !deepEqual(year2, action.payload)) {
-              return getMonthDateStateRange(year2);
+              return getYearDateStateRange(year2);
             }
 
             if (!deepEqual(year1, action.payload) && deepEqual(year2, action.payload)) {
-              return getMonthDateStateRange(year1);
+              return getYearDateStateRange(year1);
             }
 
             return getYearDateStateRange(action.payload);

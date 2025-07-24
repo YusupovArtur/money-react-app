@@ -42,10 +42,12 @@ export const FilteringDateInput: FC<FilteringDateInputProps> = ({ fieldKey, port
     if (typeof updater === 'function') {
       setTimestampRange((state) => {
         const newState = updater(state);
-        if (!isNaN(newState[1]) || !isNaN(newState[2])) {
-          filterDispatch({ type: 'setRange', payload: { min: newState[1], max: newState[2] } });
-        } else {
-          filterDispatch({ type: 'setRange', payload: { min: NaN, max: NaN } });
+        if (state !== newState) {
+          if (!isNaN(newState[1]) || !isNaN(newState[2])) {
+            filterDispatch({ type: 'setRange', payload: { min: newState[1], max: newState[2] } });
+          } else {
+            filterDispatch({ type: 'setRange', payload: { min: NaN, max: NaN } });
+          }
         }
         return newState;
       });

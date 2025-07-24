@@ -38,10 +38,12 @@ export const DatePickerTimeFilteringMenu: FC = () => {
     if (typeof updater === 'function') {
       setDateStateRange((state) => {
         const newState = updater(state);
-        timeFilterDispatch({
-          type: 'setRange',
-          payload: { min: getTimestampFromDateState(newState[1]), max: getTimestampFromDateState(newState[2]) },
-        });
+        if (state !== newState) {
+          timeFilterDispatch({
+            type: 'setRange',
+            payload: { min: getTimestampFromDateState(newState[1]), max: getTimestampFromDateState(newState[2]) },
+          });
+        }
         return newState;
       });
     } else {

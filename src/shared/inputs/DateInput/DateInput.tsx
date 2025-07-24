@@ -74,7 +74,9 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
       if (typeof updater === 'function') {
         setDateState((state) => {
           const newState = updater(state);
-          setTimestamp(getTimestampFromDateState(newState));
+          if (state !== newState) {
+            setTimestamp(getTimestampFromDateState(newState));
+          }
           return newState;
         });
       } else {
@@ -100,7 +102,9 @@ export const DateInput: FC<DateInputProps & (DateStateProps | DateStateRangeProp
       if (typeof updater === 'function') {
         setDateStateRange((state) => {
           const newState = updater(state);
-          setTimestampRange(getTimestampRangeFromDateStateRange(newState));
+          if (state !== newState) {
+            setTimestampRange(getTimestampRangeFromDateStateRange(newState));
+          }
           return newState;
         });
       } else {
