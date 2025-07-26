@@ -1,9 +1,13 @@
-import { createContext, FC, ReactNode, useContext, useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { FilterContextType } from 'app/hooks/useAppContext/FilterContextType.ts';
+import { useContextFactory } from 'shared/hooks/useContextFactory.tsx';
 
-const TransactionsPageFilterContext = createContext<FilterContextType | null>(null);
+const { Context, useMyContext: useTransactionsPageFilterContext } = useContextFactory<FilterContextType>(
+  'useTransactionsPageFilterContext',
+);
+export { useTransactionsPageFilterContext };
 
 export const TransactionsPageFilterContextProvider: FC<{
   children: ReactNode;
@@ -11,19 +15,5 @@ export const TransactionsPageFilterContextProvider: FC<{
 }> = ({ children, initialState }) => {
   const [filters, setFilters] = useState<TransactionsFilterType<keyof TransactionType>[]>(initialState || []);
 
-  return (
-    <TransactionsPageFilterContext.Provider value={{ filters: filters, setFilters: setFilters }}>
-      {children}
-    </TransactionsPageFilterContext.Provider>
-  );
-};
-
-export const useTransactionsPageFilterContext = () => {
-  const context = useContext(TransactionsPageFilterContext);
-
-  if (!context) {
-    throw new Error('useMainPageFilterContext must be used within MainPageFilterContextProvider');
-  }
-
-  return context;
+  return <Context.Provider value={{ filters: filters, setFilters: setFilters }}>{children}</Context.Provider>;
 };

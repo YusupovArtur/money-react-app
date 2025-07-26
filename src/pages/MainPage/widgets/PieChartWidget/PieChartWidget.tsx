@@ -14,7 +14,6 @@ import { getCurrentFilter } from 'widgets/TransactionsSortingFilteringMenu/helpe
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 // Hooks
-import { TransactionsSortingContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsSortingContext.ts';
 import { TransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 import { useMainPagePieChartFilterContext } from 'app/hooks/useAppContext/useMainPagePieChartFilterContext.tsx';
 
@@ -65,9 +64,7 @@ export const PieChartWidget: FC = () => {
       <TransactionsFilteringContext.Provider
         value={{ transactions: transactions, filters: filters, setFilters: setFilters, ...filtrationCalculationsObject }}
       >
-        <TransactionsSortingContext.Provider value={{ sortingOrder: undefined, setSortingOrder: undefined }}>
-          <PieChartFilteringMenu />
-        </TransactionsSortingContext.Provider>
+        <PieChartFilteringMenu />
       </TransactionsFilteringContext.Provider>
 
       {/*Charts*/}

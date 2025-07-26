@@ -10,7 +10,8 @@ interface TableHeadCellButtonProps {
 }
 
 export const SortingFilteringToggle: FC<TableHeadCellButtonProps> = ({ fieldKey }) => {
-  const { sortingOrder } = useTransactionsSortingContext();
+  const sortingContext = useTransactionsSortingContext();
+  const { sortingOrder } = sortingContext || { sortingOrder: undefined };
   const { currentFilters, filteringRanks, filters } = useTransactionsFilteringContext();
 
   return (

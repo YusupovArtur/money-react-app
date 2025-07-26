@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { useTimeoutRefWithClear } from 'shared/hooks';
+import { useTimeoutRefWithClear } from 'shared/hooks/index.ts';
 
 export const useThrottledCallback = <T extends (...args: any[]) => any>(callback: T, delay: number): T => {
   const timeoutRef = useTimeoutRefWithClear();

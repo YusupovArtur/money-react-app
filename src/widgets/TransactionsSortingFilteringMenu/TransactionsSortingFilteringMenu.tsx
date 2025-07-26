@@ -20,7 +20,8 @@ export const TransactionsTableSortingFilteringMenu = <T extends keyof Transactio
   fieldKey,
   DropdownToggle,
 }: TransactionsSortingFilteringMenu<T>): ReactNode => {
-  const { sortingOrder, setSortingOrder } = useTransactionsSortingContext();
+  const sortingContext = useTransactionsSortingContext();
+  const { sortingOrder, setSortingOrder } = sortingContext || { sortingOrder: undefined, setSortingOrder: undefined };
 
   const divRef = useRef<HTMLDivElement>(null);
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);

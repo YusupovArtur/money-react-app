@@ -1,7 +1,8 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { TransactionType, TransactionsListType } from 'store/slices/transactionsSlice';
 import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 import { FiltrationCalculationsObjectType } from 'widgets/TransactionsSortingFilteringMenu/helpers/getFiltrationCalculationsObject.ts';
+import { useContextFactory } from 'shared/hooks/useContextFactory.tsx';
 
 interface TransactionsFilterContextType extends Omit<FiltrationCalculationsObjectType, 'filteredOrder'> {
   transactions: TransactionsListType;
@@ -9,14 +10,7 @@ interface TransactionsFilterContextType extends Omit<FiltrationCalculationsObjec
   setFilters: Dispatch<SetStateAction<TransactionsFilterType<keyof TransactionType>[]>>;
 }
 
-export const TransactionsFilteringContext = createContext<TransactionsFilterContextType | null>(null);
+const { Context: TransactionsFilteringContext, useMyContext: useTransactionsFilteringContext } =
+  useContextFactory<TransactionsFilterContextType>('useTransactionsFilteringContext');
 
-export const useTransactionsFilteringContext = () => {
-  const context = useContext(TransactionsFilteringContext);
-
-  if (!context) {
-    throw new Error('useTransactionsFilteringContext must be used within TransactionsFilteringContext.Provider');
-  }
-
-  return context;
-};
+export { TransactionsFilteringContext, useTransactionsFilteringContext };

@@ -1,5 +1,6 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { TransactionsSortingOrderType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsSortingOrderType.ts';
+import { useContextFactory } from 'shared/hooks/useContextFactory.tsx';
 
 type TransactionsSortingContextType =
   | {
@@ -11,14 +12,7 @@ type TransactionsSortingContextType =
       setSortingOrder: undefined;
     };
 
-export const TransactionsSortingContext = createContext<TransactionsSortingContextType | null>(null);
+const { Context: TransactionsSortingContext, useMyContextWithoutFallback: useTransactionsSortingContext } =
+  useContextFactory<TransactionsSortingContextType>('useTransactionsSortingContext');
 
-export const useTransactionsSortingContext = () => {
-  const context = useContext(TransactionsSortingContext);
-
-  if (!context) {
-    throw new Error('useTransactionsSortingContext must be used within TransactionsSortingContext.Provider');
-  }
-
-  return context;
-};
+export { TransactionsSortingContext, useTransactionsSortingContext };
