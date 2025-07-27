@@ -5,7 +5,7 @@ import { DateInput, NumberInput, TextInput } from 'shared/inputs';
 import { TransactionTypeInput } from 'pages/TransactionsPage/inputs/TransactionTypeInput.tsx';
 // Icons
 import { EntityFieldValue, FormLabel, FormValidationFeedback } from 'shared/ui';
-import { getTransactionEntityTypeName, TransactionEntityTypeIcon } from 'entities/EntitiesComponents';
+import { getTypeCaption, TypeIcon } from 'entities/EntitiesComponents';
 import { WalletsIDForm } from './components/WalletsIDForm.tsx';
 import { CategoryAndSubcategoryIDForm } from 'pages/TransactionsPage/forms/TransactionForm/components/CategoryAndSubcategoryIDForm.tsx';
 import { getValidityClassName, useFormValidation } from 'shared/hooks';
@@ -27,10 +27,6 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
   const dateInputID = useId();
   const descriptionInputID = useId();
 
-  const onTypeChangeClear = () => {
-    setFormData((state) => ({ ...state, fromWallet: '', toWallet: '', category: '', subcategory: '' }));
-  };
-
   return (
     <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column mb-3">
       {/*Type*/}
@@ -39,17 +35,12 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
           Тип транзакции
         </FormLabel>
         {type === null ? (
-          <TransactionTypeInput
-            id={typeInputID}
-            type={formData.type}
-            setType={(type: TransactionType['type']) => setFormData((state) => ({ ...state, type }))}
-            onClear={onTypeChangeClear}
-          ></TransactionTypeInput>
+          <TransactionTypeInput id={typeInputID} type={formData.type} setFormData={setFormData}></TransactionTypeInput>
         ) : (
           <div className="d-flex align-items-center">
             <input id={typeInputID} type="text" value={type || ''} readOnly={true} style={{ display: 'none' }} />
-            <TransactionEntityTypeIcon type={formData.type} />
-            <EntityFieldValue className="ms-2">{getTransactionEntityTypeName(formData.type)}</EntityFieldValue>
+            <TypeIcon type={formData.type} />
+            <EntityFieldValue className="ms-2">{getTypeCaption(formData.type)}</EntityFieldValue>
           </div>
         )}
         <FormValidationFeedback feedbackMessage={fieldFeedbacks.type} className="align-items-start" />
@@ -57,9 +48,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ type, formData, setF
 
       {/*Sum*/}
       <div className="position-relative mb-3">
-        <FormLabel htmlFor={sumInputID}>
-          {formData.type === 'expense' ? 'Сумма расхода' : formData.type === 'income' ? 'Сумма дохода' : 'Сумма перевода'}
-        </FormLabel>
+        <FormLabel htmlFor={sumInputID}>{`Сумма ${getTypeCaption(formData.type, 'а')}`}</FormLabel>
         <NumberInput
           id={sumInputID}
           isPositive={true}

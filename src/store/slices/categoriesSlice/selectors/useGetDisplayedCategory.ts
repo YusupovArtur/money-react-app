@@ -1,6 +1,6 @@
 import { useAppSelector } from 'store/store.ts';
 import { CategoryType, selectCategory } from 'store/slices/categoriesSlice';
-import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
+import { selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
 
 const defaultProps = {
   type: 'expense' as CategoryType['type'],
@@ -18,7 +18,7 @@ export const useGetDisplayedCategory = (props: {
 } => {
   const { id, type, isDefaultIconForTransferTypeCategory } = props;
   const category = useAppSelector(selectCategory(id));
-  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const bodyColor = useAppSelector(selectBodyTertiaryBackgroundColor);
 
   if (category) {
     return { displayedCategory: category, categoryForUseEffect: category };

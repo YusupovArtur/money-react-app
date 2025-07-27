@@ -13,7 +13,7 @@ export const EntityIcon: FC<EntityIconProps> = ({ iconName, color, iconSize }) =
   const validatedIconName = iconName !== undefined ? iconName : 'Exclamation';
   const validatedColor = color || COLOR_NAMES_HEX['red-500'];
 
-  const numberRemSize = parseFloat(iconSize) ? parseFloat(iconSize) : 0;
+  const numberRemSize = parseFloat(iconSize) || 0;
   const textColor = getTextColorType(validatedColor);
   const textColorClassName = textColor ? (textColor === 'light' ? 'text-light' : 'text-dark') : 'text-body';
 

@@ -18,7 +18,6 @@ import { CategoryEditPlaceholder } from './ui/CategoryEditPlaceholder.tsx';
 import { ButtonWithIcon, EditWindowPlaceholder, PageContentWrapper } from 'shared/ui';
 import { PlusIcon } from 'shared/icons';
 
-// TODO: Add ESC key for exit
 export const CategoryEdit: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryID = searchParams.get('categoryID');
@@ -33,6 +32,19 @@ export const CategoryEdit: FC = () => {
     type: category?.type || 'expense',
     description: category?.description || '',
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     if (isLoading === false && categoryID !== null && !category) {
@@ -143,7 +155,12 @@ export const CategoryEdit: FC = () => {
       </PageContentWrapper>
 
       {subcategoryID !== null && <SubcategoryEdit />}
-      <SubcategoryInput categoryID={categoryID} isOpened={isOpenedSubcategoryInput} setIsOpened={setIsOpenedSubcategoryInput} />
+      <SubcategoryInput
+        categoryID={categoryID}
+        isOpened={isOpenedSubcategoryInput}
+        setIsOpened={setIsOpenedSubcategoryInput}
+        iconName={category.iconName}
+      />
     </>
   );
 };

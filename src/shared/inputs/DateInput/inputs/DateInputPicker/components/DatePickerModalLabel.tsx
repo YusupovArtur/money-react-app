@@ -3,11 +3,11 @@ import { DateStateRangeType, DateStateType, isDateState } from 'shared/inputs/Da
 import { MONTH_FULL_NAMES, MONTH_GENITIVE_NAMES } from 'shared/inputs/DateInput/constants/constants.ts';
 import { getStringDateFromDateState } from 'shared/inputs/DateInput/inputs/DateTextInput/helpers/getStringDateFromDateState.ts';
 import { useDatePickerContext } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
-import { getMonthDateStateRange } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getMonthDateStateRange.ts';
+import { getMonthDateStateStretched } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getMonthDateStateStretched.ts';
 import { deepEqual } from 'shared/helpers';
 import { getValidDateStateRange } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/getValidDateState.ts';
 import { getTimestampFromDateState } from 'shared/inputs/DateInput/helpers/getTimestampFromDateState.ts';
-import { getYearDateStateRange } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getYearDateStateRange.ts';
+import { getYearDateStateStretched } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getYearDateStateStretched.ts';
 
 export const DatePickerLabel: FC<{ dateState: DateStateType | DateStateRangeType }> = ({ dateState }) => {
   const { state } = useDatePickerContext();
@@ -42,8 +42,8 @@ const getDateStateLabel = (props: { dateState: DateStateType | DateStateRangeTyp
     if (rangeLevel === 'month') {
       if (!isNaN(timestamp1) && !isNaN(timestamp2)) {
         // noinspection DuplicatedCode
-        const monthRange1 = getMonthDateStateRange(validRange[1]);
-        const monthRange2 = getMonthDateStateRange(validRange[2]);
+        const monthRange1 = getMonthDateStateStretched(validRange[1]);
+        const monthRange2 = getMonthDateStateStretched(validRange[2]);
 
         if (deepEqual(monthRange1, validRange)) {
           return `за ${MONTH_FULL_NAMES[validRange[1].month - 1]} ${validRange[1].year}`;
@@ -62,8 +62,8 @@ const getDateStateLabel = (props: { dateState: DateStateType | DateStateRangeTyp
     if (rangeLevel === 'year') {
       if (!isNaN(timestamp1) && !isNaN(timestamp2)) {
         // noinspection DuplicatedCode
-        const yearRange1 = getYearDateStateRange(validRange[1]);
-        const yearRange2 = getYearDateStateRange(validRange[2]);
+        const yearRange1 = getYearDateStateStretched(validRange[1]);
+        const yearRange2 = getYearDateStateStretched(validRange[2]);
 
         if (deepEqual(yearRange1, validRange)) {
           return `за ${validRange[1].year}`;

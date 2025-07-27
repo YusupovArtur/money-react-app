@@ -1,9 +1,9 @@
 export const TRANSACTION_TABLE_PROPORTIONS = {
   timeWidth: 120,
   typeWidth: 60,
-  sumColSpan: undefined,
+  sumColSpan: 2,
   sumWidth: undefined,
-  walletsColSpan: 2,
+  walletsColSpan: 3,
   categoryColSpan: 2,
-  subcategoryColSpan: undefined,
+  subcategoryColSpan: 2,
 };

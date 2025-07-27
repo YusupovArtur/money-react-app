@@ -1,31 +1,26 @@
-import { FC, useDeferredValue, useMemo, useState } from 'react';
+import { FC, useDeferredValue, useMemo } from 'react';
 // Store
 import { useAppSelector } from 'store/store.ts';
 // Components
 import { PieChart } from 'pages/MainPage/widgets/PieChartWidget/components/PieChart/PieChart.tsx';
 import { PieChartFilteringMenu } from 'pages/MainPage/widgets/PieChartWidget/components/PieChartFilteringMenu/PieChartFilteringMenu.tsx';
-import { ChartWidgetResults } from 'pages/MainPage/widgets/PieChartWidget/components/ChartWidgetResults.tsx';
+import { PieChartWidgetResults } from 'pages/MainPage/widgets/PieChartWidget/components/PieChartWidgetResults.tsx';
 // Helpers
 import { getPieChartData } from 'pages/MainPage/widgets/PieChartWidget/components/PieChart/helpers/getPieChartData.ts';
-import { getFiltrationCalculationsObject } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFiltrationCalculationsObject.ts';
-import { getFilteredTransactionsOrder } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/getFilteredTransactionsOrder.ts';
-import { getCurrentFilter } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/helpers/small_helpers/getCurrentFilter.ts';
-import { getInitialPieChartTimeFilter } from 'pages/MainPage/widgets/PieChartWidget/helpers/getInitialPieChartTimeFilter.ts';
+import { getFiltrationCalculationsObject } from 'widgets/TransactionsSortingFilteringMenu/helpers/getFiltrationCalculationsObject.ts';
+import { getFilteredTransactionsOrder } from 'widgets/TransactionsSortingFilteringMenu/helpers/getFilteredTransactionsOrder.ts';
+import { getCurrentFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getCurrentFilter.ts';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
-import { TransactionsFilterType } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/types/TransactionsFilterType.ts';
+import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 // Hooks
-import { TransactionsSortingContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsSortingContext.ts';
-import { TransactionsFilteringContext } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/hooks/useTransactionsFilteringContext.ts';
+import { TransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
+import { useMainPagePieChartFilterContext } from 'app/hooks/useAppContext/useMainPagePieChartFilterContext.tsx';
 
-interface ChartWidgetProps {}
-
-export const PieChartWidget: FC<ChartWidgetProps> = () => {
+export const PieChartWidget: FC = () => {
   const transactions = useAppSelector((state) => state.transactions.list);
 
-  const [filters, setFilters] = useState<TransactionsFilterType<keyof TransactionType>[]>([
-    { key: 'time', filter: getInitialPieChartTimeFilter('month') },
-  ]);
+  const { filters, setFilters } = useMainPagePieChartFilterContext();
   const filtersDeferred = useDeferredValue<TransactionsFilterType<keyof TransactionType>[]>(filters);
 
   const { filtrationCalculationsObject, expensesData, incomesData, result } = useMemo(() => {
@@ -63,25 +58,19 @@ export const PieChartWidget: FC<ChartWidgetProps> = () => {
   return (
     <div>
       {/*Results*/}
-      <ChartWidgetResults filter={getCurrentFilter({ fieldKey: 'time', filters: filters })} result={result} />
+      <PieChartWidgetResults timeFilter={getCurrentFilter({ fieldKey: 'time', filters: filters })} result={result} />
 
       {/*Chart filtering*/}
       <TransactionsFilteringContext.Provider
         value={{ transactions: transactions, filters: filters, setFilters: setFilters, ...filtrationCalculationsObject }}
       >
-        <TransactionsSortingContext.Provider value={{ sortingOrder: undefined, setSortingOrder: undefined }}>
-          <PieChartFilteringMenu />
-        </TransactionsSortingContext.Provider>
+        <PieChartFilteringMenu />
       </TransactionsFilteringContext.Provider>
 
       {/*Charts*/}
       <div className="d-flex justify-content-center align-self-center flex-wrap gap-2">
-        <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>
-          <PieChart data={incomesData} colorMode={'greens'} />
-        </div>
-        <div style={{ width: '100%', maxWidth: '35rem', aspectRatio: '1 / 1' }}>
-          <PieChart data={expensesData} colorMode={'reds'} />
-        </div>
+        <PieChart data={incomesData} colorMode={'greens'} />
+        <PieChart data={expensesData} colorMode={'reds'} />
       </div>
     </div>
   );

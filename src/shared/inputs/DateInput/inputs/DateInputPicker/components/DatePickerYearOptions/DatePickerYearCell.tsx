@@ -11,7 +11,7 @@ interface DatePickerYearOptionsCellProps {
 
 export const DatePickerYearCell: FC<DatePickerYearOptionsCellProps> = ({ yearCellProps, dateStateDispatch }) => {
   const { state, dispatch } = useDatePickerContext();
-  const { year, isToday, isSelectedByCalendarState, isBetween, isLeft, isRight } = yearCellProps;
+  const { year, isToday, isFullSelected, isPartlySelected, isBetween, isLeft, isRight } = yearCellProps;
 
   const handleClick = (event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
@@ -26,9 +26,13 @@ export const DatePickerYearCell: FC<DatePickerYearOptionsCellProps> = ({ yearCel
     }
   };
 
-  const buttonClassName = isSelectedByCalendarState ? 'btn-body-primary' : isBetween ? 'btn-body-primary-soft' : 'btn-body';
+  const buttonClassName = isFullSelected
+    ? 'btn-body-primary'
+    : isPartlySelected || isBetween
+      ? 'btn-body-primary-soft'
+      : 'btn-body';
   const borderClassName = isToday ? 'bordered' : '';
-  const spanClassName = isSelectedByCalendarState ? '' : 'text-body-emphasis';
+  const spanClassName = isFullSelected ? '' : 'text-body-emphasis';
   const divClassName = `${isBetween ? 'bg-primary-soft' : ''} ${isLeft ? 'rounded-start-2' : ''} ${isRight ? 'rounded-end-2' : ''}`;
 
   return (

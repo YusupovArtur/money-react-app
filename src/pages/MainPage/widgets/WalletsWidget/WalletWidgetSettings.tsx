@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useRef } from 'react';
 import { CrossIcon, GearFillIcon } from 'shared/icons';
 import { useAppDispatch, useAppSelector } from 'store/store.ts';
 import { DropdownContainer } from 'shared/containers';
@@ -6,18 +6,19 @@ import { ButtonWithIcon, DropdownMenuWrapper } from 'shared/ui';
 import { WalletShortInfo } from 'pages/TransactionsPage/ui/WalletShortInfo.tsx';
 import { changeWalletsWidgetSettings } from 'store/slices/settingsSlice';
 
-export const WalletWidgetSettings: FC = () => {
+interface WalletWidgetSettingsProps {
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+export const WalletWidgetSettings: FC<WalletWidgetSettingsProps> = ({ isLoading, setIsLoading }) => {
   const order = useAppSelector((state) => state.settings.settings.widgetsSettings.walletsWidget.order);
 
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const deleteHandler = (index: number) => () => {
     dispatch(changeWalletsWidgetSettings({ action: { type: 'delete', payload: index }, setIsLoading: setIsLoading }));
   };
-  // const addHandler = () => {
-  //   dispatch(changeWalletsWidgetSettings({ action: { type: 'add' }, setIsLoading: setIsLoading }));
-  // };
 
   // noinspection DuplicatedCode
   const dragStartRef = useRef<number | null>(null);
@@ -45,8 +46,8 @@ export const WalletWidgetSettings: FC = () => {
       isModalDropdownContainerForMobileDevice={true}
       menuAlignment={{ x: 'left', y: 'bottom' }}
       DropdownToggle={
-        <ButtonWithIcon className="btn-body-tertiary">
-          <GearFillIcon iconSize="1.5rem" />
+        <ButtonWithIcon className="btn-body-tertiary p-1">
+          <GearFillIcon iconSize="1.3rem" />
         </ButtonWithIcon>
       }
       DropdownMenu={
@@ -61,7 +62,7 @@ export const WalletWidgetSettings: FC = () => {
                 onDrop={onDrop(index)}
               >
                 <WalletShortInfo id={id} />
-                <ButtonWithIcon disabled={isLoading} onClick={deleteHandler(index)} className="btn-outline-danger ms-1 p-1">
+                <ButtonWithIcon disabled={isLoading} onClick={deleteHandler(index)} className="btn-outline-primary ms-1 p-1">
                   <CrossIcon iconSize="1rem" />
                 </ButtonWithIcon>
               </div>

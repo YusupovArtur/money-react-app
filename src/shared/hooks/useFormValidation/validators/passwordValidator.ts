@@ -12,7 +12,7 @@ export const passwordValidator = <T extends HasPassword>(formData: T): Validator
     return { isValid: false, feedback: 'Пароль должен быть заполнен' };
   }
   if (!PASSWORD_REGULAR_EXPRESSION.test(password)) {
-    return { isValid: false, feedback: 'Неверный формат пароля' };
+    return { isValid: false, feedback: 'Пароль 7 и более, цифры и буквы' };
   }
   return { isValid: true };
 };

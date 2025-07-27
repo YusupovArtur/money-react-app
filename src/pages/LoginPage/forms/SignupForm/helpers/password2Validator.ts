@@ -1,4 +1,5 @@
 import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValidation';
+import { PASSWORD_REGULAR_EXPRESSION } from 'shared/hooks/useFormValidation/validators/regularExpressions.ts';
 
 interface HasPasswords {
   password: string;
@@ -15,5 +16,9 @@ export const password2Validator = <T extends HasPasswords>(formData: T): Validat
   if (password1 !== password2) {
     return { isValid: false, feedback: 'Пароли должны совпадать' };
   }
+  if (!PASSWORD_REGULAR_EXPRESSION.test(password2)) {
+    return { isValid: false, feedback: 'Пароль 7 и более, цифры и буквы' };
+  }
+
   return { isValid: true };
 };

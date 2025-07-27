@@ -6,8 +6,6 @@ export type DatePickerReducerAction =
   | { type: 'incrementCalendarState' | 'decrementCalendarState' }
   | { type: 'setCalendarLevel'; payload: keyof DateStateType }
   | { type: 'setCalendarState'; payload: Partial<Omit<DateStateType, 'day'>> }
-  | { type: 'choseMonthCalendarLevel' }
-  | { type: 'choseYearCalendarLevel' }
   | { type: 'setRangeLevel'; payload: keyof DateStateType };
 
 export const datePickerStateReducer = (state: DatePickerState, action: DatePickerReducerAction): DatePickerState => {
@@ -15,14 +13,49 @@ export const datePickerStateReducer = (state: DatePickerState, action: DatePicke
 
   switch (action.type) {
     case 'setCalendarLevel':
-      if (state.rangeLevel === 'day') {
-        return { ...state, calendarLevel: action.payload };
-      }
-      if (state.rangeLevel === 'month' && action.payload !== 'day') {
-        return { ...state, calendarLevel: action.payload };
-      }
-      if (state.rangeLevel === 'year') {
-        return { ...state, calendarLevel: 'year' };
+      if (!state.isRange) {
+        if (state.calendarLevel !== action.payload) {
+          return { ...state, calendarLevel: action.payload };
+        } else {
+          if (action.payload === 'year') {
+            return { ...state, calendarLevel: 'month' };
+          }
+
+          if (action.payload === 'month') {
+            return { ...state, calendarLevel: 'day' };
+          }
+        }
+      } else {
+        if (state.rangeLevel === 'day') {
+          if (state.calendarLevel !== action.payload) {
+            return { ...state, calendarLevel: action.payload };
+          } else {
+            if (action.payload === 'month') {
+              return { ...state, calendarLevel: 'day' };
+            }
+            if (action.payload === 'year') {
+              return { ...state, calendarLevel: 'month' };
+            }
+          }
+        }
+
+        if (state.rangeLevel === 'month') {
+          if (action.payload === 'day') {
+            return state;
+          } else {
+            if (state.calendarLevel !== action.payload) {
+              return { ...state, calendarLevel: action.payload };
+            } else {
+              if (action.payload === 'year') {
+                return { ...state, calendarLevel: 'month' };
+              }
+            }
+          }
+        }
+
+        if (state.rangeLevel === 'year') {
+          return { ...state, calendarLevel: 'year' };
+        }
       }
       return state;
 
@@ -68,26 +101,6 @@ export const datePickerStateReducer = (state: DatePickerState, action: DatePicke
         }
       }
       return state;
-
-    case 'choseMonthCalendarLevel':
-      if (state.rangeLevel === 'year') {
-        return { ...state, calendarLevel: 'year' };
-      }
-      if (state.calendarLevel === 'month' && state.rangeLevel === 'day') {
-        return { ...state, calendarLevel: 'day' };
-      }
-      return { ...state, calendarLevel: 'month' };
-
-    case 'choseYearCalendarLevel':
-      if (state.calendarLevel === 'year') {
-        if (state.rangeLevel === 'month') {
-          return { ...state, calendarLevel: 'month' };
-        }
-        if (state.rangeLevel === 'day') {
-          return { ...state, calendarLevel: 'day' };
-        }
-      }
-      return { ...state, calendarLevel: 'year' };
 
     case 'setRangeLevel':
       return { ...state, calendarLevel: action.payload, rangeLevel: action.payload };

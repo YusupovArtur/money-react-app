@@ -13,10 +13,10 @@ export const DatePickerControlButtons = () => {
     dispatch({ type: 'decrementCalendarState' });
   };
   const handleMonthButton = () => {
-    dispatch({ type: 'choseMonthCalendarLevel' });
+    dispatch({ type: 'setCalendarLevel', payload: 'month' });
   };
   const handleYearButton = () => {
-    dispatch({ type: 'choseYearCalendarLevel' });
+    dispatch({ type: 'setCalendarLevel', payload: 'year' });
   };
 
   return (

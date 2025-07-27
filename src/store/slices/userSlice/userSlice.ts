@@ -47,7 +47,7 @@ const initialState: UserStateType = {
     isEmailVerified: false,
     photoURL: null,
   },
-  isShouldRemember: false,
+  isShouldRemember: true,
   photoDataURL: null,
 };
 

@@ -3,9 +3,7 @@ import { useAppSelector } from 'store/store.ts';
 import { selectWalletsList, selectWalletsOrder } from 'store/slices/walletsSlice';
 import { getStringCurrencyValue } from 'shared/helpers';
 
-interface BalanceWidgetProps {}
-
-export const BalanceWidget: FC<BalanceWidgetProps> = () => {
+export const BalanceWidget: FC = () => {
   const order = useAppSelector(selectWalletsOrder);
   const wallets = useAppSelector(selectWalletsList);
   const totals = useAppSelector((state) => state.transactions.walletsTransactionsTotals);
@@ -27,9 +25,7 @@ export const BalanceWidget: FC<BalanceWidgetProps> = () => {
 
   return (
     <div className="placeholder-wave">
-      <div style={{ fontSize: '1.1rem', fontWeight: 500 }} className="mb-2">
-        Мой баланс
-      </div>
+      <div style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: 2 }}>Мой баланс</div>
       {isLoading ? (
         <span style={{ height: '1.95rem' }} className="placeholder col-6"></span>
       ) : (

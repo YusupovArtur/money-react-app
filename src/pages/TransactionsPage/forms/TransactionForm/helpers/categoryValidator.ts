@@ -2,19 +2,7 @@ import { ValidatorReturnType } from 'shared/hooks/useFormValidation/useFormValid
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { store } from 'store';
 import { CategoryType } from 'store/slices/categoriesSlice';
-
-const getTypeName = (type: TransactionType['type']) => {
-  switch (type) {
-    case 'expense':
-      return 'расхода';
-    case 'income':
-      return 'дохода';
-    case 'transfer':
-      return 'перевода';
-    default:
-      return '';
-  }
-};
+import { getTypeCaption } from 'entities/EntitiesComponents';
 
 export const categoryValidator = (formData: TransactionType): ValidatorReturnType => {
   const { type, category: id } = formData;
@@ -23,7 +11,7 @@ export const categoryValidator = (formData: TransactionType): ValidatorReturnTyp
     if (type === 'transfer') {
       return { isValid: true };
     } else {
-      return { isValid: false, feedback: `Введите категорию ${getTypeName(type)}` };
+      return { isValid: false, feedback: `Введите категорию ${getTypeCaption(type, 'а').toLowerCase()}` };
     }
   }
 

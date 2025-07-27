@@ -6,7 +6,7 @@ import {
   selectSubcategoriesOrder,
   useGetDisplayedSubcategory,
 } from 'store/slices/categoriesSlice';
-import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
+import { selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
 import { IDInput, IDOptionType } from 'shared/inputs';
 
 interface SubcategoryIDInputProps {
@@ -35,7 +35,7 @@ export const SubcategoryIDInput: FC<SubcategoryIDInputProps> = ({
   const subcategoriesOrder = useAppSelector(selectSubcategoriesOrder(categoryID));
 
   const selectedIconSize = '2.3rem';
-  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const bodyColor = useAppSelector(selectBodyTertiaryBackgroundColor);
   const topBorderColor = category
     ? category.type === 'expense'
       ? 'danger'

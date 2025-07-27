@@ -13,12 +13,13 @@ interface SubcategoryInputProps {
   categoryID: string;
   isOpened: boolean;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
+  iconName?: string;
 }
 
-export const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isOpened, setIsOpened }) => {
+export const SubcategoryInput: FC<SubcategoryInputProps> = ({ categoryID, isOpened, setIsOpened, iconName }) => {
   const defaultData: SubcategoryType = {
     name: '',
-    iconName: 'Card',
+    iconName: iconName || 'Card',
     description: '',
   };
 

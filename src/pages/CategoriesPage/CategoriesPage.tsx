@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { CategoriesList } from 'pages/CategoriesPage/widgets/CategoriesList/CategoriesList.tsx';
 import { CategoryEdit } from 'pages/CategoriesPage/widgets/CategoryEdit/CategoryEdit.tsx';
 import { CategoryInput } from 'pages/CategoriesPage/widgets/CategoryInput/CategoryInput.tsx';
-import { CategoriesFilter } from 'pages/CategoriesPage/features/CategoriesFilter.tsx';
+import { CategoriesFilterInput } from 'pages/CategoriesPage/features/CategoriesFilterInput.tsx';
 // UI
 import { ButtonWithIcon, PageContentWrapper } from 'shared/ui';
 import { CategoryType } from 'store/slices/categoriesSlice';
@@ -34,7 +34,7 @@ export const CategoriesPage: FC = () => {
       <PageContentWrapper style={{ margin: '0 auto' }} className="mt-2">
         <div className="d-flex justify-content-between flex-wrap-reverse">
           <div className="mb-2">
-            <CategoriesFilter filter={filter} setFilter={setFilter} />
+            <CategoriesFilterInput filter={filter} setFilter={setFilter} />
           </div>
 
           <ButtonWithIcon caption="Категории" onClick={() => setIsOpenedCategoryInput(true)} className="btn-body-primary mb-2">

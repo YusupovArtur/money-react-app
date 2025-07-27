@@ -10,7 +10,7 @@ import { DatePickerModalControlButtons } from './components/DatePickerModalContr
 import { DATE_PICKER_CELL_SIZE } from 'shared/inputs/DateInput/constants/constants.ts';
 import { DateStateRangeType, DateStateType, isDateStateRange } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import {
-  DatePickerProvider,
+  DatePickerContextProvider,
   useDatePickerContext,
 } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
 import { useSwipeChangeCalendar } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useSwipeChangeCalendar.ts';
@@ -53,14 +53,14 @@ export const DateInputPicker: FC<DateInputDatePickerProps & (DateStateProps | Da
   );
 
   return (
-    <DatePickerProvider initialDateState={dateState || dateStateRange}>
+    <DatePickerContextProvider initialDateState={dateState || dateStateRange}>
       <DateInputPickerInner
         dateState={dateState || dateStateRange}
         dateStateDispatch={dispatch}
         setIsOpenedDatepicker={setIsOpenedDatepicker}
         isModal={isModal}
       />
-    </DatePickerProvider>
+    </DatePickerContextProvider>
   );
 };
 

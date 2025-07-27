@@ -7,7 +7,7 @@ import {
 } from 'store/slices/categoriesSlice';
 import { useAppSelector } from 'store/store.ts';
 import { IDInput, IDOptionType } from 'shared/inputs';
-import { selectBodyBackgroundColor } from 'store/slices/themeSlice';
+import { selectBodyTertiaryBackgroundColor } from 'store/slices/themeSlice';
 
 interface CategoryIdInputProps {
   inputID?: string;
@@ -24,7 +24,7 @@ export const CategoryIDInput: FC<CategoryIdInputProps> = ({ inputID, categoryID,
   const categoryTypeFilterDeferred = useDeferredValue(categoryType);
   const categoriesOrder = useAppSelector(selectFilteredCategoriesOrder(categoryTypeFilterDeferred));
 
-  const bodyColor = useAppSelector(selectBodyBackgroundColor);
+  const bodyColor = useAppSelector(selectBodyTertiaryBackgroundColor);
 
   const option: IDOptionType = {
     id: categoryID,

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { DatePickerMonthCell } from './DatePickerMonthCell.tsx';
-import { getDatePickerMonthOptions } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerMonthOptions.ts';
+import { getDatePickerMonthsProps } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerMonthsProps.ts';
 import { useDatePickerContext } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
 import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { DateStateDispatcherAction } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
@@ -12,7 +12,7 @@ interface DateInputPickerOptionsProps {
 
 export const DatePickerMonthOptions: FC<DateInputPickerOptionsProps> = ({ dateState, dateStateDispatch }) => {
   const { state } = useDatePickerContext();
-  const options = getDatePickerMonthOptions({ calendarState: state.calendarState, dateState: dateState });
+  const options = getDatePickerMonthsProps({ calendarState: state.calendarState, dateState: dateState });
 
   return (
     <div className="container text-center">

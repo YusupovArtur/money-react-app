@@ -3,5 +3,5 @@ import { COLOR_NAMES_HEX } from 'shared/inputs/ColorHexInput/constants/COLOR_NAM
 
 export const selectBodyBackgroundColor = (state: RootState): string => {
   const theme = state.theme.themeDisplay;
-  return theme === 'light' ? COLOR_NAMES_HEX['gray-100'] : COLOR_NAMES_HEX['body-tertiary-dark'];
+  return theme === 'light' ? COLOR_NAMES_HEX['white'] : COLOR_NAMES_HEX['gray-900'];
 };

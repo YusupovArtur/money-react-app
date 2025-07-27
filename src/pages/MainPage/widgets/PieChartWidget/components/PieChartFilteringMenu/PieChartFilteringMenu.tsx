@@ -1,6 +1,6 @@
 import { JSX, memo } from 'react';
 // Components
-import { TransactionsTableSortingFilteringMenu } from 'pages/TransactionsPage/widgets/TransactionsSorterAndFilter/components/TransactionsTableSortingFilteringMenu.tsx';
+import { TransactionsTableSortingFilteringMenu } from 'widgets/TransactionsSortingFilteringMenu/TransactionsSortingFilteringMenu.tsx';
 import { DatePickerTimeFilteringMenu } from 'pages/MainPage/widgets/PieChartWidget/components/PieChartFilteringMenu/DatePickerTimeFilteringMenu.tsx';
 
 export const PieChartFilteringMenu = memo((): JSX.Element => {
