@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
 import { DATE_PICKER_CELL_SIZE, MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
 import { DatePickerYearCell } from './DatePickerYearCell.tsx';
-import { getDatePickerYearOptions } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerYearOptions.ts';
+import { getDatePickerYearsProps } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerYearsProps.ts';
 import { useDatePickerContext } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDatePickerContext/useDatePickerContext.tsx';
 import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { DateStateDispatcherAction } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/useDateStateDispatcher.ts';
@@ -25,7 +25,7 @@ export const DatePickerYearOptions: FC<DateInputPickerOptionsProps> = ({ dateSta
     }
   }, []);
 
-  const options = getDatePickerYearOptions({ calendarState: state.calendarState, dateState: dateState });
+  const options = getDatePickerYearsProps(dateState);
 
   return (
     <div

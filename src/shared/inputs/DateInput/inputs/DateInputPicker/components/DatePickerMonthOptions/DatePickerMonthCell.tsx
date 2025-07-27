@@ -12,7 +12,7 @@ interface DatePickerMonthOptionsCellProps {
 export const DatePickerMonthCell: FC<DatePickerMonthOptionsCellProps> = ({ monthCellProps, dateStateDispatch }) => {
   const { state, dispatch } = useDatePickerContext();
 
-  const { month, shortName, isToday, isSelectedByCalendarState, isBetween, isLeft, isRight } = monthCellProps;
+  const { month, shortName, isToday, isFullSelected, isPartlySelected, isBetween, isLeft, isRight } = monthCellProps;
 
   const handleClick = (event: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
@@ -27,9 +27,13 @@ export const DatePickerMonthCell: FC<DatePickerMonthOptionsCellProps> = ({ month
     }
   };
 
-  const buttonClassName = isSelectedByCalendarState ? 'btn-body-primary' : isBetween ? 'btn-body-primary-soft' : 'btn-body';
+  const buttonClassName = isFullSelected
+    ? 'btn-body-primary'
+    : isPartlySelected || isBetween
+      ? 'btn-body-primary-soft'
+      : 'btn-body';
   const borderClassName = isToday ? 'bordered' : '';
-  const spanClassName = isSelectedByCalendarState ? '' : 'text-body-emphasis';
+  const spanClassName = isFullSelected ? '' : 'text-body-emphasis';
   const divClassName = `${isBetween ? 'bg-primary-soft' : ''} ${isLeft ? 'rounded-start-2' : ''} ${isRight ? 'rounded-end-2' : ''}`;
 
   return (

@@ -9,9 +9,9 @@ import {
   getStringDateFromDateState,
   getStringDateFromDateStateRange,
 } from 'shared/inputs/DateInput/inputs/DateTextInput/helpers/getStringDateFromDateState.ts';
-import { getMonthDateStateRange } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getMonthDateStateRange.ts';
+import { getMonthDateStateStretched } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getMonthDateStateStretched.ts';
 import { deepEqual } from 'shared/helpers';
-import { getYearDateStateRange } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getYearDateStateRange.ts';
+import { getYearDateStateStretched } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getYearDateStateStretched.ts';
 import { RangeType } from 'shared/types';
 import {
   getDateStateFromTimestamp,
@@ -49,8 +49,8 @@ export const getPieChartResults = (props: { timestampRange: RangeType<number>; r
   if (rangeLevel === 'month') {
     if (!isNaN(timestamp1) && !isNaN(timestamp2)) {
       // noinspection DuplicatedCode
-      const monthRange1 = getMonthDateStateRange(validRange[1]);
-      const monthRange2 = getMonthDateStateRange(validRange[2]);
+      const monthRange1 = getMonthDateStateStretched(validRange[1]);
+      const monthRange2 = getMonthDateStateStretched(validRange[2]);
 
       if (deepEqual(monthRange1, validRange)) {
         return `За ${MONTH_FULL_NAMES[validRange[1].month - 1]} ${validRange[1].year}`;
@@ -69,8 +69,8 @@ export const getPieChartResults = (props: { timestampRange: RangeType<number>; r
   if (rangeLevel === 'year') {
     if (!isNaN(timestamp1) && !isNaN(timestamp2)) {
       // noinspection DuplicatedCode
-      const yearRange1 = getYearDateStateRange(validRange[1]);
-      const yearRange2 = getYearDateStateRange(validRange[2]);
+      const yearRange1 = getYearDateStateStretched(validRange[1]);
+      const yearRange2 = getYearDateStateStretched(validRange[2]);
 
       if (deepEqual(yearRange1, validRange)) {
         return `За ${validRange[1].year}`;

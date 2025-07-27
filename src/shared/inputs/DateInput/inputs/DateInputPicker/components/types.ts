@@ -12,7 +12,8 @@ export type DatePickerDayCellProps = {
 export type DatePickerMonthCellProps = {
   month: number;
   shortName: string;
-  isSelectedByCalendarState: boolean;
+  isFullSelected: boolean;
+  isPartlySelected: boolean;
   isToday: boolean;
 
   isBetween: boolean;
@@ -22,7 +23,8 @@ export type DatePickerMonthCellProps = {
 
 export type DatePickerYearCellProps = {
   year: number;
-  isSelectedByCalendarState: boolean;
+  isFullSelected: boolean;
+  isPartlySelected: boolean;
   isToday: boolean;
 
   isBetween: boolean;

@@ -33,9 +33,6 @@ export const DatePickerRangeLevelMenu: FC<DatePickerRangeLevelMenuProps> = ({ da
         year: dateState['1'].year || dateState['2'].year || undefined,
       },
     });
-    if (level !== 'day') {
-      dateStateDispatch({ type: 'stretchRange', payload: level });
-    }
   };
 
   const handleClean = () => {

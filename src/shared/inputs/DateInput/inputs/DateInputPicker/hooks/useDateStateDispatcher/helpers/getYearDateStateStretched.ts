@@ -1,7 +1,7 @@
 import { DateStateRangeType, DateStateType } from 'shared/inputs/DateInput/types/DateStateType.ts';
 import { getMonthMaxDay } from 'shared/inputs/DateInput/helpers/getMonthMaxDay.ts';
 
-export const getYearDateStateRange = (dateState: DateStateType): DateStateRangeType => {
+export const getYearDateStateStretched = (dateState: DateStateType): DateStateRangeType => {
   const { year } = dateState;
 
   return {

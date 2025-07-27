@@ -25,19 +25,7 @@ export const getValidDateStateRange = (dateStateRange: DateStateRangeType): Date
   const timestamp1 = getTimestampFromDateState(validDateState[1]);
   const timestamp2 = getTimestampFromDateState(validDateState[2]);
 
-  if (isNaN(timestamp1) && isNaN(timestamp2)) {
-    return validDateState;
-  }
-
-  if (isNaN(timestamp1) && !isNaN(timestamp2)) {
-    return { 1: validDateState[2], 2: validDateState[1] };
-  }
-
-  if (!isNaN(timestamp1) && isNaN(timestamp2)) {
-    return validDateState;
-  }
-
-  if (!isNaN(timestamp1) && !isNaN(timestamp2) && timestamp1 > timestamp2) {
+  if (timestamp1 > timestamp2) {
     return { 1: validDateState[2], 2: validDateState[1] };
   }
 

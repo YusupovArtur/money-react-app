@@ -1,5 +1,11 @@
+import { MAX_YEAR, MIN_YEAR } from 'shared/inputs/DateInput/constants/constants.ts';
+
 export const getMonthMaxDay = (props: { month: number; year: number }): number => {
   const { month, year } = props;
+
+  if (month < 1 || month > 12 || year < MIN_YEAR || year > MAX_YEAR) {
+    return 0;
+  }
 
   if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
     return 31;

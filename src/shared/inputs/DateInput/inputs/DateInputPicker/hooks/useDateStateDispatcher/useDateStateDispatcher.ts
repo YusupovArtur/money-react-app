@@ -6,15 +6,17 @@ import {
   getTimestampRangeFromDateStateRange,
 } from 'shared/inputs/DateInput/helpers/getTimestampFromDateState.ts';
 import { getValidDateStateRange } from 'shared/inputs/DateInput/inputs/DateTextInput/hooks/useDateTextInputReducer/helpers/getValidDateState.ts';
-import { getMonthDateStateRange } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getMonthDateStateRange.ts';
-import { getYearDateStateRange } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getYearDateStateRange.ts';
+import { getMonthDateStateStretched } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getMonthDateStateStretched.ts';
+import { getYearDateStateStretched } from 'shared/inputs/DateInput/inputs/DateInputPicker/hooks/useDateStateDispatcher/helpers/getYearDateStateStretched.ts';
+import { getMonthProps } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerMonthsProps.ts';
+import { getYearProps } from 'shared/inputs/DateInput/inputs/DateInputPicker/helpers/getDatePickerYearsProps.ts';
+import { getDateStateFromTimestamp } from 'shared/inputs/DateInput/helpers/getDateStateFromTimestamp.ts';
 
 export type DateStateDispatcherAction =
   | { type: 'clear' }
   | { type: 'setDay'; payload: DateStateType }
-  | { type: 'setMonth'; payload: DateStateType }
-  | { type: 'setYear'; payload: DateStateType }
-  | { type: 'stretchRange'; payload: Exclude<keyof DateStateType, 'day'> };
+  | { type: 'setMonth'; payload: Omit<DateStateType, 'day'> & { day: 1 } }
+  | { type: 'setYear'; payload: Omit<DateStateType, 'day' | 'month'> & { day: 1; month: 1 } };
 
 type PropsType =
   | { setDateState: Dispatch<SetStateAction<DateStateType>>; setDateStateRange?: never }
@@ -50,11 +52,20 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
             if (isNaN(timestampRange[1]) && isNaN(timestampRange[2])) {
               return { 1: action.payload, 2: action.payload };
             }
+
             if (!isNaN(timestampRange[1]) && isNaN(timestampRange[2])) {
-              if (deepEqual(validRange['1'], action.payload)) {
+              if (deepEqual(validRange[1], action.payload)) {
                 return { 1: defaultValue, 2: defaultValue };
               } else {
                 return getValidDateStateRange({ 1: validRange[1], 2: action.payload });
+              }
+            }
+
+            if (isNaN(timestampRange[1]) && !isNaN(timestampRange[2])) {
+              if (deepEqual(validRange[2], action.payload)) {
+                return { 1: defaultValue, 2: defaultValue };
+              } else {
+                return getValidDateStateRange({ 1: validRange[2], 2: action.payload });
               }
             }
 
@@ -73,7 +84,6 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
               return { 1: validRange[1], 2: defaultValue };
             }
 
-            console.log('set new');
             return { 1: action.payload, 2: action.payload };
           });
         }
@@ -84,34 +94,62 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
           setDateStateRange((state) => {
             const validRange = getValidDateStateRange(state);
             const timestampRange = getTimestampRangeFromDateStateRange(validRange);
+            const actionTimestamp = getTimestampFromDateState(action.payload);
 
             if (isNaN(timestampRange[1]) && isNaN(timestampRange[2])) {
-              return getMonthDateStateRange(action.payload);
+              return getMonthDateStateStretched(action.payload);
+            }
+
+            if (isNaN(timestampRange[1]) || isNaN(timestampRange[2])) {
+              const timestamp = !isNaN(timestampRange[1]) ? timestampRange[1] : timestampRange[2];
+              const selectedTimestamp = getTimestampFromDateState(action.payload);
+              if (timestamp > selectedTimestamp) {
+                return { 1: action.payload, 2: getDateStateFromTimestamp(timestamp) };
+              }
+              if (timestamp < selectedTimestamp) {
+                return { 1: getDateStateFromTimestamp(timestamp), 2: getMonthDateStateStretched(action.payload)[2] };
+              }
             }
 
             const month1: DateStateType = { day: 1, month: validRange[1].month, year: validRange[1].year };
             const month2: DateStateType = { day: 1, month: validRange[2].month, year: validRange[2].year };
             const isSelectedOneMonth = deepEqual(month1, month2);
+            const monthProps = getMonthProps({ month: action.payload.month, year: action.payload.year, dateState: state });
 
             if (deepEqual(month1, action.payload) && deepEqual(month2, action.payload)) {
-              return { 1: defaultValue, 2: defaultValue };
+              if (monthProps.isFullSelected) {
+                return { 1: defaultValue, 2: defaultValue };
+              } else {
+                return getMonthDateStateStretched(action.payload);
+              }
             }
 
             if (isSelectedOneMonth) {
-              const month2 = getMonthDateStateRange(action.payload)[1];
-              const newRange: DateStateRangeType = getValidDateStateRange({ 1: month1, 2: month2 });
-              return { 1: newRange[1], 2: getMonthDateStateRange(newRange[2])[2] };
+              if (actionTimestamp > timestampRange[2]) {
+                return { 1: validRange[1], 2: getMonthDateStateStretched(action.payload)[2] };
+              }
+              if (actionTimestamp < timestampRange[1]) {
+                return { 1: action.payload, 2: validRange[2] };
+              }
             }
 
             if (deepEqual(month1, action.payload) && !deepEqual(month2, action.payload)) {
-              return getMonthDateStateRange(month2);
+              if (monthProps.isFullSelected) {
+                return { 1: month2, 2: validRange[2] };
+              } else {
+                return { 1: action.payload, 2: validRange[2] };
+              }
             }
 
             if (!deepEqual(month1, action.payload) && deepEqual(month2, action.payload)) {
-              return getMonthDateStateRange(month1);
+              if (monthProps.isFullSelected) {
+                return { 1: validRange[1], 2: getMonthDateStateStretched(month1)[2] };
+              } else {
+                return { 1: validRange[1], 2: getMonthDateStateStretched(action.payload)[2] };
+              }
             }
 
-            return getMonthDateStateRange(action.payload);
+            return getMonthDateStateStretched(action.payload);
           });
         }
         break;
@@ -121,60 +159,62 @@ export const useDateStateDispatcher = (props: PropsType): ((action: DateStateDis
           setDateStateRange((state) => {
             const validRange = getValidDateStateRange(state);
             const timestampRange = getTimestampRangeFromDateStateRange(validRange);
+            const actionTimestamp = getTimestampFromDateState(action.payload);
 
             if (isNaN(timestampRange[1]) && isNaN(timestampRange[2])) {
-              return getYearDateStateRange(action.payload);
+              return getYearDateStateStretched(action.payload);
+            }
+
+            if (isNaN(timestampRange[1]) || isNaN(timestampRange[2])) {
+              const timestamp = !isNaN(timestampRange[1]) ? timestampRange[1] : timestampRange[2];
+              const selectedTimestamp = getTimestampFromDateState(action.payload);
+              if (timestamp > selectedTimestamp) {
+                return { 1: action.payload, 2: getDateStateFromTimestamp(timestamp) };
+              }
+              if (timestamp < selectedTimestamp) {
+                return { 1: getDateStateFromTimestamp(timestamp), 2: getYearDateStateStretched(action.payload)[2] };
+              }
             }
 
             const year1: DateStateType = { day: 1, month: 1, year: validRange[1].year };
             const year2: DateStateType = { day: 1, month: 1, year: validRange[2].year };
             const isSelectedOneYear = deepEqual(year1, year2);
+            const yearProps = getYearProps({ year: action.payload.year, dateState: state });
 
             if (deepEqual(year1, action.payload) && deepEqual(year2, action.payload)) {
-              return { 1: defaultValue, 2: defaultValue };
+              if (yearProps.isFullSelected) {
+                return { 1: defaultValue, 2: defaultValue };
+              } else {
+                return getYearDateStateStretched(action.payload);
+              }
             }
 
             if (isSelectedOneYear) {
-              const year2 = getYearDateStateRange(action.payload)[1];
-              const newRange: DateStateRangeType = getValidDateStateRange({ 1: year1, 2: year2 });
-              return { 1: newRange[1], 2: getYearDateStateRange(newRange[2])[2] };
+              if (actionTimestamp > timestampRange[2]) {
+                return { 1: validRange[1], 2: getYearDateStateStretched(action.payload)[2] };
+              }
+              if (actionTimestamp < timestampRange[1]) {
+                return { 1: action.payload, 2: validRange[2] };
+              }
             }
 
             if (deepEqual(year1, action.payload) && !deepEqual(year2, action.payload)) {
-              return getYearDateStateRange(year2);
+              if (yearProps.isFullSelected) {
+                return { 1: year2, 2: validRange[2] };
+              } else {
+                return { 1: action.payload, 2: validRange[2] };
+              }
             }
 
             if (!deepEqual(year1, action.payload) && deepEqual(year2, action.payload)) {
-              return getYearDateStateRange(year1);
-            }
-
-            return getYearDateStateRange(action.payload);
-          });
-        }
-        break;
-
-      case 'stretchRange':
-        if (setDateStateRange) {
-          setDateStateRange((state) => {
-            const timestamp1 = getTimestampFromDateState(state[1]);
-            const timestamp2 = getTimestampFromDateState(state[2]);
-
-            if (!isNaN(timestamp1) && !isNaN(timestamp2)) {
-              if (action.payload === 'month') {
-                const validRange = getValidDateStateRange(state);
-                const date1 = getMonthDateStateRange(validRange[1])[1];
-                const date2 = getMonthDateStateRange(validRange[2])[2];
-                return { 1: date1, 2: date2 };
-              }
-              if (action.payload === 'year') {
-                const validRange = getValidDateStateRange(state);
-                const date1 = getYearDateStateRange(validRange[1])[1];
-                const date2 = getYearDateStateRange(validRange[2])[2];
-                return { 1: date1, 2: date2 };
+              if (yearProps.isFullSelected) {
+                return { 1: validRange[1], 2: getYearDateStateStretched(year1)[2] };
+              } else {
+                return { 1: validRange[1], 2: getYearDateStateStretched(action.payload)[2] };
               }
             }
 
-            return state;
+            return getYearDateStateStretched(action.payload);
           });
         }
         break;
