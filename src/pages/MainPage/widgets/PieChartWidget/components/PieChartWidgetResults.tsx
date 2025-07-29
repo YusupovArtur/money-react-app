@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 import { getRangeFilterFromFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getRangeFilterFromFilter.ts';
-import { getPieChartResults } from 'pages/MainPage/widgets/PieChartWidget/helpers/getPieChartResults.ts';
+import { getPieChartResultsPeriodLabel } from 'pages/MainPage/widgets/PieChartWidget/helpers/getPieChartResultsPeriodLabel.ts';
 import { getStringCurrencyValue } from 'shared/helpers';
 import { useAppSelector } from 'store/store.ts';
 
@@ -12,8 +12,8 @@ interface PieChartWidgetResultsProps {
 
 export const PieChartWidgetResults: FC<PieChartWidgetResultsProps> = ({ result, timeFilter }) => {
   const rangeFilter = getRangeFilterFromFilter({ fieldKey: 'time', filter: timeFilter });
-  const dateLabel = getPieChartResults({
-    timestampRange: { 1: rangeFilter.min, 2: rangeFilter.max },
+  const dateLabel = getPieChartResultsPeriodLabel({
+    timestampRange: rangeFilter,
     rangeLevel: 'year',
   });
 

@@ -1,6 +1,5 @@
 import { TransactionType } from 'store/slices/transactionsSlice';
-
-export type RangeFilterType = { max: number; min: number };
+import { RangeType } from 'shared/types';
 
 export type TransactionFilterRuleType<T extends keyof TransactionType> = T extends
   | 'type'
@@ -11,7 +10,7 @@ export type TransactionFilterRuleType<T extends keyof TransactionType> = T exten
   | 'description'
   ? Set<TransactionType[T]> | null
   : T extends 'time' | 'sum'
-    ? Set<TransactionType[T]> | RangeFilterType | null
+    ? Set<TransactionType[T]> | RangeType | null
     : never;
 
 export type TransactionsFilterType<T extends keyof TransactionType> = {

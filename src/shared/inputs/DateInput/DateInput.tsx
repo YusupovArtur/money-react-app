@@ -26,8 +26,8 @@ type DateStateProps = {
 type DateStateRangeProps = {
   timestamp?: never;
   setTimestamp?: never;
-  timestampRange: RangeType<number>;
-  setTimestampRange: SetStateCallbackType<RangeType<number>>;
+  timestampRange: RangeType;
+  setTimestampRange: SetStateCallbackType<RangeType>;
 };
 
 interface DateInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'style'> {

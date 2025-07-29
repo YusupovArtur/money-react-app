@@ -1,6 +1,6 @@
 import { TransactionsFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
 import { TransactionsListType, TransactionType } from 'store/slices/transactionsSlice';
-import { isRangeFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/isRangeFilter.ts';
+import { isRangeType } from 'shared/helpers';
 import { getFormattedRangeFilterObject } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getFormattedRangeFilterObject.ts';
 
 const isSet = <T>(value: any): value is Set<T> => {
@@ -23,7 +23,7 @@ export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(pr
     return order;
   }
 
-  if (isRangeFilter(filter.filter) && isNaN(filter.filter.min) && isNaN(filter.filter.max)) {
+  if (isRangeType(filter.filter) && isNaN(filter.filter[1]) && isNaN(filter.filter[2])) {
     return order;
   }
 
@@ -61,14 +61,14 @@ export const getFilteredTransactionsOrder = <T extends keyof TransactionType>(pr
     });
   }
 
-  if (isRangeFilter(filter.filter) && (key === 'time' || key === 'sum')) {
+  if (isRangeType(filter.filter) && (key === 'time' || key === 'sum')) {
     const range = getFormattedRangeFilterObject(filter.filter);
 
     return order.filter((id) => {
       const transaction: TransactionType | undefined = list[id];
       const num = key === 'sum' && transaction.type === 'expense' ? -transaction[key] : (transaction[key] as number);
 
-      return num >= range.min && num <= range.max;
+      return num >= range[1] && num <= range[2];
     });
   }
 

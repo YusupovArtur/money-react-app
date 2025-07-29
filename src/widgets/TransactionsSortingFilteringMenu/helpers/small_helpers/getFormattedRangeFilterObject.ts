@@ -1,24 +1,24 @@
-import { RangeFilterType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionsFilterType.ts';
+import { RangeType } from 'shared/types';
 
-export const getFormattedRangeFilterObject = (obj: RangeFilterType): RangeFilterType => {
-  const formattedObj = { min: NaN, max: NaN };
+export const getFormattedRangeFilterObject = (obj: RangeType): RangeType => {
+  const formattedObj = { 1: NaN, 2: NaN };
 
-  if (obj.min === null || isNaN(obj.min)) {
-    formattedObj.min = -Infinity;
+  if (obj[1] === null || isNaN(obj[1])) {
+    formattedObj[1] = -Infinity;
   } else {
-    formattedObj.min = obj.min;
+    formattedObj[1] = obj[1];
   }
 
-  if (obj.max === null || isNaN(obj.max)) {
-    formattedObj.max = Infinity;
+  if (obj[2] === null || isNaN(obj[2])) {
+    formattedObj[2] = Infinity;
   } else {
-    formattedObj.max = obj.max;
+    formattedObj[2] = obj[2];
   }
 
-  if (formattedObj.min > formattedObj.max) {
-    const prev = formattedObj.min;
-    formattedObj.min = formattedObj.max;
-    formattedObj.max = prev;
+  if (formattedObj[1] > formattedObj[2]) {
+    const prev = formattedObj[1];
+    formattedObj[1] = formattedObj[2];
+    formattedObj[2] = prev;
   }
 
   return formattedObj;

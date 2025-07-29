@@ -57,7 +57,7 @@ export const getYearProps = (
     year: number;
   } & (
     | {
-        selectedTimestamps: RangeType<number>;
+        selectedTimestamps: RangeType;
         dateState?: never;
       }
     | {

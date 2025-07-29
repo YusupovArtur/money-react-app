@@ -9,7 +9,7 @@ import { DateInputPicker } from 'shared/inputs/DateInput/inputs/DateInputPicker/
 // Helpers
 import { deepEqual, getDeviceType } from 'shared/helpers';
 import { getRangeFilterFromFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getRangeFilterFromFilter.ts';
-import { getTimestampFromDateState } from 'shared/inputs/DateInput/helpers/getTimestampFromDateState.ts';
+import { getTimestampRangeFromDateStateRange } from 'shared/inputs/DateInput/helpers/getTimestampFromDateState.ts';
 import { getDateStateRangeFromTimestampRange } from 'shared/inputs/DateInput/helpers/getDateStateFromTimestamp.ts';
 // UI
 import { FilterIcon } from 'widgets/TransactionsSortingFilteringMenu/icons/FilterIcon.tsx';
@@ -27,12 +27,7 @@ export const DatePickerTimeFilteringMenu: FC = () => {
   const timeFilterDispatch = useFilterDispatch({ fieldKey: 'time', setFilters: setFilters });
 
   const [isOpenedDatePicker, setIsOpenedDatePicker] = useState(false);
-  const [dateStateRange, setDateStateRange] = useState<DateStateRangeType>(
-    getDateStateRangeFromTimestampRange({
-      1: timeRangeFilter.min,
-      2: timeRangeFilter.max,
-    }),
-  );
+  const [dateStateRange, setDateStateRange] = useState<DateStateRangeType>(getDateStateRangeFromTimestampRange(timeRangeFilter));
 
   const setDateStateRangeWithCallback: SetStateCallbackType<DateStateRangeType> = (updater) => {
     if (typeof updater === 'function') {
@@ -41,7 +36,7 @@ export const DatePickerTimeFilteringMenu: FC = () => {
         if (state !== newState) {
           timeFilterDispatch({
             type: 'setRange',
-            payload: { min: getTimestampFromDateState(newState[1]), max: getTimestampFromDateState(newState[2]) },
+            payload: getTimestampRangeFromDateStateRange(newState),
           });
         }
         return newState;
@@ -50,12 +45,12 @@ export const DatePickerTimeFilteringMenu: FC = () => {
       setDateStateRange(updater);
       timeFilterDispatch({
         type: 'setRange',
-        payload: { min: getTimestampFromDateState(updater[1]), max: getTimestampFromDateState(updater[2]) },
+        payload: getTimestampRangeFromDateStateRange(updater),
       });
     }
   };
   useEffect(() => {
-    const dateStateRangeFromFilter = getDateStateRangeFromTimestampRange({ 1: timeRangeFilter.min, 2: timeRangeFilter.max });
+    const dateStateRangeFromFilter = getDateStateRangeFromTimestampRange(timeRangeFilter);
     if (!deepEqual(dateStateRangeFromFilter, dateStateRange)) {
       setDateStateRange(dateStateRangeFromFilter);
     }
