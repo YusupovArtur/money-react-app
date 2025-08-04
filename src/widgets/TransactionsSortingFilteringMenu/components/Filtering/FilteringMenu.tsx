@@ -7,7 +7,7 @@ import { useTransactionsFilteringContext } from 'widgets/TransactionsSortingFilt
 // Helpers
 import { isSet } from 'shared/helpers';
 import { getUndefinedFilterOptionsSet } from 'widgets/TransactionsSortingFilteringMenu/helpers/getUndefinedFilterOptionsSet.ts';
-import { isRangeFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/isRangeFilter.ts';
+import { isRangeType } from 'shared/helpers';
 import { getTransactionsFilterOptionsList } from 'widgets/TransactionsSortingFilteringMenu/helpers/getTransactionsFilterOptionsList.ts';
 // UI
 import { FilterIcon } from 'widgets/TransactionsSortingFilteringMenu/icons/FilterIcon.tsx';
@@ -50,7 +50,7 @@ export const FilteringMenu = <T extends keyof TransactionType>({
   const currentFilter: TransactionsFilterType<T> = currentFilters[fieldKey] || { key: fieldKey, filter: filter as any };
 
   const allChecked =
-    filter === null || (isSet(filter) && filter.size === 0) || (isRangeFilter(filter) && isNaN(filter.min) && isNaN(filter.max));
+    filter === null || (isSet(filter) && filter.size === 0) || (isRangeType(filter) && isNaN(filter[1]) && isNaN(filter[2]));
 
   // For category and subcategory split by type
   const optionsByCategoryTypes: Record<TransactionType['type'], TransactionType[T][]> = { expense: [], income: [], transfer: [] };

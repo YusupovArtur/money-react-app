@@ -7,7 +7,7 @@ import { useFilterDispatch } from 'widgets/TransactionsSortingFilteringMenu/hook
 import { useTransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 // Helpers
 import { deepEqual, isSet } from 'shared/helpers';
-import { isRangeFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/isRangeFilter.ts';
+import { isRangeType } from 'shared/helpers';
 import { getRangeFilterFromFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getRangeFilterFromFilter.ts';
 // Types
 import { SetStateCallbackType } from 'shared/types';
@@ -24,19 +24,19 @@ export const FilteringSumInput: FC<FilteringSumInputProps> = ({ fieldKey }) => {
   const currentFilter = currentFilters[fieldKey] || { key: fieldKey, filter: filter as any };
   const rangeFilter = getRangeFilterFromFilter({ fieldKey, filter: currentFilter });
 
-  const [minRange, setMinRange] = useState<number>(rangeFilter.min);
-  const [maxRange, setMaxRange] = useState<number>(rangeFilter.max);
+  const [minRange, setMinRange] = useState<number>(rangeFilter[1]);
+  const [maxRange, setMaxRange] = useState<number>(rangeFilter[2]);
 
   useEffect(() => {
     const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
-    if (!deepEqual(rangeFilter, { min: maxRange, max: maxRange })) {
+    if (!deepEqual(rangeFilter, { 1: minRange, 2: maxRange })) {
       if (filter === null || isSet(filter)) {
         setMinRange(NaN);
         setMaxRange(NaN);
       }
-      if (isRangeFilter(filter)) {
-        setMinRange(filter.min);
-        setMaxRange(filter.max);
+      if (isRangeType(filter)) {
+        setMinRange(filter[1]);
+        setMaxRange(filter[2]);
       }
     }
   }, [filter]);
@@ -45,24 +45,24 @@ export const FilteringSumInput: FC<FilteringSumInputProps> = ({ fieldKey }) => {
     if (typeof updater === 'function') {
       setMinRange((state) => {
         const newState = updater(state);
-        filterDispatch({ type: 'setRange', payload: { min: newState } });
+        filterDispatch({ type: 'setRange', payload: { 1: newState } });
         return newState;
       });
     } else {
       setMinRange(updater);
-      filterDispatch({ type: 'setRange', payload: { min: updater } });
+      filterDispatch({ type: 'setRange', payload: { 1: updater } });
     }
   };
   const setMaxRangeWithCallback: SetStateCallbackType<number> = (updater) => {
     if (typeof updater === 'function') {
       setMaxRange((state) => {
         const newState = updater(state);
-        filterDispatch({ type: 'setRange', payload: { max: newState } });
+        filterDispatch({ type: 'setRange', payload: { 2: newState } });
         return newState;
       });
     } else {
       setMaxRange(updater);
-      filterDispatch({ type: 'setRange', payload: { max: updater } });
+      filterDispatch({ type: 'setRange', payload: { 2: updater } });
     }
   };
 

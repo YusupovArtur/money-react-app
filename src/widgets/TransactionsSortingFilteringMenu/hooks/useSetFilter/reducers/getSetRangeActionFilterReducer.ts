@@ -9,16 +9,16 @@ export const getSetRangeActionFilterReducer = <T extends keyof TransactionType>(
     action: FilterReducerActionType<T>,
   ): TransactionsFilterType<keyof TransactionType> => {
     if (action.type === 'setRange') {
-      if (action.payload.min === undefined && action.payload.max === undefined) {
+      if (action.payload[1] === undefined && action.payload[2] === undefined) {
         return state;
       } else {
         const range = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: state });
 
-        if (action.payload.min !== undefined) {
-          range.min = action.payload.min;
+        if (action.payload[1] !== undefined) {
+          range[1] = action.payload[1];
         }
-        if (action.payload.max !== undefined) {
-          range.max = action.payload.max;
+        if (action.payload[2] !== undefined) {
+          range[2] = action.payload[2];
         }
 
         return { key: fieldKey, filter: range };

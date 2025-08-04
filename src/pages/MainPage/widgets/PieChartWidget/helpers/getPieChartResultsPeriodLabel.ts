@@ -18,7 +18,7 @@ import {
   getDateStateRangeFromTimestampRange,
 } from 'shared/inputs/DateInput/helpers/getDateStateFromTimestamp.ts';
 
-export const getPieChartResults = (props: { timestampRange: RangeType<number>; rangeLevel: keyof DateStateType }): string => {
+export const getPieChartResultsPeriodLabel = (props: { timestampRange: RangeType; rangeLevel: keyof DateStateType }): string => {
   const { timestampRange, rangeLevel } = props;
 
   const validRange = getValidDateStateRange(getDateStateRangeFromTimestampRange(timestampRange));
@@ -60,9 +60,9 @@ export const getPieChartResults = (props: { timestampRange: RangeType<number>; r
         return `${getStringDateFromDateState(validRange[1]).slice(3)}-${getStringDateFromDateState(validRange[2]).slice(3)}`;
       }
 
-      return getPieChartResults({ timestampRange: timestampRange, rangeLevel: 'day' });
+      return getPieChartResultsPeriodLabel({ timestampRange: timestampRange, rangeLevel: 'day' });
     } else {
-      return getPieChartResults({ timestampRange: timestampRange, rangeLevel: 'day' });
+      return getPieChartResultsPeriodLabel({ timestampRange: timestampRange, rangeLevel: 'day' });
     }
   }
 
@@ -80,9 +80,9 @@ export const getPieChartResults = (props: { timestampRange: RangeType<number>; r
         return `${validRange[1].year}-${validRange[2].year}`;
       }
 
-      return getPieChartResults({ timestampRange: timestampRange, rangeLevel: 'month' });
+      return getPieChartResultsPeriodLabel({ timestampRange: timestampRange, rangeLevel: 'month' });
     } else {
-      return getPieChartResults({ timestampRange: timestampRange, rangeLevel: 'month' });
+      return getPieChartResultsPeriodLabel({ timestampRange: timestampRange, rangeLevel: 'month' });
     }
   }
 

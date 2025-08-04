@@ -7,7 +7,7 @@ import { useFilterDispatch } from 'widgets/TransactionsSortingFilteringMenu/hook
 import { useTransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 // Helpers
 import { deepEqual, isSet } from 'shared/helpers';
-import { isRangeFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/isRangeFilter.ts';
+import { isRangeType } from 'shared/helpers';
 import { getRangeFilterFromFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/getRangeFilterFromFilter.ts';
 // Types
 import { RangeType, SetStateCallbackType } from 'shared/types';
@@ -25,28 +25,28 @@ export const FilteringDateInput: FC<FilteringDateInputProps> = ({ fieldKey, port
   const currentFilter = currentFilters[fieldKey] || { key: fieldKey, filter: filter as any };
   const rangeFilter = getRangeFilterFromFilter({ fieldKey, filter: currentFilter });
 
-  const [timestampRange, setTimestampRange] = useState<RangeType<number>>({ 1: rangeFilter.min, 2: rangeFilter.max });
+  const [timestampRange, setTimestampRange] = useState<RangeType>(rangeFilter);
   useEffect(() => {
     const rangeFilter = getRangeFilterFromFilter({ fieldKey: fieldKey, filter: currentFilter });
-    if (!deepEqual(rangeFilter, { min: timestampRange[1], max: timestampRange[2] })) {
+    if (!deepEqual(rangeFilter, timestampRange)) {
       if (filter === null || isSet(filter)) {
         setTimestampRange({ 1: NaN, 2: NaN });
       }
-      if (isRangeFilter(filter)) {
-        setTimestampRange({ 1: filter.min, 2: filter.max });
+      if (isRangeType(filter)) {
+        setTimestampRange(filter);
       }
     }
   }, [filter]);
 
-  const setTimestampRangeWithCallback: SetStateCallbackType<RangeType<number>> = (updater) => {
+  const setTimestampRangeWithCallback: SetStateCallbackType<RangeType> = (updater) => {
     if (typeof updater === 'function') {
       setTimestampRange((state) => {
         const newState = updater(state);
         if (state !== newState) {
           if (!isNaN(newState[1]) || !isNaN(newState[2])) {
-            filterDispatch({ type: 'setRange', payload: { min: newState[1], max: newState[2] } });
+            filterDispatch({ type: 'setRange', payload: newState });
           } else {
-            filterDispatch({ type: 'setRange', payload: { min: NaN, max: NaN } });
+            filterDispatch({ type: 'setRange', payload: { 1: NaN, 2: NaN } });
           }
         }
         return newState;
@@ -54,9 +54,9 @@ export const FilteringDateInput: FC<FilteringDateInputProps> = ({ fieldKey, port
     } else {
       setTimestampRange(updater);
       if (!isNaN(updater[1]) || !isNaN(updater[2])) {
-        filterDispatch({ type: 'setRange', payload: { min: updater[1], max: updater[2] } });
+        filterDispatch({ type: 'setRange', payload: updater });
       } else {
-        filterDispatch({ type: 'setRange', payload: { min: NaN, max: NaN } });
+        filterDispatch({ type: 'setRange', payload: { 1: NaN, 2: NaN } });
       }
     }
   };

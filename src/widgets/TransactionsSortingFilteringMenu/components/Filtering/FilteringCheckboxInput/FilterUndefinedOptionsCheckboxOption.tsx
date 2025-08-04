@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { FilteringCheckboxOption } from 'widgets/TransactionsSortingFilteringMenu/components/Filtering/FilteringCheckboxInput/FilteringCheckboxOption.tsx';
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionFieldCaptionKeyType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionFieldCaptionKeyType.ts';
-import { isRangeFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/isRangeFilter.ts';
+import { isRangeType } from 'shared/helpers';
 import { useTransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 import { useFilterDispatch } from 'widgets/TransactionsSortingFilteringMenu/hooks/useSetFilter/useFilterDispatch.ts';
 import { isSet, isSubset } from 'shared/helpers';
@@ -32,7 +32,7 @@ export const FilterUndefinedOptionsCheckboxOption = <T extends keyof Transaction
       }
     };
 
-  const optionsInputDisabled = filter !== null && isRangeFilter(filter) && (!isNaN(filter.min) || !isNaN(filter.max));
+  const optionsInputDisabled = filter !== null && isRangeType(filter) && (!isNaN(filter[1]) || !isNaN(filter[2]));
   const undefinedChecked = filter === null || (isSet(filter) && !isSubset(filter, undefinedOptionsSet));
 
   return (

@@ -63,7 +63,7 @@ export const getMonthProps = (
     year: number;
   } & (
     | {
-        selectedTimestamps: RangeType<number>;
+        selectedTimestamps: RangeType;
         dateState?: never;
       }
     | { selectedTimestamps?: never; dateState: DateStateRangeType }

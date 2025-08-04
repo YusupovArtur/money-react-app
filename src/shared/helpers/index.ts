@@ -2,6 +2,7 @@ export { deepEqual } from './deepEqual.ts';
 export { isSet } from './typeChecks/isSet.ts';
 export { isSubset } from './typeChecks/isSubset.ts';
 export { isNumbersEqual } from './typeChecks/isNumbersEqual.ts';
+export { isRangeType } from './typeChecks/isRangeType.ts';
 export { isArrayOfStrings } from './typeChecks/isArrayOfStrings.ts';
 export { isDigitChar, type DigitChar } from './typeChecks/isDigitChart.ts';
 

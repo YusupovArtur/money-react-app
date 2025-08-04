@@ -5,8 +5,8 @@ import { FilteringCheckboxOption } from 'widgets/TransactionsSortingFilteringMen
 import { useFilterDispatch } from 'widgets/TransactionsSortingFilteringMenu/hooks/useSetFilter/useFilterDispatch.ts';
 import { useTransactionsFilteringContext } from 'widgets/TransactionsSortingFilteringMenu/hooks/useTransactionsFilteringContext.ts';
 // Helpers
-import { isRangeFilter } from 'widgets/TransactionsSortingFilteringMenu/helpers/small_helpers/isRangeFilter.ts';
-import { isSet } from 'shared/helpers';
+
+import { isRangeType, isSet } from 'shared/helpers';
 // Types
 import { TransactionType } from 'store/slices/transactionsSlice';
 import { TransactionFieldCaptionKeyType } from 'widgets/TransactionsSortingFilteringMenu/types/TransactionFieldCaptionKeyType.ts';
@@ -35,7 +35,7 @@ export const FilteringCheckboxInput = <T extends keyof TransactionType>({
       }
     };
 
-  const optionsInputDisabled = filter !== null && isRangeFilter(filter) && (!isNaN(filter.min) || !isNaN(filter.max));
+  const optionsInputDisabled = filter !== null && isRangeType(filter) && (!isNaN(filter[1]) || !isNaN(filter[2]));
 
   return (
     <>
@@ -44,7 +44,7 @@ export const FilteringCheckboxInput = <T extends keyof TransactionType>({
           <FilteringCheckboxOption
             key={index.toString() + option.toString()}
             fieldKey={fieldKey}
-            checked={!filter || isRangeFilter(filter) || (isSet(filter) && !(filter as Set<any>).has(option))}
+            checked={!filter || isRangeType(filter) || (isSet(filter) && !(filter as Set<any>).has(option))}
             optionKey={optionKeys[option]}
             disabled={optionsInputDisabled}
             onChange={optionChangeHandler(option)}

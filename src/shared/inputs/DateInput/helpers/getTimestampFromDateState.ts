@@ -8,6 +8,6 @@ export const getTimestampFromDateState = (dateState: DateStateType): number => {
   return NaN;
 };
 
-export const getTimestampRangeFromDateStateRange = (dateStateRange: DateStateRangeType): RangeType<number> => {
+export const getTimestampRangeFromDateStateRange = (dateStateRange: DateStateRangeType): RangeType => {
   return { 1: getTimestampFromDateState(dateStateRange[1]), 2: getTimestampFromDateState(dateStateRange[2]) };
 };

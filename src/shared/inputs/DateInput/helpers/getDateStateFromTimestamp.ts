@@ -16,6 +16,6 @@ export const getDateStateFromTimestamp = (timestamp: number): DateStateType => {
   };
 };
 
-export const getDateStateRangeFromTimestampRange = (timestampRange: RangeType<number>): DateStateRangeType => {
+export const getDateStateRangeFromTimestampRange = (timestampRange: RangeType): DateStateRangeType => {
   return { 1: getDateStateFromTimestamp(timestampRange[1]), 2: getDateStateFromTimestamp(timestampRange[2]) };
 };
