@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useId, useMemo } from 'react';
+import { ChangeEvent, Fragment, ReactNode, useId, useMemo } from 'react';
 // Components
 import { ButtonWithIcon } from 'shared/ui';
 // Hooks
@@ -119,13 +119,13 @@ export const FilteringMenu = <T extends keyof TransactionType>({
             const options = optionsByCategoryTypes[type];
             if (options.length > 0) {
               return (
-                <>
+                <Fragment key={type}>
                   <span className="d-flex align-items-center">
                     <TypeIcon type={type} iconSize="1rem" />
                     <span className="ms-1">{getTypeCaption(type, 'ы')}</span>
                   </span>
                   <FilteringCheckboxInput fieldKey={fieldKey} options={options} optionKeys={optionKeys} />
-                </>
+                </Fragment>
               );
             }
           })}
